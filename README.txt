@@ -1,5 +1,11 @@
-若在Eclipse中执行AllTestSuites时，请添加以下虚拟机参数
--javaagent:target/Lifecycle-0.0.1-SNAPSHOT.jar 
+Please refer demos projects:
+
+1. (Suggest) https://github.com/zhongdj/LifecycleStaticWeaverDemos
+2. https://github.com/zhongdj/LifecycleRuntimeBytecodeManipulationDemos
+
+Using: Lifecycle-StaticWeaver-maven-plugin to process classes
+https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                   Quick Look: Stand-alone Reactive Object
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////

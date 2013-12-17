@@ -1,0 +1,110 @@
+Terminology normalized definition
+
+BASIC PART
+
++for 1-N, * for mandatory 1, default for optional 
+
+StateMachine {
+    
+    *StateSet
+    *TransitionSet
+    RelationSet
+    ConditionSet
+
+}
+
+StateSet {
+    +State | +CompositeStateMachine
+}
+
+State {
+  Functions|Function|Initial|End|InboundWhiles|InboundWhile|ValidWhiles|ValidWhile
+  *name
+}
+
+CompositeStateMachine {
+   *StateMachine
+}
+
+TransitionSet {
+   +Transition
+}
+
+Transition {
+  *name
+}
+
+Functions {
+  Function
+}
+
+Function {
+  Transition
+  +NextStateName
+}
+
+Initial, tag a state is an initial state
+End, tag a state is an end state
+
+InboundWhiles {
+  InboundWhile
+}
+
+InboudWhile {
+  relation //the other end of the relation, element in RelationSet
+  on //stateName[] of the relation StateMachine's StateSet subset 
+  otherwise //ErrorMessage[]
+}
+
+ErrorMessage {
+   +states //the invalid states of certain relation
+   *code   //error code of an error message in the bundle attribute
+   *bundle //message bundle name
+}
+
+ValidWhiles {
+  ValidWhile
+}
+
+ValidWhile {
+  relation //the other end of the relation, element in RelationSet
+  on //stateName[] of the relation StateMachine's StateSet subset 
+  otherwise //ErrorMessage[]
+}
+
+//InboundWhile VS. ValidWhile
+//InboundWhile describes a transition is valid while the relation is in a certain states 
+//ValidWhile describes a state is valid while the relation is in a certain states
+//InboundWhile validates whether the transition will happen
+//ValidWhile validates a state whether is a valid state, if it's a valid state, 
+//then check the requested transition is valid or not according to current state and the relations' current state(InboundWhile).
+//Validating InboundWhile can happen at different timing: pre-validate or post-validate.
+//Before a transition action happens, with a certain transition and a certain state context, next state can be definitely rational(deduced), 
+then InboundWhile will happen before transition action, so called pre-validate. Otherwise, it is called post-validate.
+//For example, (current state, requested transition) => only one candidate state, then pre-validation will be performed.
+//(current state, requested transition) => (candidate states) and then the requested transition is a Conditional Transition, 
+//then if the condition can be evaluated at pre-validate phase, then pre-validate will happen. Otherwise the condition will be evaluated at post-validate phase.
+
+RelationSet {
+  Relation   
+}
+
+Relation {
+  *name
+  target:StateMachine //Note: this might defined at concrete level other than abstract level
+}
+
+ConditionSet {
+  Condition //Will be evaluated to the next State in StateSet
+}
+
+ADVANCED
+
+Inheritance
+
+StateMachine extends StateMachine 
+StateSet extends StateSet
+TransitionSet extends TransitionSet
+RelationSet extends RelationSet
+ConditionSet extends ConditionSet
+

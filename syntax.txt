@@ -1,0 +1,39 @@
+1. Registered Class Validation: must be annotated with @LifecycleMeta or @StateMachine
+2. @StateMachine Class SM
+2.1 SM can have a super class which must be a SM
+2.2 if SM does  not have a SM, then it must have inner classes annotated with @StateSet and @TransitionSet. 
+2.3 StateSet must have inner classes as state element
+2.4 StateSet must contain ONLY one Initial state
+2.5 StateSet must contain at least one End state
+
+2.6 If state is not End(final state), then Functions or Function must be defined to indicate transition, and the attribute of function must be valid:
+2.6.1 Transition defined inside of Function must be valid
+2.6.1.1 Transition must be one of the following:
+2.6.1.1.1 Defined in SM’s TransitionSet inner class
+2.6.1.1.2 Defined in SM’s super SM’s TransitionSet inner class, recursively
+2.6.1.1.3 if SM is defined in a composite state, and the composite state does not override it’s super SM’s corresponding State, and then the transition Defined in the outer SM’s TransitionSet 
+          and it must be related with the outer state(defined in Functions of the outer state or defined in Functions of outer state’s super state), recursively.
+2.6.1.2 if SM is defined in a composite state, and the composite state override it’s super state, then the transition defined in the outer SM’s TransitionSet or in SM its own TransitionSet.
+2.6.1.3 If the function’s value state set size greater than 1, then it must be a condition function
+
+2.7 The next state set of Function must be valid
+2.7.1 Defined in SM’s StateSet
+2.7.2 Defined in SM’s super SM’s StateSet
+
+2.8 If an End State is defined inside a composite state, then ShortCut must be defined and valid.
+2.8.1 the ShortCut’s value must be defined in outer’s SM’s state set
+2.8.1 the ShortCut’s value must be defined in out’s SM’s super SM’s state set, recursively.
+
+
+2.9 The On attribute of  inboundWhile or ValidWhile must valid
+2.9.1 The class of relation attribute must be defined in SM’s RelationSet or it’s super SM’s RelationSet, recursively.
+2.9.2 Each state in On state set should be defined in Related SM’s state set or it’s super SM state set.
+2.9.3 The otherwise attribute must be valid, ErrorMessage.states must be defined in SM’s StateSet or SM’s super State Set. (code and bundle is ignored)
+
+
+3. @LifecycleMeta Class LM
+3.1 LM value must refer to a SM
+3.2 LM must concrete all the transitions, and relations, and conditions defined in SM.
+3.3 LM must have a state indicator, by default state indicator named as field private java.lang.String state, and state indicator cannot have public setter. 
+    There are two ways to specify a customized state indicator: add @StateIndicator on a field or a property. 
+    A StateIndicator can have a TypeConverter to convert between raw type and String type, which Lifecycle Engine accepts. 

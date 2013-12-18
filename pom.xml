@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
+
+	<groupId>net.imadz</groupId>
+	<artifactId>Lifecycle</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0</version>
+	<name>Lifecycle</name>
+
+	<description>
+       Lifecycle AOP Framework. Enabling describe enhanced State Diagram with Java language, 
+       and processing relational Lifecycle constraints(including: state validations, transitions validations), 
+       concurrency, lifecycle callbacks, lifecycle events implicitely with Lifecycle Engine. 
+       This engine can be used by class load time (Java Instrumentation) or compile time (Lifecycle-StaticWeaver-maven-plugin).
+    </description>
+
+	<url>https://github.com/danhaywood/java-testsupport</url>
+	<licenses>
+		<license>
+			<name>CDDL + GPL</name>
+			<url>https://raw.github.com/zhongdj/Lifecycle/master/License.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>https://github.com/zhongdj/Lifecycle.git</connection>
+		<developerConnection>https://github.com/zhongdj/Lifecycle.git</developerConnection>
+		<url>git@github.com:zhongdj/Lifecycle.git</url>
+	</scm>
+	<developers>
+		<developer>
+			<id>zhongdj</id>
+			<name>Barry Zhong</name>
+			<email>zhongdj@gmail.com</email>
+		</developer>
+		<developer>
+			<id>hailinglu</id>
+			<name>Tracy Lu</name>
+			<email>hailinglu@gmail.com</email>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.jmockit</groupId>
+			<artifactId>jmockit</artifactId>
+			<version>1.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.bcel</groupId>
+			<artifactId>bcel</artifactId>
+			<version>6.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>apache.common.snapshots.repo</id>
+			<url>https://repository.apache.org/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Agent-Class>net.imadz.bcel.BCELClassFileTransformer</Agent-Class>
+							<Premain-Class>net.imadz.bcel.BCELClassFileTransformer</Premain-Class>
+							<Can-Redefine-Classes>true</Can-Redefine-Classes>
+							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+							<Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.2</version>
+				<configuration />
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
+				<version>2.5.1</version> <executions> <execution> <id>copy-dependencies</id> 
+				<phase>package</phase> <goals> <goal>copy-dependencies</goal> </goals> <configuration> 
+				<includeScope>compile</includeScope> <outputDirectory> ${project.build.directory}/dependency-jars/ 
+				</outputDirectory> </configuration> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>functional-tests</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<argLine>-javaagent:${project.build.directory}/${project.artifactId}-${project.version}.jar
+								-Dnet.imadz.bcel.save.original=false</argLine>
+						</configuration>
+					</execution>
+				</executions>
+
+			</plugin>
+
+		</plugins>
+		<!-- <pluginManagement> <plugins> Ignore/Execute plugin execution <plugin> 
+			<groupId>org.eclipse.m2e</groupId> <artifactId>lifecycle-mapping</artifactId> 
+			<version>1.0.0</version> <configuration> <lifecycleMappingMetadata> <pluginExecutions> 
+			<pluginExecution> <pluginExecutionFilter> <groupId>org.apache.maven.plugins</groupId> 
+			<artifactId>maven-dependency-plugin</artifactId> <versionRange>[1.0.0,)</versionRange> 
+			<goals> <goal>copy-dependencies</goal> </goals> </pluginExecutionFilter> 
+			<action> <ignore /> </action> </pluginExecution> </pluginExecutions> </lifecycleMappingMetadata> 
+			</configuration> </plugin> </plugins> </pluginManagement> -->
+	</build>
+
+</project>

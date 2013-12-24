@@ -64,7 +64,7 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
     public static final String TRANSITION_ANNOTATION_TYPE = "L" + Transition.class.getName().replaceAll("\\.", "/") + ";";
     public static final String LIFECYLEMETA_ANNOTATION_TYPE = "L" + LifecycleMeta.class.getName().replaceAll("\\.", "/") + ";";
     public static final String REACTIVE_ANNOTATION_TYPE = "L" + ReactiveObject.class.getName().replaceAll("\\.", "/") + ";";
-    private String[] ignoredPackages = new String[] { "java.", "javax.", "sun.", "org." };
+    private String[] ignoredPackages = new String[] { "java.", "javax.", "sun." };
 
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer)

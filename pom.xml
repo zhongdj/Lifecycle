@@ -30,8 +30,8 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:https://github.com/zhongdj/Lifecycle.git</connection>
-		<developerConnection>scm:git:https://github.com/zhongdj/Lifecycle.git</developerConnection>
+		<connection>scm:git:git@github.com://github.com/zhongdj/Lifecycle.git</connection>
+		<developerConnection>scm:git:git@github.com://github.com/zhongdj/Lifecycle.git</developerConnection>
 		<url>https://github.com:zhongdj/Lifecycle.git</url>
 	</scm>
 	<developers>

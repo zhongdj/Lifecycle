@@ -41,30 +41,30 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.Field;
-import org.apache.bcel.classfile.InnerClass;
-import org.apache.bcel.classfile.InnerClasses;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.LocalVariableTable;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.classfile.Signature;
-import org.apache.bcel.classfile.Unknown;
-import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.ConstantPoolGen;
-import org.apache.bcel.generic.FieldGen;
-import org.apache.bcel.generic.Instruction;
-import org.apache.bcel.generic.InstructionConstants;
-import org.apache.bcel.generic.InstructionFactory;
-import org.apache.bcel.generic.InstructionList;
-import org.apache.bcel.generic.LocalVariableInstruction;
-import org.apache.bcel.generic.MethodGen;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.ReturnInstruction;
-import org.apache.bcel.generic.Type;
-import org.apache.bcel.util.ClassPath;
-import org.apache.bcel.util.SyntheticRepository;
-import org.apache.bcel.verifier.statics.StringRepresentation;
+import net.imadz.org.apache.bcel.Constants;
+import net.imadz.org.apache.bcel.classfile.Field;
+import net.imadz.org.apache.bcel.classfile.InnerClass;
+import net.imadz.org.apache.bcel.classfile.InnerClasses;
+import net.imadz.org.apache.bcel.classfile.JavaClass;
+import net.imadz.org.apache.bcel.classfile.LocalVariableTable;
+import net.imadz.org.apache.bcel.classfile.Method;
+import net.imadz.org.apache.bcel.classfile.Signature;
+import net.imadz.org.apache.bcel.classfile.Unknown;
+import net.imadz.org.apache.bcel.generic.ClassGen;
+import net.imadz.org.apache.bcel.generic.ConstantPoolGen;
+import net.imadz.org.apache.bcel.generic.FieldGen;
+import net.imadz.org.apache.bcel.generic.Instruction;
+import net.imadz.org.apache.bcel.generic.InstructionConstants;
+import net.imadz.org.apache.bcel.generic.InstructionFactory;
+import net.imadz.org.apache.bcel.generic.InstructionList;
+import net.imadz.org.apache.bcel.generic.LocalVariableInstruction;
+import net.imadz.org.apache.bcel.generic.MethodGen;
+import net.imadz.org.apache.bcel.generic.ObjectType;
+import net.imadz.org.apache.bcel.generic.ReturnInstruction;
+import net.imadz.org.apache.bcel.generic.Type;
+import net.imadz.org.apache.bcel.util.ClassPath;
+import net.imadz.org.apache.bcel.util.SyntheticRepository;
+import net.imadz.org.apache.bcel.verifier.statics.StringRepresentation;
 
 public class JavaAnonymousInnerClass {
 
@@ -348,7 +348,7 @@ public class JavaAnonymousInnerClass {
                 argumentNames[i] = arguments.get(i).getName();
             }
         }
-        final MethodGen constructorGen = new MethodGen(0, org.apache.bcel.generic.Type.VOID, typeList.toArray(new Type[0]), argumentNames, "<init>",
+        final MethodGen constructorGen = new MethodGen(0, net.imadz.org.apache.bcel.generic.Type.VOID, typeList.toArray(new Type[0]), argumentNames, "<init>",
                 this.thisClassName, iList, cgen.getConstantPool());
         addMethod(cgen, constructorGen);
         iList.dispose();
@@ -490,7 +490,7 @@ public class JavaAnonymousInnerClass {
 
     private List<LocalVariable> populateNamedArgumentsFromLocalVariableTable(final LocalVariableTable localVariableTable) {
         final List<LocalVariable> result = new ArrayList<LocalVariable>();
-        for ( org.apache.bcel.classfile.LocalVariable localVariable : localVariableTable.getLocalVariableTable() ) {
+        for ( net.imadz.org.apache.bcel.classfile.LocalVariable localVariable : localVariableTable.getLocalVariableTable() ) {
             if ( localVariable.getStartPC() == 0 ) {
                 result.add(new LocalVariable(localVariable.getName(), localVariable.getSignature()));
             }

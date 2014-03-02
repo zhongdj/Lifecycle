@@ -47,16 +47,15 @@ import java.util.logging.Logger;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.ReactiveObject;
 import net.imadz.lifecycle.annotations.Transition;
-
-import org.apache.bcel.classfile.AnnotationEntry;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.ClassParser;
-import org.apache.bcel.classfile.InnerClasses;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.Type;
+import net.imadz.org.apache.bcel.classfile.AnnotationEntry;
+import net.imadz.org.apache.bcel.classfile.Attribute;
+import net.imadz.org.apache.bcel.classfile.ClassParser;
+import net.imadz.org.apache.bcel.classfile.InnerClasses;
+import net.imadz.org.apache.bcel.classfile.JavaClass;
+import net.imadz.org.apache.bcel.classfile.Method;
+import net.imadz.org.apache.bcel.generic.ClassGen;
+import net.imadz.org.apache.bcel.generic.ObjectType;
+import net.imadz.org.apache.bcel.generic.Type;
 
 public class BCELClassFileTransformer implements ClassFileTransformer {
 

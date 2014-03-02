@@ -41,30 +41,29 @@ import java.util.concurrent.Callable;
 
 import net.imadz.bcel.intercept.InterceptContext;
 import net.imadz.bcel.intercept.InterceptorController;
-
-import org.apache.bcel.Constants;
-import org.apache.bcel.classfile.Attribute;
-import org.apache.bcel.classfile.InnerClass;
-import org.apache.bcel.classfile.InnerClasses;
-import org.apache.bcel.classfile.LocalVariable;
-import org.apache.bcel.classfile.Method;
-import org.apache.bcel.generic.ArrayType;
-import org.apache.bcel.generic.BasicType;
-import org.apache.bcel.generic.ClassGen;
-import org.apache.bcel.generic.ClassGenException;
-import org.apache.bcel.generic.ConstantPoolGen;
-import org.apache.bcel.generic.ICONST;
-import org.apache.bcel.generic.InstructionConstants;
-import org.apache.bcel.generic.InstructionFactory;
-import org.apache.bcel.generic.InstructionHandle;
-import org.apache.bcel.generic.InstructionList;
-import org.apache.bcel.generic.LDC;
-import org.apache.bcel.generic.LDC_W;
-import org.apache.bcel.generic.MethodGen;
-import org.apache.bcel.generic.ObjectType;
-import org.apache.bcel.generic.PUSH;
-import org.apache.bcel.generic.ReferenceType;
-import org.apache.bcel.generic.Type;
+import net.imadz.org.apache.bcel.Constants;
+import net.imadz.org.apache.bcel.classfile.Attribute;
+import net.imadz.org.apache.bcel.classfile.InnerClass;
+import net.imadz.org.apache.bcel.classfile.InnerClasses;
+import net.imadz.org.apache.bcel.classfile.LocalVariable;
+import net.imadz.org.apache.bcel.classfile.Method;
+import net.imadz.org.apache.bcel.generic.ArrayType;
+import net.imadz.org.apache.bcel.generic.BasicType;
+import net.imadz.org.apache.bcel.generic.ClassGen;
+import net.imadz.org.apache.bcel.generic.ClassGenException;
+import net.imadz.org.apache.bcel.generic.ConstantPoolGen;
+import net.imadz.org.apache.bcel.generic.ICONST;
+import net.imadz.org.apache.bcel.generic.InstructionConstants;
+import net.imadz.org.apache.bcel.generic.InstructionFactory;
+import net.imadz.org.apache.bcel.generic.InstructionHandle;
+import net.imadz.org.apache.bcel.generic.InstructionList;
+import net.imadz.org.apache.bcel.generic.LDC;
+import net.imadz.org.apache.bcel.generic.LDC_W;
+import net.imadz.org.apache.bcel.generic.MethodGen;
+import net.imadz.org.apache.bcel.generic.ObjectType;
+import net.imadz.org.apache.bcel.generic.PUSH;
+import net.imadz.org.apache.bcel.generic.ReferenceType;
+import net.imadz.org.apache.bcel.generic.Type;
 
 public class MethodInterceptor {
 

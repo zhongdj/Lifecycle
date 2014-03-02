@@ -64,11 +64,11 @@ import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata.Transitions.ReducePower;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata.Transitions.ShutDown;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.ServiceProviderLifecycle.States.ServiceAvailable;
+import net.imadz.org.apache.bcel.Repository;
+import net.imadz.org.apache.bcel.classfile.JavaClass;
+import net.imadz.org.apache.bcel.util.BCELifier;
 import net.imadz.verification.VerificationException;
 
-import org.apache.bcel.Repository;
-import org.apache.bcel.classfile.JavaClass;
-import org.apache.bcel.util.BCELifier;
 import org.junit.BeforeClass;
 
 /**

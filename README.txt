@@ -1,4 +1,15 @@
-Please refer demos projects:
+Try demos once you have following software installed:
+1. JDK7+
+2. maven 3+
+3. github client
+
+And then execute the following commands:
+
+git clone https://github.com/zhongdj/LifecycleStaticWeaverDemos
+cd LifecycleStaticWeaverDemos
+mvn test
+
+For further information, please refer demos projects:
 
 1. (Suggest) https://github.com/zhongdj/LifecycleStaticWeaverDemos
 2. https://github.com/zhongdj/LifecycleRuntimeBytecodeManipulationDemos

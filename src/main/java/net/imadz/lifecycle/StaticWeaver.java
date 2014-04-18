@@ -67,7 +67,7 @@ public class StaticWeaver {
         } else {
             uriPrefix = "file:";
         }
-        URL url = URI.create(uriPrefix + folder.getAbsolutePath() + "/").toURL();
+        URL url = URI.create(uriPrefix + folder.getAbsolutePath().replaceAll("\\\\", "/") + "/").toURL();
         final URL[] urls = new URL[] { url };
         weaver.classLoader = new URLClassLoader(urls, StaticWeaver.class.getClassLoader());
         weaver.processFolder("", folder);

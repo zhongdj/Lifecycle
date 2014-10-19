@@ -39,23 +39,29 @@ import java.lang.reflect.Method;
 
 public final class PropertyEvaluator<T> implements Readable<T> {
 
-    private final Method getter;
+	private final Method getter;
 
-    public PropertyEvaluator(Method objMethod) {
-        this.getter = objMethod;
-    }
+	public PropertyEvaluator(Method objMethod) {
+		this.getter = objMethod;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T read(Object reactiveObject) {
-        final boolean accessible = getter.isAccessible();
-        try {
-            if ( !accessible ) getter.setAccessible(true);
-            return (T) getter.invoke(reactiveObject);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new IllegalStateException(e);
-        } finally {
-            if ( !accessible ) getter.setAccessible(false);
-        }
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public T read(Object reactiveObject) {
+		final boolean accessible = getter.isAccessible();
+		try {
+			if (!accessible)
+				getter.setAccessible(true);
+			return (T) getter.invoke(reactiveObject);
+		} catch (Exception e) {
+			if (e instanceof IllegalAccessException
+					| e instanceof IllegalArgumentException
+					| e instanceof InvocationTargetException)
+				throw new IllegalStateException(e);
+			else throw new RuntimeException(e);
+		} finally {
+			if (!accessible)
+				getter.setAccessible(false);
+		}
+	}
 }

@@ -37,6 +37,7 @@ package net.imadz.bcel;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.lang.instrument.Instrumentation;
@@ -72,7 +73,9 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
             return classfileBuffer;
         }
         final String location = protectionDomain.getCodeSource().getLocation().getPath();
-        try (final ByteArrayInputStream bais = new ByteArrayInputStream(classfileBuffer)) {
+        ByteArrayInputStream bais = null; 
+        try {
+        	bais = new ByteArrayInputStream(classfileBuffer);
             final JavaClass jclas = new ClassParser(bais, className).parse();
             if ( !isTransformNeeded(jclas) ) {
                 return classfileBuffer;
@@ -94,6 +97,12 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
         } catch (Throwable e) {
             log.log(Level.SEVERE, "Failed to transform class " + className, e);
             throw new IllegalClassFormatException();
+        } finally {
+        	if (null != bais) {
+        		try {
+					bais.close();
+				} catch (IOException ignore) {}
+            }
         }
     }
 

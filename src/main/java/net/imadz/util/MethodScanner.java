@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 public class MethodScanner {
 
-    private static final ArrayList<Class<?>> SHOULD_TERMINATE_SCAN = new ArrayList<>();
+    private static final ArrayList<Class<?>> SHOULD_TERMINATE_SCAN = new ArrayList<Class<?>>();
 
     private MethodScanner() {}
 
@@ -79,7 +79,7 @@ public class MethodScanner {
     }
 
     private static ArrayList<Class<?>> populateSuperclasses(Class<?> klass) {
-        final ArrayList<Class<?>> superclasses = new ArrayList<>();
+        final ArrayList<Class<?>> superclasses = new ArrayList<Class<?>>();
         if ( hasSuperclass(klass) ) {
             superclasses.add(klass.getSuperclass());
         }

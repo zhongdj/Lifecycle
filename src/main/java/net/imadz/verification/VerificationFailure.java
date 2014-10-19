@@ -87,7 +87,7 @@ public class VerificationFailure implements Dumpable, Cloneable {
     public VerificationFailure(Throwable cause, Object source, String errorKey, String defaultErrorMessage, Object... details) {
         this.cause = cause;
         this.source = source;
-        List<String> segements = new ArrayList<>();
+        List<String> segements = new ArrayList<String>();
         for ( String segement : errorKey.split("\\.") ) {
             segements.add(segement);
         }

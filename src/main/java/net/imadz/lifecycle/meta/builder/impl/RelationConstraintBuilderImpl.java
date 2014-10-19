@@ -52,8 +52,8 @@ public class RelationConstraintBuilderImpl extends InheritableAnnotationMetaBuil
         RelationConstraintBuilder {
 
     private StateMachineMetadata relatedStateMachine;
-    private final LinkedList<StateMetadata> onStates = new LinkedList<>();
-    private final LinkedList<ErrorMessageObject> errorMessageObjects = new LinkedList<>();
+    private final LinkedList<StateMetadata> onStates = new LinkedList<StateMetadata>();
+    private final LinkedList<ErrorMessageObject> errorMessageObjects = new LinkedList<ErrorMessageObject>();
     private boolean nullable;
     private RelationMetadata relationMetadata;
 

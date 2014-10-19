@@ -60,10 +60,10 @@ import net.imadz.verification.VerificationFailureSet;
 
 public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>, StateMachineObject<S>, StateMetadata> implements StateObjectBuilder<S> {
 
-    private final HashMap<String, List<CallbackObject>> preFromStateChangeCallbacksMap = new HashMap<>();
-    private final HashMap<String, List<CallbackObject>> preToStateChangeCallbacksMap = new HashMap<>();
-    private final HashMap<String, List<CallbackObject>> postFromStateChangeCallbacksMap = new HashMap<>();
-    private final HashMap<String, List<CallbackObject>> postToStateChangeCallbacksMap = new HashMap<>();
+    private final HashMap<String, List<CallbackObject>> preFromStateChangeCallbacksMap = new HashMap<String, List<CallbackObject>>();
+    private final HashMap<String, List<CallbackObject>> preToStateChangeCallbacksMap = new HashMap<String, List<CallbackObject>>();
+    private final HashMap<String, List<CallbackObject>> postFromStateChangeCallbacksMap = new HashMap<String, List<CallbackObject>>();
+    private final HashMap<String, List<CallbackObject>> postToStateChangeCallbacksMap = new HashMap<String, List<CallbackObject>>();
 
     protected StateObjectBuilderImpl(StateMachineObjectBuilder<S> parent, StateMetadata stateMetadata) {
         super(parent, "StateSet." + stateMetadata.getDottedPath().getName());
@@ -95,7 +95,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
                 }
             }
             if ( !found ) {
-                final LinkedHashSet<String> validRelationStates = new LinkedHashSet<>();
+                final LinkedHashSet<String> validRelationStates = new LinkedHashSet<String>();
                 for ( RelationConstraintMetadata relationMetadata : relationMetadataArray ) {
                     for ( StateMetadata metadata : relationMetadata.getOnStates() ) {
                         validRelationStates.add(metadata.getSimpleName());
@@ -156,7 +156,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
                 }
             }
             if ( !find ) {
-                final LinkedHashSet<String> validRelationStates = new LinkedHashSet<>();
+                final LinkedHashSet<String> validRelationStates = new LinkedHashSet<String>();
                 for ( RelationConstraintMetadata relationMetadata : relationMetadataArray ) {
                     for ( StateMetadata metadata : relationMetadata.getOnStates() ) {
                         validRelationStates.add(metadata.getSimpleName());
@@ -243,7 +243,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( this.preToStateChangeCallbacksMap.containsKey(toStateClassName) ) {
             this.preToStateChangeCallbacksMap.get(toStateClassName).add(callbackObject);
         } else {
-            final List<CallbackObject> callbackObjects = new ArrayList<>();
+            final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(callbackObject);
             this.preToStateChangeCallbacksMap.put(toStateClassName, callbackObjects);
         }
@@ -255,7 +255,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( this.preFromStateChangeCallbacksMap.containsKey(fromStateClassName) ) {
             this.preFromStateChangeCallbacksMap.get(fromStateClassName).add(callbackObject);
         } else {
-            final List<CallbackObject> callbackObjects = new ArrayList<>();
+            final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(callbackObject);
             this.preFromStateChangeCallbacksMap.put(fromStateClassName, callbackObjects);
         }
@@ -267,7 +267,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( this.postToStateChangeCallbacksMap.containsKey(toStateClassName) ) {
             this.postToStateChangeCallbacksMap.get(toStateClassName).add(item);
         } else {
-            final List<CallbackObject> callbackObjects = new ArrayList<>();
+            final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(item);
             this.postToStateChangeCallbacksMap.put(toStateClassName, callbackObjects);
         }
@@ -279,7 +279,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( this.postFromStateChangeCallbacksMap.containsKey(fromStateClassName) ) {
             this.postFromStateChangeCallbacksMap.get(fromStateClassName).add(item);
         } else {
-            final List<CallbackObject> callbackObjects = new ArrayList<>();
+            final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(item);
             this.postFromStateChangeCallbacksMap.put(fromStateClassName, callbackObjects);
         }

@@ -51,310 +51,345 @@ import net.imadz.lifecycle.syntax.lm.stateindicator.StateIndicatorMetadata.PS1.T
 
 public class StateIndicatorMetadata extends BaseMetaDataTest {
 
-    public static class StateConverterImpl implements StateConverter<Integer> {
+	public static class StateConverterImpl implements StateConverter<Integer> {
 
-        @Override
-        public String toState(Integer t) {
-            switch (t.intValue()) {
-                case 1:
-                    return PS1.States.S1_A.class.getSimpleName();
-                case 2:
-                    return PS1.States.S1_B.class.getSimpleName();
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
+		@Override
+		public String toState(Integer t) {
+			switch (t.intValue()) {
+			case 1:
+				return PS1.States.S1_A.class.getSimpleName();
+			case 2:
+				return PS1.States.S1_B.class.getSimpleName();
+			default:
+				throw new IllegalArgumentException();
+			}
+		}
 
-        @Override
-        public Integer fromState(String state) {
-            switch (state) {
-                case "S1_A":
-                    return 1;
-                case "S1_B":
-                    return 2;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-    @StateMachine
-    static interface PS1 {
+		@Override
+		public Integer fromState(String state) {
+			if ("S1_A".equals(state))
+				return 1;
+			else if ("S1_B".equals(state))
+				return 2;
+			else
+				throw new IllegalArgumentException();
+		}
+	}
 
-        @StateSet
-        static interface States {
+	@StateMachine
+	static interface PS1 {
 
-            @Initial
-            @Function(transition = Transitions.S1_X.class, value = { S1_B.class })
-            static interface S1_A {}
-            @End
-            static interface S1_B {}
-        }
-        @TransitionSet
-        static interface Transitions {
+		@StateSet
+		static interface States {
 
-            static interface S1_X {}
-        }
-    }
-    // ///////////////////////////////////////////////////////////
-    // Default State Indicator tests
-    // ///////////////////////////////////////////////////////////
-    @LifecycleMeta(PS1.class)
-    static interface PDefaultStateIndicatorInterface {
+			@Initial
+			@Function(transition = Transitions.S1_X.class, value = { S1_B.class })
+			static interface S1_A {
+			}
 
-        @Transition(S1_X.class)
-        void doX();
+			@End
+			static interface S1_B {
+			}
+		}
 
-        // This is the default state getter
-        String getState();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NNoDefaultStateIndicatorInterface {
+		@TransitionSet
+		static interface Transitions {
 
-        @Transition(S1_X.class)
-        void doX();
+			static interface S1_X {
+			}
+		}
+	}
 
-        // This is not the default state getter
-        String getStateX();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NDefaultStateIndicatorInterface {
+	// ///////////////////////////////////////////////////////////
+	// Default State Indicator tests
+	// ///////////////////////////////////////////////////////////
+	@LifecycleMeta(PS1.class)
+	static interface PDefaultStateIndicatorInterface {
 
-        @Transition(S1_X.class)
-        void doX();
+		@Transition(S1_X.class)
+		void doX();
 
-        String getState();
+		// This is the default state getter
+		String getState();
+	}
 
-        // Should not have public stateSetter
-        void setState(String state);
-    }
-    @LifecycleMeta(PS1.class)
-    static class PDefaultPrivateStateSetterClass {
+	@LifecycleMeta(PS1.class)
+	static interface NNoDefaultStateIndicatorInterface {
 
-        private String state;
+		@Transition(S1_X.class)
+		void doX();
 
-        @Transition(S1_X.class)
-        public void doX(String x, int y, int z) {}
+		// This is not the default state getter
+		String getStateX();
+	}
 
-        // Defaulted @StateIndicator
-        public String getState() {
-            return state;
-        }
+	@LifecycleMeta(PS1.class)
+	static interface NDefaultStateIndicatorInterface {
 
-        @SuppressWarnings("unused")
-        private void setState(String state) {
-            this.state = state;
-        }
-    }
-    @LifecycleMeta(PS1.class)
-    static class NDefaultPublicStateSetterClass {
+		@Transition(S1_X.class)
+		void doX();
 
-        private String state;
+		String getState();
 
-        @Transition(S1_X.class)
-        public void doX() {}
+		// Should not have public stateSetter
+		void setState(String state);
+	}
 
-        // Defaulted @StateIndicator
-        public String getState() {
-            return state;
-        }
+	@LifecycleMeta(PS1.class)
+	static class PDefaultPrivateStateSetterClass {
 
-        // Error Modifier
-        public void setState(String state) {
-            this.state = state;
-        }
-    }
-    // ////////////////////////////////////////////////
-    // Field Access State Indicator Tests
-    // ////////////////////////////////////////////////
-    @LifecycleMeta(PS1.class)
-    static class PrivateStateFieldClass {
+		private String state;
 
-        @StateIndicator
-        private String state = PS1.States.S1_A.class.getSimpleName();
+		@Transition(S1_X.class)
+		public void doX(String x, int y, int z) {
+		}
 
-        @Transition(S1_X.class)
-        public void doX() {}
-    }
-    @LifecycleMeta(PS1.class)
-    static class PrivateStateFieldConverterClass {
+		// Defaulted @StateIndicator
+		public String getState() {
+			return state;
+		}
 
-        @StateIndicator
-        @Converter(StateConverterImpl.class)
-        private Integer state = 1;
+		@SuppressWarnings("unused")
+		private void setState(String state) {
+			this.state = state;
+		}
+	}
 
-        @Transition(S1_X.class)
-        public void doX() {}
-    }
-    @LifecycleMeta(PS1.class)
-    static class NPublicStateFieldClass {
+	@LifecycleMeta(PS1.class)
+	static class NDefaultPublicStateSetterClass {
 
-        @StateIndicator
-        public String state;
+		private String state;
 
-        @Transition(S1_X.class)
-        public void doX() {}
-    }
-    // ////////////////////////////////////////////////////
-    // Property Access State Indicator
-    // ////////////////////////////////////////////////////
-    @LifecycleMeta(PS1.class)
-    static interface PStateIndicatorInterface {
+		@Transition(S1_X.class)
+		public void doX() {
+		}
 
-        @Transition(S1_X.class)
-        void doX();
+		// Defaulted @StateIndicator
+		public String getState() {
+			return state;
+		}
 
-        @StateIndicator
-        String getState();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface PStateIndicatorConverterInterface {
+		// Error Modifier
+		public void setState(String state) {
+			this.state = state;
+		}
+	}
 
-        @Transition(S1_X.class)
-        void doX();
+	// ////////////////////////////////////////////////
+	// Field Access State Indicator Tests
+	// ////////////////////////////////////////////////
+	@LifecycleMeta(PS1.class)
+	static class PrivateStateFieldClass {
 
-        @StateIndicator
-        @Converter(StateConverterImpl.class)
-        Integer getState();
-    }
-    @LifecycleMeta(PS1.class)
-    static class PrivateStateSetterClass {
+		@StateIndicator
+		private String state = PS1.States.S1_A.class.getSimpleName();
 
-        private String state;
+		@Transition(S1_X.class)
+		public void doX() {
+		}
+	}
 
-        @Transition(S1_X.class)
-        public void doX() {}
+	@LifecycleMeta(PS1.class)
+	static class PrivateStateFieldConverterClass {
 
-        @StateIndicator
-        public String getState() {
-            return state;
-        }
+		@StateIndicator
+		@Converter(StateConverterImpl.class)
+		private Integer state = 1;
 
-        @SuppressWarnings("unused")
-        private void setState(String state) {
-            this.state = state;
-        }
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NPublicStateIndicatorInterface {
+		@Transition(S1_X.class)
+		public void doX() {
+		}
+	}
 
-        @Transition(S1_X.class)
-        void doX();
+	@LifecycleMeta(PS1.class)
+	static class NPublicStateFieldClass {
 
-        @StateIndicator
-        String getState();
+		@StateIndicator
+		public String state;
 
-        // Should not have public stateSetter
-        void setState(String state);
-    }
-    @LifecycleMeta(PS1.class)
-    static class NPublicStateSetterClass {
+		@Transition(S1_X.class)
+		public void doX() {
+		}
+	}
 
-        private String state;
+	// ////////////////////////////////////////////////////
+	// Property Access State Indicator
+	// ////////////////////////////////////////////////////
+	@LifecycleMeta(PS1.class)
+	static interface PStateIndicatorInterface {
 
-        @Transition(S1_X.class)
-        public void doX() {}
+		@Transition(S1_X.class)
+		void doX();
 
-        @StateIndicator
-        public String getState() {
-            return state;
-        }
+		@StateIndicator
+		String getState();
+	}
 
-        // Error Modifier
-        public void setState(String state) {
-            this.state = state;
-        }
-    }
-    @LifecycleMeta(PS1.class)
-    static class NStateIndicatorSetterNotFound {
+	@LifecycleMeta(PS1.class)
+	static interface PStateIndicatorConverterInterface {
 
-        private int state;
+		@Transition(S1_X.class)
+		void doX();
 
-        @Transition(S1_X.class)
-        public void doX() {}
+		@StateIndicator
+		@Converter(StateConverterImpl.class)
+		Integer getState();
+	}
 
-        @StateIndicator
-        @Converter(StateConverterImpl.class)
-        public Integer getState() {
-            return state;
-        };
+	@LifecycleMeta(PS1.class)
+	static class PrivateStateSetterClass {
 
-        @SuppressWarnings("unused")
-        private void setState(int i) {
-            this.state = i;
-        }
-    }
-    // //////////////////////////////////////////////////////////////////
-    // Invalid State Converter Tests
-    // //////////////////////////////////////////////////////////////////
-    @LifecycleMeta(PS1.class)
-    static interface NNeedConverter {
+		private String state;
 
-        @Transition(S1_X.class)
-        void doX();
+		@Transition(S1_X.class)
+		public void doX() {
+		}
 
-        @StateIndicator
-        Integer getState();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NStateIndicatorConverterInvalid {
+		@StateIndicator
+		public String getState() {
+			return state;
+		}
 
-        @Transition(S1_X.class)
-        void doX();
+		@SuppressWarnings("unused")
+		private void setState(String state) {
+			this.state = state;
+		}
+	}
 
-        @StateIndicator
-        @Converter(StateConverterImpl.class)
-        Object getState();
-    }
-    // //////////////////////////////////////////////////////////////////
-    // Multiple State Indicator Error
-    // //////////////////////////////////////////////////////////////////
-    @LifecycleMeta(PS1.class)
-    static interface PositiveMultipleStateIndicatorSuper {
+	@LifecycleMeta(PS1.class)
+	static interface NPublicStateIndicatorInterface {
 
-        @Transition(S1_X.class)
-        void doX();
+		@Transition(S1_X.class)
+		void doX();
 
-        @StateIndicator
-        String getStateX();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface PositiveMultipleStateIndicatorChild extends PositiveMultipleStateIndicatorSuper {
+		@StateIndicator
+		String getState();
 
-        @StateIndicator
-        @LifecycleOverride
-        String getStateY();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NegativeMultipleStateIndicator {
+		// Should not have public stateSetter
+		void setState(String state);
+	}
 
-        @Transition(S1_X.class)
-        void doX();
+	@LifecycleMeta(PS1.class)
+	static class NPublicStateSetterClass {
 
-        @StateIndicator
-        @Converter(StateConverterImpl.class)
-        Integer getState();
+		private String state;
 
-        @StateIndicator
-        String getStateX();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NegativeMultipleStateIndicatorSuper {
+		@Transition(S1_X.class)
+		public void doX() {
+		}
 
-        @Transition(S1_X.class)
-        void doX();
+		@StateIndicator
+		public String getState() {
+			return state;
+		}
 
-        @StateIndicator
-        String getStateX();
-    }
-    @LifecycleMeta(PS1.class)
-    static interface NegativeMultipleStateIndicatorChild extends NegativeMultipleStateIndicatorSuper {
+		// Error Modifier
+		public void setState(String state) {
+			this.state = state;
+		}
+	}
 
-        @StateIndicator
-        String getStateY();
-    }
+	@LifecycleMeta(PS1.class)
+	static class NStateIndicatorSetterNotFound {
 
-    public static void main(String[] args) throws Throwable {
-        System.out.println("Testing Main");
-        new PDefaultPrivateStateSetterClass().doX("Tracy", 4545, 3343);
-    }
+		private int state;
+
+		@Transition(S1_X.class)
+		public void doX() {
+		}
+
+		@StateIndicator
+		@Converter(StateConverterImpl.class)
+		public Integer getState() {
+			return state;
+		};
+
+		@SuppressWarnings("unused")
+		private void setState(int i) {
+			this.state = i;
+		}
+	}
+
+	// //////////////////////////////////////////////////////////////////
+	// Invalid State Converter Tests
+	// //////////////////////////////////////////////////////////////////
+	@LifecycleMeta(PS1.class)
+	static interface NNeedConverter {
+
+		@Transition(S1_X.class)
+		void doX();
+
+		@StateIndicator
+		Integer getState();
+	}
+
+	@LifecycleMeta(PS1.class)
+	static interface NStateIndicatorConverterInvalid {
+
+		@Transition(S1_X.class)
+		void doX();
+
+		@StateIndicator
+		@Converter(StateConverterImpl.class)
+		Object getState();
+	}
+
+	// //////////////////////////////////////////////////////////////////
+	// Multiple State Indicator Error
+	// //////////////////////////////////////////////////////////////////
+	@LifecycleMeta(PS1.class)
+	static interface PositiveMultipleStateIndicatorSuper {
+
+		@Transition(S1_X.class)
+		void doX();
+
+		@StateIndicator
+		String getStateX();
+	}
+
+	@LifecycleMeta(PS1.class)
+	static interface PositiveMultipleStateIndicatorChild extends
+			PositiveMultipleStateIndicatorSuper {
+
+		@StateIndicator
+		@LifecycleOverride
+		String getStateY();
+	}
+
+	@LifecycleMeta(PS1.class)
+	static interface NegativeMultipleStateIndicator {
+
+		@Transition(S1_X.class)
+		void doX();
+
+		@StateIndicator
+		@Converter(StateConverterImpl.class)
+		Integer getState();
+
+		@StateIndicator
+		String getStateX();
+	}
+
+	@LifecycleMeta(PS1.class)
+	static interface NegativeMultipleStateIndicatorSuper {
+
+		@Transition(S1_X.class)
+		void doX();
+
+		@StateIndicator
+		String getStateX();
+	}
+
+	@LifecycleMeta(PS1.class)
+	static interface NegativeMultipleStateIndicatorChild extends
+			NegativeMultipleStateIndicatorSuper {
+
+		@StateIndicator
+		String getStateY();
+	}
+
+	public static void main(String[] args) throws Throwable {
+		System.out.println("Testing Main");
+		new PDefaultPrivateStateSetterClass().doX("Tracy", 4545, 3343);
+	}
 }

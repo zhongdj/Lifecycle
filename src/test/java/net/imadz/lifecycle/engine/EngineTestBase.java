@@ -167,7 +167,7 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
 
     protected void assertInvalidStateErrorByValidWhile(final LifecycleException e, final ReactiveObject relationObject, final ReactiveObject itself,
             final Class<?>... validStates) {
-        final ArrayList<String> validNames = new ArrayList<>();
+        final ArrayList<String> validNames = new ArrayList<String>();
         for ( Class<?> validstate : validStates ) {
             validNames.add(validstate.getSimpleName());
         }
@@ -195,7 +195,7 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
      */
     protected void assertViolateInboundWhileRelationConstraint(final LifecycleException e, final Class<?> transitionKey, final Class<?> nextState,
             final ReactiveObject itself, final ReactiveObject relationObject, final Class<?>... validStates) {
-        final ArrayList<String> validNames = new ArrayList<>();
+        final ArrayList<String> validNames = new ArrayList<String>();
         for ( Class<?> validstate : validStates ) {
             validNames.add(validstate.getSimpleName());
         }

@@ -56,7 +56,7 @@ public class LifecycleEventTests extends EngineTestBase {
 
     public static class TestLifecycleEventHandler implements LifecycleEventHandler {
 
-        static List<LifecycleEvent> eventList = new ArrayList<>();
+        static List<LifecycleEvent> eventList = new ArrayList<LifecycleEvent>();
 
         @Override
         public void onEvent(LifecycleEvent event) {

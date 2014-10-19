@@ -50,7 +50,9 @@ public final class FieldEvaluator<T> implements Readable<T> {
         try {
             if ( !objField.isAccessible() ) objField.setAccessible(true);
             return (T) objField.get(reactiveObject);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
+        } catch (IllegalArgumentException e) {
+        	throw new IllegalStateException(e);
+        } catch ( IllegalAccessException e) {
             throw new IllegalStateException(e);
         } finally {
             if ( !objField.isAccessible() ) objField.setAccessible(false);

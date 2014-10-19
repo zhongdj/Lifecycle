@@ -123,8 +123,8 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
      * The full qualified name corresponds to the dotted path,
      * or simple name, or class full name
      */
-    protected final HashMap<Object, StateMachineMetadata> typeMap = new HashMap<>();
-    protected final HashMap<Object, StateMachineObject<?>> instanceMap = new HashMap<>();
+    protected final HashMap<Object, StateMachineMetadata> typeMap = new HashMap<Object, StateMachineMetadata>();
+    protected final HashMap<Object, StateMachineObject<?>> instanceMap = new HashMap<Object, StateMachineObject<?>>();
     private final LifecycleRegistry lifecycleRegistry;
     private final StateMachineBuilder builderMeta;
     private LifecycleEventHandler lifecycleEventHandler;

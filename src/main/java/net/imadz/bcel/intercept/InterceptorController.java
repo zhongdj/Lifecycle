@@ -43,7 +43,7 @@ public class InterceptorController<V, R> {
     private static Logger logger = Logger.getLogger("Lifecycle Framework");
     final Interceptor<V, R> interceptorChain = new LifecycleInterceptor<V, R>(new CallableInterceptor<V, R>());
 
-    public R exec(InterceptContext<V, R> context, Callable<R> callable) throws Exception {
+    public R exec(InterceptContext<V, R> context, Callable<R> callable) throws Throwable {
         if ( logger.isLoggable(Level.FINE) ) {
             logger.fine("Intercepting....InterceptorController is doing exec ...");
         }

@@ -64,7 +64,7 @@ public class TransitionNegativeTests extends TransitionTestMetadata {
             new Registry();
         } catch (VerificationException e) {
             final Iterator<VerificationFailure> iterator = e.getVerificationFailureSet().iterator();
-            final HashMap<String, VerificationFailure> errors = new HashMap<>();
+            final HashMap<String, VerificationFailure> errors = new HashMap<String, VerificationFailure>();
             VerificationFailure next = iterator.next();
             errors.put(next.getErrorKey().getName(), next);
             next = iterator.next();

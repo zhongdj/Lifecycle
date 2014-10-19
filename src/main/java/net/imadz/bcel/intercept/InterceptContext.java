@@ -46,7 +46,7 @@ public final class InterceptContext<V, R> {
 
     private static final Logger logger = Logger.getLogger("Lifecycle Framework");
     private static final Level FINE = Level.FINE;
-    private final HashMap<Object, Object> data = new HashMap<>();
+    private final HashMap<Object, Object> data = new HashMap<Object, Object>();
     private final long startTime;
     private final Annotation[] annotation;
     private final Class<?> klass;

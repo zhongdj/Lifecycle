@@ -50,7 +50,7 @@ public abstract class Interceptor<V, R> {
         this.next = next;
     }
 
-    public R aroundInvoke(InterceptContext<V, R> context, Callable<R> callable) throws Exception {
+    public R aroundInvoke(InterceptContext<V, R> context, Callable<R> callable) throws Throwable {
         try {
             preExec(context);
             R result = next.aroundInvoke(context, callable);

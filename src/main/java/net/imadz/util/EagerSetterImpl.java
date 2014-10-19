@@ -50,7 +50,8 @@ public class EagerSetterImpl<T> implements Setter<T> {
         try {
             setter.setAccessible(true);
             setter.invoke(reactiveObject, state);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+        } catch (Exception e) {
+        	if (e instanceof IllegalAccessException | e instanceof IllegalArgumentException | e instanceof InvocationTargetException)
             throw new IllegalStateException(e);
         } finally {
             setter.setAccessible(false);

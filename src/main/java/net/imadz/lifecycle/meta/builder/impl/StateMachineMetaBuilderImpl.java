@@ -79,8 +79,8 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     /* //////////////////////////////////////////////////// */
     /* ////////////// Fields For Transitions ////////////// */
     /* //////////////////////////////////////////////////// */
-    private final ArrayList<TransitionMetaBuilder> transitionList = new ArrayList<>();
-    private final HashMap<Object, TransitionMetaBuilder> transitionMap = new HashMap<>();
+    private final ArrayList<TransitionMetaBuilder> transitionList = new ArrayList<TransitionMetaBuilder>();
+    private final HashMap<Object, TransitionMetaBuilder> transitionMap = new HashMap<Object, TransitionMetaBuilder>();
     private TransitionMetaBuilder corruptTransition;
     private TransitionMetaBuilder recoverTransition;
     private TransitionMetaBuilder redoTransition;
@@ -89,14 +89,14 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     /* //////////////////////////////////////////////////// */
     /* ////////////// Fields For Condition /////////////// */
     /* //////////////////////////////////////////////////// */
-    private final ArrayList<ConditionMetaBuilder> conditionList = new ArrayList<>();
-    private final HashMap<Object, ConditionMetaBuilder> conditionMap = new HashMap<>();
+    private final ArrayList<ConditionMetaBuilder> conditionList = new ArrayList<ConditionMetaBuilder>();
+    private final HashMap<Object, ConditionMetaBuilder> conditionMap = new HashMap<Object, ConditionMetaBuilder>();
     /* //////////////////////////////////////////////////// */
     /* /////////////////// Fields For State /////////////// */
     /* //////////////////////////////////////////////////// */
-    private final ArrayList<StateMetaBuilder> stateList = new ArrayList<>();
-    private final HashMap<Object, StateMetaBuilder> stateMap = new HashMap<>();
-    private ArrayList<StateMetaBuilder> finalStateList = new ArrayList<>();
+    private final ArrayList<StateMetaBuilder> stateList = new ArrayList<StateMetaBuilder>();
+    private final HashMap<Object, StateMetaBuilder> stateMap = new HashMap<Object, StateMetaBuilder>();
+    private ArrayList<StateMetaBuilder> finalStateList = new ArrayList<StateMetaBuilder>();
     private StateMetaBuilder initialState;
     /* //////////////////////////////////////////////////// */
     /* //////// Fields For Composite State Machine /////// */
@@ -110,10 +110,10 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     // the enclosing state's (parent) StateMachine
     // private StateMachineMetadata owningStateMachine;
     // Also for composite State Machine
-    private final ArrayList<StateMetaBuilder> shortcutStateList = new ArrayList<>();
-    private final ArrayList<StateMachineMetaBuilder> compositeStateMachineList = new ArrayList<>();
-    private final HashMap<Object, RelationMetadata> relationMetadataMap = new HashMap<>();
-    private final ArrayList<RelationMetadata> relationList = new ArrayList<>();
+    private final ArrayList<StateMetaBuilder> shortcutStateList = new ArrayList<StateMetaBuilder>();
+    private final ArrayList<StateMachineMetaBuilder> compositeStateMachineList = new ArrayList<StateMachineMetaBuilder>();
+    private final HashMap<Object, RelationMetadata> relationMetadataMap = new HashMap<Object, RelationMetadata>();
+    private final ArrayList<RelationMetadata> relationList = new ArrayList<RelationMetadata>();
 
     public StateMachineMetaBuilderImpl(AbsStateMachineRegistry registry, String name) {
         super(null, name);
@@ -173,7 +173,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
 
     @Override
     public StateMachineObject<?> newInstance(Class<?> clazz) throws VerificationException {
-        final StateMachineObjectBuilder<?> builder = new StateMachineObjectBuilderImpl<>(this, clazz.getName());
+        final StateMachineObjectBuilder<?> builder = new StateMachineObjectBuilderImpl(this, clazz.getName());
         builder.setRegistry(registry);
         return (StateMachineObject<?>) builder.build(clazz, null).getMetaData();
     }
@@ -655,7 +655,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     private List<Class<?>> findComponentClass(final Class<?>[] declaredClasses, Class<? extends Annotation> annotationClass) {
-        ArrayList<Class<?>> stateClasses = new ArrayList<>();
+        ArrayList<Class<?>> stateClasses = new ArrayList<Class<?>>();
         for ( Class<?> klass : declaredClasses ) {
             for ( Annotation annotation : klass.getDeclaredAnnotations() ) {
                 if ( annotation.annotationType().equals(annotationClass) ) {
@@ -689,7 +689,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
 
     @Override
     public TransitionMetadata[] getAllTransitions() {
-        final ArrayList<TransitionMetadata> result = new ArrayList<>();
+        final ArrayList<TransitionMetadata> result = new ArrayList<TransitionMetadata>();
         loadTransitions(this, result);
         return result.toArray(new TransitionMetadata[0]);
     }

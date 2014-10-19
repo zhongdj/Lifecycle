@@ -48,7 +48,7 @@ public final class ConditionProviderMethodScanner implements MethodScanCallback 
 
     private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
     private final VerificationFailureSet failureSet;
-    private HashSet<Class<?>> conditions = new HashSet<>();
+    private HashSet<Class<?>> conditions = new HashSet<Class<?>>();
     private StateMachineMetadata template;
     private Class<?> klass;
 

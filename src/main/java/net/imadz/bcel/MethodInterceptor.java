@@ -281,7 +281,7 @@ public class MethodInterceptor {
         return innerClassName;
     }
 
-    private static String getWrapperType(BasicType type) {
+	private static String getWrapperType(BasicType type) {
         switch (type.getType()) {
             case Constants.T_BOOLEAN:
                 return "java.lang.Boolean";

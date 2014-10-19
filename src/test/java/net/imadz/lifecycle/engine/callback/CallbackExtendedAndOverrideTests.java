@@ -43,7 +43,7 @@ public class CallbackExtendedAndOverrideTests extends CallbackTestMetadata {
 
     @Before
     public void base() {
-        final OrderObject<?> order = new OrderObject<>();
+        final OrderObject<?> order = new OrderObject();
         assertEquals(0, order.getCount());
         order.pay();
         assertEquals(1, order.getCount());

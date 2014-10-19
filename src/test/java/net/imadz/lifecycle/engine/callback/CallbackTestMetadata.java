@@ -249,7 +249,7 @@ public class CallbackTestMetadata extends EngineTestBase {
 
         private final BigDecimal totalAmount;;
         private BigDecimal payedAmount = new BigDecimal(0D);
-        private final List<InvoiceItem> items = new ArrayList<>();
+        private final List<InvoiceItem> items = new ArrayList<InvoiceItem>();
 
         public Invoice(final BigDecimal totalAmount) {
             initialState(InvoiceStateMachineMeta.States.Draft.class.getSimpleName());
@@ -411,7 +411,7 @@ public class CallbackTestMetadata extends EngineTestBase {
 
         private final BigDecimal totalAmount;
         private BigDecimal payedAmount = new BigDecimal(0D);
-        private final List<InvoiceItemNonRelationalCallback> items = new ArrayList<>();
+        private final List<InvoiceItemNonRelationalCallback> items = new ArrayList<InvoiceItemNonRelationalCallback>();
 
         public InvoiceNonRelationalCallback(final BigDecimal totalAmount) {
             initialState(InvoiceStateMachineMeta.States.Draft.class.getSimpleName());
@@ -612,7 +612,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             Assert.assertEquals(this, context.getTarget());
             try {
                 Assert.assertEquals(OrderWithSpecifiedPreFromToCallback.class.getMethod("install"), context.getTransitionMethod());
-            } catch (NoSuchMethodException | SecurityException ignored) {}
+            } catch (NoSuchMethodException ignored){} catch( SecurityException ignored) {}
             Assert.assertEquals(0, context.getArguments().length);
             count++;
             System.out.println("OrderWithSpecifiedPreFromToCallback is finished.");

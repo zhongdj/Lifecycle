@@ -43,8 +43,8 @@ import net.imadz.lifecycle.meta.MultiKeyed;
 
 public class KeyedList<T extends MultiKeyed> {
 
-    private final ArrayList<T> elements = new ArrayList<>();
-    private final HashMap<Object, T> elementMap = new HashMap<>();
+    private final ArrayList<T> elements = new ArrayList<T>();
+    private final HashMap<Object, T> elementMap = new HashMap<Object, T>();
 
     public void add(T element) {
         this.elements.add(element);

@@ -46,7 +46,7 @@ import net.imadz.utils.ClassUtils;
 
 public class LifecycleInterceptContext implements UnlockableStack {
 
-    private final Stack<Unlockable> lockedRelatedObjectStack = new Stack<>();
+    private final Stack<Unlockable> lockedRelatedObjectStack = new Stack<Unlockable>();
     private static final Logger logger = Logger.getLogger("Lifecycle Framework");
     private static final Level FINE = Level.FINE;
     private final InterceptContext<?, ?> innerContext;

@@ -51,7 +51,7 @@ public final class CoverageVerifier implements MethodScanCallback {
 
     private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
     private final TransitionMetadata transitionMetadata;
-    HashSet<Class<?>> declaringClass = new HashSet<>();
+    HashSet<Class<?>> declaringClass = new HashSet<Class<?>>();
     private final VerificationFailureSet failureSet;
 
     public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final TransitionMetadata transitionMetadata,

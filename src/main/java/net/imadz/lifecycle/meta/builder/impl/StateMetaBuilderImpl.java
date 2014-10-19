@@ -80,11 +80,11 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     private StateMetadata owningState;
     private LinkedList<RelationConstraintMetadata> validWhileRelations = new LinkedList<RelationConstraintMetadata>();
     private LinkedList<RelationConstraintMetadata> inboundWhileRelations = new LinkedList<RelationConstraintMetadata>();
-    private HashMap<Object, FunctionMetadata> functionMetadataMap = new HashMap<>();
-    private ArrayList<TransitionMetadata> possibleLeavingTransitionList = new ArrayList<>();
-    private ArrayList<TransitionMetadata> possibleReachingTransitionList = new ArrayList<>();
-    private ArrayList<FunctionMetadata> functionMetadataList = new ArrayList<>();
-    private HashMap<Object, TransitionMetadata> possibleTransitionMap = new HashMap<>();
+    private HashMap<Object, FunctionMetadata> functionMetadataMap = new HashMap<Object, FunctionMetadata>();
+    private ArrayList<TransitionMetadata> possibleLeavingTransitionList = new ArrayList<TransitionMetadata>();
+    private ArrayList<TransitionMetadata> possibleReachingTransitionList = new ArrayList<TransitionMetadata>();
+    private ArrayList<FunctionMetadata> functionMetadataList = new ArrayList<FunctionMetadata>();
+    private HashMap<Object, TransitionMetadata> possibleTransitionMap = new HashMap<Object, TransitionMetadata>();
     private StateMetadata shortcutState;
     private StateTypeEnum type;
     private TransitionMetadata corruptTransition;
@@ -209,7 +209,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
 
     @Override
     public RelationConstraintMetadata[] getInboundWhiles() {
-        final ArrayList<RelationConstraintMetadata> result = new ArrayList<>();
+        final ArrayList<RelationConstraintMetadata> result = new ArrayList<RelationConstraintMetadata>();
         getInboundWhileRelationMetadataRecursively(this, result);
         return result.toArray(new RelationConstraintMetadata[0]);
     }
@@ -221,7 +221,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
 
     @Override
     public RelationConstraintMetadata[] getValidWhiles() {
-        final ArrayList<RelationConstraintMetadata> result = new ArrayList<>();
+        final ArrayList<RelationConstraintMetadata> result = new ArrayList<RelationConstraintMetadata>();
         getValidWhileRelationMetadataRecursively(this, result);
         return result.toArray(new RelationConstraintMetadata[0]);
     }
@@ -389,10 +389,10 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
 
     private ArrayList<Function> verifyFunctions(Class<?> stateClass) throws VerificationException {
         if ( isFinalState(stateClass) ) {
-            return new ArrayList<>();
+            return new ArrayList<Function>();
         }
-        final ArrayList<Function> functionList = new ArrayList<>();
-        final HashSet<Class<?>> transitionClassSet = new HashSet<>();
+        final ArrayList<Function> functionList = new ArrayList<Function>();
+        final HashSet<Class<?>> transitionClassSet = new HashSet<Class<?>>();
         if ( null != stateClass.getAnnotation(Function.class) ) {
             final Function function = stateClass.getAnnotation(Function.class);
             addFunction(stateClass, functionList, transitionClassSet, function);
@@ -402,7 +402,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
             }
         }
         if ( 0 == functionList.size() && null != this.getSuper() ) {
-            return new ArrayList<>();
+            return new ArrayList<Function>();
         }
         if ( 0 == functionList.size() && !this.isCompositeState() ) {
             throw newVerificationException(getDottedPath().getAbsoluteName(), SyntaxErrors.STATE_NON_FINAL_WITHOUT_FUNCTIONS, stateClass.getName());
@@ -433,7 +433,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     private void configureFunction(StateMetaBuilderImpl parent, Function function) {
         final TransitionMetadata transition = findTransition(parent.getParent(), function.transition());
         Class<?>[] value = function.value();
-        final LinkedList<StateMetadata> nextStates = new LinkedList<>();
+        final LinkedList<StateMetadata> nextStates = new LinkedList<StateMetadata>();
         for ( Class<?> item : value ) {
             StateMetaBuilder nextState = (StateMetaBuilder) parent.getParent().getState(item);
             nextState.addPossibleReachingTransition(transition);
@@ -570,7 +570,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private LinkedList<StateMetadata> getOnStates(StateMachineMetadata stateMachineMetadata, Class<?>[] on) {
-        final LinkedList<StateMetadata> onStates = new LinkedList<>();
+        final LinkedList<StateMetadata> onStates = new LinkedList<StateMetadata>();
         for ( Class<?> clz : on ) {
             onStates.add(stateMachineMetadata.getState(clz.getSimpleName()));
         }
@@ -585,7 +585,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     private LinkedList<ErrorMessageObject> configureErrorMessageObjects(ErrorMessage[] otherwise, Class<?> clz) {
         LinkedList<ErrorMessageObject> errorObjects = new LinkedList<ErrorMessageObject>();
         for ( ErrorMessage item : otherwise ) {
-            LinkedList<StateMetadata> errorStates = new LinkedList<>();
+            LinkedList<StateMetadata> errorStates = new LinkedList<StateMetadata>();
             Class<?>[] states = item.states();
             for ( Class<?> stateClz : states ) {
                 errorStates.add(this.getParent().getState(stateClz));
@@ -699,7 +699,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private ArrayList<ValidWhile> findDeclaredValidWhiles(Class<?> clazz) {
-        final ArrayList<ValidWhile> validWhileList = new ArrayList<>();
+        final ArrayList<ValidWhile> validWhileList = new ArrayList<ValidWhile>();
         Annotation[] declaredAnnotations = clazz.getDeclaredAnnotations();
         ValidWhiles validWhiles = null;
         ValidWhile validWhile = null;
@@ -722,7 +722,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private ArrayList<InboundWhile> findInboundWhiles(Class<?> clazz) {
-        final ArrayList<InboundWhile> inboundWhileList = new ArrayList<>();
+        final ArrayList<InboundWhile> inboundWhileList = new ArrayList<InboundWhile>();
         final InboundWhiles inboundWhiles = clazz.getAnnotation(InboundWhiles.class);
         final InboundWhile inboundWhile = clazz.getAnnotation(InboundWhile.class);
         if ( null != inboundWhiles ) {

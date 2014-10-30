@@ -413,7 +413,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     private void addFunction(Class<?> stateClass, final ArrayList<Function> functionList, final HashSet<Class<?>> eventClassSet, Function function)
             throws VerificationException {
         if ( eventClassSet.contains(function.event()) || !isOverriding() && superStateHasFunction(function.event()) ) {
-            throw newVerificationException(getDottedPath(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_TRANSITION, stateClass,
+            throw newVerificationException(getDottedPath(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_EVENT, stateClass,
                     function.event());
         } else {
             functionList.add(function);
@@ -471,7 +471,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         final VerificationFailureSet failureSet = new VerificationFailureSet();
         final EventMetadata event = findEvent(parent, eventClass);
         if ( null == event ) {
-            failureSet.add(newVerificationFailure(getDottedPath().getAbsoluteName(), SyntaxErrors.FUNCTION_INVALID_TRANSITION_REFERENCE, function, stateClass,
+            failureSet.add(newVerificationFailure(getDottedPath().getAbsoluteName(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE, function, stateClass,
                     eventClass));
         }
         if ( 0 == stateCandidates.length ) {
@@ -480,7 +480,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         } else if ( 1 < stateCandidates.length ) {
             if ( !event.isConditional() ) {
                 failureSet.add(newVerificationFailure(event.getDottedPath().getAbsoluteName(),
-                        SyntaxErrors.FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION, function, stateClass.getName(), eventClass.getName()));
+                        SyntaxErrors.FUNCTION_CONDITIONAL_EVENT_WITHOUT_CONDITION, function, stateClass.getName(), eventClass.getName()));
             }
         }
         for ( int i = 0; i < stateCandidates.length; i++ ) {

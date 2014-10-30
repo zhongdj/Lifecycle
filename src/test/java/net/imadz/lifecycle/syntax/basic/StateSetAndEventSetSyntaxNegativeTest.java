@@ -89,14 +89,14 @@ public class StateSetAndEventSetSyntaxNegativeTest extends StateSetSyntaxMetadat
             final VerificationFailure failureTwo = iterator.next();
             {
                 assertEquals(SyntaxErrors.STATEMACHINE_WITHOUT_STATESET, failureOne.getErrorCode());
-                assertEquals(SyntaxErrors.STATEMACHINE_WITHOUT_TRANSITIONSET, failureTwo.getErrorCode());
+                assertEquals(SyntaxErrors.STATEMACHINE_WITHOUT_EVENTSET, failureTwo.getErrorCode());
             }
             {
                 final String expectedMessage = getMessage(SyntaxErrors.STATEMACHINE_WITHOUT_STATESET, Negative_No_StateSet_and_EventSet.class);
                 assertEquals(expectedMessage, failureOne.getErrorMessage(null));
             }
             {
-                final String expectedMessage = getMessage(SyntaxErrors.STATEMACHINE_WITHOUT_TRANSITIONSET, Negative_No_StateSet_and_EventSet.class);
+                final String expectedMessage = getMessage(SyntaxErrors.STATEMACHINE_WITHOUT_EVENTSET, Negative_No_StateSet_and_EventSet.class);
                 assertEquals(expectedMessage, failureTwo.getErrorMessage(null));
             }
             throw e;
@@ -119,7 +119,7 @@ public class StateSetAndEventSetSyntaxNegativeTest extends StateSetSyntaxMetadat
             final VerificationFailure failureOne = iterator.next();
             final VerificationFailure failureTwo = iterator.next();
             assertFailure(failureOne, SyntaxErrors.STATEMACHINE_MULTIPLE_STATESET, Negative_Multi_StateSet_Multi_EventSet.class);
-            assertFailure(failureTwo, SyntaxErrors.STATEMACHINE_MULTIPLE_TRANSITIONSET, Negative_Multi_StateSet_Multi_EventSet.class);
+            assertFailure(failureTwo, SyntaxErrors.STATEMACHINE_MULTIPLE_EVENTSET, Negative_Multi_StateSet_Multi_EventSet.class);
             throw ex;
         }
     }
@@ -137,7 +137,7 @@ public class StateSetAndEventSetSyntaxNegativeTest extends StateSetSyntaxMetadat
         } catch (VerificationException e) {
             Iterator<VerificationFailure> iterator = e.getVerificationFailureSet().iterator();
             assertFailure(iterator.next(), SyntaxErrors.STATESET_WITHOUT_STATE, Negative_No_State_No_Event.States.class);
-            assertFailure(iterator.next(), SyntaxErrors.TRANSITIONSET_WITHOUT_TRANSITION, Negative_No_State_No_Event.Events.class);
+            assertFailure(iterator.next(), SyntaxErrors.EVENTSET_WITHOUT_EVENT, Negative_No_State_No_Event.Events.class);
             throw e;
         }
     }

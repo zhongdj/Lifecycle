@@ -43,7 +43,7 @@ public class LifecycleCommonErrors {
      * @param {1} state name
      * @param {2} target object
      */
-    public static final String ILLEGAL_TRANSITION_ON_STATE = "002-9000";
+    public static final String ILLEGAL_EVENT_ON_STATE = "002-9000";
     /**
      * @param {0} target object
      * @param {1} target object's state

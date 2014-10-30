@@ -57,7 +57,7 @@ public class StandaloneCompositeStateMachineNegativeTests extends EngineCoreComp
             fail("should throw LifecycleException");
         } catch (LifecycleException e) {
             try {
-                assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE,
+                assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE,
                         OrderLifecycle.States.Started.SubEvents.DoDeliver.class.getSimpleName(),
                         OrderLifecycle.States.Started.SubStates.OrderCreated.class.getSimpleName(), order);
             } catch (LifecycleException ex) {}
@@ -67,7 +67,7 @@ public class StandaloneCompositeStateMachineNegativeTests extends EngineCoreComp
             order.confirmComplete();
             fail("should throw LifecycleException");
         } catch (LifecycleException e) {
-            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE,
+            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE,
                     OrderLifecycle.States.Started.SubEvents.ConfirmComplete.class.getSimpleName(),
                     OrderLifecycle.States.Started.SubStates.Producing.class.getSimpleName(), order);
         }

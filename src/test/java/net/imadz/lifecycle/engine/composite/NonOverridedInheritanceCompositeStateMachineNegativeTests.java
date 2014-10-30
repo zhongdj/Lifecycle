@@ -84,7 +84,7 @@ public class NonOverridedInheritanceCompositeStateMachineNegativeTests extends E
         try {
             noOverride.doActionT3();
         } catch (LifecycleException e) {
-            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE, SM1_No_Overrides.States.S2.CEvents.T3.class,
+            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, SM1_No_Overrides.States.S2.CEvents.T3.class,
                     SM1_No_Overrides.States.S1.CStates.CS0.class.getSimpleName(), noOverride);
         }
     }
@@ -106,7 +106,7 @@ public class NonOverridedInheritanceCompositeStateMachineNegativeTests extends E
         try {
             noOverride.doActionT5();
         } catch (LifecycleException e) {
-            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE, SM2.States.S2.CEvents.T5.class,
+            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, SM2.States.S2.CEvents.T5.class,
                     SM1_No_Overrides.States.S1.CStates.CS0.class.getSimpleName(), noOverride);
         }
     }

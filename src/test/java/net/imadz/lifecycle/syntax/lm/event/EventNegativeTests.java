@@ -71,11 +71,11 @@ public class EventNegativeTests extends EventTestMetadata {
             errors.put(next.getErrorKey().getName(), next);
             next = iterator.next();
             errors.put(next.getErrorKey().getName(), next);
-            assertFailure(errors.get("Inactivate"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+            assertFailure(errors.get("Inactivate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
                     NegativeProcess.class.getDeclaredMethod("inactivate", Integer.TYPE), Inactivate.class.getSimpleName(), EventTypeEnum.Corrupt);
-            assertFailure(errors.get("Activate"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+            assertFailure(errors.get("Activate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
                     NegativeProcess.class.getDeclaredMethod("activate", Integer.TYPE), Activate.class.getSimpleName(), EventTypeEnum.Recover);
-            assertFailure(errors.get("Restart"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+            assertFailure(errors.get("Restart"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
                     NegativeProcess.class.getDeclaredMethod("restart", Integer.TYPE), Restart.class.getSimpleName(), EventTypeEnum.Redo);
             throw e;
         }

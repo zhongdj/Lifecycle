@@ -61,7 +61,7 @@ import net.imadz.org.apache.bcel.generic.Type;
 public class BCELClassFileTransformer implements ClassFileTransformer {
 
     private static final Logger log = Logger.getLogger("Lifecycle Framework Byte Code Transformer");
-    public static final String TRANSITION_ANNOTATION_TYPE = "L" + Event.class.getName().replaceAll("\\.", "/") + ";";
+    public static final String EVENT_ANNOTATION_TYPE = "L" + Event.class.getName().replaceAll("\\.", "/") + ";";
     public static final String LIFECYLEMETA_ANNOTATION_TYPE = "L" + LifecycleMeta.class.getName().replaceAll("\\.", "/") + ";";
     public static final String REACTIVE_ANNOTATION_TYPE = "L" + ReactiveObject.class.getName().replaceAll("\\.", "/") + ";";
     private String[] ignoredPackages = new String[] { "java.", "javax.", "sun." };
@@ -116,7 +116,7 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
     }
 
     private boolean isTransformNeeded(AnnotationEntry entry) {
-        return TRANSITION_ANNOTATION_TYPE.equals(entry.getAnnotationType());
+        return EVENT_ANNOTATION_TYPE.equals(entry.getAnnotationType());
     }
 
     private int nextInnerClassSeqOf(final ClassGen cgen) {

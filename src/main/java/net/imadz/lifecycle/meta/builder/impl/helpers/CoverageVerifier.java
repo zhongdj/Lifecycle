@@ -77,7 +77,7 @@ public final class CoverageVerifier implements MethodScanCallback {
         final EventTypeEnum type = eventMetadata.getType();
         if ( type.isUniqueEvent() ) {
             failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(eventMetadata.getDottedPath(),
-                    SyntaxErrors.LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD, eventMetadata.getDottedPath().getName(), "@" + type.name(),
+                    SyntaxErrors.LM_REDO_CORRUPT_RECOVER_EVENT_HAS_ONLY_ONE_METHOD, eventMetadata.getDottedPath().getName(), "@" + type.name(),
                     this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath(), this.stateMachineObjectBuilderImpl.getDottedPath().getAbsoluteName()));
         }
         return false;

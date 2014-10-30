@@ -83,7 +83,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_TRANSITION_REFERENCE,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
                     C.class.getAnnotation(Function.class), C.class, net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.S1.Events.X.class);
             throw e;
         }
@@ -100,7 +100,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_CONDITIONAL_EVENT_WITHOUT_CONDITION,
                     E.class.getAnnotation(Function.class), E.class.getName(), Y.class.getName());
             throw e;
         }
@@ -183,7 +183,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_TRANSITION,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_EVENT,
                     Multiple_Function_Referring_Same_Event.States.Created.class, Multiple_Function_Referring_Same_Event.Events.X.class);
             throw e;
         }
@@ -200,7 +200,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_TRANSITION,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_EVENT,
                     Multiple_Function_Referring_Same_Event_Child.States.Created.class,
                     Multiple_Function_Referring_Same_Event_Super.Events.X.class);
             throw e;
@@ -252,7 +252,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_TRANSITION_REFERENCE,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
                     CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S2.S2_States.S2_A.class.getAnnotation(Function.class),
                     CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S2.S2_States.S2_A.class,
                     CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S3.S3_Events.S3_X.class);
@@ -272,7 +272,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_TRANSITION_REFERENCE,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
                     CompositeStateMachineEventReferenceFromSuperNonExtendedCompositeStateMachine.States.Composite_S1.InnerStates.Inner_S2.class
                             .getAnnotation(Function.class),
                     CompositeStateMachineEventReferenceFromSuperNonExtendedCompositeStateMachine.States.Composite_S1.InnerStates.Inner_S2.class,

@@ -62,11 +62,11 @@ public interface SyntaxErrors {
     /**
      * @param {0} state machine class
      */
-    public static final String STATEMACHINE_WITHOUT_TRANSITIONSET = "002-2105";
+    public static final String STATEMACHINE_WITHOUT_EVENTSET = "002-2105";
     /**
      * @param {0} state machine class
      */
-    public static final String STATEMACHINE_MULTIPLE_TRANSITIONSET = "002-2106";
+    public static final String STATEMACHINE_MULTIPLE_EVENTSET = "002-2106";
     /**
      * @param {0} state machine class
      */
@@ -96,7 +96,7 @@ public interface SyntaxErrors {
     /**
      * @param {0} event set class
      */
-    public static final String TRANSITIONSET_WITHOUT_TRANSITION = "002-2501";
+    public static final String EVENTSET_WITHOUT_EVENT = "002-2501";
     /**
      * @param {0} method object
      * @param {1} eventKey, will be eventKey class when it's
@@ -104,40 +104,40 @@ public interface SyntaxErrors {
      *        char upper case.
      * @param {2} eventType
      */
-    public static final String TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER = "002-2502";
+    public static final String EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER = "002-2502";
     /**
      * @param {0} Event class
      * @param {1} condition class
      * @param {2} juder class
      */
-    public static final String TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER = "002-2503";
+    public static final String EVENT_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER = "002-2503";
     /**
      * @param {0} Event class
      * @param {1} Event class' super class or interface
      */
-    public static final String TRANSITION_ILLEGAL_EXTENTION = "002-2504";
+    public static final String EVENT_ILLEGAL_EXTENTION = "002-2504";
     /**
      * @param {0} Event class
      * @param {1} Event class' super class or interface
      * @param {2} Super state machine class
      */
-    public static final String TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE = "002-2505";
+    public static final String EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE = "002-2505";
     // State's Function
     /**
      * @param {0} @Function definition
      * @param {1} State class
      * @param {2} Event class
      */
-    public static final String FUNCTION_INVALID_TRANSITION_REFERENCE = "002-2610";
-    public static final String FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION = "002-2611";
-    public static final String FUNCTION_TRANSITION_MUST_BE_NOT_ON_END_STATE = "002-2613";
+    public static final String FUNCTION_INVALID_EVENT_REFERENCE = "002-2610";
+    public static final String FUNCTION_CONDITIONAL_EVENT_WITHOUT_CONDITION = "002-2611";
+    public static final String FUNCTION_EVENT_MUST_BE_NOT_ON_END_STATE = "002-2613";
     public static final String FUNCTION_WITH_EMPTY_STATE_CANDIDATES = "002-2614";
     public static final String STATE_NON_FINAL_WITHOUT_FUNCTIONS = "002-2615";
     /**
      * @param {0} stateClass
      * @param {1} transtionClass
      */
-    public static final String STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_TRANSITION = "002-2616";
+    public static final String STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_EVENT = "002-2616";
     /**
      * @param {0} stateClass
      */
@@ -171,10 +171,10 @@ public interface SyntaxErrors {
     public static final String RELATION_ON_ATTRIBUTE_OF_VALIDWHILE_NOT_MACHING_RELATION = "002-2922";
     public static final String RELATION_RELATED_TO_REFER_TO_NON_STATEMACHINE = "002-2931";
     // LifecycleMeta
-    public static final String LM_TRANSITION_METHOD_WITH_INVALID_TRANSITION_REFERENCE = "002-3211";
-    public static final String LM_TRANSITION_NOT_CONCRETED_IN_LM = "002-3212";
+    public static final String LM_EVENT_METHOD_WITH_INVALID_EVENT_REFERENCE = "002-3211";
+    public static final String LM_EVENT_NOT_CONCRETED_IN_LM = "002-3212";
     public static final String LM_METHOD_NAME_INVALID = "002-3213";
-    public static final String LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD = "002-3214";
+    public static final String LM_REDO_CORRUPT_RECOVER_EVENT_HAS_ONLY_ONE_METHOD = "002-3214";
     public static final String LM_MUST_CONCRETE_ALL_RELATIONS = "002-3220";
     /**
      * @param {0} @LifecycleMeta Class

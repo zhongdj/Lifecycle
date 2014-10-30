@@ -109,7 +109,7 @@ public class LifecycleLockTests extends LifecycleLockTestMetadata {
                         assertFalse(( null != e1 && null != e2 ) || ( null == e1 && null == e2 ));
                         final LifecycleException e = null != e1 ? e1 : e2;
                         System.out.println(e.toString());
-                        assertEquals(LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE, e.getErrorCode());
+                        assertEquals(LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, e.getErrorCode());
                         assertEquals(2, object.getCounter());
                         return null;
                     } catch (Exception e) {

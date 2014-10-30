@@ -581,9 +581,9 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
 
     private void verifyEventSet(Class<?> clazz, final String eventSetPath, final List<Class<?>> eventClasses, final VerificationFailureSet vs) {
         if ( eventClasses.size() <= 0 ) {
-            vs.add(newVerificationException(eventSetPath, SyntaxErrors.STATEMACHINE_WITHOUT_TRANSITIONSET, clazz));
+            vs.add(newVerificationException(eventSetPath, SyntaxErrors.STATEMACHINE_WITHOUT_EVENTSET, clazz));
         } else if ( eventClasses.size() > 1 ) {
-            vs.add(newVerificationException(eventSetPath, SyntaxErrors.STATEMACHINE_MULTIPLE_TRANSITIONSET, clazz));
+            vs.add(newVerificationException(eventSetPath, SyntaxErrors.STATEMACHINE_MULTIPLE_EVENTSET, clazz));
         } else {
             verifyEventSetComponent(eventSetPath, eventClasses.get(0), vs);
         }
@@ -592,7 +592,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     private void verifyEventSetComponent(final String dottedPath, final Class<?> eventClass, final VerificationFailureSet vs) {
         final Class<?>[] eventSetClasses = eventClass.getDeclaredClasses();
         if ( 0 == eventSetClasses.length ) {
-            vs.add(newVerificationException(dottedPath, SyntaxErrors.TRANSITIONSET_WITHOUT_TRANSITION, eventClass));
+            vs.add(newVerificationException(dottedPath, SyntaxErrors.EVENTSET_WITHOUT_EVENT, eventClass));
         }
     }
 

@@ -121,7 +121,7 @@ public class EventMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<E
             }
             final ParameterizedType pType = (ParameterizedType) type;
             if ( isConditionalEvent((Class<?>) pType.getRawType()) && !isConditionClassMatchingJudgerGenericType(conditionClass, pType) ) {
-                throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER, clazz, conditionClass,
+                throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER, clazz, conditionClass,
                         judgerClass);
             }
         }
@@ -176,10 +176,10 @@ public class EventMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<E
     @Override
     protected void verifySuper(Class<?> metaClass) throws VerificationException {
         if ( !parent.hasSuper() ) {
-            throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_ILLEGAL_EXTENTION, metaClass, getSuperMetaClass(metaClass));
+            throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_ILLEGAL_EXTENTION, metaClass, getSuperMetaClass(metaClass));
         } else {
             if ( !parent.getSuper().hasEvent(getSuperMetaClass(metaClass)) ) {
-                throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE, metaClass,
+                throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE, metaClass,
                         getSuperMetaClass(metaClass), parent.getSuper().getPrimaryKey());
             }
         }
@@ -201,7 +201,7 @@ public class EventMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<E
             return;
         }
         if ( EventTypeEnum.Corrupt == getType() || EventTypeEnum.Recover == getType() || EventTypeEnum.Redo == getType() ) {
-            failureSet.add(newVerificationFailure(getDottedPath(), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER, method,
+            failureSet.add(newVerificationFailure(getDottedPath(), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER, method,
                     StringUtil.toUppercaseFirstCharacter(method.getName()), getType()));
         }
     }

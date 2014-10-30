@@ -130,7 +130,7 @@ public class OverridesInheritanceCompositeStateMachineNegativeTests extends Engi
         try {
             object.doActionT6();
         } catch (LifecycleException e) {
-            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE, SM1_Overrides.Events.T6.class,
+            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, SM1_Overrides.Events.T6.class,
                     SM1_Overrides.States.S1.CStates.CS0.class.getSimpleName(), object);
         }
     }
@@ -146,7 +146,7 @@ public class OverridesInheritanceCompositeStateMachineNegativeTests extends Engi
         try {
             object.doActionT6();
         } catch (LifecycleException e) {
-            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE, SM1_Overrides.Events.T6.class,
+            assertLifecycleError(e, LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, SM1_Overrides.Events.T6.class,
                     SM1_Overrides.States.S1.CStates.CS0.class.getSimpleName(), object);
         }
     }

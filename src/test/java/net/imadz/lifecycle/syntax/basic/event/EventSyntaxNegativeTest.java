@@ -59,7 +59,7 @@ public class EventSyntaxNegativeTest extends EventSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.EVENT_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER,
                     EventSyntaxMetadata.S1.Events.S1_Event_X.class, EventSyntaxMetadata.S1.Conditions.S1_Condition_B.class,
                     EventSyntaxMetadata.S1.VolumeMeasurableEvent.class);
             throw e;
@@ -79,7 +79,7 @@ public class EventSyntaxNegativeTest extends EventSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_ILLEGAL_EXTENTION, NegativeOrder.Events.Pay.class,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.EVENT_ILLEGAL_EXTENTION, NegativeOrder.Events.Pay.class,
                     Serializable.class);
             throw e;
         }
@@ -98,7 +98,7 @@ public class EventSyntaxNegativeTest extends EventSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE,
                     NegativeBigProductOrder.Events.Pay.class, NegativeOrder.Events.Pay.class, Order.class);
             throw e;
         }

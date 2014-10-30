@@ -58,7 +58,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_TRANSITION_NOT_CONCRETED_IN_LM, NS1_Z.class.getSimpleName(),
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_EVENT_NOT_CONCRETED_IN_LM, NS1_Z.class.getSimpleName(),
                     S2.class.getName(), NLM_1.class.getSimpleName());
             throw e;
         }
@@ -75,7 +75,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_TRANSITION_NOT_CONCRETED_IN_LM, NS1_Z.class.getSimpleName(),
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_EVENT_NOT_CONCRETED_IN_LM, NS1_Z.class.getSimpleName(),
                     S2.class.getName(), NLM_2.class.getSimpleName());
             throw e;
         }
@@ -110,7 +110,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_TRANSITION_METHOD_WITH_INVALID_TRANSITION_REFERENCE, NLM_4.class
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_EVENT_METHOD_WITH_INVALID_EVENT_REFERENCE, NLM_4.class
                     .getMethod("nS1_X").getAnnotation(Event.class), "nS1_X", NLM_4.class.getName(), S2.class.getName());
             throw e;
         }
@@ -127,7 +127,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_REDO_CORRUPT_RECOVER_EVENT_HAS_ONLY_ONE_METHOD,
                     S3_Y.class.getSimpleName(), "@Redo", S3.class.getName(), NLM_5.class.getName());
             throw e;
         }

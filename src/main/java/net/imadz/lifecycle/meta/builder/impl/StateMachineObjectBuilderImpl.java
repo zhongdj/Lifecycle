@@ -1063,7 +1063,7 @@ public class StateMachineObjectBuilderImpl<S>
 				fromState);
 		if (!stateMetadata.isEventValid(eventKey)) {
 			throw new LifecycleException(getClass(), "lifecycle_common",
-					LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE,
+					LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE,
 					eventKey, fromState, target);
 		} else {
 			return stateMetadata.getEvent(eventKey);
@@ -1187,19 +1187,19 @@ public class StateMachineObjectBuilderImpl<S>
 				event);
 		MethodScanner.scanMethodsOnClasses(klass, scanner);
 		final Method[] eventMethods = scanner.getEventMethods();
-		NEXT_TRANSITION_METHOD: for (final Method method : eventMethods) {
+		NEXT_EVENT_METHOD: for (final Method method : eventMethods) {
 			if (hasRelationOnMethodParameters(relation, method)) {
-				continue NEXT_TRANSITION_METHOD;
+				continue NEXT_EVENT_METHOD;
 			}
 			// Continue to check in field and property method
 			if (!klass.isInterface() && scanFieldsRelation(klass, relation)) {
-				continue NEXT_TRANSITION_METHOD;
+				continue NEXT_EVENT_METHOD;
 			}
 			final RelationGetterScanner relationGetterScanner = new RelationGetterScanner(
 					this, relation);
 			MethodScanner.scanMethodsOnClasses(klass, relationGetterScanner);
 			if (relationGetterScanner.isCovered()) {
-				continue NEXT_TRANSITION_METHOD;
+				continue NEXT_EVENT_METHOD;
 			}
 			throw new VerificationException(newVerificationFailure(
 					getDottedPath(), SyntaxErrors.LM_RELATION_NOT_BE_CONCRETED,
@@ -1511,7 +1511,7 @@ public class StateMachineObjectBuilderImpl<S>
 		if (coverage.notCovered()) {
 			failureSet.add(newVerificationFailure(eventMetadata
 					.getDottedPath().getAbsoluteName(),
-					SyntaxErrors.LM_TRANSITION_NOT_CONCRETED_IN_LM,
+					SyntaxErrors.LM_EVENT_NOT_CONCRETED_IN_LM,
 					eventMetadata.getDottedPath().getName(), getMetaType()
 							.getDottedPath().getAbsoluteName(), klass
 							.getSimpleName()));
@@ -1582,7 +1582,7 @@ public class StateMachineObjectBuilderImpl<S>
 			failureSet
 					.add(newVerificationFailure(
 							getMethodDottedPath(method),
-							SyntaxErrors.LM_TRANSITION_METHOD_WITH_INVALID_TRANSITION_REFERENCE,
+							SyntaxErrors.LM_EVENT_METHOD_WITH_INVALID_EVENT_REFERENCE,
 							event, method.getName(), method
 									.getDeclaringClass().getName(),
 							getMetaType().getDottedPath()));

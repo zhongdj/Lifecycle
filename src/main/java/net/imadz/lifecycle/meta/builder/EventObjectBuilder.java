@@ -32,9 +32,9 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.annotations.action;
+package net.imadz.lifecycle.meta.builder;
 
-public interface ConditionalTransition<T> {
+import net.imadz.lifecycle.meta.object.StateMachineObject;
+import net.imadz.lifecycle.meta.object.EventObject;
 
-    Class<?> doConditionJudge(T t);
-}
+public interface EventObjectBuilder extends AnnotationMetaBuilder<EventObject, StateMachineObject<?>>, EventObject {}

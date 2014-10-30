@@ -52,8 +52,8 @@ public class LifecycleEventImpl implements LifecycleEvent {
         this.reactiveObject = context.getTarget();
         this.fromState = context.getFromState();
         this.toState = context.getToState();
-        this.transition = context.getTransition();
-        this.transitionType = context.getTransitionType();
+        this.transition = context.getEvent();
+        this.transitionType = context.getEventType();
         this.startTime = context.getStartTime();
         this.endTime = context.getEndTime();
     }

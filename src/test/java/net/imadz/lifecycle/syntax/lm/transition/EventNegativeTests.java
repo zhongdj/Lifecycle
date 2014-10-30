@@ -42,15 +42,15 @@ import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
-import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Activate;
-import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Inactivate;
-import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Restart;
+import net.imadz.lifecycle.syntax.lm.transition.EventTestMetadata.SpecialTranstionStateMachine.Events.Activate;
+import net.imadz.lifecycle.syntax.lm.transition.EventTestMetadata.SpecialTranstionStateMachine.Events.Inactivate;
+import net.imadz.lifecycle.syntax.lm.transition.EventTestMetadata.SpecialTranstionStateMachine.Events.Restart;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailure;
 
 import org.junit.Test;
 
-public class TransitionNegativeTests extends TransitionTestMetadata {
+public class EventNegativeTests extends EventTestMetadata {
 
     @Test(expected = VerificationException.class)
     public void should_throw_exception_if_transition_method_of_special_transition_type_has_parameter() throws VerificationException, Throwable {

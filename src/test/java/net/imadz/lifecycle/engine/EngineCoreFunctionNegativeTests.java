@@ -122,7 +122,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
         try {
             service.start();
         } catch (LifecycleException e) {
-            assertViolateInboundWhileRelationConstraint(e, InternetServiceLifecycleMetaWithInboundWhile.Transitions.Start.class,
+            assertViolateInboundWhileRelationConstraint(e, InternetServiceLifecycleMetaWithInboundWhile.Events.Start.class,
                     InternetServiceLifecycleMetaWithInboundWhile.States.InService.class, service, customer, CustomerLifecycleMeta.States.Active.class);
         }
     }
@@ -136,7 +136,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
         try {
             keyboard.pressAnyKey();
         } catch (LifecycleException e) {
-            assertViolateInboundWhileRelationConstraint(e, KeyBoardLifecycleMetadataPreValidateCondition.Transitions.PressAnyKey.class,
+            assertViolateInboundWhileRelationConstraint(e, KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey.class,
                     KeyBoardLifecycleMetadataPreValidateCondition.States.ReadingInput.class, keyboard, power, PowerLifecycleMetadata.States.PowerOn.class);
         }
     }
@@ -150,7 +150,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
         try {
             keyboard.pressAnyKey();
         } catch (LifecycleException e) {
-            assertViolateInboundWhileRelationConstraint(e, KeyBoardLifecycleMetadataPostValidateCondition.Transitions.PressAnyKey.class,
+            assertViolateInboundWhileRelationConstraint(e, KeyBoardLifecycleMetadataPostValidateCondition.Events.PressAnyKey.class,
                     KeyBoardLifecycleMetadataPostValidateCondition.States.Broken.class, keyboard, power, PowerLifecycleMetadata.States.PowerOn.class);
         }
     }

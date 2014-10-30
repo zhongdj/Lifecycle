@@ -44,9 +44,9 @@ import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
-import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubTransitions.DoConstruct;
-import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubTransitions.DoTransport;
+import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubEvents.DoConstruct;
+import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubEvents.DoTransport;
 
 @StateMachine
 public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
@@ -73,7 +73,7 @@ public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
                 public static class Exit {}
             }
             @EventSet
-            public static class SubTransitions extends OrderLifecycleMeta.Transitions {
+            public static class SubEvents extends OrderLifecycleMeta.Events {
 
                 public static class DoTransport {}
                 public static class DoConstruct {}

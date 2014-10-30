@@ -45,8 +45,8 @@ import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
-import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Transitions.FinishThis;
-import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Transitions.JustDoIt;
+import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Events.FinishThis;
+import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Events.JustDoIt;
 
 import org.junit.Test;
 
@@ -67,7 +67,7 @@ public class ReturnTypeTests extends EngineTestBase {
             static interface Done {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface JustDoIt {}
             static interface FinishThis {}

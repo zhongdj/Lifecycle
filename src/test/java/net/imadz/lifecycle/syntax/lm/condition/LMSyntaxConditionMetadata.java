@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -56,7 +56,7 @@ import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S1.Stat
 import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S2.States.EnclosingState.CStates.S2_State_B;
 import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S2.States.EnclosingState.CStates.S2_State_C;
 import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S2.States.EnclosingState.Conditions.S2_Condition_A;
-import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S2.Transitions.S2_Transition_X;
+import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionMetadata.S2.Events.S2_Event_X;
 
 public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
 
@@ -67,7 +67,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.S1_Transition_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -75,10 +75,10 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
             static interface S1_State_C {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            @Conditional(condition = S1_Condition_A.class, judger = VolumeMeasurableTransition.class)
-            static interface S1_Transition_X {}
+            @Conditional(condition = S1_Condition_A.class, judger = VolumeMeasurableEvent.class)
+            static interface S1_Event_X {}
         }
         @ConditionSet
         static interface Conditions {
@@ -88,7 +88,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                 boolean isVolumeLeft();
             }
         }
-        public static class VolumeMeasurableTransition implements ConditionalTransition<S1_Condition_A> {
+        public static class VolumeMeasurableEvent implements ConditionalEvent<S1_Condition_A> {
 
             @Override
             public Class<?> doConditionJudge(S1_Condition_A t) {
@@ -107,7 +107,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         @Condition(S1.Conditions.S1_Condition_A.class)
         public S1_Condition_A getConditionA() {
@@ -130,7 +130,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S2_Transition_X.class, value = EnclosingState.class)
+            @Function(transition = S2_Event_X.class, value = EnclosingState.class)
             static interface S2_Intial {}
             @CompositeState
             static interface EnclosingState {
@@ -139,7 +139,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                 static interface CStates {
 
                     @Initial
-                    @Function(transition = CTransitions.CX2.class, value = { S2_State_B.class, S2_State_C.class })
+                    @Function(transition = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
                     static interface S2_State_A {}
                     @End
                     @ShortCut(S2_End_B.class)
@@ -149,9 +149,9 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                     static interface S2_State_C {}
                 }
                 @EventSet
-                static interface CTransitions {
+                static interface CEvents {
 
-                    @Conditional(condition = S2_Condition_A.class, judger = VolumeMeasurableTransition.class)
+                    @Conditional(condition = S2_Condition_A.class, judger = VolumeMeasurableEvent.class)
                     static interface CX2 {}
                 }
                 @ConditionSet
@@ -162,7 +162,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                         boolean isVolumeLeft();
                     }
                 }
-                public static class VolumeMeasurableTransition implements ConditionalTransition<S2_Condition_A> {
+                public static class VolumeMeasurableEvent implements ConditionalEvent<S2_Condition_A> {
 
                     @Override
                     public Class<?> doConditionJudge(S2_Condition_A t) {
@@ -180,9 +180,9 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
             static interface S2_End_C {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            static interface S2_Transition_X {}
+            static interface S2_Event_X {}
         }
     }
     @LifecycleMeta(S2.class)
@@ -191,7 +191,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s2_Transition_X() {}
+        public void s2_Event_X() {}
 
         @Event
         public void cX2() {}
@@ -218,7 +218,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         @Condition(S3.Conditions.S1_Condition_A.class)
         public S1_Condition_A getConditionA() {
@@ -244,9 +244,9 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
-        @Condition(S1.Transitions.S1_Transition_X.class)
+        @Condition(S1.Events.S1_Event_X.class)
         public S1_Condition_A getConditionA() {
             return null;
         }
@@ -267,7 +267,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         @Condition(S1.Conditions.S1_Condition_A.class)
         public S1_Condition_A getConditionA() {
@@ -295,7 +295,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         public String getState() {
             return state;
@@ -313,7 +313,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         public String getState() {
             return state;

@@ -39,8 +39,8 @@ import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Transitions.NS1_Z;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Transitions.S3_Y;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Events.NS1_Z;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Events.S3_Y;
 import net.imadz.verification.VerificationException;
 
 import org.junit.Test;

@@ -42,10 +42,10 @@ import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta
 @LifecycleMeta(PlantScheduleOrderLifecycleMeta.class)
 public interface IPlantScheduleOrder {
 
-    @Event(PlantScheduleOrderLifecycleMeta.Transitions.Start.class)
+    @Event(PlantScheduleOrderLifecycleMeta.Events.Start.class)
     void doStartPlantOrder();
 
-    @Event(PlantScheduleOrderLifecycleMeta.Transitions.Finish.class)
+    @Event(PlantScheduleOrderLifecycleMeta.Events.Finish.class)
     void doFinishPlantOrder();
 
     IServiceOrder getServiceOrder();

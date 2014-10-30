@@ -45,8 +45,8 @@ import net.imadz.lifecycle.annotations.relation.ValidWhile;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
-import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Events.Start;
 
 @StateMachine(parentOn = ServiceableLifecycleMeta.class)
 public interface PlantScheduleOrderLifecycleMeta {
@@ -72,7 +72,7 @@ public interface PlantScheduleOrderLifecycleMeta {
         static class Done {}
     }
     @EventSet
-    public static class Transitions {
+    public static class Events {
 
         public static class Start {}
         public static class Finish {}

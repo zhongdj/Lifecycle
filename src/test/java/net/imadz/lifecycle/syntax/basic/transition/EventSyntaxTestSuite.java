@@ -32,12 +32,12 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.syntax.lm.transition;
+package net.imadz.lifecycle.syntax.basic.transition;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TransitionNegativeTests.class, TransitionPositiveTests.class })
-public class TransitionTestSuite {}
+@SuiteClasses({ EventSyntaxNegativeTest.class })
+public class EventSyntaxTestSuite {}

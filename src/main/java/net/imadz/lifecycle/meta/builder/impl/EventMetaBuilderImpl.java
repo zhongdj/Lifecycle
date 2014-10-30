@@ -41,29 +41,29 @@ import java.lang.reflect.Type;
 import net.imadz.common.Dumper;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Fail;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
 import net.imadz.lifecycle.annotations.action.Timeout;
-import net.imadz.lifecycle.meta.builder.TransitionMetaBuilder;
+import net.imadz.lifecycle.meta.builder.EventMetaBuilder;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.StringUtil;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<EventMetadata, StateMachineMetadata> implements TransitionMetaBuilder {
+public class EventMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<EventMetadata, StateMachineMetadata> implements EventMetaBuilder {
 
     private EventTypeEnum type = EventTypeEnum.Common;
     private boolean conditional;
     private Class<?> conditionClass;
-    private Class<? extends ConditionalTransition<?>> judgerClass;
+    private Class<? extends ConditionalEvent<?>> judgerClass;
     private boolean postValidate;
     private long timeout;
 
-    protected TransitionMetaBuilderImpl(StateMachineMetadata parent, String name) {
+    protected EventMetaBuilderImpl(StateMachineMetadata parent, String name) {
         super(parent, "EventSet." + name);
     }
 
@@ -71,7 +71,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     public void verifyMetaData(VerificationFailureSet verificationSet) {}
 
     @Override
-    public TransitionMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException {
+    public EventMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException {
         super.build(clazz, parent);
         configureSuper(clazz);
         configureCondition(clazz);
@@ -120,7 +120,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
                 continue;
             }
             final ParameterizedType pType = (ParameterizedType) type;
-            if ( isConditionalTransition((Class<?>) pType.getRawType()) && !isConditionClassMatchingJudgerGenericType(conditionClass, pType) ) {
+            if ( isConditionalEvent((Class<?>) pType.getRawType()) && !isConditionClassMatchingJudgerGenericType(conditionClass, pType) ) {
                 throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER, clazz, conditionClass,
                         judgerClass);
             }
@@ -131,8 +131,8 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
         return conditionClass.isAssignableFrom((Class<?>) pType.getActualTypeArguments()[0]);
     }
 
-    private boolean isConditionalTransition(final Class<?> rawType) {
-        return ConditionalTransition.class.isAssignableFrom(rawType);
+    private boolean isConditionalEvent(final Class<?> rawType) {
+        return ConditionalEvent.class.isAssignableFrom(rawType);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     }
 
     @Override
-    public Class<? extends ConditionalTransition<?>> getJudgerClass() {
+    public Class<? extends ConditionalEvent<?>> getJudgerClass() {
         return judgerClass;
     }
 
@@ -178,7 +178,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
         if ( !parent.hasSuper() ) {
             throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_ILLEGAL_EXTENTION, metaClass, getSuperMetaClass(metaClass));
         } else {
-            if ( !parent.getSuper().hasTransition(getSuperMetaClass(metaClass)) ) {
+            if ( !parent.getSuper().hasEvent(getSuperMetaClass(metaClass)) ) {
                 throw newVerificationException(getDottedPath(), SyntaxErrors.TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE, metaClass,
                         getSuperMetaClass(metaClass), parent.getSuper().getPrimaryKey());
             }
@@ -187,7 +187,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
 
     @Override
     protected EventMetadata findSuper(Class<?> metaClass) throws VerificationException {
-        return parent.getSuper().getTransition(metaClass);
+        return parent.getSuper().getEvent(metaClass);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     }
 
     @Override
-    public void verifyTransitionMethod(Method method, VerificationFailureSet failureSet) {
+    public void verifyEventMethod(Method method, VerificationFailureSet failureSet) {
         if ( method.getParameterTypes().length <= 0 ) {
             return;
         }

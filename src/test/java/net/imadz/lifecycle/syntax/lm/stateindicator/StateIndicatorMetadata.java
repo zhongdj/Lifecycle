@@ -47,7 +47,7 @@ import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
-import net.imadz.lifecycle.syntax.lm.stateindicator.StateIndicatorMetadata.PS1.Transitions.S1_X;
+import net.imadz.lifecycle.syntax.lm.stateindicator.StateIndicatorMetadata.PS1.Events.S1_X;
 
 public class StateIndicatorMetadata extends BaseMetaDataTest {
 
@@ -83,7 +83,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		static interface States {
 
 			@Initial
-			@Function(transition = Transitions.S1_X.class, value = { S1_B.class })
+			@Function(transition = Events.S1_X.class, value = { S1_B.class })
 			static interface S1_A {
 			}
 
@@ -93,7 +93,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		}
 
 		@EventSet
-		static interface Transitions {
+		static interface Events {
 
 			static interface S1_X {
 			}

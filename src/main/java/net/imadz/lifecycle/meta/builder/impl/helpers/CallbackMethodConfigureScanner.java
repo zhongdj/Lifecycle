@@ -406,7 +406,7 @@ public final class CallbackMethodConfigureScanner {
 			Class<?> toStateClass, StateMachineMetadata stateMachineMetadata)
 			throws VerificationException {
 		for (final EventMetadata transition : stateMachineMetadata
-				.getState(toStateClass).getPossibleReachingTransitions()) {
+				.getState(toStateClass).getPossibleReachingEvents()) {
 			if (transition.isConditional() && transition.postValidate()) {
 				throw this.stateMachineObjectBuilderImpl
 						.newVerificationException(

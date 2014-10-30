@@ -43,7 +43,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Conditional {
 
-    Class<? extends ConditionalTransition<?>> judger();
+    Class<? extends ConditionalEvent<?>> judger();
 
     boolean postEval() default false;
 

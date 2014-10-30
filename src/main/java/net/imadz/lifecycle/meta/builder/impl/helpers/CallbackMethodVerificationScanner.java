@@ -104,7 +104,7 @@ public final class CallbackMethodVerificationScanner implements MethodScanCallba
             final StateMachineMetadata stateMachineMetadata) {
         final StateMetadata toState = ( (StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType() ).getState(toStateClass);
         if ( null == toState ) return;
-        for ( final EventMetadata transition : stateMachineMetadata.getState(toStateClass).getPossibleReachingTransitions() ) {
+        for ( final EventMetadata transition : stateMachineMetadata.getState(toStateClass).getPossibleReachingEvents() ) {
             if ( transition.isConditional() && transition.postValidate() ) {
                 failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(this.stateMachineObjectBuilderImpl.getDottedPath(),
                         SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID, toStateClass, method, transition.getDottedPath()));

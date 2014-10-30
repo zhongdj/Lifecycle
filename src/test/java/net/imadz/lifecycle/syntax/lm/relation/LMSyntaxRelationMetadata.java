@@ -52,19 +52,19 @@ import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
 import net.imadz.lifecycle.engine.EngineTestBase.ReactiveObject;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R1_S.Transitions.R1_S_X;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R2_S.Transitions.R2_S_X;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R3_S.Transitions.R3_S_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R1_S.Events.R1_S_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R2_S.Events.R2_S_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.R3_S.Events.R3_S_X;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S4.Relations.R1;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S5.States.S5_B.S5_B_Relations.S5_B_R1;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S5.States.S5_B.S5_B_Transitions.S5_B_X;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S5.Transitions.S5_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S5.States.S5_B.S5_B_Events.S5_B_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S5.Events.S5_X;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S6.Relations.S6_R1;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S6.Relations.S6_R2;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S7.Relations.S7_R;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S7.Transitions.S7_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S7.Events.S7_X;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S8.Relations.S8_R;
-import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S8.Transitions.S8_X;
+import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationMetadata.S8.Events.S8_X;
 
 public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
@@ -99,7 +99,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface R1_S_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface R1_S_X {}
         }
@@ -125,7 +125,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface R2_S_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface R2_S_X {}
         }
@@ -151,7 +151,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface R3_S_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface R3_S_X {}
         }
@@ -171,20 +171,20 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S4.Transitions.X.class, value = { S4_B.class })
+            @Function(transition = S4.Events.X.class, value = { S4_B.class })
             static interface S4_A {}
             @InboundWhile(on = { R1_S.States.R1_S_A.class }, relation = S4.Relations.R1.class)
             @ValidWhile(on = { R2_S.States.R2_S_A.class }, relation = S4.Relations.R2.class)
-            @Function(transition = S4.Transitions.Y.class, value = { S4_C.class })
+            @Function(transition = S4.Events.Y.class, value = { S4_C.class })
             static interface S4_B {}
-            @Function(transition = S4.Transitions.Z.class, value = { S4_D.class })
+            @Function(transition = S4.Events.Z.class, value = { S4_D.class })
             @ValidWhile(relation = S4.Relations.R3.class, on = { R3_S.States.R3_S_A.class })
             static interface S4_C {}
             @End
             static interface S4_D {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface X {}
             static interface Y {}
@@ -206,15 +206,15 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Event(S4.Transitions.X.class)
+        @Event(S4.Events.X.class)
         void tM1(@Relation(S4.Relations.R1.class) PLM_R1_S x) {
             System.out.println(". print inside tM1 .");
         }
 
-        @Event(S4.Transitions.Y.class)
+        @Event(S4.Events.Y.class)
         void tM2() {}
 
-        @Event(S4.Transitions.Z.class)
+        @Event(S4.Events.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -260,7 +260,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
                     static interface S5_B_B {}
                 }
                 @EventSet
-                static interface S5_B_Transitions {
+                static interface S5_B_Events {
 
                     static interface S5_B_X {}
                 }
@@ -275,7 +275,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface S5_C {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface S5_X {}
             static interface S5_Y {}
@@ -321,7 +321,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface S6_B extends S5_B {}
         }
         @EventSet
-        static interface Transitons extends S5.Transitions {}
+        static interface Transitons extends S5.Events {}
         @RelationSet
         static interface Relations {
 
@@ -373,7 +373,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface S7_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface S7_X {}
         }
@@ -408,7 +408,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             static interface S8_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface S8_X {}
         }
@@ -540,13 +540,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Event(S4.Transitions.X.class)
+        @Event(S4.Events.X.class)
         void tM1(@Relation(R1.class) PLM_R1_S x) {}
 
-        @Event(S4.Transitions.Y.class)
+        @Event(S4.Events.Y.class)
         void tM2() {}
 
-        @Event(S4.Transitions.Z.class)
+        @Event(S4.Events.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -573,13 +573,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Event(S4.Transitions.X.class)
+        @Event(S4.Events.X.class)
         void tM1(@Relation(R1.class) PLM_R1_S x, @Relation(R1.class) PLM_R1_S x2) {}
 
-        @Event(S4.Transitions.Y.class)
+        @Event(S4.Events.Y.class)
         void tM2() {}
 
-        @Event(S4.Transitions.Z.class)
+        @Event(S4.Events.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -611,16 +611,16 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Pay.class, value = { States.Paid.class })
+            @Function(transition = Events.Pay.class, value = { States.Paid.class })
             @ValidWhile(on = { LevelOneCustomerLifecycle.States.Activated.class }, relation = Relations.CustomerRelation.class)
             static interface Draft {}
-            @Function(transition = Transitions.Deliver.class, value = { States.Delivered.class })
+            @Function(transition = Events.Deliver.class, value = { States.Delivered.class })
             static interface Paid {}
             @End
             static interface Delivered {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Pay {}
             static interface Deliver {}
@@ -640,7 +640,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
             @LifecycleOverride
             @ValidWhile(on = { LevelTwoCustomerLifecycle.States.CreditRated.class }, relation = Relations.CustomerRelation.class)
-            @Function(transition = LevelOneOrderLifecycle.Transitions.Pay.class, value = { LevelOneOrderLifecycle.States.Paid.class })
+            @Function(transition = LevelOneOrderLifecycle.Events.Pay.class, value = { LevelOneOrderLifecycle.States.Paid.class })
             @Initial
             static interface Draft extends LevelOneOrderLifecycle.States.Draft {}
         }
@@ -659,7 +659,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
             @LifecycleOverride
             @ValidWhile(on = { LevelThreeCustomerLifecycle.States.Prepaid.class }, relation = Relations.CustomerRelation.class)
-            @Function(transition = LevelTwoOrderLifecycle.Transitions.Pay.class, value = { LevelTwoOrderLifecycle.States.Paid.class })
+            @Function(transition = LevelTwoOrderLifecycle.Events.Pay.class, value = { LevelTwoOrderLifecycle.States.Paid.class })
             @Initial
             static interface Draft extends LevelOneOrderLifecycle.States.Draft {}
         }
@@ -677,13 +677,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Activate.class, value = { States.Activated.class })
+            @Function(transition = Events.Activate.class, value = { States.Activated.class })
             static interface Draft {}
             @End
             static interface Activated {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Activate {}
         }
@@ -695,13 +695,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         static interface States extends LevelOneCustomerLifecycle.States {
 
             @LifecycleOverride
-            @Function(transition = Transitions.CreditRate.class, value = { States.CreditRated.class })
+            @Function(transition = Events.CreditRate.class, value = { States.CreditRated.class })
             static interface Activated extends LevelOneCustomerLifecycle.States.Activated {}
             @End
             static interface CreditRated {}
         }
         @EventSet
-        static interface Transitions extends LevelOneCustomerLifecycle.Transitions {
+        static interface Events extends LevelOneCustomerLifecycle.Events {
 
             static interface CreditRate {}
         }
@@ -713,13 +713,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         static interface States extends LevelTwoCustomerLifecycle.States {
 
             @LifecycleOverride
-            @Function(transition = Transitions.Prepay.class, value = { States.Prepaid.class })
+            @Function(transition = Events.Prepay.class, value = { States.Prepaid.class })
             static interface CreditRated extends LevelTwoCustomerLifecycle.States.CreditRated {}
             @End
             static interface Prepaid {}
         }
         @EventSet
-        static interface Transitions extends LevelTwoCustomerLifecycle.Transitions {
+        static interface Events extends LevelTwoCustomerLifecycle.Events {
 
             static interface Prepay {}
         }

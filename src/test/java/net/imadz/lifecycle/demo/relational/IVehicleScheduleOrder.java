@@ -38,10 +38,10 @@ import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Cancel;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Schedule;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Cancel;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Schedule;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Start;
 
 @LifecycleMeta(VehicleScheduleOrderLifecycleMeta.class)
 public interface IVehicleScheduleOrder {

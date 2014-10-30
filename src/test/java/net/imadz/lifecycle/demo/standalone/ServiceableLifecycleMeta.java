@@ -41,10 +41,10 @@ import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Cancel;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Schedule;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Cancel;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Schedule;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Start;
 
 /**
  * There won't be any implementation of this interface, since this interface is
@@ -72,7 +72,7 @@ public interface ServiceableLifecycleMeta {
         public static class Cancelled {}
     }
     @EventSet
-    public static class Transitions {
+    public static class Events {
 
         public static class Schedule {}
         public static class Start {}

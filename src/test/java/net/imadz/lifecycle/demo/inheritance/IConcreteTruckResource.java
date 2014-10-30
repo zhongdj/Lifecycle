@@ -44,7 +44,7 @@ public interface IConcreteTruckResource {
     // default to @Event(Assign.class) use assign -> Assign
     void assign();
 
-    @Event(ConcreteTruckResourceLifecycleMeta.Transitions.Release.class)
+    @Event(ConcreteTruckResourceLifecycleMeta.Events.Release.class)
     void doRelease();
 
     @Event

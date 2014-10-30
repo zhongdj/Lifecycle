@@ -41,10 +41,10 @@ import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Cancel;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Schedule;
-import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Cancel;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Schedule;
+import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Start;
 
 @StateMachine
 public interface VehicleScheduleOrderLifecycleMeta {
@@ -65,7 +65,7 @@ public interface VehicleScheduleOrderLifecycleMeta {
         public static class Cancelled {}
     }
     @EventSet
-    public static class Transitions {
+    public static class Events {
 
         public static class Schedule {}
         public static class Start {}

@@ -48,7 +48,7 @@ public interface LifecycleContext<T, S> {
 
     String getToStateName();
 
-    Method getTransitionMethod();
+    Method getEventMethod();
 
     Object[] getArguments();
 }

@@ -41,7 +41,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
-import net.imadz.lifecycle.syntax.basic.StateSetSyntaxMetadata.Positive.Transitions.T;
+import net.imadz.lifecycle.syntax.basic.StateSetSyntaxMetadata.Positive.Events.T;
 
 public class StateSetSyntaxMetadata extends BaseMetaDataTest {
 
@@ -58,7 +58,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             static interface B {};
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface T {};
         }
@@ -66,7 +66,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
     @StateMachine
     protected static interface Negative_No_InnerClasses {}
     @StateMachine
-    protected static interface Negative_No_StateSet_and_TransitionSet {
+    protected static interface Negative_No_StateSet_and_EventSet {
 
         static interface States {
 
@@ -76,30 +76,30 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface B {};
         }
-        static interface Transitions {
+        static interface Events {
 
             static interface T {};
         }
     }
     @StateMachine
-    protected static interface Negative_Multi_StateSet_Multi_TransitionSet {
+    protected static interface Negative_Multi_StateSet_Multi_EventSet {
 
         @StateSet
         static interface StatesA {}
         @StateSet
         static interface StatesB {}
         @EventSet
-        static interface TransitionsA {}
+        static interface EventsA {}
         @EventSet
-        static interface TransitionsB {}
+        static interface EventsB {}
     }
     @StateMachine
-    protected static interface Negative_No_State_No_Transition {
+    protected static interface Negative_No_State_No_Event {
 
         @StateSet
         static interface States {}
         @EventSet
-        static interface Transitions {}
+        static interface Events {}
     }
     @StateMachine
     protected static interface Negative_StateSet_Without_InitalState_And_EndState {
@@ -111,7 +111,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             static interface End {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Queue {}
         }
@@ -130,7 +130,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             static interface Ended {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Queue {}
         }

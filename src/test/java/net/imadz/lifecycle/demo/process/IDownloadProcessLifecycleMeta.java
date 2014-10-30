@@ -49,17 +49,17 @@ import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.Running;
 import net.imadz.lifecycle.annotations.state.Stopped;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Activate;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Deactive;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Err;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Pause;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Prepare;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Receive;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Remove;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Restart;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Resume;
-import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Activate;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Deactive;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Err;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Pause;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Prepare;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Receive;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Remove;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Restart;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Resume;
+import net.imadz.lifecycle.demo.process.IDownloadProcessLifecycleMeta.Events.Start;
 
 @StateMachine
 public interface IDownloadProcessLifecycleMeta {
@@ -100,7 +100,7 @@ public interface IDownloadProcessLifecycleMeta {
         static class Removed {}
     }
     @EventSet
-    static class Transitions {
+    static class Events {
 
         @Recover
         @Timeout(3000L)

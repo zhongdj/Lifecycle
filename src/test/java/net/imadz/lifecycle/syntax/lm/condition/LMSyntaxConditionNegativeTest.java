@@ -57,7 +57,7 @@ public class LMSyntaxConditionNegativeTest extends LMSyntaxConditionMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_CONDITION_REFERENCE_INVALID, NLM_1.class.getMethod("getConditionA"),
-                    S1.Transitions.S1_Transition_X.class);
+                    S1.Events.S1_Event_X.class);
             throw e;
         }
     }

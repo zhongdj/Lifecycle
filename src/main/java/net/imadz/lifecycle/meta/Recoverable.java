@@ -38,15 +38,15 @@ import net.imadz.lifecycle.meta.type.EventMetadata;
 
 public interface Recoverable {
 
-    public abstract boolean hasRedoTransition();
+    public abstract boolean hasRedoEvent();
 
-    public abstract EventMetadata getRedoTransition();
+    public abstract EventMetadata getRedoEvent();
 
-    public abstract boolean hasRecoverTransition();
+    public abstract boolean hasRecoverEvent();
 
-    public abstract EventMetadata getRecoverTransition();
+    public abstract EventMetadata getRecoverEvent();
 
-    public abstract boolean hasCorruptTransition();
+    public abstract boolean hasCorruptEvent();
 
-    public abstract EventMetadata getCorruptTransition();
+    public abstract EventMetadata getCorruptEvent();
 }

@@ -81,7 +81,7 @@ public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
     }
 
     @Override
-    public Method getTransitionMethod() {
+    public Method getEventMethod() {
         return transitionMethod;
     }
 

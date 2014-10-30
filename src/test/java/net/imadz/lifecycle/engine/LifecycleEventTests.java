@@ -81,7 +81,7 @@ public class LifecycleEventTests extends EngineTestBase {
             assertEquals(1, TestLifecycleEventHandler.eventList.size());
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Draft.class,
-                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.Transitions.Confirm.class);
+                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.Events.Confirm.class);
         }
         customer.suspend();
         {
@@ -89,14 +89,14 @@ public class LifecycleEventTests extends EngineTestBase {
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class,
                     CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceSuspended.class,
-                    CustomerStateMachine.States.Confirmed.Transitions.Suspend.class);
+                    CustomerStateMachine.States.Confirmed.Events.Suspend.class);
         }
         customer.resume();
         {
             assertEquals(3, TestLifecycleEventHandler.eventList.size());
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceSuspended.class,
-                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.States.Confirmed.Transitions.Resume.class);
+                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.States.Confirmed.Events.Resume.class);
         }
         customer.terminateService();
         {
@@ -104,14 +104,14 @@ public class LifecycleEventTests extends EngineTestBase {
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class,
                     CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceExpired.class,
-                    CustomerStateMachine.States.Confirmed.Transitions.TerminateService.class);
+                    CustomerStateMachine.States.Confirmed.Events.TerminateService.class);
         }
         customer.renew();
         {
             assertEquals(5, TestLifecycleEventHandler.eventList.size());
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceExpired.class,
-                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.States.Confirmed.Transitions.Renew.class);
+                    CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class, CustomerStateMachine.States.Confirmed.Events.Renew.class);
         }
         customer.terminateService();
         {
@@ -119,21 +119,21 @@ public class LifecycleEventTests extends EngineTestBase {
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class,
                     CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceExpired.class,
-                    CustomerStateMachine.States.Confirmed.Transitions.TerminateService.class);
+                    CustomerStateMachine.States.Confirmed.Events.TerminateService.class);
         }
         customer.abandon();
         {
             assertEquals(7, TestLifecycleEventHandler.eventList.size());
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Confirmed.ConfirmedStates.ServiceExpired.class,
-                    CustomerStateMachine.States.Recycled.class, CustomerStateMachine.States.Confirmed.Transitions.Abandon.class);
+                    CustomerStateMachine.States.Recycled.class, CustomerStateMachine.States.Confirmed.Events.Abandon.class);
         }
         customer.putBack();
         {
             assertEquals(8, TestLifecycleEventHandler.eventList.size());
             LifecycleEvent lifecycleEvent = TestLifecycleEventHandler.eventList.get(TestLifecycleEventHandler.eventList.size() - 1);
             assertLifecycleEvent(customer, lifecycleEvent, CustomerStateMachine.States.Recycled.class, CustomerStateMachine.States.Draft.class,
-                    CustomerStateMachine.Transitions.PutBack.class);
+                    CustomerStateMachine.Events.PutBack.class);
         }
         try {
             customer.renew();

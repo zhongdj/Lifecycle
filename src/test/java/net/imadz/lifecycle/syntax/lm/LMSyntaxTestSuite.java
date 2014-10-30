@@ -38,7 +38,7 @@ import net.imadz.lifecycle.syntax.lm.callback.CallbackTestSuite;
 import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionTestSuite;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationTestSuite;
 import net.imadz.lifecycle.syntax.lm.stateindicator.StateIndicatorTestSuite;
-import net.imadz.lifecycle.syntax.lm.transition.TransitionTestSuite;
+import net.imadz.lifecycle.syntax.lm.transition.EventTestSuite;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -46,5 +46,5 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ LMSyntaxNegativeTest.class, LMSyntaxPositiveTest.class, CallbackTestSuite.class, LMSyntaxConditionTestSuite.class,
-        LMSyntaxRelationTestSuite.class, StateIndicatorTestSuite.class, TransitionTestSuite.class })
+        LMSyntaxRelationTestSuite.class, StateIndicatorTestSuite.class, EventTestSuite.class })
 public class LMSyntaxTestSuite {}

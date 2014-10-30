@@ -32,30 +32,12 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.demo.inheritance;
+package net.imadz.lifecycle.syntax.lm.transition;
 
-import net.imadz.lifecycle.annotations.LifecycleMeta;
-import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.action.Condition;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-@LifecycleMeta(SummaryPlanLifecycleMeta.class)
-public interface ISummaryPlan {
-
-    @Event(SummaryPlanLifecycleMeta.Events.CreateServiceOrder.class)
-    IServiceOrder createServiceOrder(IPlantResource p, IConcreteTruckResource c, double volume);
-
-    @Event(SummaryPlanLifecycleMeta.Events.AdjustTotalVolume.class)
-    void adjustVolume(double volume);
-
-    @Event(SummaryPlanLifecycleMeta.Events.ConfirmFinish.class)
-    void confirmFinish();
-
-    @Condition(SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable.class)
-    VolumeMeasurable getVolumeMeasurable();
-
-    @StateIndicator
-    String getState();
-}
+@RunWith(Suite.class)
+@SuiteClasses({ EventNegativeTests.class, EventPositiveTests.class })
+public class EventTestSuite {}

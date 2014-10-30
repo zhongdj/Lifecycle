@@ -182,7 +182,7 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
     /**
      * e,
      * LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT,
-     * KeyBoardLifecycleMetadataPreValidateCondition.Transitions.PressAnyKey.
+     * KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey.
      * class,
      * KeyBoardLifecycleMetadataPreValidateCondition.States.Broken.class.
      * getSimpleName(),

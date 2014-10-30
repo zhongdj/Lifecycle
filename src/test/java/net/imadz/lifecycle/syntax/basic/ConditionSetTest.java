@@ -44,14 +44,14 @@ import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Conditions.CompareWithZero;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.States.I;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.States.J;
-import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Transitions.Z;
+import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Events.Z;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Utils.ConcreteCondition;
 import net.imadz.verification.VerificationException;
 
@@ -90,7 +90,7 @@ public class ConditionSetTest extends BaseMetaDataTest {
             static interface J {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             @Conditional(judger = ConcreteCondition.class, condition = CompareWithZero.class)
             static interface Z {}
@@ -113,7 +113,7 @@ public class ConditionSetTest extends BaseMetaDataTest {
         }
         public static class Utils {
 
-            public static class ConcreteCondition implements ConditionalTransition<CompareWithZero> {
+            public static class ConcreteCondition implements ConditionalEvent<CompareWithZero> {
 
                 @Override
                 public Class<?> doConditionJudge(CompareWithZero t) {

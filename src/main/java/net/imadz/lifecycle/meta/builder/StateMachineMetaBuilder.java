@@ -46,7 +46,7 @@ public interface StateMachineMetaBuilder extends AnnotationMetaBuilder<StateMach
 
     void setOwningState(StateMetadata stateMetaBuilderImpl);
 
-    boolean hasTransition(Object obj);
+    boolean hasEvent(Object obj);
 
     StateMachineMetaBuilder[] getCompositeStateMachines();
 

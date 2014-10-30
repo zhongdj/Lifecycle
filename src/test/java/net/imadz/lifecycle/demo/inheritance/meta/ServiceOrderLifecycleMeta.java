@@ -63,7 +63,7 @@ public interface ServiceOrderLifecycleMeta extends OrderLifecycleMeta {
         public static class Queued extends OrderLifecycleMeta.States.Queued {}
     }
     @EventSet
-    public class Transitions extends OrderLifecycleMeta.Transitions {}
+    public class Events extends OrderLifecycleMeta.Events {}
     @RelationSet
     public static class Relations {
 

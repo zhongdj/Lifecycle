@@ -61,8 +61,8 @@ public final class InterceptorHelper {
         try {
             final Method tmpMethod = klass.getMethod(subClassMethod.getName(), subClassMethod.getParameterTypes());
             final Event transition = subClassMethod.getAnnotation(Event.class);
-            final Event tmpTransition = tmpMethod.getAnnotation(Event.class);
-            if ( hasSameTransitionKey(transition, tmpTransition) || hasSameTransitionName(subClassMethod, transition, tmpTransition) ) {
+            final Event tmpEvent = tmpMethod.getAnnotation(Event.class);
+            if ( hasSameEventKey(transition, tmpEvent) || hasSameEventName(subClassMethod, transition, tmpEvent) ) {
                 return true;
             }
         } catch (NoSuchMethodException ignore) {}
@@ -89,12 +89,12 @@ public final class InterceptorHelper {
         }
     }
 
-    private static boolean hasSameTransitionKey(final Event transition, final Event tmpTransition) {
-        return tmpTransition.value() != Null.class && transition.value() == tmpTransition.value();
+    private static boolean hasSameEventKey(final Event transition, final Event tmpEvent) {
+        return tmpEvent.value() != Null.class && transition.value() == tmpEvent.value();
     }
 
-    private static boolean hasSameTransitionName(final Method subClassMethod, final Event transition, final Event tmpTransition) {
-        return tmpTransition.value() == Null.class
+    private static boolean hasSameEventName(final Method subClassMethod, final Event transition, final Event tmpEvent) {
+        return tmpEvent.value() == Null.class
                 && transition.value().getSimpleName().equalsIgnoreCase(StringUtil.toUppercaseFirstCharacter(subClassMethod.getName()));
     }
 

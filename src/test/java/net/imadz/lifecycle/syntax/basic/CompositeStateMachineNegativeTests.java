@@ -61,26 +61,26 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = CompositeExtendsOwningStateMachine.Transitions.PCS1_X.class, value = PCS1_B.class)
+            @Function(transition = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
             static interface PCS1_A {}
             @CompositeState
-            @Function(transition = CompositeExtendsOwningStateMachine.Transitions.PCS1_Y.class, value = PCS1_C.class)
+            @Function(transition = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
             static interface PCS1_B extends CompositeExtendsOwningStateMachine {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CTransitions.PCS1_CX.class, value = PCS1_CB.class)
+                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
                     static interface PCS1_CA {}
-                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CTransitions.PCS1_CX.class, value = PCS1_CC.class)
+                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
                     static interface PCS1_CB {}
                     @End
                     @ShortCut(PCS1_C.class)
                     static interface PCS1_CC {}
                 }
                 @EventSet
-                static interface CTransitions {
+                static interface CEvents {
 
                     static interface PCS1_CX {}
                 }
@@ -89,7 +89,7 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
             static interface PCS1_C {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface PCS1_X {}
             static interface PCS1_Y {}

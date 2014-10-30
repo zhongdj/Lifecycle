@@ -37,13 +37,13 @@ package net.imadz.lifecycle.demo.inheritance;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta;
-import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubTransitions.DoConstruct;
-import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubTransitions.DoTransport;
+import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubEvents.DoConstruct;
+import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMeta.States.Ongoing.SubEvents.DoTransport;
 
 @LifecycleMeta(VehicleScheduleOrderLifecycleMeta.class)
 public interface IVehicleScheduleOrder {
 
-    @Event(VehicleScheduleOrderLifecycleMeta.Transitions.Start.class)
+    @Event(VehicleScheduleOrderLifecycleMeta.Events.Start.class)
     void doLoad();
 
     @Event(DoTransport.class)

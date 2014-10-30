@@ -43,9 +43,9 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
-import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.CorrectStateMachineInheritanceSuperSyntax.Transitions.TransitionTwo;
-import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.CorrectStateMachineSyntax.Transitions.TransitionOne;
-import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.IncorrectStateMachineInheritanceSuperSyntax.Transitions.TransitionThree;
+import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.CorrectStateMachineInheritanceSuperSyntax.Events.EventTwo;
+import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.CorrectStateMachineSyntax.Events.EventOne;
+import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.IncorrectStateMachineInheritanceSuperSyntax.Events.EventThree;
 
 public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
 
@@ -56,15 +56,15 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = TransitionOne.class, value = StateB.class)
+            @Function(transition = EventOne.class, value = StateB.class)
             static interface StateA {}
             @End
             static interface StateB {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            static interface TransitionOne {}
+            static interface EventOne {}
         }
     }
     @LifecycleMeta(CorrectStateMachineSyntax.class)
@@ -72,7 +72,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
 
         private String state;
 
-        @Event(TransitionOne.class)
+        @Event(EventOne.class)
         public void foo() {}
 
         public String getState() {
@@ -92,15 +92,15 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = TransitionTwo.class, value = StateD.class)
+            @Function(transition = EventTwo.class, value = StateD.class)
             static interface StateC {}
             @End
             static interface StateD {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            static interface TransitionTwo {}
+            static interface EventTwo {}
         }
     }
     @StateMachine
@@ -111,15 +111,15 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = TransitionThree.class, value = StateF.class)
+            @Function(transition = EventThree.class, value = StateF.class)
             static interface StateE {}
             @End
             static interface StateF {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            static interface TransitionThree {}
+            static interface EventThree {}
         }
     }
     @StateMachine
@@ -143,15 +143,15 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = TransitionThree.class, value = StateF.class)
+            @Function(transition = EventThree.class, value = StateF.class)
             static interface StateE {}
             @End
             static interface StateF {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            static interface TransitionThree {}
+            static interface EventThree {}
         }
     }
 }

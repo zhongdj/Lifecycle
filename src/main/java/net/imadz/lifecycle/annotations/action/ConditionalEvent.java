@@ -32,25 +32,9 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.syntax.lm.transition;
+package net.imadz.lifecycle.annotations.action;
 
-import net.imadz.lifecycle.AbsStateMachineRegistry;
-import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
-import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.verification.VerificationException;
+public interface ConditionalEvent<T> {
 
-import org.junit.Test;
-
-public class TransitionPositiveTests extends TransitionTestMetadata {
-
-    @Test
-    public void special_transition_types_redo_recover_corrupt() throws VerificationException {
-        @LifecycleRegistry(PositiveProcess.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
-
-            protected Registry() throws VerificationException {}
-        }
-        new Registry();
-    }
+    Class<?> doConditionJudge(T t);
 }

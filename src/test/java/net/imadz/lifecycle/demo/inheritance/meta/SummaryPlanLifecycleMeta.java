@@ -41,16 +41,16 @@ import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.Ongoing;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.VolumeLeftEmpty;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Transitions.AdjustTotalVolume;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Transitions.ConfirmFinish;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Transitions.CreateServiceOrder;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Utils.VolumeMeasurableTransition;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.AdjustTotalVolume;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.ConfirmFinish;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.CreateServiceOrder;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Utils.VolumeMeasurableEvent;
 
 @StateMachine
 public interface SummaryPlanLifecycleMeta {
@@ -70,11 +70,11 @@ public interface SummaryPlanLifecycleMeta {
         public static class Done {}
     }
     @EventSet
-    public static class Transitions {
+    public static class Events {
 
-        @Conditional(judger = VolumeMeasurableTransition.class, condition = VolumeMeasurable.class)
+        @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
         public static class CreateServiceOrder {}
-        @Conditional(judger = VolumeMeasurableTransition.class, condition = VolumeMeasurable.class)
+        @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
         public static class AdjustTotalVolume {}
         public static class ConfirmFinish {}
     }
@@ -88,7 +88,7 @@ public interface SummaryPlanLifecycleMeta {
     }
     static class Utils {
 
-        public static class VolumeMeasurableTransition implements ConditionalTransition<VolumeMeasurable> {
+        public static class VolumeMeasurableEvent implements ConditionalEvent<VolumeMeasurable> {
 
             public Class<?> doConditionJudge(VolumeMeasurable measurable) {
                 if ( !measurable.isVolumeLeft() ) {

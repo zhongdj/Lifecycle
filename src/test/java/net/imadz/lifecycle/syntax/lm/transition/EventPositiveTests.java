@@ -32,12 +32,25 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.syntax.basic.transition;
+package net.imadz.lifecycle.syntax.lm.transition;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import net.imadz.lifecycle.AbsStateMachineRegistry;
+import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
+import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
+import net.imadz.verification.VerificationException;
 
-@RunWith(Suite.class)
-@SuiteClasses({ TransitionSyntaxNegativeTest.class })
-public class TransitionSyntaxTestSuite {}
+import org.junit.Test;
+
+public class EventPositiveTests extends EventTestMetadata {
+
+    @Test
+    public void special_transition_types_redo_recover_corrupt() throws VerificationException {
+        @LifecycleRegistry(PositiveProcess.class)
+        @StateMachineBuilder
+        class Registry extends AbsStateMachineRegistry {
+
+            protected Registry() throws VerificationException {}
+        }
+        new Registry();
+    }
+}

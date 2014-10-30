@@ -39,7 +39,7 @@ import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
-import net.imadz.lifecycle.demo.inheritance.meta.ConcreteTruckResourceLifecycleMeta.Transitions.Detach;
+import net.imadz.lifecycle.demo.inheritance.meta.ConcreteTruckResourceLifecycleMeta.Events.Detach;
 
 @StateMachine
 public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycleMeta {
@@ -53,7 +53,7 @@ public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycle
         public static class Detached {}
     }
     @EventSet
-    public class Transitions extends SchedulableLifecycleMeta.Transitions {
+    public class Events extends SchedulableLifecycleMeta.Events {
 
         public static class Detach {}
     }

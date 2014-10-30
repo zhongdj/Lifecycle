@@ -39,10 +39,10 @@ import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Transitions.Assign;
-import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Transitions.ConfirmMaintainOver;
-import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Transitions.Maintain;
-import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Transitions.Release;
+import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Events.Assign;
+import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Events.ConfirmMaintainOver;
+import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Events.Maintain;
+import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta.Events.Release;
 
 @StateMachine
 public interface PlantResourceLifecycleMeta {
@@ -58,7 +58,7 @@ public interface PlantResourceLifecycleMeta {
         public static class Maintaining {}
     }
     @EventSet
-    public static class Transitions {
+    public static class Events {
 
         public static class Assign {}
         public static class Release {}

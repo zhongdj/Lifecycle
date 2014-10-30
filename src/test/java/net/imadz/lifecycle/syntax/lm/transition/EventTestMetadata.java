@@ -49,7 +49,7 @@ import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 
-public class TransitionTestMetadata extends BaseMetaDataTest {
+public class EventTestMetadata extends BaseMetaDataTest {
 
     @StateMachine
     static interface SpecialTranstionStateMachine {
@@ -58,20 +58,20 @@ public class TransitionTestMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Start.class, value = { Running.class })
+            @Function(transition = Events.Start.class, value = { Running.class })
             static interface Queued {}
-            @Functions({ @Function(transition = Transitions.Inactivate.class, value = { InactiveRunning.class }),
-                    @Function(transition = Transitions.Stop.class, value = { Stopped.class }) })
+            @Functions({ @Function(transition = Events.Inactivate.class, value = { InactiveRunning.class }),
+                    @Function(transition = Events.Stop.class, value = { Stopped.class }) })
             static interface Running {}
-            @Functions({ @Function(transition = Transitions.Activate.class, value = { Running.class }),
-                    @Function(transition = Transitions.Restart.class, value = { Running.class }),
-                    @Function(transition = Transitions.Stop.class, value = { Stopped.class }) })
+            @Functions({ @Function(transition = Events.Activate.class, value = { Running.class }),
+                    @Function(transition = Events.Restart.class, value = { Running.class }),
+                    @Function(transition = Events.Stop.class, value = { Stopped.class }) })
             static interface InactiveRunning {}
             @End
             static interface Stopped {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Start {}
             @Corrupt

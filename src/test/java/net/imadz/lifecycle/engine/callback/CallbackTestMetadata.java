@@ -50,7 +50,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.callback.PreStateChange;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
@@ -85,15 +85,15 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Start.class, value = { States.Started.class })
+            @Function(transition = Events.Start.class, value = { States.Started.class })
             static interface New {}
-            @Function(transition = Transitions.Finish.class, value = { States.Finished.class })
+            @Function(transition = Events.Finish.class, value = { States.Finished.class })
             static interface Started {}
             @End
             static interface Finished {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Start {}
             static interface Finish {}
@@ -173,19 +173,19 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = InvoiceStateMachineMeta.Transitions.Post.class, value = { InvoiceStateMachineMeta.States.Posted.class })
+            @Function(transition = InvoiceStateMachineMeta.Events.Post.class, value = { InvoiceStateMachineMeta.States.Posted.class })
             static interface Draft {}
-            @Functions({ @Function(transition = InvoiceStateMachineMeta.Transitions.Pay.class, value = { States.PartialPaid.class,
+            @Functions({ @Function(transition = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
                     InvoiceStateMachineMeta.States.PaidOff.class }) })
             static interface Posted {}
-            @Function(transition = InvoiceStateMachineMeta.Transitions.Pay.class, value = { States.PartialPaid.class,
+            @Function(transition = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
                     InvoiceStateMachineMeta.States.PaidOff.class })
             static interface PartialPaid {}
             @End
             static interface PaidOff {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Post {}
             @Conditional(condition = Payable.class, judger = PayableJudger.class, postEval = true)
@@ -203,7 +203,7 @@ public class CallbackTestMetadata extends EngineTestBase {
         }
         public static class Utilities {
 
-            public static class PayableJudger implements ConditionalTransition<Payable> {
+            public static class PayableJudger implements ConditionalEvent<Payable> {
 
                 @Override
                 public Class<?> doConditionJudge(Payable t) {
@@ -225,7 +225,7 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = InvoiceItemStateMachineMeta.Transitions.Pay.class, value = { InvoiceItemStateMachineMeta.States.Paid.class })
+            @Function(transition = InvoiceItemStateMachineMeta.Events.Pay.class, value = { InvoiceItemStateMachineMeta.States.Paid.class })
             static interface Unpaid {}
             @End
             @InboundWhile(on = { InvoiceStateMachineMeta.States.Posted.class, InvoiceStateMachineMeta.States.PartialPaid.class },
@@ -233,7 +233,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             static interface Paid {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Pay {}
         }
@@ -274,7 +274,7 @@ public class CallbackTestMetadata extends EngineTestBase {
         @Event
         public void post() {}
 
-        @Event(InvoiceStateMachineMeta.Transitions.Pay.class)
+        @Event(InvoiceStateMachineMeta.Events.Pay.class)
         @PostStateChange(to = InvoiceItemStateMachineMeta.States.Paid.class, observableName = "items", mappedBy = "parent")
         public synchronized void onItemPaied(LifecycleContext<InvoiceItem, String> context) {
             payedAmount = payedAmount.add(context.getTarget().getPayedAmount());
@@ -436,7 +436,7 @@ public class CallbackTestMetadata extends EngineTestBase {
         @Event
         public void post() {}
 
-        @Event(InvoiceStateMachineMeta.Transitions.Pay.class)
+        @Event(InvoiceStateMachineMeta.Events.Pay.class)
         public synchronized void onItemPaied(InvoiceItemNonRelationalCallback item) {
             payedAmount = payedAmount.add(item.getPayedAmount());
         }
@@ -458,15 +458,15 @@ public class CallbackTestMetadata extends EngineTestBase {
         public static interface States {
 
             @Initial
-            @Function(transition = Transitions.Pay.class, value = { States.Paid.class })
+            @Function(transition = Events.Pay.class, value = { States.Paid.class })
             public static interface New {}
-            @Function(transition = Transitions.Deliver.class, value = { States.Delivered.class })
+            @Function(transition = Events.Deliver.class, value = { States.Delivered.class })
             public static interface Paid {}
             @End
             public static interface Delivered {}
         }
         @EventSet
-        public static interface Transitions {
+        public static interface Events {
 
             public static interface Pay {}
             public static interface Deliver {}
@@ -478,10 +478,10 @@ public class CallbackTestMetadata extends EngineTestBase {
         @StateSet
         public static interface States extends OrderStateMachine.States {
 
-            @Function(transition = Transitions.Cancel.class, value = { Cancelled.class })
+            @Function(transition = Events.Cancel.class, value = { Cancelled.class })
             public static interface New extends OrderStateMachine.States.New {}
             @LifecycleOverride
-            @Function(transition = Transitions.Install.class, value = { States.Installed.class })
+            @Function(transition = Events.Install.class, value = { States.Installed.class })
             public static interface Delivered extends OrderStateMachine.States.Delivered {}
             @End
             public static interface Installed {}
@@ -489,7 +489,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             public static interface Cancelled {}
         }
         @EventSet
-        public static interface Transitions extends OrderStateMachine.Transitions {
+        public static interface Events extends OrderStateMachine.Events {
 
             public static interface Install {}
             public static interface Cancel {}
@@ -611,7 +611,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             Assert.assertEquals(BigProductOrderStateMachine.States.Delivered.class.getSimpleName(), context.getFromState());
             Assert.assertEquals(this, context.getTarget());
             try {
-                Assert.assertEquals(OrderWithSpecifiedPreFromToCallback.class.getMethod("install"), context.getTransitionMethod());
+                Assert.assertEquals(OrderWithSpecifiedPreFromToCallback.class.getMethod("install"), context.getEventMethod());
             } catch (NoSuchMethodException ignored){} catch( SecurityException ignored) {}
             Assert.assertEquals(0, context.getArguments().length);
             count++;

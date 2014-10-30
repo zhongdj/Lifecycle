@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.Converter;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
-import net.imadz.lifecycle.engine.StateSetterTestMetadata.SetterTestStateMachine.Transitions.Do;
+import net.imadz.lifecycle.engine.StateSetterTestMetadata.SetterTestStateMachine.Events.Do;
 
 public class StateSetterTestMetadata extends EngineTestBase {
 
@@ -56,13 +56,13 @@ public class StateSetterTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Do.class, value = Done.class)
+            @Function(transition = Events.Do.class, value = Done.class)
             static interface New {}
             @End
             static interface Done {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Do {}
         }
@@ -119,13 +119,13 @@ public class StateSetterTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Close.class, value = Closed.class)
+            @Function(transition = Events.Close.class, value = Closed.class)
             static interface Opened {}
             @End
             static interface Closed {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Close {}
         }

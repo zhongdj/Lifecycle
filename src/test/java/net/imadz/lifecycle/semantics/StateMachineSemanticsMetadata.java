@@ -44,12 +44,12 @@ import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Transitions.S1_X;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Transitions.S1_Y;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Transitions.S1_Z;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S2.States.S2_B.S2_B_Transitions.S2_B_Transitions_X;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S2.Transitions.S2_Z;
-import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S3.Transitions.S3_Z;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Events.S1_X;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Events.S1_Y;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S1.Events.S1_Z;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S2.States.S2_B.S2_B_Events.S2_B_Events_X;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S2.Events.S2_Z;
+import net.imadz.lifecycle.semantics.StateMachineSemanticsMetadata.S3.Events.S3_Z;
 
 public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
 
@@ -70,7 +70,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
             public static interface S1_D {}
         }
         @EventSet
-        public static interface Transitions {
+        public static interface Events {
 
             public static interface S1_X {}
             public static interface S1_Y {}
@@ -95,21 +95,21 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
                 public static interface S2_B_States {
 
                     @Initial
-                    @Function(transition = S2_B_Transitions_X.class, value = { S2_B_States_B.class })
+                    @Function(transition = S2_B_Events_X.class, value = { S2_B_States_B.class })
                     public static interface S2_B_States_A {}
                     @End
                     @ShortCut(S1_C.class)
                     public static interface S2_B_States_B {}
                 }
                 @EventSet
-                public static interface S2_B_Transitions {
+                public static interface S2_B_Events {
 
-                    public static interface S2_B_Transitions_X {}
+                    public static interface S2_B_Events_X {}
                 }
             }
         }
         @EventSet
-        public static interface Transitions extends S1.Transitions {
+        public static interface Events extends S1.Events {
 
             public static interface S2_Z {}
         }
@@ -128,7 +128,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
             public static interface S3_E extends S2.States.S2_B {}
         }
         @EventSet
-        public static interface Transitions extends S2.Transitions {
+        public static interface Events extends S2.Events {
 
             public static interface S3_Z {}
         }

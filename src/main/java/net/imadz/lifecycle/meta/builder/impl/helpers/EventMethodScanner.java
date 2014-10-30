@@ -32,15 +32,54 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.meta.object;
+package net.imadz.lifecycle.meta.builder.impl.helpers;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
-import net.imadz.lifecycle.meta.MetaObject;
-import net.imadz.lifecycle.meta.MultiKeyed;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.meta.type.EventMetadata;
+import net.imadz.util.MethodScanCallback;
+import net.imadz.util.StringUtil;
+import net.imadz.utils.Null;
 
-public interface TransitionObject extends MetaObject<TransitionObject, EventMetadata>, MultiKeyed {
+public final class EventMethodScanner implements MethodScanCallback {
 
-    Method getTransitionMethod();
+    private final ArrayList<Method> transitionMethodList = new ArrayList<Method>();
+    private final EventMetadata transition;
+
+    public EventMethodScanner(final EventMetadata transition) {
+        this.transition = transition;
+    }
+
+    @Override
+    public boolean onMethodFound(Method method) {
+        final Event transitionAnno = method.getAnnotation(Event.class);
+        if ( null == transitionAnno ) {
+            return false;
+        }
+        final Class<?> transitionKey = transitionAnno.value();
+        if ( matchedEventPrimaryKey(transitionKey, transition.getPrimaryKey()) ) {
+            transitionMethodList.add(method);
+        } else if ( matchedEventName(transitionKey, method.getName(), transition.getDottedPath().getName()) ) {
+            transitionMethodList.add(method);
+        }
+        return false;
+    }
+
+    private boolean matchedEventName(final Class<?> transitionKey, String methodName, final String transitionName) {
+        return isDefaultStyle(transitionKey) && StringUtil.toUppercaseFirstCharacter(methodName).equals(transitionName);
+    }
+
+    private boolean matchedEventPrimaryKey(final Class<?> transitionKey, Object primaryKey) {
+        return !isDefaultStyle(transitionKey) && transitionKey.equals(primaryKey);
+    }
+
+    public Method[] getEventMethods() {
+        return transitionMethodList.toArray(new Method[0]);
+    }
+
+    private boolean isDefaultStyle(final Class<?> transitionKey) {
+        return Null.class == transitionKey;
+    }
 }

@@ -56,7 +56,7 @@ public class FunctionMetadata {
         return parent;
     }
 
-    public EventMetadata getTransition() {
+    public EventMetadata getEvent() {
         return transition;
     }
 

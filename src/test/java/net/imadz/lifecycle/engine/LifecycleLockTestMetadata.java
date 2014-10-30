@@ -78,10 +78,10 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = LockingStateMachine.Transitions.Start.class, value = Started.class)
+            @Function(transition = LockingStateMachine.Events.Start.class, value = Started.class)
             static interface Created {}
-            @Functions({ @Function(transition = LockingStateMachine.Transitions.Stop.class, value = Stopped.class),
-                    @Function(transition = LockingStateMachine.Transitions.Cancel.class, value = Canceled.class) })
+            @Functions({ @Function(transition = LockingStateMachine.Events.Stop.class, value = Stopped.class),
+                    @Function(transition = LockingStateMachine.Events.Cancel.class, value = Canceled.class) })
             static interface Started {}
             @End
             static interface Stopped {}
@@ -89,7 +89,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             static interface Canceled {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Start {}
             static interface Stop {}
@@ -225,21 +225,21 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Functions({ @Function(transition = Transitions.LogicalDelete.class, value = Recycled.class),
-                    @Function(transition = Transitions.Confirm.class, value = Confirmed.class) })
+            @Functions({ @Function(transition = Events.LogicalDelete.class, value = Recycled.class),
+                    @Function(transition = Events.Confirm.class, value = Confirmed.class) })
             static interface Draft {}
-            @Function(transition = Transitions.Finish.class, value = Finished.class)
+            @Function(transition = Events.Finish.class, value = Finished.class)
             static interface Confirmed {}
             @End
             static interface Finished {}
-            @Functions({ @Function(transition = Transitions.PutBack.class, value = Draft.class),
-                    @Function(transition = Transitions.PhysicalDelete.class, value = Vanished.class) })
+            @Functions({ @Function(transition = Events.PutBack.class, value = Draft.class),
+                    @Function(transition = Events.PhysicalDelete.class, value = Vanished.class) })
             static interface Recycled {}
             @End
             static interface Vanished {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Confirm {}
             static interface LogicalDelete {}
@@ -263,18 +263,18 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                 static interface ConfirmedStates {
 
                     @Initial
-                    @Functions({ @Function(transition = Transitions.Suspend.class, value = ServiceSuspended.class),
-                            @Function(transition = Transitions.TerminateService.class, value = ServiceExpired.class),
-                            @Function(transition = Transitions.Cancel.class, value = Canceled.class) })
+                    @Functions({ @Function(transition = Events.Suspend.class, value = ServiceSuspended.class),
+                            @Function(transition = Events.TerminateService.class, value = ServiceExpired.class),
+                            @Function(transition = Events.Cancel.class, value = Canceled.class) })
                     static interface InService {}
-                    @Function(transition = Transitions.Resume.class, value = InService.class)
+                    @Function(transition = Events.Resume.class, value = InService.class)
                     static interface ServiceSuspended {}
-                    @Functions({ @Function(transition = Transitions.Renew.class, value = InService.class),
-                            @Function(transition = Transitions.Disconnect.class, value = Disconnected.class),
-                            @Function(transition = Transitions.Abandon.class, value = Abandoned.class) })
+                    @Functions({ @Function(transition = Events.Renew.class, value = InService.class),
+                            @Function(transition = Events.Disconnect.class, value = Disconnected.class),
+                            @Function(transition = Events.Abandon.class, value = Abandoned.class) })
                     static interface ServiceExpired {}
-                    @Functions({ @Function(transition = Transitions.Abandon.class, value = Abandoned.class),
-                            @Function(transition = Transitions.Disconnect.class, value = Disconnected.class) })
+                    @Functions({ @Function(transition = Events.Abandon.class, value = Abandoned.class),
+                            @Function(transition = Events.Disconnect.class, value = Disconnected.class) })
                     static interface Canceled {}
                     @End
                     @ShortCut(InformativeStateMachine.States.Finished.class)
@@ -284,7 +284,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     static interface Abandoned {}
                 }
                 @EventSet
-                static interface Transitions {
+                static interface Events {
 
                     static interface Abandon {}
                     static interface Suspend {}
@@ -311,17 +311,17 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                 static interface ConfirmedStates {
 
                     @Initial
-                    @Functions({ @Function(transition = Transitions.StartService.class, value = ServiceStarted.class),
-                            @Function(transition = Transitions.TerminateService.class, value = Terminated.class) })
+                    @Functions({ @Function(transition = Events.StartService.class, value = ServiceStarted.class),
+                            @Function(transition = Events.TerminateService.class, value = Terminated.class) })
                     @InboundWhile(on = { InformativeStateMachine.States.Draft.class, CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class },
                             relation = Relations.Customer.class)
                     @ValidWhile(on = { CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class }, relation = Relations.Customer.class)
                     static interface Effective {}
-                    @Function(transition = Transitions.AbortService.class, value = ServiceAborted.class)
+                    @Function(transition = Events.AbortService.class, value = ServiceAborted.class)
                     @ValidWhile(on = { CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class }, relation = Relations.Customer.class)
                     @InboundWhile(on = { CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class }, relation = Relations.Customer.class)
                     static interface ServiceStarted {}
-                    @Function(transition = Transitions.Invalidate.class, value = Uneffective.class)
+                    @Function(transition = Events.Invalidate.class, value = Uneffective.class)
                     @InboundWhile(on = { CustomerStateMachine.States.Confirmed.ConfirmedStates.InService.class }, relation = Relations.Customer.class)
                     static interface ServiceAborted {}
                     @End
@@ -332,7 +332,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     static interface Uneffective {}
                 }
                 @EventSet
-                static interface Transitions {
+                static interface Events {
 
                     static interface Invalidate {}
                     static interface StartService {}
@@ -365,8 +365,8 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     @Initial
                     @InboundWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
                     @ValidWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
-                    @Functions({ @Function(transition = Transitions.StartProduce.class, value = Manufactoring.class),
-                            @Function(transition = Transitions.Dequeue.class, value = Dequeued.class) })
+                    @Functions({ @Function(transition = Events.StartProduce.class, value = Manufactoring.class),
+                            @Function(transition = Events.Dequeue.class, value = Dequeued.class) })
                     static interface Queued {}
                     @InboundWhiles({
                             @InboundWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class },
@@ -374,15 +374,15 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                             @InboundWhile(on = { ResourceStateMachine.States.OfficialRunning.RunningStates.Idle.class }, relation = Relations.Resource.class) })
                     @ValidWhiles({ @ValidWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class },
                             relation = Relations.Contract.class) })
-                    @Function(transition = Transitions.StartPackage.class, value = Packaging.class)
+                    @Function(transition = Events.StartPackage.class, value = Packaging.class)
                     static interface Manufactoring {}
                     @InboundWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
                     @ValidWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
-                    @Function(transition = Transitions.Deliver.class, value = { Delivering.class })
+                    @Function(transition = Events.Deliver.class, value = { Delivering.class })
                     static interface Packaging {}
                     @InboundWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
                     @ValidWhile(on = { ContractStateMachine.States.Confirmed.ConfirmedStates.ServiceStarted.class }, relation = Relations.Contract.class)
-                    @Function(transition = Transitions.Complete.class, value = Completed.class)
+                    @Function(transition = Events.Complete.class, value = Completed.class)
                     static interface Delivering {}
                     @End
                     @ShortCut(InformativeStateMachine.States.Finished.class)
@@ -392,7 +392,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     static interface Dequeued {}
                 }
                 @EventSet
-                static interface Transitions {
+                static interface Events {
 
                     static interface Deliver {}
                     static interface Dequeue {}
@@ -419,15 +419,15 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.Test.class, value = TestRunning.class)
+            @Function(transition = Events.Test.class, value = TestRunning.class)
             static interface New {}
-            @Functions({ @Function(transition = Transitions.GoLive.class, value = OfficialRunning.class),
-                    @Function(transition = Transitions.ConfirmMalfunction.class, value = Malfunctioning.class) })
+            @Functions({ @Function(transition = Events.GoLive.class, value = OfficialRunning.class),
+                    @Function(transition = Events.ConfirmMalfunction.class, value = Malfunctioning.class) })
             static interface TestRunning {}
-            @Functions({ @Function(transition = Transitions.Repair.class, value = Repairing.class),
-                    @Function(transition = Transitions.Deprecate.class, value = Deprecated.class) })
+            @Functions({ @Function(transition = Events.Repair.class, value = Repairing.class),
+                    @Function(transition = Events.Deprecate.class, value = Deprecated.class) })
             static interface Malfunctioning {}
-            @Function(transition = Transitions.ConfirmMalfunction.class, value = Malfunctioning.class)
+            @Function(transition = Events.ConfirmMalfunction.class, value = Malfunctioning.class)
             @CompositeState
             static interface OfficialRunning {
 
@@ -435,30 +435,30 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                 static interface RunningStates {
 
                     @Initial
-                    @Function(transition = RunningTransitions.Acquire.class, value = Busy.class)
+                    @Function(transition = RunningEvents.Acquire.class, value = Busy.class)
                     static interface Idle {}
-                    @Functions({ @Function(transition = RunningTransitions.Fail.class, value = Failing.class),
-                            @Function(transition = RunningTransitions.Release.class, value = Idle.class) })
+                    @Functions({ @Function(transition = RunningEvents.Fail.class, value = Failing.class),
+                            @Function(transition = RunningEvents.Release.class, value = Idle.class) })
                     static interface Busy {}
                     @End
                     @ShortCut(Malfunctioning.class)
                     static interface Failing {}
                 }
                 @EventSet
-                static interface RunningTransitions {
+                static interface RunningEvents {
 
                     static interface Acquire {}
                     static interface Release {}
                     static interface Fail {}
                 }
             }
-            @Function(transition = Transitions.Test.class, value = TestRunning.class)
+            @Function(transition = Events.Test.class, value = TestRunning.class)
             static interface Repairing {}
             @End
             static interface Deprecated {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Test {}
             static interface ConfirmMalfunction {}

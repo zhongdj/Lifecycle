@@ -56,16 +56,16 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @StateIndicator
         String getPurchaseOrderState();
 
-        @Event(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Confirm.class)
         void doConfirm();
 
-        @Event(PCPurchaseOrderStateMachine.Transitions.Start.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Start.class)
         void doStart();
 
-        @Event(PCPurchaseOrderStateMachine.Transitions.Complete.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Complete.class)
         void doComplete();
 
-        @Event(PCPurchaseOrderStateMachine.Transitions.Abort.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Abort.class)
         void doAbort();
     }
     @LifecycleMeta(PCManufactoringOrderStateMachine.class)
@@ -77,25 +77,25 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @Relation(PCManufactoringOrderStateMachine.Relations.PurchaseOrder.class)
         PCPurchaseOrder getPurchaseOrder();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.Plan.class)
+        @Event(PCManufactoringOrderStateMachine.Events.Plan.class)
         void doPlan();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
+        @Event(PCManufactoringOrderStateMachine.Events.ConfirmBOM.class)
         void doConfirmBom();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Events.MakeOSROMComplete.class)
         void doMakeOSRomComplete();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
+        @Event(PCManufactoringOrderStateMachine.Events.StartAssembling.class)
         void doStartAssembling();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
+        @Event(PCManufactoringOrderStateMachine.Events.StartDebugging.class)
         void doStartDebugging();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Events.PackageComplete.class)
         void doConfirmPacakgeComplete();
 
-        @Event(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
+        @Event(PCManufactoringOrderStateMachine.Events.TransferToLogistics.class)
         void doTransferToLogistics();
     }
     @LifecycleMeta(PCLogisticOrderStateMachine.class)
@@ -110,19 +110,19 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @Relation(PCLogisticOrderStateMachine.Relations.ManufactureOrder.class)
         ManufactoringOrder getManufactoringOrder();
 
-        @Event(PCLogisticOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCLogisticOrderStateMachine.Events.Confirm.class)
         void doConfirmLogisticOrder();
 
-        @Event(PCLogisticOrderStateMachine.Transitions.Schedule.class)
+        @Event(PCLogisticOrderStateMachine.Events.Schedule.class)
         void doSchedule();
 
-        @Event(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
+        @Event(PCLogisticOrderStateMachine.Events.DoPickup.class)
         void doPickup();
 
-        @Event(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
+        @Event(PCLogisticOrderStateMachine.Events.StartTransport.class)
         void doStartTransport();
 
-        @Event(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
+        @Event(PCLogisticOrderStateMachine.Events.CustomerConfirmReceive.class)
         void doCustomerConfirmReceive();
     }
     @net.imadz.lifecycle.annotations.ReactiveObject
@@ -149,21 +149,21 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Event(PCLogisticOrderStateMachine.Transitions.Schedule.class)
+        @Event(PCLogisticOrderStateMachine.Events.Schedule.class)
         public void doSchedule() {}
 
         @Override
-        @Event(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
+        @Event(PCLogisticOrderStateMachine.Events.DoPickup.class)
         public void doPickup() {
             getManufactoringOrder().doTransferToLogistics();
         }
 
         @Override
-        @Event(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
+        @Event(PCLogisticOrderStateMachine.Events.StartTransport.class)
         public void doStartTransport() {}
 
         @Override
-        @Event(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
+        @Event(PCLogisticOrderStateMachine.Events.CustomerConfirmReceive.class)
         public void doCustomerConfirmReceive() {
             getPurchaseOrder().doComplete();
         }
@@ -184,33 +184,33 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.Plan.class)
+        @Event(PCManufactoringOrderStateMachine.Events.Plan.class)
         public void doPlan() {}
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
+        @Event(PCManufactoringOrderStateMachine.Events.ConfirmBOM.class)
         public void doConfirmBom() {
             getPurchaseOrder().doStart();
         }
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Events.MakeOSROMComplete.class)
         public void doMakeOSRomComplete() {}
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
+        @Event(PCManufactoringOrderStateMachine.Events.StartAssembling.class)
         public void doStartAssembling() {}
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
+        @Event(PCManufactoringOrderStateMachine.Events.StartDebugging.class)
         public void doStartDebugging() {}
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Events.PackageComplete.class)
         public void doConfirmPacakgeComplete() {}
 
         @Override
-        @Event(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
+        @Event(PCManufactoringOrderStateMachine.Events.TransferToLogistics.class)
         public void doTransferToLogistics() {}
 
         @Override
@@ -224,23 +224,23 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Event(PCLogisticOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCLogisticOrderStateMachine.Events.Confirm.class)
         public void doConfirmLogisticOrder() {}
 
         @Override
-        @Event(PCPurchaseOrderStateMachine.Transitions.Start.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Start.class)
         public void doStart() {}
 
         @Override
-        @Event(PCPurchaseOrderStateMachine.Transitions.Complete.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Complete.class)
         public void doComplete() {}
 
         @Override
-        @Event(PCPurchaseOrderStateMachine.Transitions.Abort.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Abort.class)
         public void doAbort() {}
 
         @Override
-        @Event(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCPurchaseOrderStateMachine.Events.Confirm.class)
         public void doConfirm() {}
     }
 

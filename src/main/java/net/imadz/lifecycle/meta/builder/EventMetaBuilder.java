@@ -32,42 +32,14 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.meta.builder.impl;
+package net.imadz.lifecycle.meta.builder;
 
-import java.lang.reflect.Method;
-
-import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
-import net.imadz.lifecycle.meta.builder.TransitionObjectBuilder;
-import net.imadz.lifecycle.meta.object.StateMachineObject;
-import net.imadz.lifecycle.meta.object.TransitionObject;
+import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
-import net.imadz.verification.VerificationFailureSet;
 
-public class TransitionObjectBuilderImpl extends ObjectBuilderBase<TransitionObject, StateMachineObject<?>, EventMetadata> implements
-        TransitionObjectBuilder {
-
-    private Method transitionMethod;
-
-    public TransitionObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method transitionMethod, EventMetadata template) {
-        super(parent, "EventSet." + template.getDottedPath().getName() + "." + transitionMethod.getName());
-        this.transitionMethod = transitionMethod;
-        this.setMetaType(template);
-    }
+public interface EventMetaBuilder extends AnnotationMetaBuilder<EventMetadata, StateMachineMetadata>, EventMetadata {
 
     @Override
-    public TransitionObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
-        super.build(klass, parent);
-        return this;
-    }
-
-    @Override
-    public Method getTransitionMethod() {
-        return transitionMethod;
-    }
-
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {
-        // TODO Auto-generated method stub
-    }
+    EventMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
 }

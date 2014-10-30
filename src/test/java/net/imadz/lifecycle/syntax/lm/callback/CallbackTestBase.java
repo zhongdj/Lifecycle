@@ -46,7 +46,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.callback.Callbacks;
 import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.callback.PreStateChange;
@@ -67,9 +67,9 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Transitions.S1_Transition_X.class, value = { S1_State_B.class, S1_State_C.class })
-            @Functions({ @Function(transition = Transitions.S1_Transition_X.class, value = { S1_State_B.class, S1_State_C.class }),
-                    @Function(transition = Transitions.S1_Transition_Y.class, value = { S1_State_D.class }) })
+            @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Functions({ @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
+                    @Function(transition = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -79,11 +79,11 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             static interface S1_State_D {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            @Conditional(condition = S1.Conditions.S1_Condition_A.class, judger = VolumeMeasurableTransition.class, postEval = true)
-            static interface S1_Transition_X {}
-            static interface S1_Transition_Y {}
+            @Conditional(condition = S1.Conditions.S1_Condition_A.class, judger = VolumeMeasurableEvent.class, postEval = true)
+            static interface S1_Event_X {}
+            static interface S1_Event_Y {}
         }
         @ConditionSet
         static interface Conditions {
@@ -93,7 +93,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
                 boolean isVolumeLeft();
             }
         }
-        public static class VolumeMeasurableTransition implements ConditionalTransition<S1.Conditions.S1_Condition_A> {
+        public static class VolumeMeasurableEvent implements ConditionalEvent<S1.Conditions.S1_Condition_A> {
 
             @Override
             public Class<?> doConditionJudge(S1.Conditions.S1_Condition_A t) {
@@ -112,14 +112,14 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S2.Transitions.Move.class, value = { S2_State_B.class })
+            @Function(transition = S2.Events.Move.class, value = { S2_State_B.class })
             static interface S2_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S2.Relations.S1Relation.class)
             @End
             static interface S2_State_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface Move {}
         }
@@ -136,10 +136,10 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         private String state;
 
         @Event
-        public void s1_Transition_X() {}
+        public void s1_Event_X() {}
 
         @Event
-        public void s1_Transition_Y() {}
+        public void s1_Event_Y() {}
 
         @Condition(S1.Conditions.S1_Condition_A.class)
         public S1.Conditions.S1_Condition_A getConditionA() {
@@ -280,7 +280,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S3.Transitions.Move.class, value = { S3_State_B.class, S3_State_C.class })
+            @Function(transition = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
             static interface S3_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S3.Relations.S1Relation.class)
             @End
@@ -289,9 +289,9 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             static interface S3_State_C {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
-            @Conditional(condition = S3.Conditions.S3_Condition_A.class, judger = S3.S3_VolumeMeasurableTransition.class, postEval = true)
+            @Conditional(condition = S3.Conditions.S3_Condition_A.class, judger = S3.S3_VolumeMeasurableEvent.class, postEval = true)
             static interface Move {}
         }
         @RelationSet
@@ -308,7 +308,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
                 boolean isVolumeLeft();
             }
         }
-        public static class S3_VolumeMeasurableTransition implements ConditionalTransition<S3.Conditions.S3_Condition_A> {
+        public static class S3_VolumeMeasurableEvent implements ConditionalEvent<S3.Conditions.S3_Condition_A> {
 
             @Override
             public Class<?> doConditionJudge(S3.Conditions.S3_Condition_A t) {

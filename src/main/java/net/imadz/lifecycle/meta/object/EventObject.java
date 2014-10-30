@@ -32,9 +32,15 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.meta.builder;
+package net.imadz.lifecycle.meta.object;
 
-import net.imadz.lifecycle.meta.object.StateMachineObject;
-import net.imadz.lifecycle.meta.object.TransitionObject;
+import java.lang.reflect.Method;
 
-public interface TransitionObjectBuilder extends AnnotationMetaBuilder<TransitionObject, StateMachineObject<?>>, TransitionObject {}
+import net.imadz.lifecycle.meta.MetaObject;
+import net.imadz.lifecycle.meta.MultiKeyed;
+import net.imadz.lifecycle.meta.type.EventMetadata;
+
+public interface EventObject extends MetaObject<EventObject, EventMetadata>, MultiKeyed {
+
+    Method getEventMethod();
+}

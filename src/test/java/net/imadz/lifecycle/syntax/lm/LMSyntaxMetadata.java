@@ -46,13 +46,13 @@ import net.imadz.lifecycle.annotations.action.Redo;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.PS1.Transitions.S1_X;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Transitions.NS1_X;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Transitions.NS1_Y;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Transitions.NS1_Z;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Transitions.S3_X;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Transitions.S3_Y;
-import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Transitions.S3_Z;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.PS1.Events.S1_X;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Events.NS1_X;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Events.NS1_Y;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Events.NS1_Z;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Events.S3_X;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Events.S3_Y;
+import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Events.S3_Z;
 
 public class LMSyntaxMetadata extends BaseMetaDataTest {
 
@@ -69,7 +69,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface S1_B {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface S1_X {}
         }
@@ -99,7 +99,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface NS1_D {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             static interface NS1_X {}
             static interface NS1_Y {}
@@ -206,7 +206,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface S3_D {}
         }
         @EventSet
-        static interface Transitions {
+        static interface Events {
 
             @Corrupt
             static interface S3_X {}

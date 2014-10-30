@@ -44,7 +44,7 @@ import net.imadz.verification.VerificationException;
 
 import org.junit.Test;
 
-public class TransitionSyntaxNegativeTest extends TransitionSyntaxMetadata {
+public class EventSyntaxNegativeTest extends EventSyntaxMetadata {
 
     @Test(expected = VerificationException.class)
     public final void should_throw_exception_002_2503_if_conditional_condition_class_does_not_match_judger_class_type_parameter() throws VerificationException {
@@ -60,8 +60,8 @@ public class TransitionSyntaxNegativeTest extends TransitionSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER,
-                    TransitionSyntaxMetadata.S1.Transitions.S1_Transition_X.class, TransitionSyntaxMetadata.S1.Conditions.S1_Condition_B.class,
-                    TransitionSyntaxMetadata.S1.VolumeMeasurableTransition.class);
+                    EventSyntaxMetadata.S1.Events.S1_Event_X.class, EventSyntaxMetadata.S1.Conditions.S1_Condition_B.class,
+                    EventSyntaxMetadata.S1.VolumeMeasurableEvent.class);
             throw e;
         }
     }
@@ -79,7 +79,7 @@ public class TransitionSyntaxNegativeTest extends TransitionSyntaxMetadata {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_ILLEGAL_EXTENTION, NegativeOrder.Transitions.Pay.class,
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_ILLEGAL_EXTENTION, NegativeOrder.Events.Pay.class,
                     Serializable.class);
             throw e;
         }
@@ -99,7 +99,7 @@ public class TransitionSyntaxNegativeTest extends TransitionSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE,
-                    NegativeBigProductOrder.Transitions.Pay.class, NegativeOrder.Transitions.Pay.class, Order.class);
+                    NegativeBigProductOrder.Events.Pay.class, NegativeOrder.Events.Pay.class, Order.class);
             throw e;
         }
     }

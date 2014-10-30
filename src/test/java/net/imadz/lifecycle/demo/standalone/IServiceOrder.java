@@ -37,10 +37,10 @@ package net.imadz.lifecycle.demo.standalone;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Cancel;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Finish;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Schedule;
-import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Start;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Cancel;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Finish;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Schedule;
+import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Start;
 
 /**
  * This interface is the business interface for some domain.

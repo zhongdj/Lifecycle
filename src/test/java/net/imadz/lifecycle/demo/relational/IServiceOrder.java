@@ -41,7 +41,7 @@ import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.ConcreteTruckResource;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.PlantResource;
-import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Transitions.Schedule;
+import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Events.Schedule;
 
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
@@ -50,10 +50,10 @@ public interface IServiceOrder {
     void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
             @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
 
-    @Event(ServiceableLifecycleMeta.Transitions.Start.class)
+    @Event(ServiceableLifecycleMeta.Events.Start.class)
     void confirmStart();
 
-    @Event(ServiceableLifecycleMeta.Transitions.Finish.class)
+    @Event(ServiceableLifecycleMeta.Events.Finish.class)
     void confirmFinish();
 
     @StateIndicator

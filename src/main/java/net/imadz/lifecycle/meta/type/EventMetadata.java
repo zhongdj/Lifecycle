@@ -36,7 +36,7 @@ package net.imadz.lifecycle.meta.type;
 
 import java.lang.reflect.Method;
 
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
+import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.meta.MetaType;
 import net.imadz.verification.VerificationFailureSet;
 
@@ -52,7 +52,7 @@ public interface EventMetadata extends MetaType<EventMetadata> {
         Common,
         Other;
 
-        public boolean isUniqueTransition() {
+        public boolean isUniqueEvent() {
             return this == EventTypeEnum.Corrupt || this == EventTypeEnum.Recover || this == EventTypeEnum.Redo;
         }
     }
@@ -65,9 +65,9 @@ public interface EventMetadata extends MetaType<EventMetadata> {
 
     Class<?> getConditionClass();
 
-    Class<? extends ConditionalTransition<?>> getJudgerClass();
+    Class<? extends ConditionalEvent<?>> getJudgerClass();
 
     boolean postValidate();
 
-    void verifyTransitionMethod(Method method, VerificationFailureSet failureSet);
+    void verifyEventMethod(Method method, VerificationFailureSet failureSet);
 }

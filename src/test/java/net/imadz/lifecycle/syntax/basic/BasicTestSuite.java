@@ -34,13 +34,13 @@
  */
 package net.imadz.lifecycle.syntax.basic;
 
-import net.imadz.lifecycle.syntax.basic.transition.TransitionSyntaxTestSuite;
+import net.imadz.lifecycle.syntax.basic.transition.EventSyntaxTestSuite;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CompositeStateMachineNegativeTests.class, ConditionSetTest.class, StateSetAndTransitionSetSyntaxNegativeTest.class,
-        StateSetSyntaxPositiveTest.class, TransitionSyntaxTestSuite.class })
+@SuiteClasses({ CompositeStateMachineNegativeTests.class, ConditionSetTest.class, StateSetAndEventSetSyntaxNegativeTest.class,
+        StateSetSyntaxPositiveTest.class, EventSyntaxTestSuite.class })
 public class BasicTestSuite {}

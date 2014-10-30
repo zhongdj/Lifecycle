@@ -38,8 +38,8 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Transitions.ConfirmMaintainOver;
-import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Transitions.Maintain;
+import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Events.ConfirmMaintainOver;
+import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Events.Maintain;
 
 @StateMachine
 public interface PlantResourceLifecycleMeta extends SchedulableLifecycleMeta {
@@ -53,7 +53,7 @@ public interface PlantResourceLifecycleMeta extends SchedulableLifecycleMeta {
         public static class Maintaining {}
     }
     @EventSet
-    public static class Transitions extends SchedulableLifecycleMeta.Transitions {
+    public static class Events extends SchedulableLifecycleMeta.Events {
 
         public static class Maintain {}
         public static class ConfirmMaintainOver {}

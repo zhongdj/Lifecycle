@@ -43,16 +43,16 @@ import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta;
 // Default with getState
 public interface IPlantResource {
 
-    @Event(PlantResourceLifecycleMeta.Transitions.Assign.class)
+    @Event(PlantResourceLifecycleMeta.Events.Assign.class)
     void assign();
 
-    @Event(PlantResourceLifecycleMeta.Transitions.Release.class)
+    @Event(PlantResourceLifecycleMeta.Events.Release.class)
     void release();
 
-    @Event(PlantResourceLifecycleMeta.Transitions.Maintain.class)
+    @Event(PlantResourceLifecycleMeta.Events.Maintain.class)
     void doMaintain();
 
-    @Event(PlantResourceLifecycleMeta.Transitions.ConfirmMaintainOver.class)
+    @Event(PlantResourceLifecycleMeta.Events.ConfirmMaintainOver.class)
     void confirmMaintainOver();
 
     @StateIndicator

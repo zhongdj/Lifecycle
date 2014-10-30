@@ -44,7 +44,7 @@ import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.syntax.lm.callback.CallbackTestBase.S1.States.S1_State_C;
-import net.imadz.lifecycle.syntax.lm.callback.CallbackTestBase.S1.Transitions.S1_Transition_X;
+import net.imadz.lifecycle.syntax.lm.callback.CallbackTestBase.S1.Events.S1_Event_X;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailure;
 
@@ -68,7 +68,7 @@ public class CallbackNegativeTests extends CallbackTestBase {
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID, S1_State_C.class,
                     NLM_With_PreStateChange_To_State_With_Post_Evaluate_Non_Relational.class.getMethod("interceptStateChange", LifecycleContext.class),
-                    S1.class.getName() + ".TransitionSet." + S1_Transition_X.class.getSimpleName());
+                    S1.class.getName() + ".EventSet." + S1_Event_X.class.getSimpleName());
             throw e;
         }
     }
@@ -90,7 +90,7 @@ public class CallbackNegativeTests extends CallbackTestBase {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID,
                     S3.States.S3_State_C.class,
                     NLM_With_PreStateChange_To_State_With_Post_Evaluate_Relational.class.getMethod("interceptStateChange", LifecycleContext.class),
-                    S3.class.getName() + ".TransitionSet." + S3.Transitions.Move.class.getSimpleName());
+                    S3.class.getName() + ".EventSet." + S3.Events.Move.class.getSimpleName());
             throw e;
         }
     }

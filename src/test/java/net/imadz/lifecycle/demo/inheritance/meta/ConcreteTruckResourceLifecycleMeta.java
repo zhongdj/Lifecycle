@@ -47,7 +47,7 @@ public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycle
     @StateSet
     public static class States extends SchedulableLifecycleMeta.States {
 
-        @Function(transition = Detach.class, value = Detached.class)
+        @Function(event = Detach.class, value = Detached.class)
         public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
         @End
         public static class Detached {}

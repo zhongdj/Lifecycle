@@ -50,11 +50,11 @@ public interface PlantResourceLifecycleMeta {
     @StateSet
     public static class States {
 
-        @Functions({ @Function(transition = Assign.class, value = Busy.class), @Function(transition = Maintain.class, value = Maintaining.class) })
+        @Functions({ @Function(event = Assign.class, value = Busy.class), @Function(event = Maintain.class, value = Maintaining.class) })
         public static class Idle {}
-        @Function(transition = Release.class, value = Idle.class)
+        @Function(event = Release.class, value = Idle.class)
         public static class Busy {}
-        @Function(transition = ConfirmMaintainOver.class, value = Idle.class)
+        @Function(event = ConfirmMaintainOver.class, value = Idle.class)
         public static class Maintaining {}
     }
     @EventSet

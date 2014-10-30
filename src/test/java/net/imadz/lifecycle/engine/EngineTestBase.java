@@ -193,14 +193,14 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
      * States.Broken.class,
      * PowerRelation.class));
      */
-    protected void assertViolateInboundWhileRelationConstraint(final LifecycleException e, final Class<?> transitionKey, final Class<?> nextState,
+    protected void assertViolateInboundWhileRelationConstraint(final LifecycleException e, final Class<?> eventKey, final Class<?> nextState,
             final ReactiveObject itself, final ReactiveObject relationObject, final Class<?>... validStates) {
         final ArrayList<String> validNames = new ArrayList<String>();
         for ( Class<?> validstate : validStates ) {
             validNames.add(validstate.getSimpleName());
         }
         try {
-            assertLifecycleError(e, LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT, transitionKey.getSimpleName(), nextState.getSimpleName(),
+            assertLifecycleError(e, LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT, eventKey.getSimpleName(), nextState.getSimpleName(),
                     itself, relationObject, relationObject.getState(), Arrays.toString(validNames.toArray()));
         } catch (LifecycleException ex) {
             throw ex;

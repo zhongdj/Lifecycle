@@ -43,8 +43,8 @@ public class LifecycleEventImpl implements LifecycleEvent {
     private final Object reactiveObject;
     private final String fromState;
     private final String toState;
-    private final String transition;
-    private final EventTypeEnum transitionType;
+    private final String event;
+    private final EventTypeEnum eventType;
     private final long startTime;
     private final long endTime;
 
@@ -52,8 +52,8 @@ public class LifecycleEventImpl implements LifecycleEvent {
         this.reactiveObject = context.getTarget();
         this.fromState = context.getFromState();
         this.toState = context.getToState();
-        this.transition = context.getEvent();
-        this.transitionType = context.getEventType();
+        this.event = context.getEvent();
+        this.eventType = context.getEventType();
         this.startTime = context.getStartTime();
         this.endTime = context.getEndTime();
     }
@@ -74,13 +74,13 @@ public class LifecycleEventImpl implements LifecycleEvent {
     }
 
     @Override
-    public String transition() {
-        return transition;
+    public String event() {
+        return event;
     }
 
     @Override
-    public EventTypeEnum transitionType() {
-        return transitionType;
+    public EventTypeEnum eventType() {
+        return eventType;
     }
 
     @Override

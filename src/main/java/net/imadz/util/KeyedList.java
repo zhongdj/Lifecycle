@@ -63,7 +63,7 @@ public class KeyedList<T extends MultiKeyed> {
         return this.elements.toArray((T[]) Array.newInstance(tClass, this.elements.size()));
     }
 
-    public boolean containsKey(Object transitionKey) {
-        return null != get(transitionKey);
+    public boolean containsKey(Object eventKey) {
+        return null != get(eventKey);
     }
 }

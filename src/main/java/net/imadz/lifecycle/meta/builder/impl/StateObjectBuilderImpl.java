@@ -140,7 +140,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
     }
 
     @Override
-    public void verifyInboundWhileAndLockRelatedObjects(Object transitionKey, Object target, String nextState,
+    public void verifyInboundWhileAndLockRelatedObjects(Object eventKey, Object target, String nextState,
             RelationConstraintMetadata[] relationMetadataArray, Object relatedTarget, UnlockableStack stack) {
         try {
             final StateMachineObject<?> relatedStateMachineObject = findRelatedStateMachineWithRelatedTarget(relationMetadataArray, relatedTarget);
@@ -163,7 +163,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
                     }
                 }
                 throw new LifecycleException(getClass(), LifecycleCommonErrors.BUNDLE, LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT,
-                        transitionKey, nextState, target, relatedTarget, relatedEvaluateState, Arrays.toString(validRelationStates.toArray(new String[0])));
+                        eventKey, nextState, target, relatedTarget, relatedEvaluateState, Arrays.toString(validRelationStates.toArray(new String[0])));
             } else {
                 relatedStateMachineObject.validateValidWhiles(relatedTarget, stack);
             }

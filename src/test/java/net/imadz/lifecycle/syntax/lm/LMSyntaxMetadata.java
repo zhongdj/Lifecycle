@@ -63,7 +63,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S1_X.class, value = { S1_B.class })
+            @Function(event = S1_X.class, value = { S1_B.class })
             static interface S1_A {}
             @End
             static interface S1_B {}
@@ -89,11 +89,11 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = NS1_X.class, value = { NS1_B.class })
+            @Function(event = NS1_X.class, value = { NS1_B.class })
             static interface NS1_A {}
-            @Function(transition = NS1_Y.class, value = { NS1_C.class })
+            @Function(event = NS1_Y.class, value = { NS1_C.class })
             static interface NS1_B {}
-            @Function(transition = NS1_Z.class, value = { NS1_C.class })
+            @Function(event = NS1_Z.class, value = { NS1_C.class })
             static interface NS1_C {}
             @End
             static interface NS1_D {}
@@ -106,7 +106,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface NS1_Z {}
         }
     }
-    // Positive: all transitions are covered by methods
+    // Positive: all events are covered by methods
     @LifecycleMeta(S2.class)
     static interface PLM_2 {
 
@@ -121,7 +121,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
 
         public String getState();
     }
-    // Positive: all transitions are covered by methods, using default method
+    // Positive: all events are covered by methods, using default method
     // name
     @LifecycleMeta(S2.class)
     static interface PLM_3 {
@@ -164,7 +164,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
     static interface NLM_3 {
 
         @Event
-        public void nS1_Xyz(); // Method nS1_Xyz can not bind to any transition
+        public void nS1_Xyz(); // Method nS1_Xyz can not bind to any event
                                // in S2.
 
         @Event
@@ -179,7 +179,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
     @LifecycleMeta(S2.class)
     static interface NLM_4 {
 
-        // Use other state machine's transition
+        // Use other state machine's event
         @Event(S1_X.class)
         public void nS1_X();
 
@@ -196,11 +196,11 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S3_X.class, value = { S3_B.class })
+            @Function(event = S3_X.class, value = { S3_B.class })
             static interface S3_A {}
-            @Function(transition = S3_Y.class, value = { S3_C.class })
+            @Function(event = S3_Y.class, value = { S3_C.class })
             static interface S3_B {}
-            @Function(transition = S3_Z.class, value = { S3_D.class })
+            @Function(event = S3_Z.class, value = { S3_D.class })
             static interface S3_C {}
             @End
             static interface S3_D {}
@@ -216,7 +216,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface S3_Z {}
         }
     }
-    // Positive LM: Corrupt, Redo, Recover transition can bind to only 1 method.
+    // Positive LM: Corrupt, Redo, Recover event can bind to only 1 method.
     @LifecycleMeta(S3.class)
     static interface PLM_4 {
 
@@ -231,7 +231,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         @Event
         void s3_Z();
     }
-    // Negative LM: Redo transition binds to more than 1 method
+    // Negative LM: Redo event binds to more than 1 method
     @LifecycleMeta(S3.class)
     static interface NLM_5 {
 

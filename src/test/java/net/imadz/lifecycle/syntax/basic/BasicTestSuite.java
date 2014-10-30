@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle.syntax.basic;
 
-import net.imadz.lifecycle.syntax.basic.transition.EventSyntaxTestSuite;
+import net.imadz.lifecycle.syntax.basic.event.EventSyntaxTestSuite;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

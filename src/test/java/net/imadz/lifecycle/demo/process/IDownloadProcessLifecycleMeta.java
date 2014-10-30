@@ -68,33 +68,33 @@ public interface IDownloadProcessLifecycleMeta {
     static class States {
 
         @Initial
-        @Functions({ @Function(transition = Prepare.class, value = Queued.class), @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Prepare.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
         static class New {}
         @Running
-        @Functions({ @Function(transition = Pause.class, value = Paused.class), @Function(transition = Start.class, value = Started.class),
-                @Function(transition = Deactive.class, value = InactiveQueued.class), @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Pause.class, value = Paused.class), @Function(event = Start.class, value = Started.class),
+                @Function(event = Deactive.class, value = InactiveQueued.class), @Function(event = Remove.class, value = Removed.class) })
         static class Queued {}
         @Running
-        @Functions({ @Function(transition = Pause.class, value = Paused.class), @Function(transition = Receive.class, value = Started.class),
-                @Function(transition = Deactive.class, value = InactiveStarted.class), @Function(transition = Err.class, value = Failed.class),
-                @Function(transition = Finish.class, value = Finished.class), @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Pause.class, value = Paused.class), @Function(event = Receive.class, value = Started.class),
+                @Function(event = Deactive.class, value = InactiveStarted.class), @Function(event = Err.class, value = Failed.class),
+                @Function(event = Finish.class, value = Finished.class), @Function(event = Remove.class, value = Removed.class) })
         static class Started {}
         @Corrupted(recoverPriority = 1)
-        @Functions({ @Function(transition = Activate.class, value = Queued.class), @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Activate.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
         static class InactiveQueued {}
         @Corrupted(recoverPriority = 0)
-        @Functions({ @Function(transition = Activate.class, value = Queued.class), @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Activate.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
         static class InactiveStarted {}
         @Stopped
-        @Functions({ @Function(transition = Resume.class, value = New.class), @Function(transition = Restart.class, value = New.class),
-                @Function(transition = Remove.class, value = Removed.class) })
+        @Functions({ @Function(event = Resume.class, value = New.class), @Function(event = Restart.class, value = New.class),
+                @Function(event = Remove.class, value = Removed.class) })
         static class Paused {}
         @Stopped
-        @Functions({ @Function(transition = Restart.class, value = New.class), @Function(transition = Resume.class, value = New.class),
-                @Function(transition = Remove.class, value = Removed.class), })
+        @Functions({ @Function(event = Restart.class, value = New.class), @Function(event = Resume.class, value = New.class),
+                @Function(event = Remove.class, value = Removed.class), })
         static class Failed {}
         @Stopped
-        @Functions({ @Function(transition = Restart.class, value = New.class), @Function(transition = Remove.class, value = Removed.class), })
+        @Functions({ @Function(event = Restart.class, value = New.class), @Function(event = Remove.class, value = Removed.class), })
         static class Finished {}
         @End
         static class Removed {}

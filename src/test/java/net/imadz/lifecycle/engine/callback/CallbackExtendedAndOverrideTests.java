@@ -52,7 +52,7 @@ public class CallbackExtendedAndOverrideTests extends CallbackTestMetadata {
     }
 
     @Test
-    public void should_increase_counter_if_transition_method_invoked_when_state_is_new_or_delivered() {
+    public void should_increase_counter_if_event_method_invoked_when_state_is_new_or_delivered() {
         final BigProductOrderObjectWithExtendsCallbackDefinition bigOrder = new BigProductOrderObjectWithExtendsCallbackDefinition();
         assertEquals(0, bigOrder.getCount());
         bigOrder.pay();

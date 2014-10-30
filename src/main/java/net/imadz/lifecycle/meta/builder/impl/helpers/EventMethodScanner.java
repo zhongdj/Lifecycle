@@ -45,41 +45,41 @@ import net.imadz.utils.Null;
 
 public final class EventMethodScanner implements MethodScanCallback {
 
-    private final ArrayList<Method> transitionMethodList = new ArrayList<Method>();
-    private final EventMetadata transition;
+    private final ArrayList<Method> eventMethodList = new ArrayList<Method>();
+    private final EventMetadata event;
 
-    public EventMethodScanner(final EventMetadata transition) {
-        this.transition = transition;
+    public EventMethodScanner(final EventMetadata event) {
+        this.event = event;
     }
 
     @Override
     public boolean onMethodFound(Method method) {
-        final Event transitionAnno = method.getAnnotation(Event.class);
-        if ( null == transitionAnno ) {
+        final Event eventAnno = method.getAnnotation(Event.class);
+        if ( null == eventAnno ) {
             return false;
         }
-        final Class<?> transitionKey = transitionAnno.value();
-        if ( matchedEventPrimaryKey(transitionKey, transition.getPrimaryKey()) ) {
-            transitionMethodList.add(method);
-        } else if ( matchedEventName(transitionKey, method.getName(), transition.getDottedPath().getName()) ) {
-            transitionMethodList.add(method);
+        final Class<?> eventKey = eventAnno.value();
+        if ( matchedEventPrimaryKey(eventKey, event.getPrimaryKey()) ) {
+            eventMethodList.add(method);
+        } else if ( matchedEventName(eventKey, method.getName(), event.getDottedPath().getName()) ) {
+            eventMethodList.add(method);
         }
         return false;
     }
 
-    private boolean matchedEventName(final Class<?> transitionKey, String methodName, final String transitionName) {
-        return isDefaultStyle(transitionKey) && StringUtil.toUppercaseFirstCharacter(methodName).equals(transitionName);
+    private boolean matchedEventName(final Class<?> eventKey, String methodName, final String eventName) {
+        return isDefaultStyle(eventKey) && StringUtil.toUppercaseFirstCharacter(methodName).equals(eventName);
     }
 
-    private boolean matchedEventPrimaryKey(final Class<?> transitionKey, Object primaryKey) {
-        return !isDefaultStyle(transitionKey) && transitionKey.equals(primaryKey);
+    private boolean matchedEventPrimaryKey(final Class<?> eventKey, Object primaryKey) {
+        return !isDefaultStyle(eventKey) && eventKey.equals(primaryKey);
     }
 
     public Method[] getEventMethods() {
-        return transitionMethodList.toArray(new Method[0]);
+        return eventMethodList.toArray(new Method[0]);
     }
 
-    private boolean isDefaultStyle(final Class<?> transitionKey) {
-        return Null.class == transitionKey;
+    private boolean isDefaultStyle(final Class<?> eventKey) {
+        return Null.class == eventKey;
     }
 }

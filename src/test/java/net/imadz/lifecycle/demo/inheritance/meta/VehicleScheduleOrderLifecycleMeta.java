@@ -62,11 +62,11 @@ public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
             public static class SubStates {
 
                 @Initial
-                @Function(transition = DoTransport.class, value = OnPassage.class)
+                @Function(event = DoTransport.class, value = OnPassage.class)
                 public static class Loading {}
-                @Functions({ @Function(transition = DoConstruct.class, value = Constructing.class) })
+                @Functions({ @Function(event = DoConstruct.class, value = Constructing.class) })
                 public static class OnPassage {}
-                @Function(transition = Finish.class, value = Exit.class)
+                @Function(event = Finish.class, value = Exit.class)
                 public static class Constructing {}
                 @End
                 @ShortCut(Finished.class)

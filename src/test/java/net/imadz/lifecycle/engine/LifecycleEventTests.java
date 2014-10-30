@@ -65,7 +65,7 @@ public class LifecycleEventTests extends EngineTestBase {
     }
 
     @Test
-    public void should_fire_lifecycle_event_if_transition_method_invoked_after_lifecycleEventHandler_registered() throws VerificationException {
+    public void should_fire_lifecycle_event_if_event_method_invoked_after_lifecycleEventHandler_registered() throws VerificationException {
         @LifecycleRegistry({ CustomerObject.class, TestLifecycleEventHandler.class })
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -142,13 +142,13 @@ public class LifecycleEventTests extends EngineTestBase {
         }
     }
 
-    private void assertLifecycleEvent(CustomerObject reactiveObject, LifecycleEvent lifecycleEvent, Class<?> fromClass, Class<?> toClass, Class<?> transition) {
+    private void assertLifecycleEvent(CustomerObject reactiveObject, LifecycleEvent lifecycleEvent, Class<?> fromClass, Class<?> toClass, Class<?> event) {
         assertEquals(reactiveObject, lifecycleEvent.getReactiveObject());
         assertEquals(fromClass.getSimpleName(), lifecycleEvent.fromState());
         assertEquals(toClass.getSimpleName(), lifecycleEvent.toState());
         lifecycleEvent.endTime();
         lifecycleEvent.startTime();
-        assertEquals(transition.getSimpleName(), lifecycleEvent.transition());
-        assertEquals(EventTypeEnum.Common, lifecycleEvent.transitionType());
+        assertEquals(event.getSimpleName(), lifecycleEvent.event());
+        assertEquals(EventTypeEnum.Common, lifecycleEvent.eventType());
     }
 }

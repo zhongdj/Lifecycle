@@ -44,7 +44,7 @@ import org.junit.Test;
 public class PostStateChangePositiveTests extends CallbackTestMetadata {
 
     @Test
-    public void should_increase_counter_if_any_transition_method_invoked() {
+    public void should_increase_counter_if_any_event_method_invoked() {
         final PostCallbackFromAnyToAny o = new PostCallbackFromAnyToAny();
         assertEquals(0, o.getCallbackInvokeCounter());
         o.start();
@@ -54,7 +54,7 @@ public class PostStateChangePositiveTests extends CallbackTestMetadata {
     }
 
     @Test
-    public void should_increase_counter_only_if_transition_method_invoked_when_state_is_started() {
+    public void should_increase_counter_only_if_event_method_invoked_when_state_is_started() {
         final PostCallbackFromStartToAny o = new PostCallbackFromStartToAny();
         assertEquals(0, o.getCallbackInvokeCounter());
         o.start();
@@ -64,7 +64,7 @@ public class PostStateChangePositiveTests extends CallbackTestMetadata {
     }
 
     @Test
-    public void should_increase_counter_only_if_transition_method_invoked_when_next_state_is_started() {
+    public void should_increase_counter_only_if_event_method_invoked_when_next_state_is_started() {
         final PostCallbackFromAnyToStart o = new PostCallbackFromAnyToStart();
         assertEquals(0, o.getCallbackInvokeCounter());
         o.start();
@@ -114,7 +114,7 @@ public class PostStateChangePositiveTests extends CallbackTestMetadata {
     }
 
     @Test
-    public void should_increase_counter_if_transition_method_invoked_when_specified_from_and_to_states_matched() {
+    public void should_increase_counter_if_event_method_invoked_when_specified_from_and_to_states_matched() {
         final OrderWithSpecifiedFromToCallback bigOrder = new OrderWithSpecifiedFromToCallback();
         assertEquals(0, bigOrder.getCount());
         bigOrder.cancel();

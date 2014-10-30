@@ -58,13 +58,13 @@ public interface SummaryPlanLifecycleMeta {
     @StateSet
     public static class States {
 
-        @Functions({ @Function(transition = CreateServiceOrder.class, value = { Ongoing.class, VolumeLeftEmpty.class }),
-                @Function(transition = ConfirmFinish.class, value = Done.class),
-                @Function(transition = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
+        @Functions({ @Function(event = CreateServiceOrder.class, value = { Ongoing.class, VolumeLeftEmpty.class }),
+                @Function(event = ConfirmFinish.class, value = Done.class),
+                @Function(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
         @Initial
         public static class Ongoing {}
-        @Functions({ @Function(transition = ConfirmFinish.class, value = Done.class),
-                @Function(transition = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
+        @Functions({ @Function(event = ConfirmFinish.class, value = Done.class),
+                @Function(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
         public static class VolumeLeftEmpty {}
         @End
         public static class Done {}

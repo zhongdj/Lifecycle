@@ -50,14 +50,14 @@ import net.imadz.verification.VerificationFailureSet;
 public final class CoverageVerifier implements MethodScanCallback {
 
     private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private final EventMetadata transitionMetadata;
+    private final EventMetadata eventMetadata;
     HashSet<Class<?>> declaringClass = new HashSet<Class<?>>();
     private final VerificationFailureSet failureSet;
 
-    public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final EventMetadata transitionMetadata,
+    public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final EventMetadata eventMetadata,
             final VerificationFailureSet failureSet) {
         this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.transitionMetadata = transitionMetadata;
+        this.eventMetadata = eventMetadata;
         this.failureSet = failureSet;
     }
 
@@ -67,30 +67,30 @@ public final class CoverageVerifier implements MethodScanCallback {
 
     @Override
     public boolean onMethodFound(Method method) {
-        if ( !match(transitionMetadata, method) ) {
+        if ( !match(eventMetadata, method) ) {
             return false;
         }
         if ( !declaringClass.contains(method.getDeclaringClass()) ) {
             declaringClass.add(method.getDeclaringClass());
             return false;
         }
-        final EventTypeEnum type = transitionMetadata.getType();
+        final EventTypeEnum type = eventMetadata.getType();
         if ( type.isUniqueEvent() ) {
-            failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(transitionMetadata.getDottedPath(),
-                    SyntaxErrors.LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD, transitionMetadata.getDottedPath().getName(), "@" + type.name(),
+            failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(eventMetadata.getDottedPath(),
+                    SyntaxErrors.LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD, eventMetadata.getDottedPath().getName(), "@" + type.name(),
                     this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath(), this.stateMachineObjectBuilderImpl.getDottedPath().getAbsoluteName()));
         }
         return false;
     }
 
-    private boolean match(EventMetadata transitionMetadata, Method transitionMethod) {
-        Event transition = transitionMethod.getAnnotation(Event.class);
-        if ( null == transition ) return false;
-        final String transitionName = transitionMetadata.getDottedPath().getName();
-        if ( Null.class == transition.value() ) {
-            return transitionName.equals(StringUtil.toUppercaseFirstCharacter(transitionMethod.getName()));
+    private boolean match(EventMetadata eventMetadata, Method eventMethod) {
+        Event event = eventMethod.getAnnotation(Event.class);
+        if ( null == event ) return false;
+        final String eventName = eventMetadata.getDottedPath().getName();
+        if ( Null.class == event.value() ) {
+            return eventName.equals(StringUtil.toUppercaseFirstCharacter(eventMethod.getName()));
         } else {
-            return transitionName.equals(transition.value().getSimpleName());
+            return eventName.equals(event.value().getSimpleName());
         }
     }
 }

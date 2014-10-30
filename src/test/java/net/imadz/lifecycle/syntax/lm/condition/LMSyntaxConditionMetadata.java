@@ -67,7 +67,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -130,7 +130,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S2_Event_X.class, value = EnclosingState.class)
+            @Function(event = S2_Event_X.class, value = EnclosingState.class)
             static interface S2_Intial {}
             @CompositeState
             static interface EnclosingState {
@@ -139,7 +139,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                 static interface CStates {
 
                     @Initial
-                    @Function(transition = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
+                    @Function(event = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
                     static interface S2_State_A {}
                     @End
                     @ShortCut(S2_End_B.class)

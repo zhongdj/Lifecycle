@@ -92,7 +92,7 @@ public class EngineCoreFunctionPositiveTests extends CoreFuntionTestMetadata {
     }
 
     @Test
-    public void should_support_inbound_while_with_non_conditional_transition() {
+    public void should_support_inbound_while_with_non_conditional_event() {
         final Customer customer = new Customer();
         customer.activate();
         InternetServiceOrderWithInboundWhile service = new InternetServiceOrderWithInboundWhile(new Date(), null, customer, "3 years");
@@ -101,7 +101,7 @@ public class EngineCoreFunctionPositiveTests extends CoreFuntionTestMetadata {
     }
 
     @Test
-    public void should_support_inbound_while_with_conditional_transition_prevalidate_inbound_while() {
+    public void should_support_inbound_while_with_conditional_event_prevalidate_inbound_while() {
         final PowerObject power = new PowerObject();
         final KeyBoardObjectPreValidateCondition keyboard = new KeyBoardObjectPreValidateCondition(power);
         keyboard.pressAnyKey();
@@ -113,7 +113,7 @@ public class EngineCoreFunctionPositiveTests extends CoreFuntionTestMetadata {
     }
 
     @Test
-    public void should_support_inbound_while_with_conditional_transition_postvalidate_inbound_while() {
+    public void should_support_inbound_while_with_conditional_event_postvalidate_inbound_while() {
         final PowerObject power = new PowerObject();
         final KeyBoardObjectPostValidateCondition keyboard = new KeyBoardObjectPostValidateCondition(power);
         keyboard.pressAnyKey();
@@ -121,7 +121,7 @@ public class EngineCoreFunctionPositiveTests extends CoreFuntionTestMetadata {
     }
 
     @Test
-    public void should_support_inbound_while_with_non_getter_conditional_transition_postvalidate_inbound_while() {
+    public void should_support_inbound_while_with_non_getter_conditional_event_postvalidate_inbound_while() {
         final NonGetterConditionPowerObject power = new NonGetterConditionPowerObject();
         final NonGetterConditionKeyBoardObjectPostValidateCondition keyboard = new NonGetterConditionKeyBoardObjectPostValidateCondition(power);
         keyboard.pressAnyKey();

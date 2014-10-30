@@ -47,7 +47,7 @@ public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
     private final String fromStateName;
     private final S toState;
     private final String toStateName;
-    private final Method transitionMethod;
+    private final Method eventMethod;
     private final Object[] arguments;
 
     @SuppressWarnings("unchecked")
@@ -61,7 +61,7 @@ public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
             this.toState = toState;
         }
         this.toStateName = context.getToState();
-        this.transitionMethod = context.getMethod();
+        this.eventMethod = context.getMethod();
         this.arguments = context.getArguments();
     }
 
@@ -82,7 +82,7 @@ public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
 
     @Override
     public Method getEventMethod() {
-        return transitionMethod;
+        return eventMethod;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
 
     @Override
     public String toString() {
-        return "LifecycleContextImpl [target=" + target + ", fromState=" + fromState + ", toState=" + toState + ", transitionMethod=" + transitionMethod
+        return "LifecycleContextImpl [target=" + target + ", fromState=" + fromState + ", toState=" + toState + ", eventMethod=" + eventMethod
                 + ", arguments=" + Arrays.toString(arguments) + "]";
     }
 

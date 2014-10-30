@@ -94,15 +94,15 @@ public interface SyntaxErrors {
     public static final String STATESET_WITHOUT_STATE = "002-2403";
     // EventSet
     /**
-     * @param {0} transition set class
+     * @param {0} event set class
      */
     public static final String TRANSITIONSET_WITHOUT_TRANSITION = "002-2501";
     /**
      * @param {0} method object
-     * @param {1} transitionKey, will be transitionKey class when it's
-     *        available, otherwise it will be transition method name with first
+     * @param {1} eventKey, will be eventKey class when it's
+     *        available, otherwise it will be event method name with first
      *        char upper case.
-     * @param {2} transitionType
+     * @param {2} eventType
      */
     public static final String TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER = "002-2502";
     /**

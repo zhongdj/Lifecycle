@@ -51,9 +51,9 @@ public class LifecycleInterceptContext implements UnlockableStack {
     private static final Level FINE = Level.FINE;
     private final InterceptContext<?, ?> innerContext;
     private String fromState;
-    private Object transitionKey;
-    private EventTypeEnum transitionType;
-    private String transitionName;
+    private Object eventKey;
+    private EventTypeEnum eventType;
+    private String eventName;
     private String toState;
     private long lifecycleEndTime;
     private long lifecycleStartTime;
@@ -67,9 +67,9 @@ public class LifecycleInterceptContext implements UnlockableStack {
     private void init() {
         final Class<?> keyClass = innerContext.getMethod().getAnnotation(Event.class).value();
         if ( ClassUtils.isDefaultStyle(keyClass) ) {
-            transitionKey = StringUtil.toUppercaseFirstCharacter(innerContext.getMethod().getName());
+            eventKey = StringUtil.toUppercaseFirstCharacter(innerContext.getMethod().getName());
         } else {
-            transitionKey = keyClass;
+            eventKey = keyClass;
         }
     }
 
@@ -89,15 +89,15 @@ public class LifecycleInterceptContext implements UnlockableStack {
     }
 
     public Object getEventKey() {
-        return transitionKey;
+        return eventKey;
     }
 
     public void setEventType(EventTypeEnum type) {
-        this.transitionType = type;
+        this.eventType = type;
     }
 
     public void setEventName(String name) {
-        this.transitionName = name;
+        this.eventName = name;
     }
 
     public void logResultFromContext() {
@@ -121,7 +121,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
 
     public void logStep2validateEvent() {
         if ( logger.isLoggable(FINE) ) {
-            logger.fine("\tStep 2. start validating transition: [" + this.getEventKey() + "] on state: [" + this.getFromState() + "]");
+            logger.fine("\tStep 2. start validating event: [" + this.getEventKey() + "] on state: [" + this.getFromState() + "]");
         }
     }
 
@@ -168,11 +168,11 @@ public class LifecycleInterceptContext implements UnlockableStack {
     }
 
     public String getEvent() {
-        return transitionName;
+        return eventName;
     }
 
     public EventTypeEnum getEventType() {
-        return transitionType;
+        return eventType;
     }
 
     public void setNextState(String nextState) {

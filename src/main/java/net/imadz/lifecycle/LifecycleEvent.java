@@ -44,9 +44,9 @@ public interface LifecycleEvent {
 
     String toState();
 
-    String transition();
+    String event();
 
-    EventTypeEnum transitionType();
+    EventTypeEnum eventType();
 
     long startTime();
 

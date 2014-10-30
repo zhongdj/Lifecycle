@@ -61,19 +61,19 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
+            @Function(event = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
             static interface PCS1_A {}
             @CompositeState
-            @Function(transition = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
+            @Function(event = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
             static interface PCS1_B extends CompositeExtendsOwningStateMachine {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
+                    @Function(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
                     static interface PCS1_CA {}
-                    @Function(transition = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
+                    @Function(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
                     static interface PCS1_CB {}
                     @End
                     @ShortCut(PCS1_C.class)

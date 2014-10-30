@@ -56,7 +56,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = EventOne.class, value = StateB.class)
+            @Function(event = EventOne.class, value = StateB.class)
             static interface StateA {}
             @End
             static interface StateB {}
@@ -92,7 +92,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = EventTwo.class, value = StateD.class)
+            @Function(event = EventTwo.class, value = StateD.class)
             static interface StateC {}
             @End
             static interface StateD {}
@@ -111,7 +111,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = EventThree.class, value = StateF.class)
+            @Function(event = EventThree.class, value = StateF.class)
             static interface StateE {}
             @End
             static interface StateF {}
@@ -143,7 +143,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = EventThree.class, value = StateF.class)
+            @Function(event = EventThree.class, value = StateF.class)
             static interface StateE {}
             @End
             static interface StateF {}

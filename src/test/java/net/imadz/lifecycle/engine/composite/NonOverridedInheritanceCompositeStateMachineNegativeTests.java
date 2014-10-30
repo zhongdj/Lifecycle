@@ -42,7 +42,7 @@ import org.junit.Test;
 public class NonOverridedInheritanceCompositeStateMachineNegativeTests extends EngineCoreCompositeStateMachineMetadata {
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9001_if_invoke_transition_method_while_contract_canceled() {
+    public void should_throw_002_9001_if_invoke_event_method_while_contract_canceled() {
         final Contract contract = new Contract();
         {
             assertState(ContractLifecycle.States.Draft.class, contract);
@@ -68,7 +68,7 @@ public class NonOverridedInheritanceCompositeStateMachineNegativeTests extends E
     }
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9000_if_invoke_illegal_transition_T3_from_other_composite_state_machine_of_owning_state_machine() {
+    public void should_throw_002_9000_if_invoke_illegal_event_T3_from_other_composite_state_machine_of_owning_state_machine() {
         final Contract contract = new Contract();
         {
             assertState(ContractLifecycle.States.Draft.class, contract);
@@ -90,7 +90,7 @@ public class NonOverridedInheritanceCompositeStateMachineNegativeTests extends E
     }
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9000_if_invoke_illegal_transition_T5_of_non_extended_composite_state_machine_of_owning_state_machine_super_state_machine() {
+    public void should_throw_002_9000_if_invoke_illegal_event_T5_of_non_extended_composite_state_machine_of_owning_state_machine_super_state_machine() {
         final Contract contract = new Contract();
         {
             assertState(ContractLifecycle.States.Draft.class, contract);

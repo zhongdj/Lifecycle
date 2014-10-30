@@ -55,7 +55,7 @@ public class LMSyntaxPositiveTest extends LMSyntaxMetadata {
     }
 
     @Test
-    public void lm_concrete_all_transitions_with_explicit_transition_name() throws VerificationException {
+    public void lm_concrete_all_events_with_explicit_event_name() throws VerificationException {
         @LifecycleRegistry(PLM_2.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -66,7 +66,7 @@ public class LMSyntaxPositiveTest extends LMSyntaxMetadata {
     }
 
     @Test
-    public void lm_concrete_all_transitions_with_implicit_transition_name() throws VerificationException {
+    public void lm_concrete_all_events_with_implicit_event_name() throws VerificationException {
         @LifecycleRegistry(PLM_3.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -77,7 +77,7 @@ public class LMSyntaxPositiveTest extends LMSyntaxMetadata {
     }
 
     @Test
-    public void transitions_with_corrupt_redo_recover_with_only_one_method() throws VerificationException {
+    public void events_with_corrupt_redo_recover_with_only_one_method() throws VerificationException {
         @LifecycleRegistry(PLM_4.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {

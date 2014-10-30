@@ -60,9 +60,9 @@ public final class InterceptorHelper {
         if ( klass == Object.class ) return false;
         try {
             final Method tmpMethod = klass.getMethod(subClassMethod.getName(), subClassMethod.getParameterTypes());
-            final Event transition = subClassMethod.getAnnotation(Event.class);
+            final Event event = subClassMethod.getAnnotation(Event.class);
             final Event tmpEvent = tmpMethod.getAnnotation(Event.class);
-            if ( hasSameEventKey(transition, tmpEvent) || hasSameEventName(subClassMethod, transition, tmpEvent) ) {
+            if ( hasSameEventKey(event, tmpEvent) || hasSameEventName(subClassMethod, event, tmpEvent) ) {
                 return true;
             }
         } catch (NoSuchMethodException ignore) {}
@@ -81,21 +81,21 @@ public final class InterceptorHelper {
     }
 
     private static Class<?> findLifecycleMetaClass(final Class<?> implClass, final Method method) {
-        final Event transition = method.getAnnotation(Event.class);
-        if ( Null.class == transition.value() ) {
-            throw new IllegalStateException("With @ReactiveObject, transition.value has to be explicitly specified.");
+        final Event event = method.getAnnotation(Event.class);
+        if ( Null.class == event.value() ) {
+            throw new IllegalStateException("With @ReactiveObject, event.value has to be explicitly specified.");
         } else {
             return scanMethodsOnClasses(implClass.getInterfaces(), method);
         }
     }
 
-    private static boolean hasSameEventKey(final Event transition, final Event tmpEvent) {
-        return tmpEvent.value() != Null.class && transition.value() == tmpEvent.value();
+    private static boolean hasSameEventKey(final Event event, final Event tmpEvent) {
+        return tmpEvent.value() != Null.class && event.value() == tmpEvent.value();
     }
 
-    private static boolean hasSameEventName(final Method subClassMethod, final Event transition, final Event tmpEvent) {
+    private static boolean hasSameEventName(final Method subClassMethod, final Event event, final Event tmpEvent) {
         return tmpEvent.value() == Null.class
-                && transition.value().getSimpleName().equalsIgnoreCase(StringUtil.toUppercaseFirstCharacter(subClassMethod.getName()));
+                && event.value().getSimpleName().equalsIgnoreCase(StringUtil.toUppercaseFirstCharacter(subClassMethod.getName()));
     }
 
     private static void populateSuperclasses(final ArrayList<Class<?>> superclasses, final Class<?> klass) {

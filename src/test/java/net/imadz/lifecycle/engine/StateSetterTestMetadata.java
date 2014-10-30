@@ -56,7 +56,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Do.class, value = Done.class)
+            @Function(event = Events.Do.class, value = Done.class)
             static interface New {}
             @End
             static interface Done {}
@@ -119,7 +119,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Close.class, value = Closed.class)
+            @Function(event = Events.Close.class, value = Closed.class)
             static interface Opened {}
             @End
             static interface Closed {}

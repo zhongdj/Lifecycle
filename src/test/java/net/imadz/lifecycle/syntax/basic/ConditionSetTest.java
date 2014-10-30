@@ -82,9 +82,9 @@ public class ConditionSetTest extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Z.class, value = { I.class, J.class })
+            @Function(event = Z.class, value = { I.class, J.class })
             static interface H {}
-            @Function(transition = Z.class, value = { I.class, J.class })
+            @Function(event = Z.class, value = { I.class, J.class })
             static interface I {}
             @End
             static interface J {}

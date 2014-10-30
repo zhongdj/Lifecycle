@@ -32,7 +32,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.syntax.lm.transition;
+package net.imadz.lifecycle.syntax.lm.event;
 
 import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
@@ -58,14 +58,14 @@ public class EventTestMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Start.class, value = { Running.class })
+            @Function(event = Events.Start.class, value = { Running.class })
             static interface Queued {}
-            @Functions({ @Function(transition = Events.Inactivate.class, value = { InactiveRunning.class }),
-                    @Function(transition = Events.Stop.class, value = { Stopped.class }) })
+            @Functions({ @Function(event = Events.Inactivate.class, value = { InactiveRunning.class }),
+                    @Function(event = Events.Stop.class, value = { Stopped.class }) })
             static interface Running {}
-            @Functions({ @Function(transition = Events.Activate.class, value = { Running.class }),
-                    @Function(transition = Events.Restart.class, value = { Running.class }),
-                    @Function(transition = Events.Stop.class, value = { Stopped.class }) })
+            @Functions({ @Function(event = Events.Activate.class, value = { Running.class }),
+                    @Function(event = Events.Restart.class, value = { Running.class }),
+                    @Function(event = Events.Stop.class, value = { Stopped.class }) })
             static interface InactiveRunning {}
             @End
             static interface Stopped {}

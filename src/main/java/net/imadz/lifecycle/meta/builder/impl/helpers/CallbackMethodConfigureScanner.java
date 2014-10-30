@@ -405,15 +405,15 @@ public final class CallbackMethodConfigureScanner {
 	private void verifyPreToStatePostEvaluate(Method method,
 			Class<?> toStateClass, StateMachineMetadata stateMachineMetadata)
 			throws VerificationException {
-		for (final EventMetadata transition : stateMachineMetadata
+		for (final EventMetadata event : stateMachineMetadata
 				.getState(toStateClass).getPossibleReachingEvents()) {
-			if (transition.isConditional() && transition.postValidate()) {
+			if (event.isConditional() && event.postValidate()) {
 				throw this.stateMachineObjectBuilderImpl
 						.newVerificationException(
 								stateMachineMetadata.getDottedPath(),
 								SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID,
 								toStateClass, method,
-								transition.getDottedPath());
+								event.getDottedPath());
 			}
 		}
 	}

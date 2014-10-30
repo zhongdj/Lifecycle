@@ -73,7 +73,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2610_if_state_function__with_invalid_transition() throws VerificationException {
+    public void should_throw_002_2610_if_state_function__with_invalid_event() throws VerificationException {
         @LifecycleRegistry(S2.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -90,7 +90,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2611_if_state_function_with_invalid_conditional_transition_without_conditional_annotation() throws VerificationException {
+    public void should_throw_002_2611_if_state_function_with_invalid_conditional_event_without_conditional_annotation() throws VerificationException {
         @LifecycleRegistry(S3.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -173,7 +173,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2616_if_multiple_functions_referring_same_transition() throws VerificationException {
+    public void should_throw_002_2616_if_multiple_functions_referring_same_event() throws VerificationException {
         @LifecycleRegistry(Multiple_Function_Referring_Same_Event.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -190,7 +190,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2616_if_inheritance_multiple_functions_referring_same_transition() throws VerificationException {
+    public void should_throw_002_2616_if_inheritance_multiple_functions_referring_same_event() throws VerificationException {
         @LifecycleRegistry(Multiple_Function_Referring_Same_Event_Child.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -242,7 +242,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2610_if_composite_statemachine_transition_referenced_from_another_composite_state_machine() throws VerificationException {
+    public void should_throw_002_2610_if_composite_statemachine_event_referenced_from_another_composite_state_machine() throws VerificationException {
         @LifecycleRegistry(CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -261,7 +261,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_2610_if_composite_statemachine_transition_referenced_from_super_non_extended_composite_state_machine()
+    public void should_throw_002_2610_if_composite_statemachine_event_referenced_from_super_non_extended_composite_state_machine()
             throws VerificationException {
         @LifecycleRegistry(CompositeStateMachineEventReferenceFromSuperNonExtendedCompositeStateMachine.class)
         @StateMachineBuilder

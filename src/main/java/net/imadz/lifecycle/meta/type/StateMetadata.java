@@ -68,9 +68,9 @@ public interface StateMetadata extends Recoverable, MetaType<StateMetadata> {
 
     EventMetadata[] getPossibleReachingEvents();
 
-    EventMetadata getEvent(Object transitionKey);
+    EventMetadata getEvent(Object eventKey);
 
-    boolean isEventValid(Object transitionKey);
+    boolean isEventValid(Object eventKey);
 
     /* ////////////////////////////////////////////////////////////////// */
     /* //////////////////////////Dependency Part //////////////////////// */
@@ -88,7 +88,7 @@ public interface StateMetadata extends Recoverable, MetaType<StateMetadata> {
     /**
      * @return related state dependencies, expected to be used pre-state-change
      *         validation, which will validate the validity of the state. Once
-     *         the state is not valid, transitions will fail until the state
+     *         the state is not valid, events will fail until the state
      *         has been fixed by synchronizationEvent.
      * 
      *         And if parent object life cycle exists, then this state should be

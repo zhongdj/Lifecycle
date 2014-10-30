@@ -45,5 +45,5 @@ public @interface Function {
 
     Class<?>[] value();
 
-    Class<?> transition();
+    Class<?> event();
 }

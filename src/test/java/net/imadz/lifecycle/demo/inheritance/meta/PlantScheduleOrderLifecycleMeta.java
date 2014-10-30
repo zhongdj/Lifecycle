@@ -56,11 +56,11 @@ public interface PlantScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
         @InboundWhile(relation = ServiceOrder.class, on = OrderLifecycleMeta.States.Queued.class)
         // Default @ValidWhile(relation="serviceOrder", on =
         // {ServiceOrderLifecycleMeta.States.Queued.class})
-        @Functions({ @Function(transition = Start.class, value = Ongoing.class) })
+        @Functions({ @Function(event = Start.class, value = Ongoing.class) })
         static class Queued extends OrderLifecycleMeta.States.Queued {}
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })
         // Default @ValidWhile(IServiceOrder.States.Ongoing.class)
-        @Functions({ @Function(transition = Finish.class, value = Finished.class) })
+        @Functions({ @Function(event = Finish.class, value = Finished.class) })
         static class Ongoing extends OrderLifecycleMeta.States.Ongoing {}
         @End
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })

@@ -52,9 +52,9 @@ public interface ConcreteTruckResourceLifecycleMeta {
     public static class States {
 
         @Initial
-        @Functions({ @Function(transition = Assign.class, value = Busy.class), @Function(transition = Detach.class, value = Detached.class) })
+        @Functions({ @Function(event = Assign.class, value = Busy.class), @Function(event = Detach.class, value = Detached.class) })
         public static class Idle {}
-        @Function(transition = Release.class, value = Idle.class)
+        @Function(event = Release.class, value = Idle.class)
         public static class Busy {}
         @End
         public static class Detached {}

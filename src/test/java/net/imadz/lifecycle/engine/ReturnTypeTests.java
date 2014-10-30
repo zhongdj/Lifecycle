@@ -59,9 +59,9 @@ public class ReturnTypeTests extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = JustDoIt.class, value = OnTheFly.class)
+            @Function(event = JustDoIt.class, value = OnTheFly.class)
             static interface New {}
-            @Functions({ @Function(transition = JustDoIt.class, value = OnTheFly.class), @Function(transition = FinishThis.class, value = Done.class) })
+            @Functions({ @Function(event = JustDoIt.class, value = OnTheFly.class), @Function(event = FinishThis.class, value = Done.class) })
             static interface OnTheFly {}
             @End
             static interface Done {}

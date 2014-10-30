@@ -70,7 +70,7 @@ public class StandaloneCompositeStateMachinePositiveTests extends EngineCoreComp
     }
 
     @Test
-    public void should_support_non_relational_composite_state_machine_cancel_process_with_outer_transition() {
+    public void should_support_non_relational_composite_state_machine_cancel_process_with_outer_event() {
         final ProductOrder product = new ProductOrder();
         {// Outer State + Outer Event => Composite State => Composite
          // Initial State

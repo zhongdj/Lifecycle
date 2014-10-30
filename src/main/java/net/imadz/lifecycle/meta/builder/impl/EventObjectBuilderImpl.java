@@ -47,11 +47,11 @@ import net.imadz.verification.VerificationFailureSet;
 public class EventObjectBuilderImpl extends ObjectBuilderBase<EventObject, StateMachineObject<?>, EventMetadata> implements
         EventObjectBuilder {
 
-    private Method transitionMethod;
+    private Method eventMethod;
 
-    public EventObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method transitionMethod, EventMetadata template) {
-        super(parent, "EventSet." + template.getDottedPath().getName() + "." + transitionMethod.getName());
-        this.transitionMethod = transitionMethod;
+    public EventObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method eventMethod, EventMetadata template) {
+        super(parent, "EventSet." + template.getDottedPath().getName() + "." + eventMethod.getName());
+        this.eventMethod = eventMethod;
         this.setMetaType(template);
     }
 
@@ -63,7 +63,7 @@ public class EventObjectBuilderImpl extends ObjectBuilderBase<EventObject, State
 
     @Override
     public Method getEventMethod() {
-        return transitionMethod;
+        return eventMethod;
     }
 
     @Override

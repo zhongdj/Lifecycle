@@ -55,13 +55,13 @@ public interface PlantScheduleOrderLifecycleMeta {
     static class States {
 
         @Initial
-        @Functions({ @Function(transition = Start.class, value = Working.class) })
+        @Functions({ @Function(event = Start.class, value = Working.class) })
         static class Created {}
         /*
          * on=Queued: ServiceOrder state change last, while Plant Operator
          * Triggers or Truck Driver Triggers
          */
-        @Functions({ @Function(transition = Finish.class, value = Done.class) })
+        @Functions({ @Function(event = Finish.class, value = Done.class) })
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class, ServiceableLifecycleMeta.States.Ongoing.class })
         static class Working {}

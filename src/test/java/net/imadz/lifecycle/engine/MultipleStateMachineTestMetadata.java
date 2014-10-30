@@ -58,14 +58,14 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Functions({ @Function(transition = Events.Confirm.class, value = Confirmed.class),
-                    @Function(transition = Events.Abort.class, value = Aborted.class) })
+            @Functions({ @Function(event = Events.Confirm.class, value = Confirmed.class),
+                    @Function(event = Events.Abort.class, value = Aborted.class) })
             static interface Draft {}
-            @Functions({ @Function(transition = Events.Start.class, value = Ongoing.class),
-                    @Function(transition = Events.Abort.class, value = Aborted.class) })
+            @Functions({ @Function(event = Events.Start.class, value = Ongoing.class),
+                    @Function(event = Events.Abort.class, value = Aborted.class) })
             static interface Confirmed {}
-            @Functions({ @Function(transition = Events.Complete.class, value = Completed.class),
-                    @Function(transition = Events.Abort.class, value = Aborted.class) })
+            @Functions({ @Function(event = Events.Complete.class, value = Completed.class),
+                    @Function(event = Events.Abort.class, value = Aborted.class) })
             static interface Ongoing {}
             @End
             static interface Completed {}
@@ -88,30 +88,30 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.ConfirmBOM.class, value = BOMConfirmed.class)
+            @Function(event = Events.ConfirmBOM.class, value = BOMConfirmed.class)
             static interface Draft {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Confirmed.class)
-            @Function(transition = Events.Plan.class, value = Planned.class)
+            @Function(event = Events.Plan.class, value = Planned.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface BOMConfirmed {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Function(transition = Events.MakeOSROMComplete.class, value = OSROMReady.class)
+            @Function(event = Events.MakeOSROMComplete.class, value = OSROMReady.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface Planned {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Function(transition = Events.StartAssembling.class, value = AssemblingOnProductLine.class)
+            @Function(event = Events.StartAssembling.class, value = AssemblingOnProductLine.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface OSROMReady {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Function(transition = Events.StartDebugging.class, value = DebuggingOnProductLine.class)
+            @Function(event = Events.StartDebugging.class, value = DebuggingOnProductLine.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface AssemblingOnProductLine {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Function(transition = Events.PackageComplete.class, value = Packaged.class)
+            @Function(event = Events.PackageComplete.class, value = Packaged.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface DebuggingOnProductLine {}
             @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Function(transition = Events.TransferToLogistics.class, value = Done.class)
+            @Function(event = Events.TransferToLogistics.class, value = Done.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface Packaged {}
             @End
@@ -143,28 +143,28 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Confirm.class, value = Confirmed.class)
+            @Function(event = Events.Confirm.class, value = Confirmed.class)
             static interface Draft {}
             @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Function(transition = Events.Schedule.class, value = Scheduled.class)
+            @Function(event = Events.Schedule.class, value = Scheduled.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface Confirmed {}
             @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Function(transition = Events.DoPickup.class, value = Picked.class)
+            @Function(event = Events.DoPickup.class, value = Picked.class)
             @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
             static interface Scheduled {}
             @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Function(transition = Events.StartTransport.class, value = Transporting.class)
+            @Function(event = Events.StartTransport.class, value = Transporting.class)
             @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
             static interface Picked {}
             @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
-            @Function(transition = Events.CustomerConfirmReceive.class, value = Received.class)
+            @Function(event = Events.CustomerConfirmReceive.class, value = Received.class)
             @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
             static interface Transporting {}

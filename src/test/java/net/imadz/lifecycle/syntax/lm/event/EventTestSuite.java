@@ -32,7 +32,7 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.syntax.lm.transition;
+package net.imadz.lifecycle.syntax.lm.event;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -46,7 +46,7 @@ public interface StateObject<S> extends MetaObject<StateObject<S>, StateMetadata
 
     void verifyValidWhile(Object target, RelationConstraintMetadata[] relation, Object relationInstance, UnlockableStack stack);
 
-    void verifyInboundWhileAndLockRelatedObjects(Object transitionKey, Object target, String nextState, RelationConstraintMetadata[] relation,
+    void verifyInboundWhileAndLockRelatedObjects(Object eventKey, Object target, String nextState, RelationConstraintMetadata[] relation,
             Object relationInstance, UnlockableStack stack);
 
     void invokeFromPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);

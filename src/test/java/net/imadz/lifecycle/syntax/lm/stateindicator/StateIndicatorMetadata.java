@@ -83,7 +83,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		static interface States {
 
 			@Initial
-			@Function(transition = Events.S1_X.class, value = { S1_B.class })
+			@Function(event = Events.S1_X.class, value = { S1_B.class })
 			static interface S1_A {
 			}
 

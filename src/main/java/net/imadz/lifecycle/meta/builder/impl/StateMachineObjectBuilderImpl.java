@@ -122,8 +122,8 @@ public class StateMachineObjectBuilderImpl<S>
 		ObjectBuilderBase<StateMachineObject<S>, StateMachineObject<S>, StateMachineMetadata>
 		implements StateMachineObjectBuilder<S> {
 
-	private final HashMap<EventMetadata, LinkedList<EventObject>> transitionMetadataMap = new HashMap<EventMetadata, LinkedList<EventObject>>();
-	private final KeyedList<EventObject> transitionObjectList = new KeyedList<EventObject>();
+	private final HashMap<EventMetadata, LinkedList<EventObject>> eventMetadataMap = new HashMap<EventMetadata, LinkedList<EventObject>>();
+	private final KeyedList<EventObject> eventObjectList = new KeyedList<EventObject>();
 	private final KeyedList<ConditionObject> conditionObjectList = new KeyedList<ConditionObject>();
 	@SuppressWarnings("rawtypes")
 	private final KeyedList<StateObject> stateObjectList = new KeyedList<StateObject>();
@@ -396,20 +396,20 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private void configureEventObject(final Class<?> klass,
-			final Method method, final EventMetadata transitionMetadata)
+			final Method method, final EventMetadata eventMetadata)
 			throws VerificationException {
-		final EventObjectBuilderImpl transitionObjectBuilder = new EventObjectBuilderImpl(
-				this, method, transitionMetadata);
-		transitionObjectBuilder.build(klass, this);
-		final EventObject transitionObject = transitionObjectBuilder
+		final EventObjectBuilderImpl eventObjectBuilder = new EventObjectBuilderImpl(
+				this, method, eventMetadata);
+		eventObjectBuilder.build(klass, this);
+		final EventObject eventObject = eventObjectBuilder
 				.getMetaData();
-		transitionObjectList.add(transitionObject);
-		if (null == transitionMetadataMap.get(transitionMetadata)) {
-			final LinkedList<EventObject> transitionObjects = new LinkedList<EventObject>();
-			transitionObjects.add(transitionObject);
-			transitionMetadataMap.put(transitionMetadata, transitionObjects);
+		eventObjectList.add(eventObject);
+		if (null == eventMetadataMap.get(eventMetadata)) {
+			final LinkedList<EventObject> eventObjects = new LinkedList<EventObject>();
+			eventObjects.add(eventObject);
+			eventMetadataMap.put(eventMetadata, eventObjects);
 		} else {
-			transitionMetadataMap.get(transitionMetadata).add(transitionObject);
+			eventMetadataMap.get(eventMetadata).add(eventObject);
 		}
 	}
 
@@ -418,22 +418,22 @@ public class StateMachineObjectBuilderImpl<S>
 
 			@Override
 			public boolean onMethodFound(Method method) {
-				final Event transitionAnno = method
+				final Event eventAnno = method
 						.getAnnotation(Event.class);
-				if (null == transitionAnno) {
+				if (null == eventAnno) {
 					return false;
 				}
-				final EventMetadata transitionMetadata;
-				if (Null.class == transitionAnno.value()) {
-					transitionMetadata = getMetaType().getEvent(
+				final EventMetadata eventMetadata;
+				if (Null.class == eventAnno.value()) {
+					eventMetadata = getMetaType().getEvent(
 							StringUtil.toUppercaseFirstCharacter(method
 									.getName()));
 				} else {
-					transitionMetadata = getMetaType().getEvent(
-							transitionAnno.value());
+					eventMetadata = getMetaType().getEvent(
+							eventAnno.value());
 				}
 				try {
-					configureEventObject(klass, method, transitionMetadata);
+					configureEventObject(klass, method, eventMetadata);
 				} catch (VerificationException e) {
 					throw new IllegalStateException(e);
 				}
@@ -503,25 +503,25 @@ public class StateMachineObjectBuilderImpl<S>
 		context.logStep6_1SetupNextStateFinsihed();
 	}
 
-	private boolean evaluateConditionBeforeEvent(Object transitionKey) {
-		EventMetadata transition = getMetaType().getEvent(
-				transitionKey);
-		return !transition.postValidate();
+	private boolean evaluateConditionBeforeEvent(Object eventKey) {
+		EventMetadata event = getMetaType().getEvent(
+				eventKey);
+		return !event.postValidate();
 	}
 
 	private Object evaluateJudgeable(Object target,
-			final EventMetadata transitionMetadata)
+			final EventMetadata eventMetadata)
 			throws IllegalAccessException, InvocationTargetException {
-		final ConditionObject conditionObject = getConditionObject(transitionMetadata
+		final ConditionObject conditionObject = getConditionObject(eventMetadata
 				.getConditionClass());
 		return conditionObject.conditionGetter().invoke(target);
 	}
 
-	private String evaluateNextState(Object target, Object transitionKey) {
+	private String evaluateNextState(Object target, Object eventKey) {
 		final StateObject<S> state = getState(evaluateState(target));
 		final FunctionMetadata functionMetadata = state.getMetaType()
-				.getFunctionMetadata(transitionKey);
-		requireFunctionNotNull(transitionKey, state, functionMetadata);
+				.getFunctionMetadata(eventKey);
+		requireFunctionNotNull(eventKey, state, functionMetadata);
 		if (isConditional(functionMetadata)) {
 			return evaluateNextStateWithConditionalEvent(target,
 					functionMetadata);
@@ -717,16 +717,16 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private EventMetadata[] getEventsToState(StateMetadata state) {
-		final ArrayList<EventMetadata> transitions = new ArrayList<EventMetadata>();
+		final ArrayList<EventMetadata> events = new ArrayList<EventMetadata>();
 		for (final StateMetadata stateMetadata : getMetaType().getAllStates()) {
-			for (final EventMetadata transitionMetadata : stateMetadata
+			for (final EventMetadata eventMetadata : stateMetadata
 					.getPossibleLeavingEvents()) {
-				if (isEventIn(state, transitionMetadata)) {
-					transitions.add(transitionMetadata);
+				if (isEventIn(state, eventMetadata)) {
+					events.add(eventMetadata);
 				}
 			}
 		}
-		return transitions.toArray(new EventMetadata[0]);
+		return events.toArray(new EventMetadata[0]);
 	}
 
 	private StateMetadata handleCompositeStateMachineLinkage(
@@ -849,12 +849,12 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private boolean isEventIn(StateMetadata state,
-			EventMetadata transitionMetadata) {
+			EventMetadata eventMetadata) {
 		for (final StateMetadata stateMetadata : getMetaType().getAllStates()) {
 			for (FunctionMetadata item : stateMetadata
 					.getDeclaredFunctionMetadata()) {
 				if (item.getEvent().getDottedPath()
-						.equals(transitionMetadata.getDottedPath())) {
+						.equals(eventMetadata.getDottedPath())) {
 					for (StateMetadata nextState : item.getNextStates()) {
 						if (nextState.getDottedPath() == state.getDottedPath()) {
 							return true;
@@ -941,11 +941,11 @@ public class StateMachineObjectBuilderImpl<S>
         invokeCommonPreStateChangeCallbacks(callbackContext);
     }
 
-	private void requireFunctionNotNull(Object transitionKey,
+	private void requireFunctionNotNull(Object eventKey,
 			final StateObject<S> state, final FunctionMetadata functionMetadata) {
 		if (null == functionMetadata) {
 			throw new IllegalArgumentException(
-					"Invalid Key or Key not registered: " + transitionKey
+					"Invalid Key or Key not registered: " + eventKey
 							+ " while searching function metadata from state: "
 							+ state);
 		}
@@ -962,8 +962,8 @@ public class StateMachineObjectBuilderImpl<S>
 		return false;
 	}
 
-	private String transitToNextState(Object target, Object transitionKey) {
-		final String stateName = evaluateNextState(target, transitionKey);
+	private String transitToNextState(Object target, Object eventKey) {
+		final String stateName = evaluateNextState(target, eventKey);
 		this.stateAccessor.write(target, stateName);
 		return stateName;
 	}
@@ -1050,23 +1050,23 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void validateEvent(LifecycleInterceptContext context) {
 		context.logStep2validateEvent();
-		final EventMetadata transition = validateEvent(
+		final EventMetadata event = validateEvent(
 				context.getTarget(), context.getFromState(),
 				context.getEventKey());
-		context.setEventType(transition.getType());
-		context.setEventName(transition.getDottedPath().getName());
+		context.setEventType(event.getType());
+		context.setEventName(event.getDottedPath().getName());
 	}
 
 	private EventMetadata validateEvent(final Object target,
-			final String fromState, final Object transitionKey) {
+			final String fromState, final Object eventKey) {
 		final StateMetadata stateMetadata = this.getMetaType().getState(
 				fromState);
-		if (!stateMetadata.isEventValid(transitionKey)) {
+		if (!stateMetadata.isEventValid(eventKey)) {
 			throw new LifecycleException(getClass(), "lifecycle_common",
 					LifecycleCommonErrors.ILLEGAL_TRANSITION_ON_STATE,
-					transitionKey, fromState, target);
+					eventKey, fromState, target);
 		} else {
-			return stateMetadata.getEvent(transitionKey);
+			return stateMetadata.getEvent(eventKey);
 		}
 	}
 
@@ -1105,9 +1105,9 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void verifyAllEventsCoverage(Class<?> klass,
 			VerificationFailureSet failureSet) {
-		for (EventMetadata transitionMetadata : getMetaType()
+		for (EventMetadata eventMetadata : getMetaType()
 				.getAllEvents()) {
-			verifyEventBeCovered(klass, transitionMetadata, failureSet);
+			verifyEventBeCovered(klass, eventMetadata, failureSet);
 		}
 	}
 
@@ -1182,12 +1182,12 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void verifyRelationBeCovered(Class<?> klass,
 			final RelationConstraintMetadata relation,
-			final EventMetadata transition) throws VerificationException {
+			final EventMetadata event) throws VerificationException {
 		final EventMethodScanner scanner = new EventMethodScanner(
-				transition);
+				event);
 		MethodScanner.scanMethodsOnClasses(klass, scanner);
-		final Method[] transitionMethods = scanner.getEventMethods();
-		NEXT_TRANSITION_METHOD: for (final Method method : transitionMethods) {
+		final Method[] eventMethods = scanner.getEventMethods();
+		NEXT_TRANSITION_METHOD: for (final Method method : eventMethods) {
 			if (hasRelationOnMethodParameters(relation, method)) {
 				continue NEXT_TRANSITION_METHOD;
 			}
@@ -1314,15 +1314,15 @@ public class StateMachineObjectBuilderImpl<S>
 			throws VerificationException {
 		for (StateMetadata state : getMetaType().getAllStates()) {
 			for (RelationConstraintMetadata relation : state.getValidWhiles()) {
-				for (EventMetadata transition : state
+				for (EventMetadata event : state
 						.getPossibleLeavingEvents()) {
-					verifyRelationBeCovered(klass, relation, transition);
+					verifyRelationBeCovered(klass, relation, event);
 				}
 			}
 			for (RelationConstraintMetadata relation : state
 					.getDeclaredInboundWhiles()) {
-				for (EventMetadata transition : getEventsToState(state)) {
-					verifyRelationBeCovered(klass, relation, transition);
+				for (EventMetadata event : getEventsToState(state)) {
+					verifyRelationBeCovered(klass, relation, event);
 				}
 			}
 		}
@@ -1503,16 +1503,16 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private void verifyEventBeCovered(Class<?> klass,
-			final EventMetadata transitionMetadata,
+			final EventMetadata eventMetadata,
 			final VerificationFailureSet failureSet) {
 		CoverageVerifier coverage = new CoverageVerifier(this,
-				transitionMetadata, failureSet);
+				eventMetadata, failureSet);
 		MethodScanner.scanMethodsOnClasses(klass, coverage);
 		if (coverage.notCovered()) {
-			failureSet.add(newVerificationFailure(transitionMetadata
+			failureSet.add(newVerificationFailure(eventMetadata
 					.getDottedPath().getAbsoluteName(),
 					SyntaxErrors.LM_TRANSITION_NOT_CONCRETED_IN_LM,
-					transitionMetadata.getDottedPath().getName(), getMetaType()
+					eventMetadata.getDottedPath().getName(), getMetaType()
 							.getDottedPath().getAbsoluteName(), klass
 							.getSimpleName()));
 		}
@@ -1520,26 +1520,26 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void verifyEventMethod(Method method,
 			VerificationFailureSet failureSet) {
-		final Event transition = method.getAnnotation(Event.class);
-		if (transition == null) {
+		final Event event = method.getAnnotation(Event.class);
+		if (event == null) {
 			return;
 		}
-		EventMetadata transitionMetadata = null;
-		if (Null.class == transition.value()) {
-			transitionMetadata = verifyEventMethodDefaultStyle(method,
-					failureSet, transitionMetadata);
+		EventMetadata eventMetadata = null;
+		if (Null.class == event.value()) {
+			eventMetadata = verifyEventMethodDefaultStyle(method,
+					failureSet, eventMetadata);
 		} else {
-			transitionMetadata = verifyEventMethodWithEventClassKey(
-					method, failureSet, transition, transitionMetadata);
+			eventMetadata = verifyEventMethodWithEventClassKey(
+					method, failureSet, event, eventMetadata);
 		}
-		if (null != transitionMetadata) {
-			transitionMetadata.verifyEventMethod(method, failureSet);
+		if (null != eventMetadata) {
+			eventMetadata.verifyEventMethod(method, failureSet);
 		}
 	}
 
 	private EventMetadata verifyEventMethodDefaultStyle(
 			Method method, VerificationFailureSet failureSet,
-			EventMetadata transitionMetadata) {
+			EventMetadata eventMetadata) {
 		if (!getMetaType().hasEvent(
 				StringUtil.toUppercaseFirstCharacter(method.getName()))) {
 			failureSet.add(newVerificationFailure(getMethodDottedPath(method),
@@ -1547,10 +1547,10 @@ public class StateMachineObjectBuilderImpl<S>
 							.getDottedPath(), method.getName(), method
 							.getDeclaringClass().getName()));
 		} else {
-			transitionMetadata = getMetaType().getEvent(
+			eventMetadata = getMetaType().getEvent(
 					StringUtil.toUppercaseFirstCharacter(method.getName()));
 		}
-		return transitionMetadata;
+		return eventMetadata;
 	}
 
 	private void verifyEventMethods(Class<?> klass)
@@ -1577,19 +1577,19 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private EventMetadata verifyEventMethodWithEventClassKey(
 			Method method, VerificationFailureSet failureSet,
-			final Event transition, EventMetadata transitionMetadata) {
-		if (!getMetaType().hasEvent(transition.value())) {
+			final Event event, EventMetadata eventMetadata) {
+		if (!getMetaType().hasEvent(event.value())) {
 			failureSet
 					.add(newVerificationFailure(
 							getMethodDottedPath(method),
 							SyntaxErrors.LM_TRANSITION_METHOD_WITH_INVALID_TRANSITION_REFERENCE,
-							transition, method.getName(), method
+							event, method.getName(), method
 									.getDeclaringClass().getName(),
 							getMetaType().getDottedPath()));
 		} else {
-			transitionMetadata = getMetaType()
-					.getEvent(transition.value());
+			eventMetadata = getMetaType()
+					.getEvent(event.value());
 		}
-		return transitionMetadata;
+		return eventMetadata;
 	}
 }

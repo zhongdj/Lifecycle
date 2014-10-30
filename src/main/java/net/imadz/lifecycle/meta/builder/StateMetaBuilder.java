@@ -53,5 +53,5 @@ public interface StateMetaBuilder extends AnnotationMetaBuilder<StateMetadata, S
 
     void configureRelationConstrants(Class<?> clazz) throws VerificationException;
 
-    void addPossibleReachingEvent(EventMetadata transition);
+    void addPossibleReachingEvent(EventMetadata event);
 }

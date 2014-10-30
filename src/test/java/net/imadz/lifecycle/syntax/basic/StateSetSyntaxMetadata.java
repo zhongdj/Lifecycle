@@ -52,7 +52,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = T.class, value = B.class)
+            @Function(event = T.class, value = B.class)
             static interface A {};
             @End
             static interface B {};
@@ -71,7 +71,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = T.class, value = B.class)
+            @Function(event = T.class, value = B.class)
             static interface A {};
             @End
             static interface B {};

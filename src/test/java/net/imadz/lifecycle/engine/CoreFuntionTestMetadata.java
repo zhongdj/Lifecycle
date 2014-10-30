@@ -83,7 +83,7 @@ import org.junit.BeforeClass;
  * </ol>
  * <li>Event Function Validation</li>
  * <ol>
- * <li>check whether transition is legal to current state</li>
+ * <li>check whether event is legal to current state</li>
  * </ol>
  * <li>Next State Evaluation and InboundWhile Validation</li>
  * <ol>
@@ -129,7 +129,7 @@ import org.junit.BeforeClass;
  * <li><span style="font-size: 12px;">Suspend Customer ONLY, this will lead all
  * the children's business states to invalid states.</span></li>
  * <li><span style="font-size: 12px;">Synchronize the parent's State update with
- * Synchronization ONLY, because all the other transitions cannot happen, since
+ * Synchronization ONLY, because all the other events cannot happen, since
  * Lifecycle&nbsp;</span>Engine considers the children state is in invalid
  * state.<span style="font-size: 12px;">&nbsp;</span></li>
  * </ol>
@@ -141,7 +141,7 @@ import org.junit.BeforeClass;
  * <li>Corrupting invalid state before services started</li>
  * <li>Recover (Resume or Redo) Event after services are ready.&nbsp;</li>
  * <ol>
- * <li>These transition methods will result in those corrupted recoverable
+ * <li>These event methods will result in those corrupted recoverable
  * object into the service queue(pool, zone) first to ensure ordering</li>
  * </ol>
  * <li>RecoverableIterator</li>
@@ -156,7 +156,7 @@ import org.junit.BeforeClass;
  * <li>context</li>
  * <ol>
  * <li>lifecycle object</li>
- * <li>transition method</li>
+ * <li>event method</li>
  * <li>method arguments</li>
  * <li>from state</li>
  * <li>possible target states</li>
@@ -200,12 +200,12 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = CustomerLifecycleMeta.Events.Activate.class, value = { Active.class })
+            @Function(event = CustomerLifecycleMeta.Events.Activate.class, value = { Active.class })
             static interface Draft {}
-            @Functions({ @Function(transition = CustomerLifecycleMeta.Events.Suspend.class, value = Suspended.class),
-                    @Function(transition = CustomerLifecycleMeta.Events.Cancel.class, value = Canceled.class) })
+            @Functions({ @Function(event = CustomerLifecycleMeta.Events.Suspend.class, value = Suspended.class),
+                    @Function(event = CustomerLifecycleMeta.Events.Cancel.class, value = Canceled.class) })
             static interface Active {}
-            @Function(transition = CustomerLifecycleMeta.Events.Resume.class, value = Active.class)
+            @Function(event = CustomerLifecycleMeta.Events.Resume.class, value = Active.class)
             static interface Suspended {}
             @End
             static interface Canceled {}
@@ -273,10 +273,10 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = InternetServiceLifecycleMeta.Events.Start.class, value = { InternetServiceLifecycleMeta.States.InService.class })
+            @Function(event = InternetServiceLifecycleMeta.Events.Start.class, value = { InternetServiceLifecycleMeta.States.InService.class })
             @ValidWhile(on = { CustomerLifecycleMeta.States.Active.class }, relation = InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
             static interface New {}
-            @Function(transition = InternetServiceLifecycleMeta.Events.End.class, value = { InternetServiceLifecycleMeta.States.Ended.class })
+            @Function(event = InternetServiceLifecycleMeta.Events.End.class, value = { InternetServiceLifecycleMeta.States.Ended.class })
             // @InboundWhile(on = { CustomerLifecycleMeta.States.Active.class },
             // relation =
             // InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
@@ -304,7 +304,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Shutdown.class, value = Closed.class)
+            @Function(event = Events.Shutdown.class, value = Closed.class)
             static interface ServiceAvailable {}
             @End
             static interface Closed {}
@@ -356,7 +356,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @Initial
             @LifecycleOverride
             @ValidWhile(relation = VOIPServiceLifecycleMeta.Relations.VoipProvider.class, on = VOIPProviderLifecycleMeta.States.ServiceAvailable.class)
-            @Function(transition = VOIPServiceLifecycleMeta.Events.Start.class, value = { VOIPServiceLifecycleMeta.States.InService.class })
+            @Function(event = VOIPServiceLifecycleMeta.Events.Start.class, value = { VOIPServiceLifecycleMeta.States.InService.class })
             static interface New extends InternetServiceLifecycleMeta.States.New {}
         }
         @RelationSet
@@ -454,10 +454,10 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = InternetServiceLifecycleMetaWithInboundWhile.Events.Start.class,
+            @Function(event = InternetServiceLifecycleMetaWithInboundWhile.Events.Start.class,
                     value = { InternetServiceLifecycleMetaWithInboundWhile.States.InService.class })
             static interface New {}
-            @Function(transition = InternetServiceLifecycleMetaWithInboundWhile.Events.End.class,
+            @Function(event = InternetServiceLifecycleMetaWithInboundWhile.Events.End.class,
                     value = { InternetServiceLifecycleMetaWithInboundWhile.States.Ended.class })
             @InboundWhile(on = { CustomerLifecycleMeta.States.Active.class },
                     relation = InternetServiceLifecycleMetaWithInboundWhile.Relations.CustomerRelation.class)
@@ -545,8 +545,8 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Functions(value = { @Function(transition = ShutDown.class, value = { PowerOff.class }),
-                    @Function(transition = ReducePower.class, value = { PowerOn.class, PowerOff.class }) })
+            @Functions(value = { @Function(event = ShutDown.class, value = { PowerOff.class }),
+                    @Function(event = ReducePower.class, value = { PowerOn.class, PowerOff.class }) })
             static interface PowerOn {}
             @End
             static interface PowerOff {}
@@ -590,7 +590,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = PressAnyKey.class, value = { ReadingInput.class, Broken.class /*
+            @Function(event = PressAnyKey.class, value = { ReadingInput.class, Broken.class /*
                                                                                                   * ,
                                                                                                   * NotReading
                                                                                                   * .
@@ -598,7 +598,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
                                                                                                   */})
             @InboundWhile(on = { PowerLifecycleMetadata.States.PowerOn.class }, relation = PowerRelation.class)
             static interface ReadingInput {}
-            // @Function(transition = PressAnyKey.class, value = {
+            // @Function(event = PressAnyKey.class, value = {
             // ReadingInput.class })
             // @ValidWhile(on = { PowerLifecycleMetadata.States.PowerOn.class },
             // relation = PowerRelation.class)
@@ -886,9 +886,9 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Activate.class, value = { Active.class })
+            @Function(event = Events.Activate.class, value = { Active.class })
             static interface Draft {}
-            @Function(transition = Events.Expire.class, value = { Expired.class })
+            @Function(event = Events.Expire.class, value = { Expired.class })
             static interface Active {}
             @End
             static interface Expired {}
@@ -907,7 +907,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Pay.class, value = { Paid.class })
+            @Function(event = Events.Pay.class, value = { Paid.class })
             @ValidWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = true)
             static interface Draft {}
             @End
@@ -932,7 +932,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Pay.class, value = { Paid.class })
+            @Function(event = Events.Pay.class, value = { Paid.class })
             @ValidWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = false)
             static interface Draft {}
             @End
@@ -1032,7 +1032,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Pay.class, value = { Paid.class })
+            @Function(event = Events.Pay.class, value = { Paid.class })
             static interface Draft {}
             @End
             @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = true)
@@ -1057,7 +1057,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(transition = Events.Pay.class, value = { Paid.class })
+            @Function(event = Events.Pay.class, value = { Paid.class })
             static interface Draft {}
             @End
             @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = false)

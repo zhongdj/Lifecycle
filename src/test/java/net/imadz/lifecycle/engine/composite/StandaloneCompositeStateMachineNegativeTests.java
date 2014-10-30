@@ -47,7 +47,7 @@ public class StandaloneCompositeStateMachineNegativeTests extends EngineCoreComp
     // without inheritance)
     // /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9000_if_invoke_illegal_transition_method() {
+    public void should_throw_002_9000_if_invoke_illegal_event_method() {
         final ProductOrder order = new ProductOrder();
         assertState(OrderLifecycle.States.Created.class, order);
         order.start();

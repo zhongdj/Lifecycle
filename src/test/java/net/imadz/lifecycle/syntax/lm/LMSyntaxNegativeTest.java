@@ -48,7 +48,7 @@ import org.junit.Test;
 public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_3212_if_LM_partial_concreting_transitions_A() throws VerificationException {
+    public void should_throw_002_3212_if_LM_partial_concreting_events_A() throws VerificationException {
         @LifecycleRegistry(NLM_1.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -65,7 +65,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_3212_if_LM_partial_concreting_transitions_B() throws VerificationException {
+    public void should_throw_002_3212_if_LM_partial_concreting_events_B() throws VerificationException {
         @LifecycleRegistry(NLM_2.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -82,7 +82,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_3213_if_transition_method_cannot_bind_to_any_transition_via_method_name() throws VerificationException {
+    public void should_throw_002_3213_if_event_method_cannot_bind_to_any_event_via_method_name() throws VerificationException {
         @LifecycleRegistry(NLM_3.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -99,7 +99,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_3211_if_transition_method_reference_transition_beyond_stateMachine() throws VerificationException, NoSuchMethodException,
+    public void should_throw_002_3211_if_event_method_reference_event_beyond_stateMachine() throws VerificationException, NoSuchMethodException,
             SecurityException {
         @LifecycleRegistry(NLM_4.class)
         @StateMachineBuilder
@@ -117,7 +117,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
     }
 
     @Test(expected = VerificationException.class)
-    public void should_throw_002_3214_if_some_mandatory_transitions_have_multi_methods() throws VerificationException {
+    public void should_throw_002_3214_if_some_mandatory_events_have_multi_methods() throws VerificationException {
         @LifecycleRegistry(NLM_5.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {

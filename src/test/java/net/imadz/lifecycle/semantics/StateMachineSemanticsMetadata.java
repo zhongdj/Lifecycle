@@ -60,11 +60,11 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
         public static interface States {
 
             @Initial
-            @Function(transition = S1_X.class, value = { S1_B.class })
+            @Function(event = S1_X.class, value = { S1_B.class })
             public static interface S1_A {}
-            @Function(transition = S1_Y.class, value = { S1_C.class })
+            @Function(event = S1_Y.class, value = { S1_C.class })
             public static interface S1_B {}
-            @Function(transition = S1_Z.class, value = { S1_D.class })
+            @Function(event = S1_Z.class, value = { S1_D.class })
             public static interface S1_C {}
             @End
             public static interface S1_D {}
@@ -85,7 +85,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
 
             @Initial
             @LifecycleOverride
-            @Function(transition = S2_Z.class, value = { S1_C.class })
+            @Function(event = S2_Z.class, value = { S1_C.class })
             public static interface S2_A extends S1.States.S1_A {}
             @LifecycleOverride
             @CompositeState
@@ -95,7 +95,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
                 public static interface S2_B_States {
 
                     @Initial
-                    @Function(transition = S2_B_Events_X.class, value = { S2_B_States_B.class })
+                    @Function(event = S2_B_Events_X.class, value = { S2_B_States_B.class })
                     public static interface S2_B_States_A {}
                     @End
                     @ShortCut(S1_C.class)
@@ -122,7 +122,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
 
             @Initial
             @LifecycleOverride
-            @Function(transition = S3_Z.class, value = { S1_D.class })
+            @Function(event = S3_Z.class, value = { S1_D.class })
             public static interface S3_A extends S2_A {}
             @CompositeState
             public static interface S3_E extends S2.States.S2_B {}

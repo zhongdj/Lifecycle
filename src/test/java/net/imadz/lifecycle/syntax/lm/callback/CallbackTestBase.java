@@ -67,9 +67,9 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
-            @Functions({ @Function(transition = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
-                    @Function(transition = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
+            @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Functions({ @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
+                    @Function(event = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -112,7 +112,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S2.Events.Move.class, value = { S2_State_B.class })
+            @Function(event = S2.Events.Move.class, value = { S2_State_B.class })
             static interface S2_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S2.Relations.S1Relation.class)
             @End
@@ -280,7 +280,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(transition = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
+            @Function(event = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
             static interface S3_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S3.Relations.S1Relation.class)
             @End

@@ -51,11 +51,11 @@ import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Start
  * 1.2 Or to put @StateIndicator on Type definition, and provide a state
  * indicator property name.
  * 
- * 2. Specify actions corresponding to the transitions defined at life cycle
+ * 2. Specify actions corresponding to the events defined at life cycle
  * meta data with @Event
  * 2.1 Leave @Event with default value while the action method name equals
- * with the transition class simple name
- * 2.2 Specify the transition value with the defined transition class when their
+ * with the event class simple name
+ * 2.2 Specify the event value with the defined event class when their
  * names are not equal
  * 
  * @author Barry

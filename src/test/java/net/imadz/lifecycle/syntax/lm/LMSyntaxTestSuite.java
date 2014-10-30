@@ -38,7 +38,7 @@ import net.imadz.lifecycle.syntax.lm.callback.CallbackTestSuite;
 import net.imadz.lifecycle.syntax.lm.condition.LMSyntaxConditionTestSuite;
 import net.imadz.lifecycle.syntax.lm.relation.LMSyntaxRelationTestSuite;
 import net.imadz.lifecycle.syntax.lm.stateindicator.StateIndicatorTestSuite;
-import net.imadz.lifecycle.syntax.lm.transition.EventTestSuite;
+import net.imadz.lifecycle.syntax.lm.event.EventTestSuite;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

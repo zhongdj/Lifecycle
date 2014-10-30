@@ -92,10 +92,10 @@ public interface StateMachineMetadata extends Recoverable, MetaType<StateMachine
     EventMetadata[] getDeclaredEventSet();
 
     // EventMetadata[] getSuperEventSet();
-    EventMetadata getDeclaredEvent(Object transitionKey);
+    EventMetadata getDeclaredEvent(Object eventKey);
 
     /**
-     * @return transitions in current StateMachine, current StateMachine's
+     * @return events in current StateMachine, current StateMachine's
      *         CompositeStateMachine, super StateMachines, super
      *         StateMachines'composite
      *         StateMachines.
@@ -103,10 +103,10 @@ public interface StateMachineMetadata extends Recoverable, MetaType<StateMachine
     EventMetadata[] getAllEvents();
 
     /**
-     * @param transitionKey
-     * @return transition in allEventSet by specified transitionKey
+     * @param eventKey
+     * @return event in allEventSet by specified eventKey
      */
-    EventMetadata getEvent(Object transitionKey);
+    EventMetadata getEvent(Object eventKey);
 
     EventMetadata getStateSynchronizationEvent();
 
@@ -169,5 +169,5 @@ public interface StateMachineMetadata extends Recoverable, MetaType<StateMachine
 
     LifecycleMetaRegistry getRegistry();
 
-    boolean hasEvent(Object transitionKey);
+    boolean hasEvent(Object eventKey);
 }

@@ -47,9 +47,9 @@ public interface PlantResourceLifecycleMeta extends SchedulableLifecycleMeta {
     @StateSet
     public static class States extends SchedulableLifecycleMeta.States {
 
-        @Function(transition = Maintain.class, value = Maintaining.class)
+        @Function(event = Maintain.class, value = Maintaining.class)
         public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
-        @Function(transition = ConfirmMaintainOver.class, value = Idle.class)
+        @Function(event = ConfirmMaintainOver.class, value = Idle.class)
         public static class Maintaining {}
     }
     @EventSet

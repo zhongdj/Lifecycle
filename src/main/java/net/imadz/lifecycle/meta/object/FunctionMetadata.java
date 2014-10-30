@@ -43,12 +43,12 @@ import net.imadz.lifecycle.meta.type.EventMetadata;
 public class FunctionMetadata {
 
     private final StateMetadata parent;
-    private final EventMetadata transition;
+    private final EventMetadata event;
     private final LinkedList<StateMetadata> nextStates;
 
-    public FunctionMetadata(StateMetaBuilderImpl parent, EventMetadata transition, LinkedList<StateMetadata> nextStates) {
+    public FunctionMetadata(StateMetaBuilderImpl parent, EventMetadata event, LinkedList<StateMetadata> nextStates) {
         this.parent = parent;
-        this.transition = transition;
+        this.event = event;
         this.nextStates = nextStates;
     }
 
@@ -57,7 +57,7 @@ public class FunctionMetadata {
     }
 
     public EventMetadata getEvent() {
-        return transition;
+        return event;
     }
 
     public LinkedList<StateMetadata> getNextStates() {

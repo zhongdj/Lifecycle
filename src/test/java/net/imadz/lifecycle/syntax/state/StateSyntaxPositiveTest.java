@@ -44,7 +44,7 @@ import org.junit.Test;
 public class StateSyntaxPositiveTest extends StateSyntaxMetadata {
 
     @Test
-    public void state_function_with_valid_conditional_transition() throws VerificationException {
+    public void state_function_with_valid_conditional_event() throws VerificationException {
         @LifecycleRegistry(S4.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -66,7 +66,7 @@ public class StateSyntaxPositiveTest extends StateSyntaxMetadata {
     }
 
     @Test
-    public void composite_state_with_valid_transition_and_shortcut() throws VerificationException {
+    public void composite_state_with_valid_event_and_shortcut() throws VerificationException {
         @LifecycleRegistry(PCS1.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -77,7 +77,7 @@ public class StateSyntaxPositiveTest extends StateSyntaxMetadata {
     }
 
     @Test
-    public void state_overriding_function_referring_same_transition_with_super_state() throws VerificationException {
+    public void state_overriding_function_referring_same_event_with_super_state() throws VerificationException {
         @LifecycleRegistry(State_Overriding_Function_Referring_Same_Event_With_Super_State.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -88,7 +88,7 @@ public class StateSyntaxPositiveTest extends StateSyntaxMetadata {
     }
 
     @Test
-    public void composite_state_with_reference_transition_in_owning_statemachine() throws VerificationException {
+    public void composite_state_with_reference_event_in_owning_statemachine() throws VerificationException {
         @LifecycleRegistry(StateMachineWithFunctionInCompositeStateReferencingOuterEvent.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
@@ -99,7 +99,7 @@ public class StateSyntaxPositiveTest extends StateSyntaxMetadata {
     }
 
     @Test
-    public void composite_state_with_reference_transition_in_super_statemachine() throws VerificationException {
+    public void composite_state_with_reference_event_in_super_statemachine() throws VerificationException {
         @LifecycleRegistry(FunctionInCompositeStateReferencingEventInSuper.class)
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {

@@ -52,9 +52,9 @@ public interface SchedulableLifecycleMeta {
     public static abstract class States {
 
         @Initial
-        @Functions({ @Function(transition = Assign.class, value = Busy.class) })
+        @Functions({ @Function(event = Assign.class, value = Busy.class) })
         public static class Idle {}
-        @Function(transition = Release.class, value = Idle.class)
+        @Function(event = Release.class, value = Idle.class)
         public static class Busy {}
     }
     @EventSet

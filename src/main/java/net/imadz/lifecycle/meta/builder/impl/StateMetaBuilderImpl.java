@@ -162,39 +162,39 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     @Override
-    public EventMetadata getEvent(Object transitionKey) {
-        EventMetadata transitionMetadata = null;
+    public EventMetadata getEvent(Object eventKey) {
+        EventMetadata eventMetadata = null;
         if ( this.parent.isComposite() ) {
-            transitionMetadata = this.parent.getOwningState().getEvent(transitionKey);
+            eventMetadata = this.parent.getOwningState().getEvent(eventKey);
         }
         if ( isOverriding() || !hasSuper() ) {
-            if ( null == transitionMetadata ) {
-                transitionMetadata = getDeclaredPossibleEvent(transitionKey);
+            if ( null == eventMetadata ) {
+                eventMetadata = getDeclaredPossibleEvent(eventKey);
             }
-            if ( null == transitionMetadata ) {
+            if ( null == eventMetadata ) {
                 return null;
             } else {
-                return transitionMetadata;
+                return eventMetadata;
             }
         } else {// if ( hasSuper() && !isOverriding() ) {
-            if ( null == transitionMetadata ) {
-                transitionMetadata = getDeclaredPossibleEvent(transitionKey);
+            if ( null == eventMetadata ) {
+                eventMetadata = getDeclaredPossibleEvent(eventKey);
             }
-            if ( null != transitionMetadata ) {
-                return transitionMetadata;
+            if ( null != eventMetadata ) {
+                return eventMetadata;
             } else {
-                return this.getSuper().getEvent(transitionKey);
+                return this.getSuper().getEvent(eventKey);
             }
         }
     }
 
-    private EventMetadata getDeclaredPossibleEvent(Object transitionKey) {
-        return possibleEventMap.get(transitionKey);
+    private EventMetadata getDeclaredPossibleEvent(Object eventKey) {
+        return possibleEventMap.get(eventKey);
     }
 
     @Override
-    public boolean isEventValid(Object transitionKey) {
-        return null != getEvent(transitionKey);
+    public boolean isEventValid(Object eventKey) {
+        return null != getEvent(eventKey);
     }
 
     @Override
@@ -392,13 +392,13 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
             return new ArrayList<Function>();
         }
         final ArrayList<Function> functionList = new ArrayList<Function>();
-        final HashSet<Class<?>> transitionClassSet = new HashSet<Class<?>>();
+        final HashSet<Class<?>> eventClassSet = new HashSet<Class<?>>();
         if ( null != stateClass.getAnnotation(Function.class) ) {
             final Function function = stateClass.getAnnotation(Function.class);
-            addFunction(stateClass, functionList, transitionClassSet, function);
+            addFunction(stateClass, functionList, eventClassSet, function);
         } else if ( null != stateClass.getAnnotation(Functions.class) ) {
             for ( Function function : stateClass.getAnnotation(Functions.class).value() ) {
-                addFunction(stateClass, functionList, transitionClassSet, function);
+                addFunction(stateClass, functionList, eventClassSet, function);
             }
         }
         if ( 0 == functionList.size() && null != this.getSuper() ) {
@@ -410,20 +410,20 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         return functionList;
     }
 
-    private void addFunction(Class<?> stateClass, final ArrayList<Function> functionList, final HashSet<Class<?>> transitionClassSet, Function function)
+    private void addFunction(Class<?> stateClass, final ArrayList<Function> functionList, final HashSet<Class<?>> eventClassSet, Function function)
             throws VerificationException {
-        if ( transitionClassSet.contains(function.transition()) || !isOverriding() && superStateHasFunction(function.transition()) ) {
+        if ( eventClassSet.contains(function.event()) || !isOverriding() && superStateHasFunction(function.event()) ) {
             throw newVerificationException(getDottedPath(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_TRANSITION, stateClass,
-                    function.transition());
+                    function.event());
         } else {
             functionList.add(function);
-            transitionClassSet.add(function.transition());
+            eventClassSet.add(function.event());
         }
     }
 
-    private boolean superStateHasFunction(Class<?> transitionClass) {
+    private boolean superStateHasFunction(Class<?> eventClass) {
         for ( StateMetadata metadata = isOverriding() ? null : getSuper(); null != metadata; metadata = metadata.isOverriding() ? null : metadata.getSuper() ) {
-            if ( null != metadata.getDeclaredFunctionMetadata(transitionClass) ) {
+            if ( null != metadata.getDeclaredFunctionMetadata(eventClass) ) {
                 return true;
             }
         }
@@ -431,32 +431,32 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private void configureFunction(StateMetaBuilderImpl parent, Function function) {
-        final EventMetadata transition = findEvent(parent.getParent(), function.transition());
+        final EventMetadata event = findEvent(parent.getParent(), function.event());
         Class<?>[] value = function.value();
         final LinkedList<StateMetadata> nextStates = new LinkedList<StateMetadata>();
         for ( Class<?> item : value ) {
             StateMetaBuilder nextState = (StateMetaBuilder) parent.getParent().getState(item);
-            nextState.addPossibleReachingEvent(transition);
+            nextState.addPossibleReachingEvent(event);
             nextStates.add(nextState);
         }
-        final FunctionMetadata functionMetadata = new FunctionMetadata(parent, transition, nextStates);
+        final FunctionMetadata functionMetadata = new FunctionMetadata(parent, event, nextStates);
         this.functionMetadataList.add(functionMetadata);
-        this.possibleLeavingEventList.add(transition);
-        final Iterator<Object> iterator = transition.getKeySet().iterator();
+        this.possibleLeavingEventList.add(event);
+        final Iterator<Object> iterator = event.getKeySet().iterator();
         while ( iterator.hasNext() ) {
             final Object next = iterator.next();
             this.functionMetadataMap.put(next, functionMetadata);
-            this.possibleEventMap.put(next, transition);
+            this.possibleEventMap.put(next, event);
         }
-        switch (transition.getType()) {
+        switch (event.getType()) {
             case Corrupt:
-                this.corruptEvent = transition;
+                this.corruptEvent = event;
                 break;
             case Recover:
-                this.recoverEvent = transition;
+                this.recoverEvent = event;
                 break;
             case Redo:
-                this.redoEvent = transition;
+                this.redoEvent = event;
                 break;
             case Common:
             case Fail:
@@ -466,21 +466,21 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private void verifyFunction(Class<?> stateClass, Function function) throws VerificationException {
-        Class<?> transitionClass = function.transition();
+        Class<?> eventClass = function.event();
         Class<?>[] stateCandidates = function.value();
         final VerificationFailureSet failureSet = new VerificationFailureSet();
-        final EventMetadata transition = findEvent(parent, transitionClass);
-        if ( null == transition ) {
+        final EventMetadata event = findEvent(parent, eventClass);
+        if ( null == event ) {
             failureSet.add(newVerificationFailure(getDottedPath().getAbsoluteName(), SyntaxErrors.FUNCTION_INVALID_TRANSITION_REFERENCE, function, stateClass,
-                    transitionClass));
+                    eventClass));
         }
         if ( 0 == stateCandidates.length ) {
             failureSet.add(newVerificationFailure(getDottedPath().getAbsoluteName(), SyntaxErrors.FUNCTION_WITH_EMPTY_STATE_CANDIDATES, function,
-                    stateClass.getName(), transitionClass.getName()));
+                    stateClass.getName(), eventClass.getName()));
         } else if ( 1 < stateCandidates.length ) {
-            if ( !transition.isConditional() ) {
-                failureSet.add(newVerificationFailure(transition.getDottedPath().getAbsoluteName(),
-                        SyntaxErrors.FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION, function, stateClass.getName(), transitionClass.getName()));
+            if ( !event.isConditional() ) {
+                failureSet.add(newVerificationFailure(event.getDottedPath().getAbsoluteName(),
+                        SyntaxErrors.FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION, function, stateClass.getName(), eventClass.getName()));
             }
         }
         for ( int i = 0; i < stateCandidates.length; i++ ) {
@@ -496,21 +496,21 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         }
     }
 
-    private EventMetadata findEvent(StateMachineMetadata stateMachine, Class<?> transitionKey) {
-        EventMetadata declaredEvent = stateMachine.getDeclaredEvent(transitionKey);
+    private EventMetadata findEvent(StateMachineMetadata stateMachine, Class<?> eventKey) {
+        EventMetadata declaredEvent = stateMachine.getDeclaredEvent(eventKey);
         if ( null == declaredEvent ) {
             if ( stateMachine.isComposite() ) {
-                declaredEvent = stateMachine.getOwningStateMachine().getDeclaredEvent(transitionKey);
+                declaredEvent = stateMachine.getOwningStateMachine().getDeclaredEvent(eventKey);
                 if ( null == declaredEvent ) {
                     if ( stateMachine.hasSuper() ) {
-                        declaredEvent = findEvent(stateMachine.getSuper(), transitionKey);
+                        declaredEvent = findEvent(stateMachine.getSuper(), eventKey);
                     } else if ( stateMachine.getOwningStateMachine().hasSuper() ) {
-                        declaredEvent = findEvent(stateMachine.getOwningStateMachine().getSuper(), transitionKey);
+                        declaredEvent = findEvent(stateMachine.getOwningStateMachine().getSuper(), eventKey);
                     }
                 }
             } else {
                 if ( stateMachine.hasSuper() ) {
-                    declaredEvent = findEvent(stateMachine.getSuper(), transitionKey);
+                    declaredEvent = findEvent(stateMachine.getSuper(), eventKey);
                 }
             }
         }
@@ -741,17 +741,17 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     @Override
-    public boolean hasMultipleStateCandidatesOn(Object transitionKey) {
+    public boolean hasMultipleStateCandidatesOn(Object eventKey) {
         FunctionMetadata functionMetadata = null;
         if ( parent.isComposite() ) {
-            functionMetadata = parent.getOwningState().getDeclaredFunctionMetadata(transitionKey);
+            functionMetadata = parent.getOwningState().getDeclaredFunctionMetadata(eventKey);
         }
         if ( isOverriding() || !hasSuper() ) {
             if ( null == functionMetadata ) {
-                functionMetadata = getDeclaredFunctionMetadata(transitionKey);
+                functionMetadata = getDeclaredFunctionMetadata(eventKey);
             }
             if ( null == functionMetadata ) {
-                throw new IllegalArgumentException("Invalid Key or Key not registered: " + transitionKey);
+                throw new IllegalArgumentException("Invalid Key or Key not registered: " + eventKey);
             }
             if ( 1 < functionMetadata.getNextStates().size() ) {
                 return true;
@@ -760,7 +760,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
             }
         } else {// if ( hasSuper() && !isOverriding() ) {
             if ( null == functionMetadata ) {
-                functionMetadata = this.getDeclaredFunctionMetadata(transitionKey);
+                functionMetadata = this.getDeclaredFunctionMetadata(eventKey);
             }
             if ( null != functionMetadata ) {
                 if ( functionMetadata.getNextStates().size() > 1 ) {
@@ -769,7 +769,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
                     return false;
                 }
             } else {
-                return this.getSuper().hasMultipleStateCandidatesOn(transitionKey);
+                return this.getSuper().hasMultipleStateCandidatesOn(eventKey);
             }
         }
     }
@@ -816,8 +816,8 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     @Override
-    public void addPossibleReachingEvent(EventMetadata transition) {
-        this.possibleReachingEventList.add(transition);
+    public void addPossibleReachingEvent(EventMetadata event) {
+        this.possibleReachingEventList.add(event);
     }
 
     @Override

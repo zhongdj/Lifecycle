@@ -113,7 +113,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
     }
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9002_if_violates_inbound_while_with_non_conditional_transition() {
+    public void should_throw_002_9002_if_violates_inbound_while_with_non_conditional_event() {
         final Customer customer = new Customer();
         customer.activate();
         InternetServiceOrderWithInboundWhile service = new InternetServiceOrderWithInboundWhile(new Date(), null, customer, "3 years");
@@ -128,7 +128,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
     }
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9002_if_violates_inbound_while_with_conditional_transition_prevalidate() {
+    public void should_throw_002_9002_if_violates_inbound_while_with_conditional_event_prevalidate() {
         final PowerObject power = new PowerObject();
         final KeyBoardObjectPreValidateCondition keyboard = new KeyBoardObjectPreValidateCondition(power);
         power.shutDown();
@@ -142,7 +142,7 @@ public class EngineCoreFunctionNegativeTests extends CoreFuntionTestMetadata {
     }
 
     @Test(expected = LifecycleException.class)
-    public void should_throw_002_9002_if_violates_inbound_while_with_conditional_transition_postvalidate() {
+    public void should_throw_002_9002_if_violates_inbound_while_with_conditional_event_postvalidate() {
         final PowerObject power = new PowerObject();
         final KeyBoardObjectPostValidateCondition keyboard = new KeyBoardObjectPostValidateCondition(power);
         keyboard.pressAnyKey();

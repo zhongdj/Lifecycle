@@ -37,8 +37,8 @@ package net.imadz.lifecycle;
 public class LifecycleCommonErrors {
 
     /**
-     * @param {0} transition simple name or transitionKey Class,
-     *        When @Event(value=T.class) then transitionKeyClass will be
+     * @param {0} event simple name or eventKey Class,
+     *        When @Event(value=T.class) then eventKeyClass will be
      *        the value other than simple Name
      * @param {1} state name
      * @param {2} target object
@@ -53,7 +53,7 @@ public class LifecycleCommonErrors {
      */
     public static final String STATE_INVALID = "002-9001";
     /**
-     * @param {0} transition
+     * @param {0} event
      * @param {1} target object next state
      * @param {2} target object
      * @param {3} relation object

@@ -39,7 +39,7 @@ import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -61,19 +61,19 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
+            @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
             static interface PCS1_A {}
             @CompositeState
-            @Function(event = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
+            @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
             static interface PCS1_B extends CompositeExtendsOwningStateMachine {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
+                    @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
                     static interface PCS1_CA {}
-                    @Function(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
+                    @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
                     static interface PCS1_CB {}
                     @End
                     @ShortCut(PCS1_C.class)

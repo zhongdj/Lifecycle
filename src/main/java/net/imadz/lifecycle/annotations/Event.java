@@ -39,8 +39,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import net.imadz.bcel.intercept.Interceptable;
 import net.imadz.utils.Null;
 
+@Interceptable
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Event {

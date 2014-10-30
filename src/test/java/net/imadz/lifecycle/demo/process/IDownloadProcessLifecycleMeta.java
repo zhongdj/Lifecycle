@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.process;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -68,33 +68,33 @@ public interface IDownloadProcessLifecycleMeta {
     static class States {
 
         @Initial
-        @Functions({ @Function(event = Prepare.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Prepare.class, value = Queued.class), @Transition(event = Remove.class, value = Removed.class) })
         static class New {}
         @Running
-        @Functions({ @Function(event = Pause.class, value = Paused.class), @Function(event = Start.class, value = Started.class),
-                @Function(event = Deactive.class, value = InactiveQueued.class), @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Pause.class, value = Paused.class), @Transition(event = Start.class, value = Started.class),
+                @Transition(event = Deactive.class, value = InactiveQueued.class), @Transition(event = Remove.class, value = Removed.class) })
         static class Queued {}
         @Running
-        @Functions({ @Function(event = Pause.class, value = Paused.class), @Function(event = Receive.class, value = Started.class),
-                @Function(event = Deactive.class, value = InactiveStarted.class), @Function(event = Err.class, value = Failed.class),
-                @Function(event = Finish.class, value = Finished.class), @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Pause.class, value = Paused.class), @Transition(event = Receive.class, value = Started.class),
+                @Transition(event = Deactive.class, value = InactiveStarted.class), @Transition(event = Err.class, value = Failed.class),
+                @Transition(event = Finish.class, value = Finished.class), @Transition(event = Remove.class, value = Removed.class) })
         static class Started {}
         @Corrupted(recoverPriority = 1)
-        @Functions({ @Function(event = Activate.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Activate.class, value = Queued.class), @Transition(event = Remove.class, value = Removed.class) })
         static class InactiveQueued {}
         @Corrupted(recoverPriority = 0)
-        @Functions({ @Function(event = Activate.class, value = Queued.class), @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Activate.class, value = Queued.class), @Transition(event = Remove.class, value = Removed.class) })
         static class InactiveStarted {}
         @Stopped
-        @Functions({ @Function(event = Resume.class, value = New.class), @Function(event = Restart.class, value = New.class),
-                @Function(event = Remove.class, value = Removed.class) })
+        @Transitions({ @Transition(event = Resume.class, value = New.class), @Transition(event = Restart.class, value = New.class),
+                @Transition(event = Remove.class, value = Removed.class) })
         static class Paused {}
         @Stopped
-        @Functions({ @Function(event = Restart.class, value = New.class), @Function(event = Resume.class, value = New.class),
-                @Function(event = Remove.class, value = Removed.class), })
+        @Transitions({ @Transition(event = Restart.class, value = New.class), @Transition(event = Resume.class, value = New.class),
+                @Transition(event = Remove.class, value = Removed.class), })
         static class Failed {}
         @Stopped
-        @Functions({ @Function(event = Restart.class, value = New.class), @Function(event = Remove.class, value = Removed.class), })
+        @Transitions({ @Transition(event = Restart.class, value = New.class), @Transition(event = Remove.class, value = Removed.class), })
         static class Finished {}
         @End
         static class Removed {}

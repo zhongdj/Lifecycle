@@ -92,6 +92,10 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
         return instance;
     }
 
+    public static void close() {
+    	instance = null;
+    }
+    
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
     public static @interface LifecycleRegistry {

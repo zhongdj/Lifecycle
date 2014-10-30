@@ -45,8 +45,8 @@ import net.imadz.common.Dumper;
 import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -305,9 +305,9 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
         }
         if ( null != superMetadataClass.getAnnotation(End.class) ) {
             return true;
-        } else if ( null != superMetadataClass.getAnnotation(Function.class) ) {
+        } else if ( null != superMetadataClass.getAnnotation(Transition.class) ) {
             return true;
-        } else if ( null != superMetadataClass.getAnnotation(Functions.class) ) {
+        } else if ( null != superMetadataClass.getAnnotation(Transitions.class) ) {
             return true;
         }
         return false;

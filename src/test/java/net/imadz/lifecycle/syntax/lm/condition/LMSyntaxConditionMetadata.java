@@ -36,7 +36,7 @@ package net.imadz.lifecycle.syntax.lm.condition;
 
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
@@ -67,7 +67,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -130,7 +130,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S2_Event_X.class, value = EnclosingState.class)
+            @Transition(event = S2_Event_X.class, value = EnclosingState.class)
             static interface S2_Intial {}
             @CompositeState
             static interface EnclosingState {
@@ -139,7 +139,7 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                 static interface CStates {
 
                     @Initial
-                    @Function(event = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
+                    @Transition(event = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
                     static interface S2_State_A {}
                     @End
                     @ShortCut(S2_End_B.class)

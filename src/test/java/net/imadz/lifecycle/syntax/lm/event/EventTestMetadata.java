@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.syntax.lm.event;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
@@ -58,14 +58,14 @@ public class EventTestMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = { Running.class })
+            @Transition(event = Events.Start.class, value = { Running.class })
             static interface Queued {}
-            @Functions({ @Function(event = Events.Inactivate.class, value = { InactiveRunning.class }),
-                    @Function(event = Events.Stop.class, value = { Stopped.class }) })
+            @Transitions({ @Transition(event = Events.Inactivate.class, value = { InactiveRunning.class }),
+                    @Transition(event = Events.Stop.class, value = { Stopped.class }) })
             static interface Running {}
-            @Functions({ @Function(event = Events.Activate.class, value = { Running.class }),
-                    @Function(event = Events.Restart.class, value = { Running.class }),
-                    @Function(event = Events.Stop.class, value = { Stopped.class }) })
+            @Transitions({ @Transition(event = Events.Activate.class, value = { Running.class }),
+                    @Transition(event = Events.Restart.class, value = { Running.class }),
+                    @Transition(event = Events.Stop.class, value = { Stopped.class }) })
             static interface InactiveRunning {}
             @End
             static interface Stopped {}

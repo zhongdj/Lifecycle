@@ -35,8 +35,8 @@
 package net.imadz.lifecycle.syntax.lm.callback;
 
 import net.imadz.lifecycle.LifecycleContext;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
@@ -67,9 +67,9 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
-            @Functions({ @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
-                    @Function(event = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
+            @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Transitions({ @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
+                    @Transition(event = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -112,7 +112,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S2.Events.Move.class, value = { S2_State_B.class })
+            @Transition(event = S2.Events.Move.class, value = { S2_State_B.class })
             static interface S2_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S2.Relations.S1Relation.class)
             @End
@@ -280,7 +280,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
+            @Transition(event = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
             static interface S3_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S3.Relations.S1Relation.class)
             @End

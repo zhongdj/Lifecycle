@@ -45,8 +45,8 @@ import net.imadz.common.DottedPath;
 import net.imadz.common.Dumper;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.relation.ErrorMessage;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
@@ -371,7 +371,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
 
     @Override
     public void configureFunctions(Class<?> stateClass) throws VerificationException {
-        for ( Function function : verifyFunctions(stateClass) ) {
+        for ( Transition function : verifyFunctions(stateClass) ) {
             verifyFunction(stateClass, function);
             configureFunction(this, function);
         }
@@ -387,22 +387,22 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         this.compositeStateMachine = parent.getRegistry().loadStateMachineMetadata(stateClass, parent);
     }
 
-    private ArrayList<Function> verifyFunctions(Class<?> stateClass) throws VerificationException {
+    private ArrayList<Transition> verifyFunctions(Class<?> stateClass) throws VerificationException {
         if ( isFinalState(stateClass) ) {
-            return new ArrayList<Function>();
+            return new ArrayList<Transition>();
         }
-        final ArrayList<Function> functionList = new ArrayList<Function>();
+        final ArrayList<Transition> functionList = new ArrayList<Transition>();
         final HashSet<Class<?>> eventClassSet = new HashSet<Class<?>>();
-        if ( null != stateClass.getAnnotation(Function.class) ) {
-            final Function function = stateClass.getAnnotation(Function.class);
+        if ( null != stateClass.getAnnotation(Transition.class) ) {
+            final Transition function = stateClass.getAnnotation(Transition.class);
             addFunction(stateClass, functionList, eventClassSet, function);
-        } else if ( null != stateClass.getAnnotation(Functions.class) ) {
-            for ( Function function : stateClass.getAnnotation(Functions.class).value() ) {
+        } else if ( null != stateClass.getAnnotation(Transitions.class) ) {
+            for ( Transition function : stateClass.getAnnotation(Transitions.class).value() ) {
                 addFunction(stateClass, functionList, eventClassSet, function);
             }
         }
         if ( 0 == functionList.size() && null != this.getSuper() ) {
-            return new ArrayList<Function>();
+            return new ArrayList<Transition>();
         }
         if ( 0 == functionList.size() && !this.isCompositeState() ) {
             throw newVerificationException(getDottedPath().getAbsoluteName(), SyntaxErrors.STATE_NON_FINAL_WITHOUT_FUNCTIONS, stateClass.getName());
@@ -410,7 +410,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         return functionList;
     }
 
-    private void addFunction(Class<?> stateClass, final ArrayList<Function> functionList, final HashSet<Class<?>> eventClassSet, Function function)
+    private void addFunction(Class<?> stateClass, final ArrayList<Transition> functionList, final HashSet<Class<?>> eventClassSet, Transition function)
             throws VerificationException {
         if ( eventClassSet.contains(function.event()) || !isOverriding() && superStateHasFunction(function.event()) ) {
             throw newVerificationException(getDottedPath(), SyntaxErrors.STATE_DEFINED_MULTIPLE_FUNCTION_REFERRING_SAME_EVENT, stateClass,
@@ -430,7 +430,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         return false;
     }
 
-    private void configureFunction(StateMetaBuilderImpl parent, Function function) {
+    private void configureFunction(StateMetaBuilderImpl parent, Transition function) {
         final EventMetadata event = findEvent(parent.getParent(), function.event());
         Class<?>[] value = function.value();
         final LinkedList<StateMetadata> nextStates = new LinkedList<StateMetadata>();
@@ -465,7 +465,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
         }
     }
 
-    private void verifyFunction(Class<?> stateClass, Function function) throws VerificationException {
+    private void verifyFunction(Class<?> stateClass, Transition function) throws VerificationException {
         Class<?> eventClass = function.event();
         Class<?>[] stateCandidates = function.value();
         final VerificationFailureSet failureSet = new VerificationFailureSet();

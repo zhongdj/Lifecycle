@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -50,11 +50,11 @@ public interface PlantResourceLifecycleMeta {
     @StateSet
     public static class States {
 
-        @Functions({ @Function(event = Assign.class, value = Busy.class), @Function(event = Maintain.class, value = Maintaining.class) })
+        @Transitions({ @Transition(event = Assign.class, value = Busy.class), @Transition(event = Maintain.class, value = Maintaining.class) })
         public static class Idle {}
-        @Function(event = Release.class, value = Idle.class)
+        @Transition(event = Release.class, value = Idle.class)
         public static class Busy {}
-        @Function(event = ConfirmMaintainOver.class, value = Idle.class)
+        @Transition(event = ConfirmMaintainOver.class, value = Idle.class)
         public static class Maintaining {}
     }
     @EventSet

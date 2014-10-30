@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.standalone;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -60,11 +60,11 @@ public interface ServiceableLifecycleMeta {
     public static class States {
 
         @Initial
-        @Function(event = Schedule.class, value = Queued.class)
+        @Transition(event = Schedule.class, value = Queued.class)
         public static class Created {}
-        @Functions({ @Function(event = Start.class, value = Ongoing.class), @Function(event = Cancel.class, value = Cancelled.class) })
+        @Transitions({ @Transition(event = Start.class, value = Ongoing.class), @Transition(event = Cancel.class, value = Cancelled.class) })
         public static class Queued {}
-        @Functions({ @Function(event = Finish.class, value = Finished.class), @Function(event = Cancel.class, value = Cancelled.class) })
+        @Transitions({ @Transition(event = Finish.class, value = Finished.class), @Transition(event = Cancel.class, value = Cancelled.class) })
         public static class Ongoing {}
         @End
         public static class Finished {}

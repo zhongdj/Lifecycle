@@ -40,8 +40,8 @@ import java.util.Collections;
 import java.util.List;
 
 import net.imadz.lifecycle.LifecycleContext;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
@@ -85,9 +85,9 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = { States.Started.class })
+            @Transition(event = Events.Start.class, value = { States.Started.class })
             static interface New {}
-            @Function(event = Events.Finish.class, value = { States.Finished.class })
+            @Transition(event = Events.Finish.class, value = { States.Finished.class })
             static interface Started {}
             @End
             static interface Finished {}
@@ -173,12 +173,12 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = InvoiceStateMachineMeta.Events.Post.class, value = { InvoiceStateMachineMeta.States.Posted.class })
+            @Transition(event = InvoiceStateMachineMeta.Events.Post.class, value = { InvoiceStateMachineMeta.States.Posted.class })
             static interface Draft {}
-            @Functions({ @Function(event = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
+            @Transitions({ @Transition(event = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
                     InvoiceStateMachineMeta.States.PaidOff.class }) })
             static interface Posted {}
-            @Function(event = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
+            @Transition(event = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
                     InvoiceStateMachineMeta.States.PaidOff.class })
             static interface PartialPaid {}
             @End
@@ -225,7 +225,7 @@ public class CallbackTestMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = InvoiceItemStateMachineMeta.Events.Pay.class, value = { InvoiceItemStateMachineMeta.States.Paid.class })
+            @Transition(event = InvoiceItemStateMachineMeta.Events.Pay.class, value = { InvoiceItemStateMachineMeta.States.Paid.class })
             static interface Unpaid {}
             @End
             @InboundWhile(on = { InvoiceStateMachineMeta.States.Posted.class, InvoiceStateMachineMeta.States.PartialPaid.class },
@@ -458,9 +458,9 @@ public class CallbackTestMetadata extends EngineTestBase {
         public static interface States {
 
             @Initial
-            @Function(event = Events.Pay.class, value = { States.Paid.class })
+            @Transition(event = Events.Pay.class, value = { States.Paid.class })
             public static interface New {}
-            @Function(event = Events.Deliver.class, value = { States.Delivered.class })
+            @Transition(event = Events.Deliver.class, value = { States.Delivered.class })
             public static interface Paid {}
             @End
             public static interface Delivered {}
@@ -478,10 +478,10 @@ public class CallbackTestMetadata extends EngineTestBase {
         @StateSet
         public static interface States extends OrderStateMachine.States {
 
-            @Function(event = Events.Cancel.class, value = { Cancelled.class })
+            @Transition(event = Events.Cancel.class, value = { Cancelled.class })
             public static interface New extends OrderStateMachine.States.New {}
             @LifecycleOverride
-            @Function(event = Events.Install.class, value = { States.Installed.class })
+            @Transition(event = Events.Install.class, value = { States.Installed.class })
             public static interface Delivered extends OrderStateMachine.States.Delivered {}
             @End
             public static interface Installed {}

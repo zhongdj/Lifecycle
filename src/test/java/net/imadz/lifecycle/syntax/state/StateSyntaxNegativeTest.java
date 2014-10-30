@@ -38,7 +38,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.ShortCut;
 import net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.NCS2.States.NCS2_B.CStates.NCS2_CC;
 import net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.NCS3.States.NCS3_B.CStates.NCS3_CC;
@@ -84,7 +84,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
-                    C.class.getAnnotation(Function.class), C.class, net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.S1.Events.X.class);
+                    C.class.getAnnotation(Transition.class), C.class, net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.S1.Events.X.class);
             throw e;
         }
     }
@@ -101,7 +101,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_CONDITIONAL_EVENT_WITHOUT_CONDITION,
-                    E.class.getAnnotation(Function.class), E.class.getName(), Y.class.getName());
+                    E.class.getAnnotation(Transition.class), E.class.getName(), Y.class.getName());
             throw e;
         }
     }
@@ -118,7 +118,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_NEXT_STATESET_OF_FUNCTION_INVALID,
-                    S5_A.class.getAnnotation(Function.class), S5_A.class.getName(), S5.class.getName(), D.class.getName());
+                    S5_A.class.getAnnotation(Transition.class), S5_A.class.getName(), S5.class.getName(), D.class.getName());
             throw e;
         }
     }
@@ -253,7 +253,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
-                    CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S2.S2_States.S2_A.class.getAnnotation(Function.class),
+                    CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S2.S2_States.S2_A.class.getAnnotation(Transition.class),
                     CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S2.S2_States.S2_A.class,
                     CompositeStateMachineEventReferencedFromAnotherCompositeStateMachine.States.S3.S3_Events.S3_X.class);
             throw e;
@@ -274,7 +274,7 @@ public class StateSyntaxNegativeTest extends StateSyntaxMetadata {
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.FUNCTION_INVALID_EVENT_REFERENCE,
                     CompositeStateMachineEventReferenceFromSuperNonExtendedCompositeStateMachine.States.Composite_S1.InnerStates.Inner_S2.class
-                            .getAnnotation(Function.class),
+                            .getAnnotation(Transition.class),
                     CompositeStateMachineEventReferenceFromSuperNonExtendedCompositeStateMachine.States.Composite_S1.InnerStates.Inner_S2.class,
                     SuperStateMachine.States.Super_S2.CompositeEvents.Super_S2_X.class);
             throw e;

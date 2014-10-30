@@ -122,9 +122,9 @@ public interface SyntaxErrors {
      * @param {2} Super state machine class
      */
     public static final String EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE = "002-2505";
-    // State's Function
+    // State's Transition
     /**
-     * @param {0} @Function definition
+     * @param {0} @Transition definition
      * @param {1} State class
      * @param {2} Event class
      */

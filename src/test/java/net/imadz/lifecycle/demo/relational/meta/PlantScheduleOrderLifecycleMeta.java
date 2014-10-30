@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -55,20 +55,20 @@ public interface PlantScheduleOrderLifecycleMeta {
     static class States {
 
         @Initial
-        @Functions({ @Function(event = Start.class, value = Working.class) })
+        @Transitions({ @Transition(event = Start.class, value = Working.class) })
         static class Created {}
         /*
          * on=Queued: ServiceOrder state change last, while Plant Operator
          * Triggers or Truck Driver Triggers
          */
-        @Functions({ @Function(event = Finish.class, value = Done.class) })
+        @Transitions({ @Transition(event = Finish.class, value = Done.class) })
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class, ServiceableLifecycleMeta.States.Ongoing.class })
         static class Working {}
         @End
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class, ServiceableLifecycleMeta.States.Finished.class })
-        // Default @Functions({})
+        // Default @Transitions({})
         static class Done {}
     }
     @EventSet

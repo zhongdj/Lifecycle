@@ -38,7 +38,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -82,9 +82,9 @@ public class ConditionSetTest extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Z.class, value = { I.class, J.class })
+            @Transition(event = Z.class, value = { I.class, J.class })
             static interface H {}
-            @Function(event = Z.class, value = { I.class, J.class })
+            @Transition(event = Z.class, value = { I.class, J.class })
             static interface I {}
             @End
             static interface J {}

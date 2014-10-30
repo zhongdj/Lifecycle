@@ -35,8 +35,8 @@
 package net.imadz.lifecycle.engine.composite;
 
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
@@ -72,21 +72,21 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = Started.class)
+            @Transition(event = Events.Start.class, value = Started.class)
             static interface Created {}
             @CompositeState
-            @Function(event = Events.Cancel.class, value = Canceled.class)
+            @Transition(event = Events.Cancel.class, value = Canceled.class)
             static interface Started {
 
                 @StateSet
                 static interface SubStates {
 
                     @Initial
-                    @Function(event = OrderLifecycle.States.Started.SubEvents.DoProduce.class, value = Producing.class)
+                    @Transition(event = OrderLifecycle.States.Started.SubEvents.DoProduce.class, value = Producing.class)
                     static interface OrderCreated {}
-                    @Function(event = OrderLifecycle.States.Started.SubEvents.DoDeliver.class, value = Delivering.class)
+                    @Transition(event = OrderLifecycle.States.Started.SubEvents.DoDeliver.class, value = Delivering.class)
                     static interface Producing {}
-                    @Function(event = OrderLifecycle.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
+                    @Transition(event = OrderLifecycle.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
                     static interface Delivering {}
                     @End
                     @ShortCut(OrderLifecycle.States.Finished.class)
@@ -145,11 +145,11 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Functions({ @Function(event = ContractLifecycle.Events.Activate.class, value = Active.class),
-                    @Function(event = ContractLifecycle.Events.Cancel.class, value = Canceled.class) })
+            @Transitions({ @Transition(event = ContractLifecycle.Events.Activate.class, value = Active.class),
+                    @Transition(event = ContractLifecycle.Events.Cancel.class, value = Canceled.class) })
             static interface Draft {}
-            @Functions({ @Function(event = ContractLifecycle.Events.Expire.class, value = Expired.class),
-                    @Function(event = ContractLifecycle.Events.Cancel.class, value = Canceled.class) })
+            @Transitions({ @Transition(event = ContractLifecycle.Events.Expire.class, value = Expired.class),
+                    @Transition(event = ContractLifecycle.Events.Cancel.class, value = Canceled.class) })
             static interface Active {}
             @End
             static interface Expired {}
@@ -190,28 +190,28 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = Started.class)
+            @Transition(event = Events.Start.class, value = Started.class)
             @ValidWhile(on = { ContractLifecycle.States.Active.class }, relation = Relations.Contract.class)
             static interface Created {}
             @CompositeState
-            @Function(event = Events.Cancel.class, value = Canceled.class)
+            @Transition(event = Events.Cancel.class, value = Canceled.class)
             static interface Started {
 
                 @StateSet
                 static interface SubStates {
 
                     @Initial
-                    @Function(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.DoProduce.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.DoProduce.class,
                             value = Producing.class)
                     @ValidWhile(on = { ContractLifecycle.States.Active.class },
                             relation = RelationalOrderLifecycleReferencingOuterRelation.Relations.Contract.class)
                     static interface OrderCreated {}
-                    @Function(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.DoDeliver.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.DoDeliver.class,
                             value = Delivering.class)
                     @ValidWhile(on = { ContractLifecycle.States.Active.class },
                             relation = RelationalOrderLifecycleReferencingOuterRelation.Relations.Contract.class)
                     static interface Producing {}
-                    @Function(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.ConfirmComplete.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingOuterRelation.States.Started.SubEvents.ConfirmComplete.class,
                             value = Done.class)
                     @ValidWhile(on = { ContractLifecycle.States.Active.class },
                             relation = RelationalOrderLifecycleReferencingOuterRelation.Relations.Contract.class)
@@ -289,11 +289,11 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = Started.class)
+            @Transition(event = Events.Start.class, value = Started.class)
             @ValidWhile(on = { ContractLifecycle.States.Active.class }, relation = Relations.Contract.class)
             static interface Created {}
             @CompositeState
-            @Function(event = Events.Cancel.class, value = Canceled.class)
+            @Transition(event = Events.Cancel.class, value = Canceled.class)
             @ValidWhile(on = { ContractLifecycle.States.Active.class }, relation = Relations.Contract.class)
             static interface Started {
 
@@ -301,11 +301,11 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 static interface SubStates {
 
                     @Initial
-                    @Function(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.DoProduce.class, value = Producing.class)
+                    @Transition(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.DoProduce.class, value = Producing.class)
                     static interface OrderCreated {}
-                    @Function(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.DoDeliver.class, value = Delivering.class)
+                    @Transition(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.DoDeliver.class, value = Delivering.class)
                     static interface Producing {}
-                    @Function(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
+                    @Transition(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
                     static interface Delivering {}
                     @End
                     @ShortCut(RelationalOrderLifecycleSharingValidWhile.States.Finished.class)
@@ -374,24 +374,24 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = Events.Start.class, value = Started.class)
+            @Transition(event = Events.Start.class, value = Started.class)
             static interface Created {}
             @CompositeState
-            @Function(event = Events.Cancel.class, value = Canceled.class)
+            @Transition(event = Events.Cancel.class, value = Canceled.class)
             static interface Started {
 
                 @StateSet
                 static interface SubStates {
 
                     @Initial
-                    @Function(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.DoProduce.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.DoProduce.class,
                             value = Producing.class)
                     @ValidWhile(on = { ContractLifecycle.States.Active.class }, relation = Relations.Contract.class)
                     static interface OrderCreated {}
-                    @Function(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.DoDeliver.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.DoDeliver.class,
                             value = Delivering.class)
                     static interface Producing {}
-                    @Function(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.ConfirmComplete.class,
+                    @Transition(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.ConfirmComplete.class,
                             value = Done.class)
                     static interface Delivering {}
                     @End
@@ -469,10 +469,10 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = SM2.Events.T6.class, value = SM2.States.S1.class)
+            @Transition(event = SM2.Events.T6.class, value = SM2.States.S1.class)
             static interface S0 {}
             @CompositeState
-            @Function(event = SM2.Events.T6.class, value = SM2.States.S2.class)
+            @Transition(event = SM2.Events.T6.class, value = SM2.States.S2.class)
             @ValidWhile(relation = SM2.Relations.R6.class, on = { ContractLifecycle.States.Active.class })
             static interface S1 {
 
@@ -480,7 +480,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SM2.States.S1.CEvents.T4.class, value = SM2.States.S1.CStates.CS1.class)
+                    @Transition(event = SM2.States.S1.CEvents.T4.class, value = SM2.States.S1.CStates.CS1.class)
                     @ValidWhile(relation = SM2.States.S1.CRelations.R4.class, on = { ContractLifecycle.States.Expired.class })
                     static interface CS0 {}
                     @End
@@ -500,14 +500,14 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 }
             }
             @CompositeState
-            @Function(event = SM2.Events.T6.class, value = SM2.States.S3.class)
+            @Transition(event = SM2.Events.T6.class, value = SM2.States.S3.class)
             static interface S2 {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SM2.States.S2.CEvents.T5.class, value = SM2.States.S2.CStates.CS3.class)
+                    @Transition(event = SM2.States.S2.CEvents.T5.class, value = SM2.States.S2.CStates.CS3.class)
                     static interface CS2 {}
                     @End
                     @ShortCut(SM2.States.S3.class)
@@ -547,11 +547,11 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States extends SM2.States {
 
             @Initial
-            @Function(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S1.class)
+            @Transition(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S1.class)
             @LifecycleOverride
             static interface S0 extends SM2.States.S0 {}
             @CompositeState
-            @Function(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S2.class)
+            @Transition(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S2.class)
             @ValidWhile(relation = SM1_No_Overrides.Relations.R2.class, on = { ContractLifecycle.States.Draft.class })
             static interface S1 extends SM2.States.S1 {
 
@@ -559,7 +559,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 static interface CStates extends SM2.States.S1.CStates {
 
                     @Initial
-                    @Function(event = SM1_No_Overrides.States.S1.CEvents.T1.class, value = SM1_No_Overrides.States.S1.CStates.CS1.class)
+                    @Transition(event = SM1_No_Overrides.States.S1.CEvents.T1.class, value = SM1_No_Overrides.States.S1.CStates.CS1.class)
                     static interface CS0 extends SM2.States.S1.CStates.CS0 {}
                     @End
                     @ShortCut(SM1_No_Overrides.States.S2.class)
@@ -578,14 +578,14 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 }
             }
             @CompositeState
-            @Function(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S3.class)
+            @Transition(event = SM1_No_Overrides.Events.T2.class, value = SM1_No_Overrides.States.S3.class)
             static interface S2 extends SM2.States.S2 {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SM1_No_Overrides.States.S2.CEvents.T3.class, value = SM1_No_Overrides.States.S2.CStates.CS3.class)
+                    @Transition(event = SM1_No_Overrides.States.S2.CEvents.T3.class, value = SM1_No_Overrides.States.S2.CStates.CS3.class)
                     static interface CS2 extends SM2.States.S2.CStates.CS2 {}
                     @End
                     @ShortCut(SM1_No_Overrides.States.S3.class)
@@ -625,11 +625,11 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
         static interface States extends SM2.States {
 
             @Initial
-            @Function(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S1.class)
+            @Transition(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S1.class)
             @LifecycleOverride
             static interface S0 extends SM2.States.S0 {}
             @CompositeState
-            @Function(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S2.class)
+            @Transition(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S2.class)
             @ValidWhile(relation = SM1_Overrides.Relations.R2.class, on = { ContractLifecycle.States.Draft.class })
             @LifecycleOverride
             static interface S1 extends SM2.States.S1 {
@@ -638,7 +638,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SM1_Overrides.States.S1.CEvents.T1.class, value = SM1_Overrides.States.S1.CStates.CS1.class)
+                    @Transition(event = SM1_Overrides.States.S1.CEvents.T1.class, value = SM1_Overrides.States.S1.CStates.CS1.class)
                     @ValidWhile(relation = SM1_Overrides.States.S1.CRelations.R1.class, on = { ContractLifecycle.States.Expired.class })
                     static interface CS0 {}
                     @End
@@ -658,7 +658,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 }
             }
             @CompositeState
-            @Function(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S3.class)
+            @Transition(event = SM1_Overrides.Events.T2.class, value = SM1_Overrides.States.S3.class)
             @LifecycleOverride
             static interface S2 extends SM2.States.S2 {
 
@@ -666,7 +666,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SM1_Overrides.States.S2.CEvents.T3.class, value = SM1_Overrides.States.S2.CStates.CS3.class)
+                    @Transition(event = SM1_Overrides.States.S2.CEvents.T3.class, value = SM1_Overrides.States.S2.CStates.CS3.class)
                     static interface CS2 {}
                     @End
                     @ShortCut(SM1_Overrides.States.S3.class)

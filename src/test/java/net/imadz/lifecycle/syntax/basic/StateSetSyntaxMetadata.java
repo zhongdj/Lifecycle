@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle.syntax.basic;
 
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -52,7 +52,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = T.class, value = B.class)
+            @Transition(event = T.class, value = B.class)
             static interface A {};
             @End
             static interface B {};
@@ -71,7 +71,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = T.class, value = B.class)
+            @Transition(event = T.class, value = B.class)
             static interface A {};
             @End
             static interface B {};

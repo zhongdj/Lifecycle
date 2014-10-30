@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -56,16 +56,16 @@ public interface PlantScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
         @InboundWhile(relation = ServiceOrder.class, on = OrderLifecycleMeta.States.Queued.class)
         // Default @ValidWhile(relation="serviceOrder", on =
         // {ServiceOrderLifecycleMeta.States.Queued.class})
-        @Functions({ @Function(event = Start.class, value = Ongoing.class) })
+        @Transitions({ @Transition(event = Start.class, value = Ongoing.class) })
         static class Queued extends OrderLifecycleMeta.States.Queued {}
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })
         // Default @ValidWhile(IServiceOrder.States.Ongoing.class)
-        @Functions({ @Function(event = Finish.class, value = Finished.class) })
+        @Transitions({ @Transition(event = Finish.class, value = Finished.class) })
         static class Ongoing extends OrderLifecycleMeta.States.Ongoing {}
         @End
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class, ServiceOrderLifecycleMeta.States.Finished.class })
-        // Default @Functions({})
+        // Default @Transitions({})
         static class Finished extends OrderLifecycleMeta.States.Finished {}
     }
     @EventSet

@@ -35,8 +35,8 @@
 package net.imadz.lifecycle.demo.inheritance.meta;
 
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -62,11 +62,11 @@ public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
             public static class SubStates {
 
                 @Initial
-                @Function(event = DoTransport.class, value = OnPassage.class)
+                @Transition(event = DoTransport.class, value = OnPassage.class)
                 public static class Loading {}
-                @Functions({ @Function(event = DoConstruct.class, value = Constructing.class) })
+                @Transitions({ @Transition(event = DoConstruct.class, value = Constructing.class) })
                 public static class OnPassage {}
-                @Function(event = Finish.class, value = Exit.class)
+                @Transition(event = Finish.class, value = Exit.class)
                 public static class Constructing {}
                 @End
                 @ShortCut(Finished.class)

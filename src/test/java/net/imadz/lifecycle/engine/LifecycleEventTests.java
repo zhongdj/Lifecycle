@@ -69,10 +69,10 @@ public class LifecycleEventTests extends EngineTestBase {
         @LifecycleRegistry({ CustomerObject.class, TestLifecycleEventHandler.class })
         @StateMachineBuilder
         class Registry extends AbsStateMachineRegistry {
-
             protected Registry() throws VerificationException {}
         }
         new Registry();
+        
         assertEquals(0, TestLifecycleEventHandler.eventList.size());
         final CustomerObject customer = new CustomerObject();
         assertEquals(0, TestLifecycleEventHandler.eventList.size());
@@ -139,7 +139,7 @@ public class LifecycleEventTests extends EngineTestBase {
             customer.renew();
         } catch (LifecycleException e) {
             assertEquals(8, TestLifecycleEventHandler.eventList.size());
-        }
+        } 
     }
 
     private void assertLifecycleEvent(CustomerObject reactiveObject, LifecycleEvent lifecycleEvent, Class<?> fromClass, Class<?> toClass, Class<?> event) {

@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -58,13 +58,13 @@ public interface SummaryPlanLifecycleMeta {
     @StateSet
     public static class States {
 
-        @Functions({ @Function(event = CreateServiceOrder.class, value = { Ongoing.class, VolumeLeftEmpty.class }),
-                @Function(event = ConfirmFinish.class, value = Done.class),
-                @Function(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
+        @Transitions({ @Transition(event = CreateServiceOrder.class, value = { Ongoing.class, VolumeLeftEmpty.class }),
+                @Transition(event = ConfirmFinish.class, value = Done.class),
+                @Transition(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
         @Initial
         public static class Ongoing {}
-        @Functions({ @Function(event = ConfirmFinish.class, value = Done.class),
-                @Function(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
+        @Transitions({ @Transition(event = ConfirmFinish.class, value = Done.class),
+                @Transition(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
         public static class VolumeLeftEmpty {}
         @End
         public static class Done {}

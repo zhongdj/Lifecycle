@@ -35,7 +35,7 @@
 package net.imadz.lifecycle.syntax.lm.stateindicator;
 
 import net.imadz.lifecycle.StateConverter;
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
@@ -83,7 +83,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		static interface States {
 
 			@Initial
-			@Function(event = Events.S1_X.class, value = { S1_B.class })
+			@Transition(event = Events.S1_X.class, value = { S1_B.class })
 			static interface S1_A {
 			}
 

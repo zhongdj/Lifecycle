@@ -35,8 +35,8 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -52,9 +52,9 @@ public interface SchedulableLifecycleMeta {
     public static abstract class States {
 
         @Initial
-        @Functions({ @Function(event = Assign.class, value = Busy.class) })
+        @Transitions({ @Transition(event = Assign.class, value = Busy.class) })
         public static class Idle {}
-        @Function(event = Release.class, value = Idle.class)
+        @Transition(event = Release.class, value = Idle.class)
         public static class Busy {}
     }
     @EventSet

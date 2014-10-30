@@ -34,8 +34,8 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -52,9 +52,9 @@ public interface ConcreteTruckResourceLifecycleMeta {
     public static class States {
 
         @Initial
-        @Functions({ @Function(event = Assign.class, value = Busy.class), @Function(event = Detach.class, value = Detached.class) })
+        @Transitions({ @Transition(event = Assign.class, value = Busy.class), @Transition(event = Detach.class, value = Detached.class) })
         public static class Idle {}
-        @Function(event = Release.class, value = Idle.class)
+        @Transition(event = Release.class, value = Idle.class)
         public static class Busy {}
         @End
         public static class Detached {}

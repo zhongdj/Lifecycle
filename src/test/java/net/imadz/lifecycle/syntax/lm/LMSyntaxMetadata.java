@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle.syntax.lm;
 
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
@@ -63,7 +63,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S1_X.class, value = { S1_B.class })
+            @Transition(event = S1_X.class, value = { S1_B.class })
             static interface S1_A {}
             @End
             static interface S1_B {}
@@ -89,11 +89,11 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = NS1_X.class, value = { NS1_B.class })
+            @Transition(event = NS1_X.class, value = { NS1_B.class })
             static interface NS1_A {}
-            @Function(event = NS1_Y.class, value = { NS1_C.class })
+            @Transition(event = NS1_Y.class, value = { NS1_C.class })
             static interface NS1_B {}
-            @Function(event = NS1_Z.class, value = { NS1_C.class })
+            @Transition(event = NS1_Z.class, value = { NS1_C.class })
             static interface NS1_C {}
             @End
             static interface NS1_D {}
@@ -196,11 +196,11 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S3_X.class, value = { S3_B.class })
+            @Transition(event = S3_X.class, value = { S3_B.class })
             static interface S3_A {}
-            @Function(event = S3_Y.class, value = { S3_C.class })
+            @Transition(event = S3_Y.class, value = { S3_C.class })
             static interface S3_B {}
-            @Function(event = S3_Z.class, value = { S3_D.class })
+            @Transition(event = S3_Z.class, value = { S3_D.class })
             static interface S3_C {}
             @End
             static interface S3_D {}

@@ -45,6 +45,7 @@ import java.security.ProtectionDomain;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import net.imadz.bcel.intercept.Interceptable;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.ReactiveObject;
 import net.imadz.lifecycle.annotations.Event;
@@ -116,7 +117,16 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
     }
 
     private boolean isTransformNeeded(AnnotationEntry entry) {
-        return EVENT_ANNOTATION_TYPE.equals(entry.getAnnotationType());
+    	try {
+    	String annotationTypeName = entry.getAnnotationType();
+    	annotationTypeName = annotationTypeName.substring(1).replaceAll("/", ".");
+    	annotationTypeName = annotationTypeName.substring(0, annotationTypeName.length() - 1);
+    	return null != Class.forName(annotationTypeName).getAnnotation(Interceptable.class);
+    	} catch (Exception ex) {
+    		log.log(Level.SEVERE, "Failed to find class " + entry.getAnnotationType(),  ex);
+    		return false;
+    	}
+        //return EVENT_ANNOTATION_TYPE.equals(entry.getAnnotationType());
     }
 
     private int nextInnerClassSeqOf(final ClassGen cgen) {
@@ -134,7 +144,10 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
         final AnnotationEntry[] annotationEntries = jclas.getAnnotationEntries();
         boolean foundLifecycleMeta = false;
         for ( final AnnotationEntry annotationEntry : annotationEntries ) {
-            if ( LIFECYLEMETA_ANNOTATION_TYPE.equals(annotationEntry.getAnnotationType()) ) {
+        	if (isTransformNeeded(annotationEntry)) {
+        		log.info("Transform Needed: " + annotationEntry.toString());
+        		foundLifecycleMeta = true;
+        	} else if ( LIFECYLEMETA_ANNOTATION_TYPE.equals(annotationEntry.getAnnotationType()) ) {
                 foundLifecycleMeta = true;
             } else if ( REACTIVE_ANNOTATION_TYPE.equals(annotationEntry.getAnnotationType()) ) {
                 foundLifecycleMeta = true;

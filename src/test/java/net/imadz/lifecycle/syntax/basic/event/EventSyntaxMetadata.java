@@ -36,7 +36,7 @@ package net.imadz.lifecycle.syntax.basic.event;
 
 import java.io.Serializable;
 
-import net.imadz.lifecycle.annotations.Function;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -60,7 +60,7 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
+            @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
             @End
             static interface S1_State_B {}
@@ -101,9 +101,9 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
         public static interface States {
 
             @Initial
-            @Function(event = NegativeOrder.Events.Pay.class, value = { Paid.class })
+            @Transition(event = NegativeOrder.Events.Pay.class, value = { Paid.class })
             public static interface New {}
-            @Function(event = NegativeOrder.Events.Deliver.class, value = { Delivered.class })
+            @Transition(event = NegativeOrder.Events.Deliver.class, value = { Delivered.class })
             public static interface Paid {}
             @End
             public static interface Delivered {}
@@ -122,9 +122,9 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
         public static interface States {
 
             @Initial
-            @Function(event = Order.Events.Pay.class, value = { Paid.class })
+            @Transition(event = Order.Events.Pay.class, value = { Paid.class })
             public static interface New {}
-            @Function(event = Order.Events.Deliver.class, value = { Delivered.class })
+            @Transition(event = Order.Events.Deliver.class, value = { Delivered.class })
             public static interface Paid {}
             @End
             public static interface Delivered {}
@@ -143,9 +143,9 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
         public static interface States extends Order.States {
 
             @Initial
-            @Function(event = NegativeBigProductOrder.Events.Pay.class, value = { States.Paid.class })
+            @Transition(event = NegativeBigProductOrder.Events.Pay.class, value = { States.Paid.class })
             public static interface New {}
-            @Function(event = NegativeBigProductOrder.Events.Deliver.class, value = { States.Delivered.class })
+            @Transition(event = NegativeBigProductOrder.Events.Deliver.class, value = { States.Delivered.class })
             public static interface Paid {}
             @End
             public static interface Delivered {}

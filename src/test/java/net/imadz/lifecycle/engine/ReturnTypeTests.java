@@ -36,8 +36,8 @@ package net.imadz.lifecycle.engine;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
@@ -59,9 +59,9 @@ public class ReturnTypeTests extends EngineTestBase {
         static interface States {
 
             @Initial
-            @Function(event = JustDoIt.class, value = OnTheFly.class)
+            @Transition(event = JustDoIt.class, value = OnTheFly.class)
             static interface New {}
-            @Functions({ @Function(event = JustDoIt.class, value = OnTheFly.class), @Function(event = FinishThis.class, value = Done.class) })
+            @Transitions({ @Transition(event = JustDoIt.class, value = OnTheFly.class), @Transition(event = FinishThis.class, value = Done.class) })
             static interface OnTheFly {}
             @End
             static interface Done {}

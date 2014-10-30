@@ -36,8 +36,8 @@ package net.imadz.lifecycle.syntax.state;
 
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Function;
-import net.imadz.lifecycle.annotations.Functions;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
@@ -103,7 +103,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.S1.Events.X.class, value = { D.class })
+            @Transition(event = net.imadz.lifecycle.syntax.state.StateSyntaxMetadata.S1.Events.X.class, value = { D.class })
             static interface C {}
             @End
             static interface D {}
@@ -121,9 +121,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Y.class, value = { F.class, G.class })
+            @Transition(event = Y.class, value = { F.class, G.class })
             static interface E {}
-            @Function(event = Y.class, value = { G.class })
+            @Transition(event = Y.class, value = { G.class })
             static interface F {}
             @End
             static interface G {}
@@ -141,9 +141,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Z.class, value = { I.class, J.class })
+            @Transition(event = Z.class, value = { I.class, J.class })
             static interface H {}
-            @Function(event = Z.class, value = { I.class, J.class })
+            @Transition(event = Z.class, value = { I.class, J.class })
             static interface I {}
             @End
             static interface J {}
@@ -184,7 +184,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S5_Super_Start.class, value = { S5_Super_B.class })
+            @Transition(event = S5_Super_Start.class, value = { S5_Super_B.class })
             static interface S5_Super_A {}
             @End
             static interface S5_Super_B {}
@@ -201,7 +201,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         @StateSet
         static interface states extends S5_Super.States {
 
-            @Function(event = S5_Start.class, value = { D.class })
+            @Transition(event = S5_Start.class, value = { D.class })
             static interface S5_A {}
         }
         @EventSet
@@ -217,7 +217,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = S6_Start.class, value = { S6_B.class })
+            @Transition(event = S6_Start.class, value = { S6_B.class })
             static interface S6_A {}
             @End
             static interface S6_B {}
@@ -234,7 +234,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         @StateSet
         static interface States extends S6.States {
 
-            @Function(event = S7_X.class, value = { S6_B.class })
+            @Transition(event = S7_X.class, value = { S6_B.class })
             static interface S7_A {}
         }
         @EventSet
@@ -250,19 +250,19 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = PCS1_X.class, value = PCS1_B.class)
+            @Transition(event = PCS1_X.class, value = PCS1_B.class)
             static interface PCS1_A {}
             @CompositeState
-            @Function(event = PCS1_Y.class, value = PCS1_C.class)
+            @Transition(event = PCS1_Y.class, value = PCS1_C.class)
             static interface PCS1_B {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = PCS1_CX.class, value = PCS1_CB.class)
+                    @Transition(event = PCS1_CX.class, value = PCS1_CB.class)
                     static interface PCS1_CA {}
-                    @Function(event = PCS1_CX.class, value = PCS1_CC.class)
+                    @Transition(event = PCS1_CX.class, value = PCS1_CC.class)
                     static interface PCS1_CB {}
                     @End
                     @ShortCut(PCS1_C.class)
@@ -291,19 +291,19 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = SC1_X.class, value = SC1_B.class)
+            @Transition(event = SC1_X.class, value = SC1_B.class)
             static interface SC1_A {}
             @CompositeState
-            @Function(event = SC1_Y.class, value = SC1_C.class)
+            @Transition(event = SC1_Y.class, value = SC1_C.class)
             static interface SC1_B {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = SC1_CX.class, value = SC1_CB.class)
+                    @Transition(event = SC1_CX.class, value = SC1_CB.class)
                     static interface SC1_CA {}
-                    @Function(event = SC1_X.class, value = SC1_CC.class)
+                    @Transition(event = SC1_X.class, value = SC1_CC.class)
                     static interface SC1_CB {}
                     @End
                     @ShortCut(SC1_C.class)
@@ -332,17 +332,17 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = NCS2_X.class, value = NCS2_B.class)
+            @Transition(event = NCS2_X.class, value = NCS2_B.class)
             static interface NCS2_A {}
             @CompositeState
-            @Function(event = NCS2_Y.class, value = NCS2_C.class)
+            @Transition(event = NCS2_Y.class, value = NCS2_C.class)
             static interface NCS2_B {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = NCS2_CX.class, value = NCS2_CC.class)
+                    @Transition(event = NCS2_CX.class, value = NCS2_CC.class)
                     static interface NCS2_CA {}
                     @End
                     @ShortCut(SC1_C.class)
@@ -371,19 +371,19 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = NCS3_X.class, value = NCS3_B.class)
+            @Transition(event = NCS3_X.class, value = NCS3_B.class)
             static interface NCS3_A {}
             @CompositeState
-            @Function(event = NCS3_Y.class, value = NCS3_C.class)
+            @Transition(event = NCS3_Y.class, value = NCS3_C.class)
             static interface NCS3_B {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = NCS3_CX.class, value = NCS3_CB.class)
+                    @Transition(event = NCS3_CX.class, value = NCS3_CB.class)
                     static interface NCS3_CA {}
-                    @Function(event = NCS3_X.class, value = NCS3_CC.class)
+                    @Transition(event = NCS3_X.class, value = NCS3_CC.class)
                     static interface NCS3_CB {}
                     @End
                     static interface NCS3_CC {}
@@ -411,19 +411,19 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = NCS4_X.class, value = NCS4_B.class)
+            @Transition(event = NCS4_X.class, value = NCS4_B.class)
             static interface NCS4_A {}
             @CompositeState
-            @Function(event = NCS4_Y.class, value = NCS4_C.class)
+            @Transition(event = NCS4_Y.class, value = NCS4_C.class)
             static interface NCS4_B {
 
                 @StateSet
                 static interface CStates {
 
                     @Initial
-                    @Function(event = NCS4_CX.class, value = NCS4_CB.class)
+                    @Transition(event = NCS4_CX.class, value = NCS4_CB.class)
                     static interface NCS4_CA {}
-                    @Function(event = NCS4_X.class, value = NCS4_CC.class)
+                    @Transition(event = NCS4_X.class, value = NCS4_CC.class)
                     static interface NCS4_CB {}
                     @ShortCut(NCS4_C.class)
                     static interface NCS4_CC {}
@@ -454,8 +454,8 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Functions({ @Function(event = Multiple_Function_Referring_Same_Event.Events.X.class, value = Ended.class),
-                    @Function(event = Multiple_Function_Referring_Same_Event.Events.X.class, value = Ended.class) })
+            @Transitions({ @Transition(event = Multiple_Function_Referring_Same_Event.Events.X.class, value = Ended.class),
+                    @Transition(event = Multiple_Function_Referring_Same_Event.Events.X.class, value = Ended.class) })
             static interface Created {}
             @End
             static interface Ended {}
@@ -473,7 +473,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Functions({ @Function(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
+            @Transitions({ @Transition(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
             static interface Created {}
             @End
             static interface Ended {}
@@ -490,7 +490,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         @StateSet
         static interface States extends Multiple_Function_Referring_Same_Event_Super.States {
 
-            @Functions({ @Function(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
+            @Transitions({ @Transition(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
             static interface Created extends Multiple_Function_Referring_Same_Event_Super.States.Created {}
         }
     }
@@ -501,7 +501,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States extends Multiple_Function_Referring_Same_Event_Super.States {
 
             @Initial
-            @Functions({ @Function(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
+            @Transitions({ @Transition(event = Multiple_Function_Referring_Same_Event_Super.Events.X.class, value = Ended.class) })
             @LifecycleOverride
             static interface Created extends Multiple_Function_Referring_Same_Event_Super.States.Created {}
         }
@@ -513,7 +513,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = CorrectBase.Events.X.class, value = CorrectBase.States.B.class)
+            @Transition(event = CorrectBase.Events.X.class, value = CorrectBase.States.B.class)
             static interface A {}
             @End
             static interface B {}
@@ -534,7 +534,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
 
             @Initial
             @LifecycleOverride
-            @Function(event = CorrectBase.Events.X.class, value = CorrectBase.States.B.class)
+            @Transition(event = CorrectBase.Events.X.class, value = CorrectBase.States.B.class)
             static interface A {}
         }
     }
@@ -559,9 +559,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.X.class, value = { States.Super_S2.class })
+            @Transition(event = Events.X.class, value = { States.Super_S2.class })
             static interface Super_S1 {}
-            @Function(event = Events.Y.class, value = { States.Super_S3.class })
+            @Transition(event = Events.Y.class, value = { States.Super_S3.class })
             @CompositeState
             static interface Super_S2 {
 
@@ -569,9 +569,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 static interface CompositeStates {
 
                     @Initial
-                    @Function(event = CompositeEvents.Super_S2_X.class, value = { Super_S2_S2.class })
+                    @Transition(event = CompositeEvents.Super_S2_X.class, value = { Super_S2_S2.class })
                     static interface Super_S2_S1 {}
-                    @Function(event = CompositeEvents.Super_S2_Y.class, value = { Super_S2_S3.class })
+                    @Transition(event = CompositeEvents.Super_S2_Y.class, value = { Super_S2_S3.class })
                     static interface Super_S2_S2 {}
                     @End
                     @ShortCut(value = Super_S3.class)
@@ -584,7 +584,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     static interface Super_S2_Y {}
                 }
             }
-            @Function(event = Events.Y.class, value = { Super_S4.class })
+            @Transition(event = Events.Y.class, value = { Super_S4.class })
             static interface Super_S3 {}
             @End
             static interface Super_S4 {}
@@ -609,7 +609,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 @StateSet
                 static interface Child_S2_States extends SuperStateMachine.States.Super_S2.CompositeStates {
 
-                    @Function(event = SuperStateMachine.States.Super_S2.CompositeEvents.Super_S2_X.class, value = { Child_S2_S2.class })
+                    @Transition(event = SuperStateMachine.States.Super_S2.CompositeEvents.Super_S2_X.class, value = { Child_S2_S2.class })
                     static interface Child_S2_S1 extends SuperStateMachine.States.Super_S2.CompositeStates.Super_S2_S2 {}
                     @End
                     @ShortCut(value = SuperStateMachine.States.Super_S3.class)
@@ -623,8 +623,8 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 static interface ChildStates {
 
                     @Initial
-                    @Functions({ @Function(event = SuperStateMachine.Events.Z.class, value = { Child_S3_S2.class }),
-                            @Function(event = ChildEvents.Child_S3_X.class, value = { Child_S3_S3.class }) })
+                    @Transitions({ @Transition(event = SuperStateMachine.Events.Z.class, value = { Child_S3_S2.class }),
+                            @Transition(event = ChildEvents.Child_S3_X.class, value = { Child_S3_S3.class }) })
                     static interface Child_S3_S1 {}
                     @End
                     @ShortCut(value = SuperStateMachine.States.Super_S4.class)
@@ -648,9 +648,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
         static interface States {
 
             @Initial
-            @Function(event = Events.X.class, value = { S2.class })
+            @Transition(event = Events.X.class, value = { S2.class })
             static interface S1 {}
-            @Function(event = Events.Y.class, value = { S3.class })
+            @Transition(event = Events.Y.class, value = { S3.class })
             @CompositeState
             static interface S2 {
 
@@ -658,7 +658,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 static interface S2_States {
 
                     @Initial
-                    @Function(event = S3.S3_Events.S3_X.class, value = { S2_B.class })
+                    @Transition(event = S3.S3_Events.S3_X.class, value = { S2_B.class })
                     static interface S2_A {}
                     @End
                     @ShortCut(value = States.S3.class)
@@ -677,7 +677,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 static interface S3_States {
 
                     @Initial
-                    @Function(event = S3.S3_Events.S3_X.class, value = { S3_B.class })
+                    @Transition(event = S3.S3_Events.S3_X.class, value = { S3_B.class })
                     static interface S3_A {}
                     @End
                     @ShortCut(value = States.S4.class)
@@ -712,9 +712,9 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                 static interface InnerStates {
 
                     @Initial
-                    @Function(event = InnerEvents.Inner_X.class, value = { Inner_S2.class })
+                    @Transition(event = InnerEvents.Inner_X.class, value = { Inner_S2.class })
                     static interface Inner_S1 {}
-                    @Function(event = SuperStateMachine.States.Super_S2.CompositeEvents.Super_S2_X.class, value = { Inner_S3.class })
+                    @Transition(event = SuperStateMachine.States.Super_S2.CompositeEvents.Super_S2_X.class, value = { Inner_S3.class })
                     static interface Inner_S2 {}
                     @End
                     @ShortCut(value = SuperStateMachine.States.Super_S4.class)

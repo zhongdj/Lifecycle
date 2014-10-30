@@ -36,21 +36,21 @@ package net.imadz.lifecycle.demo.relational;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.ConcreteTruckResourceLifecycleMeta;
 
 @LifecycleMeta(ConcreteTruckResourceLifecycleMeta.class)
 public interface IConcreteTruckResource {
 
-    @Transition
-    // default to @Transition(Assign.class) use assign -> Assign
+    @Event
+    // default to @Event(Assign.class) use assign -> Assign
     void assign();
 
-    @Transition(ConcreteTruckResourceLifecycleMeta.Transitions.Release.class)
+    @Event(ConcreteTruckResourceLifecycleMeta.Transitions.Release.class)
     void doRelease();
 
-    @Transition
-    // default to @Transition(Detach.class) use detach -> Detach
+    @Event
+    // default to @Event(Detach.class) use detach -> Detach
     void detach();
 
     @StateIndicator

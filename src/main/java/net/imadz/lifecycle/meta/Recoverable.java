@@ -34,19 +34,19 @@
  */
 package net.imadz.lifecycle.meta;
 
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 
 public interface Recoverable {
 
     public abstract boolean hasRedoTransition();
 
-    public abstract TransitionMetadata getRedoTransition();
+    public abstract EventMetadata getRedoTransition();
 
     public abstract boolean hasRecoverTransition();
 
-    public abstract TransitionMetadata getRecoverTransition();
+    public abstract EventMetadata getRecoverTransition();
 
     public abstract boolean hasCorruptTransition();
 
-    public abstract TransitionMetadata getCorruptTransition();
+    public abstract EventMetadata getCorruptTransition();
 }

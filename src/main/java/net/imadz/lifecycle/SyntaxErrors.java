@@ -92,7 +92,7 @@ public interface SyntaxErrors {
      * @param {0} state set class
      */
     public static final String STATESET_WITHOUT_STATE = "002-2403";
-    // TransitionSet
+    // EventSet
     /**
      * @param {0} transition set class
      */
@@ -106,19 +106,19 @@ public interface SyntaxErrors {
      */
     public static final String TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER = "002-2502";
     /**
-     * @param {0} Transition class
+     * @param {0} Event class
      * @param {1} condition class
      * @param {2} juder class
      */
     public static final String TRANSITION_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER = "002-2503";
     /**
-     * @param {0} Transition class
-     * @param {1} Transition class' super class or interface
+     * @param {0} Event class
+     * @param {1} Event class' super class or interface
      */
     public static final String TRANSITION_ILLEGAL_EXTENTION = "002-2504";
     /**
-     * @param {0} Transition class
-     * @param {1} Transition class' super class or interface
+     * @param {0} Event class
+     * @param {1} Event class' super class or interface
      * @param {2} Super state machine class
      */
     public static final String TRANSITION_EXTENED_TRANSITION_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE = "002-2505";
@@ -126,7 +126,7 @@ public interface SyntaxErrors {
     /**
      * @param {0} @Function definition
      * @param {1} State class
-     * @param {2} Transition class
+     * @param {2} Event class
      */
     public static final String FUNCTION_INVALID_TRANSITION_REFERENCE = "002-2610";
     public static final String FUNCTION_CONDITIONAL_TRANSITION_WITHOUT_CONDITION = "002-2611";
@@ -290,7 +290,7 @@ public interface SyntaxErrors {
     /**
      * @param {0} To state class
      * @param {1} Call back Method
-     * @param {2} Transition Dotted Path
+     * @param {2} Event Dotted Path
      */
     public static final String PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID = "002-3700";
     /**

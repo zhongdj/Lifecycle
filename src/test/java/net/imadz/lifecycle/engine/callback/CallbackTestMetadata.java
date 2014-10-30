@@ -45,8 +45,8 @@ import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
@@ -92,7 +92,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @End
             static interface Finished {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -108,10 +108,10 @@ public class CallbackTestMetadata extends EngineTestBase {
 
         protected int callbackInvokeCounter = 0;
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void finish() {}
 
         public int getCallbackInvokeCounter() {
@@ -184,7 +184,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @End
             static interface PaidOff {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Post {}
@@ -232,7 +232,7 @@ public class CallbackTestMetadata extends EngineTestBase {
                     relation = InvoiceItemStateMachineMeta.Relations.ParentInvoice.class)
             static interface Paid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -271,10 +271,10 @@ public class CallbackTestMetadata extends EngineTestBase {
             return payedAmount;
         }
 
-        @Transition
+        @Event
         public void post() {}
 
-        @Transition(InvoiceStateMachineMeta.Transitions.Pay.class)
+        @Event(InvoiceStateMachineMeta.Transitions.Pay.class)
         @PostStateChange(to = InvoiceItemStateMachineMeta.States.Paid.class, observableName = "items", mappedBy = "parent")
         public synchronized void onItemPaied(LifecycleContext<InvoiceItem, String> context) {
             payedAmount = payedAmount.add(context.getTarget().getPayedAmount());
@@ -306,7 +306,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             this.parent.addItem(this);
         }
 
-        @Transition
+        @Event
         public void pay(final BigDecimal amount) {
             if ( 0 < this.amount.compareTo(amount) ) {
                 throw new IllegalArgumentException("paying amount is not enough to pay this item.");
@@ -361,7 +361,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             this.parent.addItem(this);
         }
 
-        @Transition
+        @Event
         public void pay(BigDecimal amount) {
             if ( 0 < this.amount.compareTo(amount) ) {
                 throw new IllegalArgumentException("paying amount is not enough to pay this item.");
@@ -433,10 +433,10 @@ public class CallbackTestMetadata extends EngineTestBase {
             return payedAmount;
         }
 
-        @Transition
+        @Event
         public void post() {}
 
-        @Transition(InvoiceStateMachineMeta.Transitions.Pay.class)
+        @Event(InvoiceStateMachineMeta.Transitions.Pay.class)
         public synchronized void onItemPaied(InvoiceItemNonRelationalCallback item) {
             payedAmount = payedAmount.add(item.getPayedAmount());
         }
@@ -465,7 +465,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @End
             public static interface Delivered {}
         }
-        @TransitionSet
+        @EventSet
         public static interface Transitions {
 
             public static interface Pay {}
@@ -488,7 +488,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @End
             public static interface Cancelled {}
         }
-        @TransitionSet
+        @EventSet
         public static interface Transitions extends OrderStateMachine.Transitions {
 
             public static interface Install {}
@@ -504,10 +504,10 @@ public class CallbackTestMetadata extends EngineTestBase {
             initialState(OrderStateMachine.States.New.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void pay() {}
 
-        @Transition
+        @Event
         public void deliver() {}
 
         public int getCount() {
@@ -529,10 +529,10 @@ public class CallbackTestMetadata extends EngineTestBase {
     @LifecycleMeta(BigProductOrderStateMachine.class)
     public static class BigProductOrderObjectWithExtendsCallbackDefinition extends OrderObject<BigProductOrderObjectWithExtendsCallbackDefinition> {
 
-        @Transition
+        @Event
         public void install() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
         /**
@@ -554,10 +554,10 @@ public class CallbackTestMetadata extends EngineTestBase {
     @LifecycleMeta(BigProductOrderStateMachine.class)
     public static class BigProductOrderObjectWithOverridesCallbackDefinition extends OrderObject<BigProductOrderObjectWithOverridesCallbackDefinition> {
 
-        @Transition
+        @Event
         public void install() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
         /**
@@ -582,10 +582,10 @@ public class CallbackTestMetadata extends EngineTestBase {
     @LifecycleMeta(BigProductOrderStateMachine.class)
     public static class OrderWithSpecifiedFromToCallback extends OrderObject<OrderWithSpecifiedFromToCallback> {
 
-        @Transition
+        @Event
         public void install() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
         @PostStateChange(from = BigProductOrderStateMachine.States.New.class, to = BigProductOrderStateMachine.States.Cancelled.class)
@@ -597,10 +597,10 @@ public class CallbackTestMetadata extends EngineTestBase {
     @LifecycleMeta(BigProductOrderStateMachine.class)
     public static class OrderWithSpecifiedPreFromToCallback extends OrderObject<OrderWithSpecifiedPreFromToCallback> {
 
-        @Transition
+        @Event
         public void install() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
         @PreStateChange(from = BigProductOrderStateMachine.States.Delivered.class, to = BigProductOrderStateMachine.States.Installed.class)

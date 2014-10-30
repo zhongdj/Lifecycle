@@ -89,10 +89,10 @@ public interface StateMachineMetadata extends Recoverable, MetaType<StateMachine
     /* //////////////////////////////////////////////////// */
     /* ///////////// Transtion Related Methods //////////// */
     /* //////////////////////////////////////////////////// */
-    TransitionMetadata[] getDeclaredTransitionSet();
+    EventMetadata[] getDeclaredTransitionSet();
 
-    // TransitionMetadata[] getSuperTransitionSet();
-    TransitionMetadata getDeclaredTransition(Object transitionKey);
+    // EventMetadata[] getSuperTransitionSet();
+    EventMetadata getDeclaredTransition(Object transitionKey);
 
     /**
      * @return transitions in current StateMachine, current StateMachine's
@@ -100,19 +100,19 @@ public interface StateMachineMetadata extends Recoverable, MetaType<StateMachine
      *         StateMachines'composite
      *         StateMachines.
      */
-    TransitionMetadata[] getAllTransitions();
+    EventMetadata[] getAllTransitions();
 
     /**
      * @param transitionKey
      * @return transition in allTransitionSet by specified transitionKey
      */
-    TransitionMetadata getTransition(Object transitionKey);
+    EventMetadata getTransition(Object transitionKey);
 
-    TransitionMetadata getStateSynchronizationTransition();
+    EventMetadata getStateSynchronizationTransition();
 
     /**
      * @param clazz
-     *            defined with @LifecycleMeta, and with @Transition
+     *            defined with @LifecycleMeta, and with @Event
      *            , @StateIndicator, @Relation.
      * 
      * @return a concrete instance of StateMachineMetadata, whose abstract

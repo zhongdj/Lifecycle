@@ -38,8 +38,8 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
@@ -61,7 +61,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @End
             static interface StateB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface TransitionOne {}
@@ -72,7 +72,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
 
         private String state;
 
-        @Transition(TransitionOne.class)
+        @Event(TransitionOne.class)
         public void foo() {}
 
         public String getState() {
@@ -97,7 +97,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @End
             static interface StateD {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface TransitionTwo {}
@@ -116,7 +116,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @End
             static interface StateF {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface TransitionThree {}
@@ -148,7 +148,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @End
             static interface StateF {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface TransitionThree {}

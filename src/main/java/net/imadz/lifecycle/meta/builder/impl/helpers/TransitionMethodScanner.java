@@ -37,8 +37,8 @@ package net.imadz.lifecycle.meta.builder.impl.helpers;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.util.StringUtil;
 import net.imadz.utils.Null;
@@ -46,15 +46,15 @@ import net.imadz.utils.Null;
 public final class TransitionMethodScanner implements MethodScanCallback {
 
     private final ArrayList<Method> transitionMethodList = new ArrayList<Method>();
-    private final TransitionMetadata transition;
+    private final EventMetadata transition;
 
-    public TransitionMethodScanner(final TransitionMetadata transition) {
+    public TransitionMethodScanner(final EventMetadata transition) {
         this.transition = transition;
     }
 
     @Override
     public boolean onMethodFound(Method method) {
-        final Transition transitionAnno = method.getAnnotation(Transition.class);
+        final Event transitionAnno = method.getAnnotation(Event.class);
         if ( null == transitionAnno ) {
             return false;
         }

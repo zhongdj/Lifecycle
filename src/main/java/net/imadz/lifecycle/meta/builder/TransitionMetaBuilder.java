@@ -35,10 +35,10 @@
 package net.imadz.lifecycle.meta.builder;
 
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 
-public interface TransitionMetaBuilder extends AnnotationMetaBuilder<TransitionMetadata, StateMachineMetadata>, TransitionMetadata {
+public interface TransitionMetaBuilder extends AnnotationMetaBuilder<EventMetadata, StateMachineMetadata>, EventMetadata {
 
     @Override
     TransitionMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;

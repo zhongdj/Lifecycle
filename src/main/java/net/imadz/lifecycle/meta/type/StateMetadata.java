@@ -62,13 +62,13 @@ public interface StateMetadata extends Recoverable, MetaType<StateMetadata> {
     boolean isFinal();
 
     /* ////////////////////////////////////////////////////////////////// */
-    /* ////////////////////////Transition Related /////////////////////// */
+    /* ////////////////////////Event Related /////////////////////// */
     /* ////////////////////////////////////////////////////////////////// */
-    TransitionMetadata[] getPossibleLeavingTransitions();
+    EventMetadata[] getPossibleLeavingTransitions();
 
-    TransitionMetadata[] getPossibleReachingTransitions();
+    EventMetadata[] getPossibleReachingTransitions();
 
-    TransitionMetadata getTransition(Object transitionKey);
+    EventMetadata getTransition(Object transitionKey);
 
     boolean isTransitionValid(Object transitionKey);
 

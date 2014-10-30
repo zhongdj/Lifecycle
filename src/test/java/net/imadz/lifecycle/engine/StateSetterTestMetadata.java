@@ -40,8 +40,8 @@ import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.Converter;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
@@ -61,7 +61,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
             @End
             static interface Done {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Do {}
@@ -73,7 +73,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
         @StateIndicator
         String getState();
 
-        @Transition(Do.class)
+        @Event(Do.class)
         void doIt();
     }
     @net.imadz.lifecycle.annotations.ReactiveObject
@@ -92,7 +92,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
         }
 
         @Override
-        @Transition(Do.class)
+        @Event(Do.class)
         public void doIt() {}
     }
     @LifecycleMeta(SetterTestStateMachine.class)
@@ -109,7 +109,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
             this.state = state;
         }
 
-        @Transition(Do.class)
+        @Event(Do.class)
         public void doIt() {}
     }
     @StateMachine
@@ -124,7 +124,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
             @End
             static interface Closed {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Close {}
@@ -146,7 +146,7 @@ public class StateSetterTestMetadata extends EngineTestBase {
             this.closed = closed;
         }
 
-        @Transition
+        @Event
         public void close() {}
     }
     public static class BooleanTypeConverter implements StateConverter<Boolean> {

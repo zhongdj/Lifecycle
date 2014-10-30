@@ -36,7 +36,7 @@ package net.imadz.lifecycle.demo.standalone;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Cancel;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Finish;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.Schedule;
@@ -52,8 +52,8 @@ import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.
  * indicator property name.
  * 
  * 2. Specify actions corresponding to the transitions defined at life cycle
- * meta data with @Transition
- * 2.1 Leave @Transition with default value while the action method name equals
+ * meta data with @Event
+ * 2.1 Leave @Event with default value while the action method name equals
  * with the transition class simple name
  * 2.2 Specify the transition value with the defined transition class when their
  * names are not equal
@@ -64,16 +64,16 @@ import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Transitions.
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
-    @Transition(Schedule.class)
+    @Event(Schedule.class)
     void allocateResources(final long summaryPlanId, final long truckResourceId, final long plangResourceId);
 
-    @Transition(Start.class)
+    @Event(Start.class)
     void confirmStart();
 
-    @Transition(Finish.class)
+    @Event(Finish.class)
     void confirmFinish();
 
-    @Transition(Cancel.class)
+    @Event(Cancel.class)
     void cancel();
 
     @StateIndicator

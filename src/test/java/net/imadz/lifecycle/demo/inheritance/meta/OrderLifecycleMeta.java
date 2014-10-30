@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.OrderLifecycleMeta.Transitions.Cancel;
@@ -64,7 +64,7 @@ public interface OrderLifecycleMeta {
         @End
         public static class Cancelled {}
     }
-    @TransitionSet
+    @EventSet
     public static class Transitions {
 
         public static class Schedule {}

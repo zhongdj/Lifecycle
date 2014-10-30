@@ -40,7 +40,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalTransition;
@@ -90,7 +90,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -108,7 +108,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface D {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -128,7 +128,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface G {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Y {}
@@ -148,7 +148,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface J {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(judger = ConcreteCondition.class, condition = CompareWithZero.class)
@@ -189,7 +189,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S5_Super_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S5_Super_Start {}
@@ -204,7 +204,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @Function(transition = S5_Start.class, value = { D.class })
             static interface S5_A {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S5_Start {}
@@ -222,7 +222,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S6_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S6_Start {}
@@ -237,7 +237,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @Function(transition = S7_X.class, value = { S6_B.class })
             static interface S7_A {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends S6.Transitions {
 
             static interface S7_X {}
@@ -268,7 +268,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(PCS1_C.class)
                     static interface PCS1_CC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface PCS1_CX {}
@@ -277,7 +277,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface PCS1_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PCS1_X {}
@@ -309,7 +309,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(SC1_C.class)
                     static interface SC1_CC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface SC1_CX {}
@@ -318,7 +318,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface SC1_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface SC1_X {}
@@ -348,7 +348,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(SC1_C.class)
                     static interface NCS2_CC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface NCS2_CX {}
@@ -357,7 +357,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NCS2_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NCS2_X {}
@@ -388,7 +388,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @End
                     static interface NCS3_CC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface NCS3_CX {}
@@ -397,7 +397,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NCS3_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NCS3_X {}
@@ -431,7 +431,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(NCS4_C.class)
                     static interface NCS4_CD {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface NCS4_CX {}
@@ -440,7 +440,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NCS4_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NCS4_X {}
@@ -460,7 +460,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface Ended {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -478,7 +478,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface Ended {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -518,7 +518,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -577,7 +577,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(value = Super_S3.class)
                     static interface Super_S2_S3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CompositeTransitions {
 
                     static interface Super_S2_X {}
@@ -589,7 +589,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface Super_S4 {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -633,7 +633,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(value = SuperStateMachine.States.Super_S4.class)
                     static interface Child_S3_S3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface ChildTransitions {
 
                     static interface Child_S3_X {}
@@ -664,7 +664,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(value = States.S3.class)
                     static interface S2_B {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface S2_Transitions {
 
                     static interface S2_X {}
@@ -683,7 +683,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(value = States.S4.class)
                     static interface S3_B {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface S3_Transitions {
 
                     static interface S3_X {}
@@ -692,7 +692,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S4 {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -720,7 +720,7 @@ public class StateSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(value = SuperStateMachine.States.Super_S4.class)
                     static interface Inner_S3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface InnerTransitions {
 
                     static interface Inner_X {}

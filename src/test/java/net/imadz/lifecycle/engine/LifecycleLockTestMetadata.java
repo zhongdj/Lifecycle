@@ -46,8 +46,8 @@ import net.imadz.lifecycle.annotations.LifecycleLock;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.Parent;
@@ -88,7 +88,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -121,19 +121,19 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
         }
 
         @Override
-        @Transition
+        @Event
         public synchronized void start() {
             counter.incrementAndGet();
         }
 
         @Override
-        @Transition
+        @Event
         public synchronized void stop() {
             counter.incrementAndGet();
         }
 
         @Override
-        @Transition
+        @Event
         public synchronized void cancel() {
             counter.incrementAndGet();
         }
@@ -200,17 +200,17 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             return counter.intValue();
         }
 
-        @Transition
+        @Event
         public void start() {
             counter.incrementAndGet();
         }
 
-        @Transition
+        @Event
         public void stop() {
             counter.incrementAndGet();
         }
 
-        @Transition
+        @Event
         public void cancel() {
             counter.incrementAndGet();
         }
@@ -238,7 +238,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             @End
             static interface Vanished {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Confirm {}
@@ -283,7 +283,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     @ShortCut(InformativeStateMachine.States.Recycled.class)
                     static interface Abandoned {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface Transitions {
 
                     static interface Abandon {}
@@ -331,7 +331,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     @ShortCut(InformativeStateMachine.States.Draft.class)
                     static interface Uneffective {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface Transitions {
 
                     static interface Invalidate {}
@@ -391,7 +391,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     @ShortCut(InformativeStateMachine.States.Draft.class)
                     static interface Dequeued {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface Transitions {
 
                     static interface Deliver {}
@@ -444,7 +444,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
                     @ShortCut(Malfunctioning.class)
                     static interface Failing {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface RunningTransitions {
 
                     static interface Acquire {}
@@ -457,7 +457,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             @End
             static interface Deprecated {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Test {}
@@ -475,47 +475,47 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             initialState(InformativeStateMachine.States.Draft.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void confirm() {}
 
-        @Transition
+        @Event
         public void logicalDelete() {}
 
-        @Transition
+        @Event
         public void putBack() {}
 
-        @Transition
+        @Event
         public void physicalDelete() {}
 
-        @Transition
+        @Event
         public void file() {}
 
-        @Transition
+        @Event
         public void finish() {}
     }
     @LifecycleMeta(CustomerStateMachine.class)
     @LifecycleLock(SimpleLock.class)
     static class CustomerObject extends InformativeObject {
 
-        @Transition
+        @Event
         public void abandon() {}
 
-        @Transition
+        @Event
         public void suspend() {}
 
-        @Transition
+        @Event
         public void resume() {}
 
-        @Transition
+        @Event
         public void renew() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
-        @Transition
+        @Event
         public void terminateService() {}
 
-        @Transition
+        @Event
         public void disconnect() {}
     }
     @LifecycleMeta(ContractStateMachine.class)
@@ -530,16 +530,16 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             this.customer = customer;
         }
 
-        @Transition
+        @Event
         public void invalidate() {}
 
-        @Transition
+        @Event
         public void startService() {}
 
-        @Transition
+        @Event
         public void abortService() {}
 
-        @Transition
+        @Event
         public void terminateService() {}
     }
     @LifecycleMeta(OrderStateMachine.class)
@@ -553,19 +553,19 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             this.contract = contract;
         }
 
-        @Transition
+        @Event
         public void deliver() {}
 
-        @Transition
+        @Event
         public void dequeue() {}
 
-        @Transition
+        @Event
         public void startProduce(@Relation(OrderStateMachine.States.Confirmed.Relations.Resource.class) ResourceObject resource) {}
 
-        @Transition
+        @Event
         public void startPackage() {}
 
-        @Transition
+        @Event
         public void complete() {}
     }
     @LifecycleMeta(ResourceStateMachine.class)
@@ -576,28 +576,28 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             initialState(ResourceStateMachine.States.New.class.getName());
         }
 
-        @Transition
+        @Event
         public void test() {}
 
-        @Transition
+        @Event
         public void confirmMalfunction() {}
 
-        @Transition
+        @Event
         public void repair() {}
 
-        @Transition
+        @Event
         public void goLive() {}
 
-        @Transition
+        @Event
         public void deprecate() {}
 
-        @Transition
+        @Event
         public void acquire() {}
 
-        @Transition
+        @Event
         public void release() {}
 
-        @Transition
+        @Event
         public void fail() {}
     }
 }

@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import net.imadz.bcel.intercept.InterceptContext;
 import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.annotations.ReactiveObject;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.util.StringUtil;
 import net.imadz.utils.Null;
@@ -60,8 +60,8 @@ public final class InterceptorHelper {
         if ( klass == Object.class ) return false;
         try {
             final Method tmpMethod = klass.getMethod(subClassMethod.getName(), subClassMethod.getParameterTypes());
-            final Transition transition = subClassMethod.getAnnotation(Transition.class);
-            final Transition tmpTransition = tmpMethod.getAnnotation(Transition.class);
+            final Event transition = subClassMethod.getAnnotation(Event.class);
+            final Event tmpTransition = tmpMethod.getAnnotation(Event.class);
             if ( hasSameTransitionKey(transition, tmpTransition) || hasSameTransitionName(subClassMethod, transition, tmpTransition) ) {
                 return true;
             }
@@ -81,7 +81,7 @@ public final class InterceptorHelper {
     }
 
     private static Class<?> findLifecycleMetaClass(final Class<?> implClass, final Method method) {
-        final Transition transition = method.getAnnotation(Transition.class);
+        final Event transition = method.getAnnotation(Event.class);
         if ( Null.class == transition.value() ) {
             throw new IllegalStateException("With @ReactiveObject, transition.value has to be explicitly specified.");
         } else {
@@ -89,11 +89,11 @@ public final class InterceptorHelper {
         }
     }
 
-    private static boolean hasSameTransitionKey(final Transition transition, final Transition tmpTransition) {
+    private static boolean hasSameTransitionKey(final Event transition, final Event tmpTransition) {
         return tmpTransition.value() != Null.class && transition.value() == tmpTransition.value();
     }
 
-    private static boolean hasSameTransitionName(final Method subClassMethod, final Transition transition, final Transition tmpTransition) {
+    private static boolean hasSameTransitionName(final Method subClassMethod, final Event transition, final Event tmpTransition) {
         return tmpTransition.value() == Null.class
                 && transition.value().getSimpleName().equalsIgnoreCase(StringUtil.toUppercaseFirstCharacter(subClassMethod.getName()));
     }

@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.callback.PreStateChange;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.utils.Null;
 import net.imadz.verification.VerificationFailureSet;
@@ -104,7 +104,7 @@ public final class CallbackMethodVerificationScanner implements MethodScanCallba
             final StateMachineMetadata stateMachineMetadata) {
         final StateMetadata toState = ( (StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType() ).getState(toStateClass);
         if ( null == toState ) return;
-        for ( final TransitionMetadata transition : stateMachineMetadata.getState(toStateClass).getPossibleReachingTransitions() ) {
+        for ( final EventMetadata transition : stateMachineMetadata.getState(toStateClass).getPossibleReachingTransitions() ) {
             if ( transition.isConditional() && transition.postValidate() ) {
                 failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(this.stateMachineObjectBuilderImpl.getDottedPath(),
                         SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID, toStateClass, method, transition.getDottedPath()));

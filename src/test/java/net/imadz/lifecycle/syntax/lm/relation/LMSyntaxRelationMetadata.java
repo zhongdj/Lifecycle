@@ -39,8 +39,8 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.Relation;
@@ -98,7 +98,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface R1_S_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface R1_S_X {}
@@ -107,7 +107,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
     @LifecycleMeta(R1_S.class)
     static interface PLM_R1_S {
 
-        @Transition(R1_S_X.class)
+        @Event(R1_S_X.class)
         void tm();
 
         String getState();
@@ -124,7 +124,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface R2_S_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface R2_S_X {}
@@ -133,7 +133,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
     @LifecycleMeta(R2_S.class)
     static interface PLM_R2_S {
 
-        @Transition(R2_S_X.class)
+        @Event(R2_S_X.class)
         void tm();
 
         String getState();
@@ -150,7 +150,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface R3_S_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface R3_S_X {}
@@ -159,7 +159,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
     @LifecycleMeta(R3_S.class)
     static interface PLM_R3_S {
 
-        @Transition(R3_S_X.class)
+        @Event(R3_S_X.class)
         void tm();
 
         String getState();
@@ -183,7 +183,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface S4_D {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -206,15 +206,15 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition(S4.Transitions.X.class)
+        @Event(S4.Transitions.X.class)
         void tM1(@Relation(S4.Relations.R1.class) PLM_R1_S x) {
             System.out.println(". print inside tM1 .");
         }
 
-        @Transition(S4.Transitions.Y.class)
+        @Event(S4.Transitions.Y.class)
         void tM2() {}
 
-        @Transition(S4.Transitions.Z.class)
+        @Event(S4.Transitions.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -259,7 +259,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
                     @ShortCut(value = S5_C.class)
                     static interface S5_B_B {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface S5_B_Transitions {
 
                     static interface S5_B_X {}
@@ -274,7 +274,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface S5_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S5_X {}
@@ -290,13 +290,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             return state;
         }
 
-        @Transition
+        @Event
         void s5_X() {}
 
-        @Transition
+        @Event
         void s5_Y() {}
 
-        @Transition
+        @Event
         void s5_B_X() {}
 
         @Relation(S5_B_R1.class)
@@ -320,7 +320,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @CompositeState
             static interface S6_B extends S5_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitons extends S5.Transitions {}
         @RelationSet
         static interface Relations {
@@ -340,13 +340,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             return state;
         }
 
-        @Transition
+        @Event
         void s5_X() {}
 
-        @Transition
+        @Event
         void s5_Y(@Relation(S6_R2.class) PLM_R2_S rs_S) {}
 
-        @Transition
+        @Event
         void s5_B_X() {}
 
         @Relation(S5_B_R1.class)
@@ -372,7 +372,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @InboundWhile(on = { R1_S.States.R1_S_A.class }, relation = S7_R.class)
             static interface S7_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S7_X {}
@@ -387,7 +387,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
     @LifecycleMeta(S7.class)
     static interface NLM_1 {
 
-        @Transition
+        @Event
         void s7_X(PLM_R1_S r1_S);
 
         String getState();
@@ -407,7 +407,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface S8_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S8_X {}
@@ -424,7 +424,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition
+        @Event
         void s8_X() {}
 
         public String getState() {
@@ -443,13 +443,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition
+        @Event
         void s5_X() {}
 
-        @Transition
+        @Event
         void s5_Y() {}
 
-        @Transition
+        @Event
         void s5_B_X() {}
 
         String getState() {
@@ -468,13 +468,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition
+        @Event
         void s5_X() {}
 
-        @Transition
+        @Event
         void s5_Y(@Relation(S6_R2.class) PLM_R2_S r2_S) {}
 
-        @Transition
+        @Event
         void s5_B_X() {}
 
         @Relation(S6_R1.class)
@@ -496,13 +496,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition
+        @Event
         void s5_X() {}
 
-        @Transition
+        @Event
         void s5_Y() {}
 
-        @Transition
+        @Event
         void s5_B_X() {}
 
         @Relation(S4.Relations.R1.class)
@@ -522,7 +522,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition
+        @Event
         void r1_S_X() {}
 
         @Relation(S4.Relations.R1.class)
@@ -540,13 +540,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition(S4.Transitions.X.class)
+        @Event(S4.Transitions.X.class)
         void tM1(@Relation(R1.class) PLM_R1_S x) {}
 
-        @Transition(S4.Transitions.Y.class)
+        @Event(S4.Transitions.Y.class)
         void tM2() {}
 
-        @Transition(S4.Transitions.Z.class)
+        @Event(S4.Transitions.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -573,13 +573,13 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
 
         String state;
 
-        @Transition(S4.Transitions.X.class)
+        @Event(S4.Transitions.X.class)
         void tM1(@Relation(R1.class) PLM_R1_S x, @Relation(R1.class) PLM_R1_S x2) {}
 
-        @Transition(S4.Transitions.Y.class)
+        @Event(S4.Transitions.Y.class)
         void tM2() {}
 
-        @Transition(S4.Transitions.Z.class)
+        @Event(S4.Transitions.Z.class)
         void tM3() {}
 
         @Relation(S4.Relations.R2.class)
@@ -619,7 +619,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface Delivered {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -682,7 +682,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface Activated {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Activate {}
@@ -700,7 +700,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface CreditRated {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends LevelOneCustomerLifecycle.Transitions {
 
             static interface CreditRate {}
@@ -718,7 +718,7 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             @End
             static interface Prepaid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends LevelTwoCustomerLifecycle.Transitions {
 
             static interface Prepay {}
@@ -731,19 +731,19 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
             initialState(LevelOneCustomerLifecycle.States.Draft.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void activate() {}
     }
     @LifecycleMeta(LevelTwoCustomerLifecycle.class)
     public static class LevelTwoCustomer extends LevelOneCustomer {
 
-        @Transition
+        @Event
         public void creditRate() {}
     }
     @LifecycleMeta(LevelThreeCustomerLifecycle.class)
     public static class LevelThreeCustomer extends LevelTwoCustomer {
 
-        @Transition
+        @Event
         public void prepay() {}
     }
     @LifecycleMeta(LevelOneOrderLifecycle.class)
@@ -757,10 +757,10 @@ public class LMSyntaxRelationMetadata extends BaseMetaDataTest {
         @Relation(LevelOneOrderLifecycle.Relations.CustomerRelation.class)
         private LevelOneCustomer levelOneCustomer;
 
-        @Transition
+        @Event
         public void pay() {}
 
-        @Transition
+        @Event
         public void deliver() {}
     }
     @LifecycleMeta(LevelTwoOrderLifecycle.class)

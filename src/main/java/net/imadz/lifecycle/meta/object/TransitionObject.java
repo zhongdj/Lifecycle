@@ -38,9 +38,9 @@ import java.lang.reflect.Method;
 
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.MultiKeyed;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 
-public interface TransitionObject extends MetaObject<TransitionObject, TransitionMetadata>, MultiKeyed {
+public interface TransitionObject extends MetaObject<TransitionObject, EventMetadata>, MultiKeyed {
 
     Method getTransitionMethod();
 }

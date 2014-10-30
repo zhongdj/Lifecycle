@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
@@ -76,7 +76,7 @@ public interface ServiceableLifecycleMeta {
         @End
         public static class Cancelled {}
     }
-    @TransitionSet
+    @EventSet
     public static class Transitions {
 
         public static class Schedule {}

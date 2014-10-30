@@ -40,8 +40,8 @@ import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.Converter;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
@@ -92,7 +92,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 			}
 		}
 
-		@TransitionSet
+		@EventSet
 		static interface Transitions {
 
 			static interface S1_X {
@@ -106,7 +106,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface PDefaultStateIndicatorInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		// This is the default state getter
@@ -116,7 +116,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NNoDefaultStateIndicatorInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		// This is not the default state getter
@@ -126,7 +126,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NDefaultStateIndicatorInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		String getState();
@@ -140,7 +140,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 
 		private String state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX(String x, int y, int z) {
 		}
 
@@ -160,7 +160,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 
 		private String state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 
@@ -184,7 +184,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		@StateIndicator
 		private String state = PS1.States.S1_A.class.getSimpleName();
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 	}
@@ -196,7 +196,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		@Converter(StateConverterImpl.class)
 		private Integer state = 1;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 	}
@@ -207,7 +207,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		@StateIndicator
 		public String state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 	}
@@ -218,7 +218,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface PStateIndicatorInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -228,7 +228,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface PStateIndicatorConverterInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -241,7 +241,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 
 		private String state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 
@@ -259,7 +259,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NPublicStateIndicatorInterface {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -274,7 +274,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 
 		private String state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 
@@ -294,7 +294,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 
 		private int state;
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		public void doX() {
 		}
 
@@ -316,7 +316,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NNeedConverter {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -326,7 +326,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NStateIndicatorConverterInvalid {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -340,7 +340,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface PositiveMultipleStateIndicatorSuper {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -359,7 +359,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NegativeMultipleStateIndicator {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator
@@ -373,7 +373,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 	@LifecycleMeta(PS1.class)
 	static interface NegativeMultipleStateIndicatorSuper {
 
-		@Transition(S1_X.class)
+		@Event(S1_X.class)
 		void doX();
 
 		@StateIndicator

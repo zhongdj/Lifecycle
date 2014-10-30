@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.ConcreteTruckResourceLifecycleMeta.Transitions.Assign;
@@ -59,7 +59,7 @@ public interface ConcreteTruckResourceLifecycleMeta {
         @End
         public static class Detached {}
     }
-    @TransitionSet
+    @EventSet
     public class Transitions {
 
         public static class Assign {}

@@ -36,7 +36,7 @@ package net.imadz.lifecycle.demo.inheritance;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
@@ -44,13 +44,13 @@ import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Condit
 @LifecycleMeta(SummaryPlanLifecycleMeta.class)
 public interface ISummaryPlan {
 
-    @Transition(SummaryPlanLifecycleMeta.Transitions.CreateServiceOrder.class)
+    @Event(SummaryPlanLifecycleMeta.Transitions.CreateServiceOrder.class)
     IServiceOrder createServiceOrder(IPlantResource p, IConcreteTruckResource c, double volume);
 
-    @Transition(SummaryPlanLifecycleMeta.Transitions.AdjustTotalVolume.class)
+    @Event(SummaryPlanLifecycleMeta.Transitions.AdjustTotalVolume.class)
     void adjustVolume(double volume);
 
-    @Transition(SummaryPlanLifecycleMeta.Transitions.ConfirmFinish.class)
+    @Event(SummaryPlanLifecycleMeta.Transitions.ConfirmFinish.class)
     void confirmFinish();
 
     @Condition(SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable.class)

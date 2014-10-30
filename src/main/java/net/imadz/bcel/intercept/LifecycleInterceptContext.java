@@ -39,8 +39,8 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.util.StringUtil;
 import net.imadz.utils.ClassUtils;
 
@@ -52,7 +52,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
     private final InterceptContext<?, ?> innerContext;
     private String fromState;
     private Object transitionKey;
-    private TransitionTypeEnum transitionType;
+    private EventTypeEnum transitionType;
     private String transitionName;
     private String toState;
     private long lifecycleEndTime;
@@ -65,7 +65,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
     }
 
     private void init() {
-        final Class<?> keyClass = innerContext.getMethod().getAnnotation(Transition.class).value();
+        final Class<?> keyClass = innerContext.getMethod().getAnnotation(Event.class).value();
         if ( ClassUtils.isDefaultStyle(keyClass) ) {
             transitionKey = StringUtil.toUppercaseFirstCharacter(innerContext.getMethod().getName());
         } else {
@@ -92,7 +92,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
         return transitionKey;
     }
 
-    public void setTransitionType(TransitionTypeEnum type) {
+    public void setTransitionType(EventTypeEnum type) {
         this.transitionType = type;
     }
 
@@ -171,7 +171,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
         return transitionName;
     }
 
-    public TransitionTypeEnum getTransitionType() {
+    public EventTypeEnum getTransitionType() {
         return transitionType;
     }
 

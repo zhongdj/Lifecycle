@@ -54,7 +54,7 @@ import net.imadz.lifecycle.meta.builder.impl.RelationalCallbackObject;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
 import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.FieldEvaluator;
 import net.imadz.util.PropertyEvaluator;
 import net.imadz.util.Readable;
@@ -405,7 +405,7 @@ public final class CallbackMethodConfigureScanner {
 	private void verifyPreToStatePostEvaluate(Method method,
 			Class<?> toStateClass, StateMachineMetadata stateMachineMetadata)
 			throws VerificationException {
-		for (final TransitionMetadata transition : stateMachineMetadata
+		for (final EventMetadata transition : stateMachineMetadata
 				.getState(toStateClass).getPossibleReachingTransitions()) {
 			if (transition.isConditional() && transition.postValidate()) {
 				throw this.stateMachineObjectBuilderImpl

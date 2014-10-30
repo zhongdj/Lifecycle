@@ -41,8 +41,8 @@ import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
@@ -78,7 +78,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @End
             static interface S1_State_D {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(condition = S1.Conditions.S1_Condition_A.class, judger = VolumeMeasurableTransition.class, postEval = true)
@@ -118,7 +118,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @End
             static interface S2_State_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Move {}
@@ -135,10 +135,10 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
 
         private String state;
 
-        @Transition
+        @Event
         public void s1_Transition_X() {}
 
-        @Transition
+        @Event
         public void s1_Transition_Y() {}
 
         @Condition(S1.Conditions.S1_Condition_A.class)
@@ -229,7 +229,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             state = S2.States.S2_State_A.class.getSimpleName();
         }
 
-        @Transition
+        @Event
         public void move() {}
 
         public String getState() {
@@ -288,7 +288,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @End
             static interface S3_State_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(condition = S3.Conditions.S3_Condition_A.class, judger = S3.S3_VolumeMeasurableTransition.class, postEval = true)
@@ -354,7 +354,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
         @Relation(S3.Relations.S1Relation.class)
         private NLM_With_PreStateChange_To_State_With_Post_Evaluate_Relational s1;
 
-        @Transition
+        @Event
         public void move() {}
 
         @StateIndicator
@@ -527,7 +527,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             state = S2.States.S2_State_A.class.getSimpleName();
         }
 
-        @Transition
+        @Event
         public void move() {}
 
         public String getState() {
@@ -551,7 +551,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             state = S2.States.S2_State_A.class.getSimpleName();
         }
 
-        @Transition
+        @Event
         public void move() {}
 
         public String getState() {

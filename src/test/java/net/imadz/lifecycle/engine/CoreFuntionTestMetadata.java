@@ -41,8 +41,8 @@ import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
@@ -81,7 +81,7 @@ import org.junit.BeforeClass;
  * <ol>
  * <li>Relation With ValidWhile</li>
  * </ol>
- * <li>Transition Function Validation</li>
+ * <li>Event Function Validation</li>
  * <ol>
  * <li>check whether transition is legal to current state</li>
  * </ol>
@@ -90,7 +90,7 @@ import org.junit.BeforeClass;
  * <li>pre-state-change-phase</li>
  * <li>post-state-change-phase</li>
  * </ol>
- * <li>Execute Transition Method</li> <li>Locking</li>
+ * <li>Execute Event Method</li> <li>Locking</li>
  * <ol>
  * <li>Locking Strategy</li>
  * <ol>
@@ -117,7 +117,7 @@ import org.junit.BeforeClass;
  * applied to check relation scenario, and WRITE can be applied to update state
  * scenario.&nbsp;</li>
  * </ul>
- * <li>Parent State Synchronization Transition to update hierarchical business
+ * <li>Parent State Synchronization Event to update hierarchical business
  * objects.</li>
  * <ul>
  * <li><span style="font-size: 12px;">Example: For a service business, assuming
@@ -139,7 +139,7 @@ import org.junit.BeforeClass;
  * <ol>
  * <ol>
  * <li>Corrupting invalid state before services started</li>
- * <li>Recover (Resume or Redo) Transition after services are ready.&nbsp;</li>
+ * <li>Recover (Resume or Redo) Event after services are ready.&nbsp;</li>
  * <ol>
  * <li>These transition methods will result in those corrupted recoverable
  * object into the service queue(pool, zone) first to ensure ordering</li>
@@ -165,21 +165,21 @@ import org.junit.BeforeClass;
  * <ol>
  * <li>StateChangeEvent</li>
  * <ol>
- * <li>Object X is transiting from S1 to S2 with Transition T</li>
+ * <li>Object X is transiting from S1 to S2 with Event T</li>
  * </ol>
  * <li>TransitionEvent</li>
  * <ol>
- * <li>System Transition</li>
+ * <li>System Event</li>
  * <ol>
  * <li>Non-functional Corrupting Object X From S1 to S2</li>
  * <li>Non-functional&nbsp;Recovering Object X From S2 to S1</li>
  * <li>Non-functional&nbsp;Redoing Object X From S2 to S1</li>
  * </ol>
- * <li>Application Transition&nbsp;</li>
+ * <li>Application Event&nbsp;</li>
  * <ol>
  * <li>Functional Transiting Object X From S1 to S2</li>
  * <li>Functional Transiting Object X From S1 to a Failed state with Fail
- * Transition</li>
+ * Event</li>
  * </ol>
  * </ol> </ol> <li>Versions</li> </ol>
  * 
@@ -210,7 +210,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Activate {}
@@ -226,7 +226,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             initialState(Draft.class.getSimpleName());
         }
 
-        // @Transition
+        // @Event
         // public int activate() {
         // InterceptorController<Customer, Integer> a = new
         // InterceptorController<>();
@@ -245,18 +245,18 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         // public int activate$Impl() {
         // return 5;
         // }
-        @Transition
+        @Event
         public Customer activate() {
             return new Customer();
         }
 
-        @Transition
+        @Event
         public void suspend() {}
 
-        @Transition
+        @Event
         public void resume() {}
 
-        @Transition
+        @Event
         public void cancel() {}
     }
 
@@ -284,7 +284,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Ended {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -309,7 +309,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Closed {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Shutdown {}
@@ -404,10 +404,10 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void end() {}
 
         public void setStartDate(Date startDate) {
@@ -465,7 +465,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Ended {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -500,10 +500,10 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void end() {}
 
         public void setStartDate(Date startDate) {
@@ -551,7 +551,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface PowerOff {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface ShutDown {}
@@ -609,7 +609,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Broken {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(condition = TimesLeft.class, judger = ConditionJudgerImpl.class, postEval = false)
@@ -650,7 +650,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
     @StateMachine
     static interface KeyBoardLifecycleMetadataPostValidateCondition extends KeyBoardLifecycleMetadataPreValidateCondition {
 
-        @TransitionSet
+        @EventSet
         static interface Transitions extends KeyBoardLifecycleMetadataPreValidateCondition.Transitions {
 
             @LifecycleOverride
@@ -665,12 +665,12 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         private int powerLeft = 2;
         private boolean shutdown = false;
 
-        @Transition
+        @Event
         public void shutDown() {
             shutdown = true;
         }
 
-        @Transition
+        @Event
         public void reducePower() {
             powerLeft--;
         }
@@ -700,12 +700,12 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         private int powerLeft = 2;
         private boolean shutdown = false;
 
-        @Transition
+        @Event
         public void shutDown() {
             shutdown = true;
         }
 
-        @Transition
+        @Event
         public void reducePower() {
             powerLeft--;
         }
@@ -751,7 +751,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             return this.powerObject;
         }
 
-        @Transition
+        @Event
         public void pressAnyKey() {
             times = times - 1;
             powerObject.reducePower();
@@ -784,7 +784,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             return this;
         }
 
-        @Transition
+        @Event
         public void pressAnyKey() {
             times = times - 1;
         }
@@ -817,7 +817,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             return this;
         }
 
-        @Transition
+        @Event
         public void pressAnyKey() {
             times = times - 1;
             powerObject.reducePower();
@@ -862,10 +862,10 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             this.customer = customer;
         }
 
-        @Transition
+        @Event
         void start() {}
 
-        @Transition
+        @Event
         void end() {}
     }
     @LifecycleMeta(InternetTVServiceLifecycle.class)
@@ -893,7 +893,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Expired {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Activate {}
@@ -913,7 +913,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Paid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -938,7 +938,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @End
             static interface Paid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -961,13 +961,13 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             this.initialState(MemberShipLifecycleMeta.States.Draft.class.getSimpleName());
         }
 
-        @Transition(MemberShipLifecycleMeta.Transitions.Activate.class)
+        @Event(MemberShipLifecycleMeta.Transitions.Activate.class)
         public void active() {
             this.activatedOn = new Date();
             point = 0;
         }
 
-        @Transition
+        @Event
         public void expire() {
             this.expiredOn = new Date();
             point = 0;
@@ -1001,7 +1001,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             this.initialState(OrderValidWhileNullableLifecycleMeta.States.Draft.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void pay() {
             if ( null != memberShip ) memberShip.setPoint((int) totalAmount);
         }
@@ -1018,7 +1018,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             this.initialState(OrderValidWhileNotNullableLifecycleMeta.States.Draft.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void pay() {
             if ( null != memberShip ) {
                 memberShip.setPoint((int) totalAmount);
@@ -1038,7 +1038,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = true)
             static interface Paid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -1063,7 +1063,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
             @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = false)
             static interface Paid {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Pay {}
@@ -1081,7 +1081,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         @Relation(OrderInboundWhileNullableLifecycleMeta.Relations.MemberShipRelation.class)
         private MemberShip memberShip;
 
-        @Transition
+        @Event
         public void pay() {}
 
         public OrderInboundWhileNullable(MemberShip memberShip) {
@@ -1095,7 +1095,7 @@ public class CoreFuntionTestMetadata extends EngineTestBase {
         @Relation(OrderInboundWhileNotNullableLifecycleMeta.Relations.MemberShipRelation.class)
         private MemberShip memberShip;
 
-        @Transition
+        @Event
         public void pay() {}
 
         public OrderInboundWhileNotNullable(MemberShip memberShip) {

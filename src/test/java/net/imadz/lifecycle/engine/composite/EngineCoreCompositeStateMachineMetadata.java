@@ -40,8 +40,8 @@ import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
@@ -92,7 +92,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(OrderLifecycle.States.Finished.class)
                     static interface Done {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface SubTransitions {
 
                     static interface DoProduce {}
@@ -105,7 +105,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -120,19 +120,19 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             initialState(OrderLifecycle.States.Created.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
-        @Transition
+        @Event
         public void doProduce() {}
 
-        @Transition
+        @Event
         public void doDeliver() {}
 
-        @Transition
+        @Event
         public void confirmComplete() {}
     }
     // ///////////////////////////////////////////////////////////////////////////////
@@ -156,7 +156,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Activate {}
@@ -171,13 +171,13 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             initialState(ContractLifecycle.States.Draft.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         public void activate() {}
 
-        @Transition
+        @Event
         public void expire() {}
 
-        @Transition
+        @Event
         public void cancel() {}
     }
     // ///////////////////////////////////////////////////////////////////////////////
@@ -223,7 +223,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     // Relations.Contract.class)
                     static interface Done {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface SubTransitions {
 
                     static interface DoProduce {}
@@ -236,7 +236,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -264,19 +264,19 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             return this.contract;
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
-        @Transition
+        @Event
         public void doProduce() {}
 
-        @Transition
+        @Event
         public void doDeliver() {}
 
-        @Transition
+        @Event
         public void confirmComplete() {}
     }
     // ///////////////////////////////////////////////////////////////////////////////
@@ -311,7 +311,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(RelationalOrderLifecycleSharingValidWhile.States.Finished.class)
                     static interface Done {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface SubTransitions {
 
                     static interface DoProduce {}
@@ -324,7 +324,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -352,19 +352,19 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             return this.contract;
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
-        @Transition
+        @Event
         public void doProduce() {}
 
-        @Transition
+        @Event
         public void doDeliver() {}
 
-        @Transition
+        @Event
         public void confirmComplete() {}
     }
     @StateMachine
@@ -398,7 +398,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(RelationalOrderLifecycleReferencingInnerValidWhile.States.Finished.class)
                     static interface Done {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface SubTransitions {
 
                     static interface DoProduce {}
@@ -417,7 +417,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface Canceled {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -442,19 +442,19 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             return contract;
         }
 
-        @Transition
+        @Event
         public void start() {}
 
-        @Transition
+        @Event
         public void cancel() {}
 
-        @Transition
+        @Event
         public void doProduce() {}
 
-        @Transition
+        @Event
         public void doDeliver() {}
 
-        @Transition
+        @Event
         public void confirmComplete() {}
     }
     // /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -487,7 +487,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM2.States.S2.class)
                     static interface CS1 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface T4 {}
@@ -513,7 +513,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM2.States.S3.class)
                     static interface CS3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface T5 {}
@@ -528,7 +528,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface S3 {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface T6 {}
@@ -565,7 +565,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM1_No_Overrides.States.S2.class)
                     static interface CS1 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions extends SM2.States.S1.CTransitions {
 
                     static interface T1 {}
@@ -591,7 +591,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM1_No_Overrides.States.S3.class)
                     static interface CS3 extends SM2.States.S2.CStates.CS3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface T3 {}
@@ -606,7 +606,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface S3 extends SM2.States.S3 {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends SM2.Transitions {
 
             static interface T2 {}
@@ -645,7 +645,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM1_Overrides.States.S2.class)
                     static interface CS1 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface T1 {}
@@ -672,7 +672,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ShortCut(SM1_Overrides.States.S3.class)
                     static interface CS3 {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface T3 {}
@@ -687,7 +687,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @End
             static interface S3 extends SM2.States.S3 {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends SM2.Transitions {
 
             static interface T2 {}
@@ -724,13 +724,13 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             return contract;
         }
 
-        @Transition(SM2.Transitions.T6.class)
+        @Event(SM2.Transitions.T6.class)
         public void doActionT6() {}
 
-        @Transition(SM2.States.S1.CTransitions.T4.class)
+        @Event(SM2.States.S1.CTransitions.T4.class)
         public void doActionT4() {}
 
-        @Transition(SM2.States.S2.CTransitions.T5.class)
+        @Event(SM2.States.S2.CTransitions.T5.class)
         public void doActionT5() {}
     }
     @LifecycleMeta(SM1_No_Overrides.class)
@@ -740,13 +740,13 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             super(contract);
         }
 
-        @Transition(SM1_No_Overrides.Transitions.T2.class)
+        @Event(SM1_No_Overrides.Transitions.T2.class)
         public void doActionT2() {}
 
-        @Transition(SM1_No_Overrides.States.S1.CTransitions.T1.class)
+        @Event(SM1_No_Overrides.States.S1.CTransitions.T1.class)
         public void doActionT1() {}
 
-        @Transition(SM1_No_Overrides.States.S2.CTransitions.T3.class)
+        @Event(SM1_No_Overrides.States.S2.CTransitions.T3.class)
         public void doActionT3() {}
 
         @Relation(SM1_No_Overrides.Relations.R2.class)
@@ -771,13 +771,13 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             super(contract);
         }
 
-        @Transition(SM1_Overrides.Transitions.T2.class)
+        @Event(SM1_Overrides.Transitions.T2.class)
         public void doActionT2() {}
 
-        @Transition(SM1_Overrides.States.S1.CTransitions.T1.class)
+        @Event(SM1_Overrides.States.S1.CTransitions.T1.class)
         public void doActionT1() {}
 
-        @Transition(SM1_Overrides.States.S2.CTransitions.T3.class)
+        @Event(SM1_Overrides.States.S2.CTransitions.T3.class)
         public void doActionT3() {}
 
         @Relation(SM1_Overrides.Relations.R2.class)

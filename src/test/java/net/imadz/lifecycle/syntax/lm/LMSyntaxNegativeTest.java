@@ -38,7 +38,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S2.Transitions.NS1_Z;
 import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Transitions.S3_Y;
 import net.imadz.verification.VerificationException;
@@ -111,7 +111,7 @@ public class LMSyntaxNegativeTest extends LMSyntaxMetadata {
             new Registry();
         } catch (VerificationException e) {
             assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.LM_TRANSITION_METHOD_WITH_INVALID_TRANSITION_REFERENCE, NLM_4.class
-                    .getMethod("nS1_X").getAnnotation(Transition.class), "nS1_X", NLM_4.class.getName(), S2.class.getName());
+                    .getMethod("nS1_X").getAnnotation(Event.class), "nS1_X", NLM_4.class.getName(), S2.class.getName());
             throw e;
         }
     }

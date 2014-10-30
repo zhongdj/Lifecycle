@@ -42,7 +42,7 @@ import net.imadz.lifecycle.annotations.CompositeState;
 import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -79,7 +79,7 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
                     @ShortCut(PCS1_C.class)
                     static interface PCS1_CC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface PCS1_CX {}
@@ -88,7 +88,7 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
             @End
             static interface PCS1_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PCS1_X {}

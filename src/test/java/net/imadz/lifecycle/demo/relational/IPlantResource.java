@@ -36,23 +36,23 @@ package net.imadz.lifecycle.demo.relational;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.PlantResourceLifecycleMeta;
 
 @LifecycleMeta(PlantResourceLifecycleMeta.class)
 // Default with getState
 public interface IPlantResource {
 
-    @Transition(PlantResourceLifecycleMeta.Transitions.Assign.class)
+    @Event(PlantResourceLifecycleMeta.Transitions.Assign.class)
     void assign();
 
-    @Transition(PlantResourceLifecycleMeta.Transitions.Release.class)
+    @Event(PlantResourceLifecycleMeta.Transitions.Release.class)
     void release();
 
-    @Transition(PlantResourceLifecycleMeta.Transitions.Maintain.class)
+    @Event(PlantResourceLifecycleMeta.Transitions.Maintain.class)
     void doMaintain();
 
-    @Transition(PlantResourceLifecycleMeta.Transitions.ConfirmMaintainOver.class)
+    @Event(PlantResourceLifecycleMeta.Transitions.ConfirmMaintainOver.class)
     void confirmMaintainOver();
 
     @StateIndicator

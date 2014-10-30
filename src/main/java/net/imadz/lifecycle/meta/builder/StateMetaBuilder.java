@@ -36,7 +36,7 @@ package net.imadz.lifecycle.meta.builder;
 
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 
 public interface StateMetaBuilder extends AnnotationMetaBuilder<StateMetadata, StateMachineMetadata>, StateMetadata {
@@ -53,5 +53,5 @@ public interface StateMetaBuilder extends AnnotationMetaBuilder<StateMetadata, S
 
     void configureRelationConstrants(Class<?> clazz) throws VerificationException;
 
-    void addPossibleReachingTransition(TransitionMetadata transition);
+    void addPossibleReachingTransition(EventMetadata transition);
 }

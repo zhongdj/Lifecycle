@@ -32,42 +32,16 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.meta.type;
+package net.imadz.lifecycle.annotations;
 
-import java.lang.reflect.Method;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import net.imadz.lifecycle.annotations.action.ConditionalTransition;
-import net.imadz.lifecycle.meta.MetaType;
-import net.imadz.verification.VerificationFailureSet;
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Events {
 
-public interface TransitionMetadata extends MetaType<TransitionMetadata> {
-
-    StateMachineMetadata getStateMachine();
-
-    public static enum TransitionTypeEnum {
-        Corrupt,
-        Recover,
-        Redo,
-        Fail,
-        Common,
-        Other;
-
-        public boolean isUniqueTransition() {
-            return this == TransitionTypeEnum.Corrupt || this == TransitionTypeEnum.Recover || this == TransitionTypeEnum.Redo;
-        }
-    }
-
-    TransitionTypeEnum getType();
-
-    long getTimeout();
-
-    boolean isConditional();
-
-    Class<?> getConditionClass();
-
-    Class<? extends ConditionalTransition<?>> getJudgerClass();
-
-    boolean postValidate();
-
-    void verifyTransitionMethod(Method method, VerificationFailureSet failureSet);
+    Event[] value();
 }

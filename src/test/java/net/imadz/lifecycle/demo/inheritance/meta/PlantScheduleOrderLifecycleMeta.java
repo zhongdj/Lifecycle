@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
@@ -68,7 +68,7 @@ public interface PlantScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
         // Default @Functions({})
         static class Finished extends OrderLifecycleMeta.States.Finished {}
     }
-    @TransitionSet
+    @EventSet
     public static class Transitions {
 
         public static class Start {}

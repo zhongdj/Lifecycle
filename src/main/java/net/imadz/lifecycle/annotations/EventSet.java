@@ -39,9 +39,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import net.imadz.utils.Null;
+
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Transitions {
+public @interface EventSet {
 
-    Transition[] value();
+    Class<?> value() default Null.class;
 }

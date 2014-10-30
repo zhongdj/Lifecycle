@@ -49,14 +49,14 @@ import net.imadz.lifecycle.annotations.action.Redo;
 import net.imadz.lifecycle.annotations.action.Timeout;
 import net.imadz.lifecycle.meta.builder.TransitionMetaBuilder;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.StringUtil;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<TransitionMetadata, StateMachineMetadata> implements TransitionMetaBuilder {
+public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<EventMetadata, StateMachineMetadata> implements TransitionMetaBuilder {
 
-    private TransitionTypeEnum type = TransitionTypeEnum.Common;
+    private EventTypeEnum type = EventTypeEnum.Common;
     private boolean conditional;
     private Class<?> conditionClass;
     private Class<? extends ConditionalTransition<?>> judgerClass;
@@ -64,7 +64,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     private long timeout;
 
     protected TransitionMetaBuilderImpl(StateMachineMetadata parent, String name) {
-        super(parent, "TransitionSet." + name);
+        super(parent, "EventSet." + name);
     }
 
     @Override
@@ -89,15 +89,15 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
 
     private void configureType(Class<?> clazz) {
         if ( null != clazz.getAnnotation(Corrupt.class) ) {
-            type = TransitionTypeEnum.Corrupt;
+            type = EventTypeEnum.Corrupt;
         } else if ( null != clazz.getAnnotation(Redo.class) ) {
-            type = TransitionTypeEnum.Redo;
+            type = EventTypeEnum.Redo;
         } else if ( null != clazz.getAnnotation(Recover.class) ) {
-            type = TransitionTypeEnum.Recover;
+            type = EventTypeEnum.Recover;
         } else if ( null != clazz.getAnnotation(Fail.class) ) {
-            type = TransitionTypeEnum.Fail;
+            type = EventTypeEnum.Fail;
         } else {
-            type = TransitionTypeEnum.Common;
+            type = EventTypeEnum.Common;
         }
     }
 
@@ -141,7 +141,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     }
 
     @Override
-    public TransitionTypeEnum getType() {
+    public EventTypeEnum getType() {
         return type;
     }
 
@@ -186,7 +186,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
     }
 
     @Override
-    protected TransitionMetadata findSuper(Class<?> metaClass) throws VerificationException {
+    protected EventMetadata findSuper(Class<?> metaClass) throws VerificationException {
         return parent.getSuper().getTransition(metaClass);
     }
 
@@ -200,7 +200,7 @@ public class TransitionMetaBuilderImpl extends InheritableAnnotationMetaBuilderB
         if ( method.getParameterTypes().length <= 0 ) {
             return;
         }
-        if ( TransitionTypeEnum.Corrupt == getType() || TransitionTypeEnum.Recover == getType() || TransitionTypeEnum.Redo == getType() ) {
+        if ( EventTypeEnum.Corrupt == getType() || EventTypeEnum.Recover == getType() || EventTypeEnum.Redo == getType() ) {
             failureSet.add(newVerificationFailure(getDottedPath(), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER, method,
                     StringUtil.toUppercaseFirstCharacter(method.getName()), getType()));
         }

@@ -38,10 +38,10 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 
 import net.imadz.lifecycle.SyntaxErrors;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.meta.type.EventMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.util.StringUtil;
 import net.imadz.utils.Null;
@@ -50,11 +50,11 @@ import net.imadz.verification.VerificationFailureSet;
 public final class CoverageVerifier implements MethodScanCallback {
 
     private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private final TransitionMetadata transitionMetadata;
+    private final EventMetadata transitionMetadata;
     HashSet<Class<?>> declaringClass = new HashSet<Class<?>>();
     private final VerificationFailureSet failureSet;
 
-    public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final TransitionMetadata transitionMetadata,
+    public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final EventMetadata transitionMetadata,
             final VerificationFailureSet failureSet) {
         this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
         this.transitionMetadata = transitionMetadata;
@@ -74,7 +74,7 @@ public final class CoverageVerifier implements MethodScanCallback {
             declaringClass.add(method.getDeclaringClass());
             return false;
         }
-        final TransitionTypeEnum type = transitionMetadata.getType();
+        final EventTypeEnum type = transitionMetadata.getType();
         if ( type.isUniqueTransition() ) {
             failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(transitionMetadata.getDottedPath(),
                     SyntaxErrors.LM_REDO_CORRUPT_RECOVER_TRANSITION_HAS_ONLY_ONE_METHOD, transitionMetadata.getDottedPath().getName(), "@" + type.name(),
@@ -83,8 +83,8 @@ public final class CoverageVerifier implements MethodScanCallback {
         return false;
     }
 
-    private boolean match(TransitionMetadata transitionMetadata, Method transitionMethod) {
-        Transition transition = transitionMethod.getAnnotation(Transition.class);
+    private boolean match(EventMetadata transitionMetadata, Method transitionMethod) {
+        Event transition = transitionMethod.getAnnotation(Event.class);
         if ( null == transition ) return false;
         final String transitionName = transitionMetadata.getDottedPath().getName();
         if ( Null.class == transition.value() ) {

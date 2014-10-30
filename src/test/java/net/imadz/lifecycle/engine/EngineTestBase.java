@@ -53,7 +53,7 @@ import net.imadz.lifecycle.LifecycleCommonErrors;
 import net.imadz.lifecycle.LifecycleException;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.Customer;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.InternetServiceLifecycleMeta;
@@ -114,10 +114,10 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
             this.customer = customer;
         }
 
-        @Transition
+        @Event
         void start() {}
 
-        @Transition
+        @Event
         void end() {}
     }
     @LifecycleMeta(ServiceProviderLifecycle.class)
@@ -127,7 +127,7 @@ public class EngineTestBase extends ConsoleLoggingTestBase {
             initialState(ServiceProviderLifecycle.States.ServiceAvailable.class.getSimpleName());
         }
 
-        @Transition
+        @Event
         void shutdown() {}
     }
 

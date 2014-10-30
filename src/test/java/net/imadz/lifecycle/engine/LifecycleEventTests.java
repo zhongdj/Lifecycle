@@ -47,7 +47,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.engine.LifecycleLockTestMetadata.CustomerObject;
 import net.imadz.lifecycle.engine.LifecycleLockTestMetadata.CustomerStateMachine;
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.verification.VerificationException;
 
 import org.junit.Test;
@@ -149,6 +149,6 @@ public class LifecycleEventTests extends EngineTestBase {
         lifecycleEvent.endTime();
         lifecycleEvent.startTime();
         assertEquals(transition.getSimpleName(), lifecycleEvent.transition());
-        assertEquals(TransitionTypeEnum.Common, lifecycleEvent.transitionType());
+        assertEquals(EventTypeEnum.Common, lifecycleEvent.transitionType());
     }
 }

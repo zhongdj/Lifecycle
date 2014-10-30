@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalTransition;
@@ -69,7 +69,7 @@ public interface SummaryPlanLifecycleMeta {
         @End
         public static class Done {}
     }
-    @TransitionSet
+    @EventSet
     public static class Transitions {
 
         @Conditional(judger = VolumeMeasurableTransition.class, condition = VolumeMeasurable.class)

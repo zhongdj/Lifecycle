@@ -41,8 +41,8 @@ import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Transitions.FinishThis;
@@ -66,7 +66,7 @@ public class ReturnTypeTests extends EngineTestBase {
             @End
             static interface Done {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface JustDoIt {}
@@ -80,52 +80,52 @@ public class ReturnTypeTests extends EngineTestBase {
             initialState(ReturnTypeStateMachine.States.New.class.getSimpleName());
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public boolean returnBoolean() {
             return false;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public byte returnByte() {
             return 1;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public short returnShort() {
             return 1;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public int returnInt() {
             return 1;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public long returnLong() {
             return 1L;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public float returnFloat() {
             return 1.0F;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public double returnDouble() {
             return 1.0D;
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public char returnChar() {
             return 'a';
         }
 
-        @Transition(JustDoIt.class)
+        @Event(JustDoIt.class)
         public Object returnObject() {
             return new Object();
         }
 
-        @Transition(FinishThis.class)
+        @Event(FinishThis.class)
         public void doFinish() {}
         // public Object doObject() {
         // InterceptorController<ReturnTypes, Object> controller = new

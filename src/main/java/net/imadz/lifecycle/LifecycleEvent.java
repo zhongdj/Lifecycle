@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle;
 
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 
 public interface LifecycleEvent {
 
@@ -46,7 +46,7 @@ public interface LifecycleEvent {
 
     String transition();
 
-    TransitionTypeEnum transitionType();
+    EventTypeEnum transitionType();
 
     long startTime();
 

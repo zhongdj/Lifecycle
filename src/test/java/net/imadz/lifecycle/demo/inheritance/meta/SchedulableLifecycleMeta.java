@@ -39,7 +39,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Transitions.Assign;
 import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Transitions.Release;
@@ -57,7 +57,7 @@ public interface SchedulableLifecycleMeta {
         @Function(transition = Release.class, value = Idle.class)
         public static class Busy {}
     }
-    @TransitionSet
+    @EventSet
     public static class Transitions {
 
         public static class Assign {}

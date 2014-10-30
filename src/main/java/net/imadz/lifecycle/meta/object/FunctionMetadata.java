@@ -38,15 +38,15 @@ import java.util.LinkedList;
 
 import net.imadz.lifecycle.meta.builder.impl.StateMetaBuilderImpl;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 
 public class FunctionMetadata {
 
     private final StateMetadata parent;
-    private final TransitionMetadata transition;
+    private final EventMetadata transition;
     private final LinkedList<StateMetadata> nextStates;
 
-    public FunctionMetadata(StateMetaBuilderImpl parent, TransitionMetadata transition, LinkedList<StateMetadata> nextStates) {
+    public FunctionMetadata(StateMetaBuilderImpl parent, EventMetadata transition, LinkedList<StateMetadata> nextStates) {
         this.parent = parent;
         this.transition = transition;
         this.nextStates = nextStates;
@@ -56,7 +56,7 @@ public class FunctionMetadata {
         return parent;
     }
 
-    public TransitionMetadata getTransition() {
+    public EventMetadata getTransition() {
         return transition;
     }
 

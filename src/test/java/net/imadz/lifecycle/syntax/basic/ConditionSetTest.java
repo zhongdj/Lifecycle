@@ -41,7 +41,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalTransition;
@@ -89,7 +89,7 @@ public class ConditionSetTest extends BaseMetaDataTest {
             @End
             static interface J {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(judger = ConcreteCondition.class, condition = CompareWithZero.class)

@@ -36,7 +36,7 @@ package net.imadz.lifecycle.demo.relational;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.ConcreteTruckResource;
@@ -46,14 +46,14 @@ import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Transit
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
-    @Transition(Schedule.class)
+    @Event(Schedule.class)
     void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
             @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
 
-    @Transition(ServiceableLifecycleMeta.Transitions.Start.class)
+    @Event(ServiceableLifecycleMeta.Transitions.Start.class)
     void confirmStart();
 
-    @Transition(ServiceableLifecycleMeta.Transitions.Finish.class)
+    @Event(ServiceableLifecycleMeta.Transitions.Finish.class)
     void confirmFinish();
 
     @StateIndicator

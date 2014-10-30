@@ -36,7 +36,7 @@ package net.imadz.lifecycle.impl;
 
 import net.imadz.bcel.intercept.LifecycleInterceptContext;
 import net.imadz.lifecycle.LifecycleEvent;
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 
 public class LifecycleEventImpl implements LifecycleEvent {
 
@@ -44,7 +44,7 @@ public class LifecycleEventImpl implements LifecycleEvent {
     private final String fromState;
     private final String toState;
     private final String transition;
-    private final TransitionTypeEnum transitionType;
+    private final EventTypeEnum transitionType;
     private final long startTime;
     private final long endTime;
 
@@ -79,7 +79,7 @@ public class LifecycleEventImpl implements LifecycleEvent {
     }
 
     @Override
-    public TransitionTypeEnum transitionType() {
+    public EventTypeEnum transitionType() {
         return transitionType;
     }
 

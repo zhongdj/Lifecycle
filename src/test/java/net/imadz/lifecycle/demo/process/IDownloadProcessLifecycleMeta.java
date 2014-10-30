@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Fail;
 import net.imadz.lifecycle.annotations.action.Recover;
@@ -99,7 +99,7 @@ public interface IDownloadProcessLifecycleMeta {
         @End
         static class Removed {}
     }
-    @TransitionSet
+    @EventSet
     static class Transitions {
 
         @Recover

@@ -41,7 +41,7 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.lifecycle.meta.type.TransitionMetadata.TransitionTypeEnum;
+import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Activate;
 import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Inactivate;
 import net.imadz.lifecycle.syntax.lm.transition.TransitionTestMetadata.SpecialTranstionStateMachine.Transitions.Restart;
@@ -72,11 +72,11 @@ public class TransitionNegativeTests extends TransitionTestMetadata {
             next = iterator.next();
             errors.put(next.getErrorKey().getName(), next);
             assertFailure(errors.get("Inactivate"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("inactivate", Integer.TYPE), Inactivate.class.getSimpleName(), TransitionTypeEnum.Corrupt);
+                    NegativeProcess.class.getDeclaredMethod("inactivate", Integer.TYPE), Inactivate.class.getSimpleName(), EventTypeEnum.Corrupt);
             assertFailure(errors.get("Activate"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("activate", Integer.TYPE), Activate.class.getSimpleName(), TransitionTypeEnum.Recover);
+                    NegativeProcess.class.getDeclaredMethod("activate", Integer.TYPE), Activate.class.getSimpleName(), EventTypeEnum.Recover);
             assertFailure(errors.get("Restart"), SyntaxErrors.TRANSITION_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("restart", Integer.TYPE), Restart.class.getSimpleName(), TransitionTypeEnum.Redo);
+                    NegativeProcess.class.getDeclaredMethod("restart", Integer.TYPE), Restart.class.getSimpleName(), EventTypeEnum.Redo);
             throw e;
         }
     }

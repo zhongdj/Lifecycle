@@ -36,7 +36,7 @@ package net.imadz.lifecycle.demo.relational;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Cancel;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Transitions.Finish;
@@ -46,22 +46,22 @@ import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMet
 @LifecycleMeta(VehicleScheduleOrderLifecycleMeta.class)
 public interface IVehicleScheduleOrder {
 
-    @Transition(Schedule.class)
+    @Event(Schedule.class)
     void doSchedule();
 
-    @Transition(Start.class)
+    @Event(Start.class)
     void doStart();
 
-    @Transition(Finish.class)
+    @Event(Finish.class)
     void doFinish();
 
-    @Transition(Cancel.class)
+    @Event(Cancel.class)
     void doCancel();
 
-    @Transition
+    @Event
     void doTransport();
 
-    @Transition
+    @Event
     void doConstruct();
 
     @StateIndicator

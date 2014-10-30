@@ -39,7 +39,7 @@ import java.io.Serializable;
 import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalTransition;
@@ -67,7 +67,7 @@ public class TransitionSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S1_State_C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Conditional(condition = S1_Condition_B.class, judger = VolumeMeasurableTransition.class)
@@ -108,7 +108,7 @@ public class TransitionSyntaxMetadata extends BaseMetaDataTest {
             @End
             public static interface Delivered {}
         }
-        @TransitionSet
+        @EventSet
         public static interface Transitions {
 
             public static interface Pay extends Serializable {}
@@ -129,7 +129,7 @@ public class TransitionSyntaxMetadata extends BaseMetaDataTest {
             @End
             public static interface Delivered {}
         }
-        @TransitionSet
+        @EventSet
         public static interface Transitions {
 
             public static interface Pay {}
@@ -150,7 +150,7 @@ public class TransitionSyntaxMetadata extends BaseMetaDataTest {
             @End
             public static interface Delivered {}
         }
-        @TransitionSet
+        @EventSet
         public static interface Transitions extends Order.Transitions {
 
             public static interface Pay extends NegativeOrder.Transitions.Pay {}

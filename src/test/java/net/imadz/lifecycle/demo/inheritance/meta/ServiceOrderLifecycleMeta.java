@@ -36,7 +36,7 @@ package net.imadz.lifecycle.demo.inheritance.meta;
 
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.ErrorMessage;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
@@ -62,7 +62,7 @@ public interface ServiceOrderLifecycleMeta extends OrderLifecycleMeta {
                         ConcreteTruckResourceLifecycleMeta.States.Busy.class }) })
         public static class Queued extends OrderLifecycleMeta.States.Queued {}
     }
-    @TransitionSet
+    @EventSet
     public class Transitions extends OrderLifecycleMeta.Transitions {}
     @RelationSet
     public static class Relations {

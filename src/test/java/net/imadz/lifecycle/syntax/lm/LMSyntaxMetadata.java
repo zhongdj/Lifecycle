@@ -38,8 +38,8 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
@@ -68,7 +68,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S1_B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface S1_X {}
@@ -79,7 +79,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
 
         public String getState();
 
-        @Transition(S1_X.class)
+        @Event(S1_X.class)
         void test();
     }
     @StateMachine
@@ -98,7 +98,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NS1_D {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NS1_X {}
@@ -110,13 +110,13 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
     @LifecycleMeta(S2.class)
     static interface PLM_2 {
 
-        @Transition(NS1_X.class)
+        @Event(NS1_X.class)
         void m1();
 
-        @Transition(NS1_Y.class)
+        @Event(NS1_Y.class)
         void m2();
 
-        @Transition(NS1_Z.class)
+        @Event(NS1_Z.class)
         void m3();
 
         public String getState();
@@ -126,67 +126,67 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
     @LifecycleMeta(S2.class)
     static interface PLM_3 {
 
-        @Transition
+        @Event
         public void nS1_X();
 
-        @Transition
+        @Event
         public void nS1_Y();
 
-        @Transition
+        @Event
         public void nS1_Z();
 
         public String getState();
     }
-    // Transition NS1_Z has no binding method in LM
+    // Event NS1_Z has no binding method in LM
     @LifecycleMeta(S2.class)
     static interface NLM_1 {
 
-        @Transition(NS1_X.class)
+        @Event(NS1_X.class)
         public void m1();
 
-        @Transition(NS1_Y.class)
+        @Event(NS1_Y.class)
         public void m2();
     }
-    // Transition NS1_Z has no method in LM
+    // Event NS1_Z has no method in LM
     @LifecycleMeta(S2.class)
     static interface NLM_2 {
 
-        @Transition(NS1_X.class)
+        @Event(NS1_X.class)
         public void m1();
 
-        @Transition(NS1_X.class)
+        @Event(NS1_X.class)
         public void m2();
 
-        @Transition(NS1_Y.class)
+        @Event(NS1_Y.class)
         public void m3();
     }
     @LifecycleMeta(S2.class)
     static interface NLM_3 {
 
-        @Transition
+        @Event
         public void nS1_Xyz(); // Method nS1_Xyz can not bind to any transition
                                // in S2.
 
-        @Transition
+        @Event
         public void nS1_X();
 
-        @Transition
+        @Event
         public void nS1_Y();
 
-        @Transition
+        @Event
         public void nS1_Z();
     }
     @LifecycleMeta(S2.class)
     static interface NLM_4 {
 
         // Use other state machine's transition
-        @Transition(S1_X.class)
+        @Event(S1_X.class)
         public void nS1_X();
 
-        @Transition
+        @Event
         public void nS1_Y();
 
-        @Transition
+        @Event
         public void nS1_Z();
     }
     @StateMachine
@@ -205,7 +205,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface S3_D {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             @Corrupt
@@ -222,29 +222,29 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
 
         public String getState();
 
-        @Transition
+        @Event
         void s3_X();
 
-        @Transition
+        @Event
         void s3_Y();
 
-        @Transition
+        @Event
         void s3_Z();
     }
     // Negative LM: Redo transition binds to more than 1 method
     @LifecycleMeta(S3.class)
     static interface NLM_5 {
 
-        @Transition
+        @Event
         void s3_X();
 
-        @Transition
+        @Event
         void s3_Y();
 
-        @Transition(S3_Y.class)
+        @Event(S3_Y.class)
         void s3_Y2();
 
-        @Transition
+        @Event
         void s3_Z();
     }
 }

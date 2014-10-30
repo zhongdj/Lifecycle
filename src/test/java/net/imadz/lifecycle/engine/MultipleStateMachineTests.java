@@ -37,7 +37,7 @@ package net.imadz.lifecycle.engine;
 import static org.junit.Assert.assertEquals;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.relation.Relation;
 
 import org.junit.BeforeClass;
@@ -56,16 +56,16 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @StateIndicator
         String getPurchaseOrderState();
 
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
         void doConfirm();
 
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Start.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Start.class)
         void doStart();
 
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Complete.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Complete.class)
         void doComplete();
 
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Abort.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Abort.class)
         void doAbort();
     }
     @LifecycleMeta(PCManufactoringOrderStateMachine.class)
@@ -77,25 +77,25 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @Relation(PCManufactoringOrderStateMachine.Relations.PurchaseOrder.class)
         PCPurchaseOrder getPurchaseOrder();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.Plan.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.Plan.class)
         void doPlan();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
         void doConfirmBom();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
         void doMakeOSRomComplete();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
         void doStartAssembling();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
         void doStartDebugging();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
         void doConfirmPacakgeComplete();
 
-        @Transition(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
         void doTransferToLogistics();
     }
     @LifecycleMeta(PCLogisticOrderStateMachine.class)
@@ -110,19 +110,19 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         @Relation(PCLogisticOrderStateMachine.Relations.ManufactureOrder.class)
         ManufactoringOrder getManufactoringOrder();
 
-        @Transition(PCLogisticOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.Confirm.class)
         void doConfirmLogisticOrder();
 
-        @Transition(PCLogisticOrderStateMachine.Transitions.Schedule.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.Schedule.class)
         void doSchedule();
 
-        @Transition(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
         void doPickup();
 
-        @Transition(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
         void doStartTransport();
 
-        @Transition(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
         void doCustomerConfirmReceive();
     }
     @net.imadz.lifecycle.annotations.ReactiveObject
@@ -149,21 +149,21 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Transition(PCLogisticOrderStateMachine.Transitions.Schedule.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.Schedule.class)
         public void doSchedule() {}
 
         @Override
-        @Transition(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.DoPickup.class)
         public void doPickup() {
             getManufactoringOrder().doTransferToLogistics();
         }
 
         @Override
-        @Transition(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.StartTransport.class)
         public void doStartTransport() {}
 
         @Override
-        @Transition(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.CustomerConfirmReceive.class)
         public void doCustomerConfirmReceive() {
             getPurchaseOrder().doComplete();
         }
@@ -184,33 +184,33 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.Plan.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.Plan.class)
         public void doPlan() {}
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.ConfirmBOM.class)
         public void doConfirmBom() {
             getPurchaseOrder().doStart();
         }
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.MakeOSROMComplete.class)
         public void doMakeOSRomComplete() {}
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.StartAssembling.class)
         public void doStartAssembling() {}
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.StartDebugging.class)
         public void doStartDebugging() {}
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.PackageComplete.class)
         public void doConfirmPacakgeComplete() {}
 
         @Override
-        @Transition(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
+        @Event(PCManufactoringOrderStateMachine.Transitions.TransferToLogistics.class)
         public void doTransferToLogistics() {}
 
         @Override
@@ -224,23 +224,23 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         }
 
         @Override
-        @Transition(PCLogisticOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCLogisticOrderStateMachine.Transitions.Confirm.class)
         public void doConfirmLogisticOrder() {}
 
         @Override
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Start.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Start.class)
         public void doStart() {}
 
         @Override
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Complete.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Complete.class)
         public void doComplete() {}
 
         @Override
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Abort.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Abort.class)
         public void doAbort() {}
 
         @Override
-        @Transition(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
+        @Event(PCPurchaseOrderStateMachine.Transitions.Confirm.class)
         public void doConfirm() {}
     }
 

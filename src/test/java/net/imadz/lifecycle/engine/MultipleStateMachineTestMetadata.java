@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.Parent;
@@ -72,7 +72,7 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @End
             static interface Aborted {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Confirm {}
@@ -117,7 +117,7 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @End
             static interface Done {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface TransferToLogistics {}
@@ -171,7 +171,7 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @End
             static interface Received {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Schedule {}

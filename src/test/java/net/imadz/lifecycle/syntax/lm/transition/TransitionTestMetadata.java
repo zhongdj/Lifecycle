@@ -40,8 +40,8 @@ import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
@@ -70,7 +70,7 @@ public class TransitionTestMetadata extends BaseMetaDataTest {
             @End
             static interface Stopped {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Start {}
@@ -86,19 +86,19 @@ public class TransitionTestMetadata extends BaseMetaDataTest {
     @LifecycleMeta(SpecialTranstionStateMachine.class)
     static interface PositiveProcess {
 
-        @Transition
+        @Event
         void start();
 
-        @Transition
+        @Event
         void inactivate();
 
-        @Transition
+        @Event
         void activate();
 
-        @Transition
+        @Event
         void stop();
 
-        @Transition
+        @Event
         void restart();
 
         @StateIndicator
@@ -107,19 +107,19 @@ public class TransitionTestMetadata extends BaseMetaDataTest {
     @LifecycleMeta(SpecialTranstionStateMachine.class)
     static interface NegativeProcess {
 
-        @Transition
+        @Event
         void start(int i);
 
-        @Transition
+        @Event
         void inactivate(int i);
 
-        @Transition
+        @Event
         void activate(int i);
 
-        @Transition
+        @Event
         void stop(int i);
 
-        @Transition
+        @Event
         void restart(int i);
 
         @StateIndicator

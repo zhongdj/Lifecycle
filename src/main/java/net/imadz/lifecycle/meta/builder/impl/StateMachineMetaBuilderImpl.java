@@ -49,7 +49,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.relation.Parent;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
@@ -68,7 +68,7 @@ import net.imadz.lifecycle.meta.type.ConditionMetadata;
 import net.imadz.lifecycle.meta.type.RelationMetadata;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
@@ -77,7 +77,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
 
     private StateMachineMetadata parentStateMachineMetadata;
     /* //////////////////////////////////////////////////// */
-    /* ////////////// Fields For Transitions ////////////// */
+    /* ////////////// Fields For Events ////////////// */
     /* //////////////////////////////////////////////////// */
     private final ArrayList<TransitionMetaBuilder> transitionList = new ArrayList<TransitionMetaBuilder>();
     private final HashMap<Object, TransitionMetaBuilder> transitionMap = new HashMap<Object, TransitionMetaBuilder>();
@@ -157,17 +157,17 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     @Override
-    public TransitionMetadata[] getDeclaredTransitionSet() {
-        return transitionList.toArray(new TransitionMetadata[transitionList.size()]);
+    public EventMetadata[] getDeclaredTransitionSet() {
+        return transitionList.toArray(new EventMetadata[transitionList.size()]);
     }
 
     @Override
-    public TransitionMetadata getDeclaredTransition(Object transitionKey) {
+    public EventMetadata getDeclaredTransition(Object transitionKey) {
         return this.transitionMap.get(transitionKey);
     }
 
     @Override
-    public TransitionMetadata getStateSynchronizationTransition() {
+    public EventMetadata getStateSynchronizationTransition() {
         return null;
     }
 
@@ -194,7 +194,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     @Override
-    public TransitionMetadata getRedoTransition() {
+    public EventMetadata getRedoTransition() {
         return redoTransition;
     }
 
@@ -204,7 +204,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     @Override
-    public TransitionMetadata getRecoverTransition() {
+    public EventMetadata getRecoverTransition() {
         return recoverTransition;
     }
 
@@ -214,7 +214,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     @Override
-    public TransitionMetadata getCorruptTransition() {
+    public EventMetadata getCorruptTransition() {
         return corruptTransition;
     }
 
@@ -429,7 +429,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     private void configureTransitionSet(Class<?> clazz) throws VerificationException {
-        final List<Class<?>> transitionSetClasses = findComponentClass(clazz.getDeclaredClasses(), TransitionSet.class);
+        final List<Class<?>> transitionSetClasses = findComponentClass(clazz.getDeclaredClasses(), EventSet.class);
         if ( 0 >= transitionSetClasses.size() ) {
             return;
         }
@@ -526,7 +526,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
                 throw newVerificationException(clazz.getName(), SyntaxErrors.STATEMACHINE_WITHOUT_INNER_CLASSES_OR_INTERFACES, new Object[] { clazz.getName() });
             }
             final List<Class<?>> stateClasses = findComponentClass(declaredClasses, StateSet.class);
-            final List<Class<?>> transitionClasses = findComponentClass(declaredClasses, TransitionSet.class);
+            final List<Class<?>> transitionClasses = findComponentClass(declaredClasses, EventSet.class);
             final VerificationFailureSet vs = new VerificationFailureSet();
             verifyStateSet(clazz, stateSetPath, stateClasses, vs);
             verifyTransitionSet(clazz, transitionSetPath, transitionClasses, vs);
@@ -688,13 +688,13 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
     }
 
     @Override
-    public TransitionMetadata[] getAllTransitions() {
-        final ArrayList<TransitionMetadata> result = new ArrayList<TransitionMetadata>();
+    public EventMetadata[] getAllTransitions() {
+        final ArrayList<EventMetadata> result = new ArrayList<EventMetadata>();
         loadTransitions(this, result);
-        return result.toArray(new TransitionMetadata[0]);
+        return result.toArray(new EventMetadata[0]);
     }
 
-    private void loadTransitions(final StateMachineMetadata stateMachineMetaBuilder, final ArrayList<TransitionMetadata> result) {
+    private void loadTransitions(final StateMachineMetadata stateMachineMetaBuilder, final ArrayList<EventMetadata> result) {
         populateTransitions(stateMachineMetaBuilder, result);
         for ( final StateMachineMetadata compositeStateMachine : stateMachineMetaBuilder.getCompositeStateMachines() ) {
             populateTransitions(compositeStateMachine, result);
@@ -704,20 +704,20 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
         }
     }
 
-    private void populateTransitions(StateMachineMetadata stateMachineMetaBuilder, ArrayList<TransitionMetadata> result) {
-        for ( TransitionMetadata transition : stateMachineMetaBuilder.getDeclaredTransitionSet() ) {
+    private void populateTransitions(StateMachineMetadata stateMachineMetaBuilder, ArrayList<EventMetadata> result) {
+        for ( EventMetadata transition : stateMachineMetaBuilder.getDeclaredTransitionSet() ) {
             result.add(transition);
         }
     }
 
     @Override
-    public TransitionMetadata getTransition(Object transitionKey) {
+    public EventMetadata getTransition(Object transitionKey) {
         return findTransition(this, transitionKey);
     }
 
-    private TransitionMetadata findTransition(StateMachineMetadata stateMachineMetadata, Object transitionKey) {
+    private EventMetadata findTransition(StateMachineMetadata stateMachineMetadata, Object transitionKey) {
         if ( null == stateMachineMetadata ) return null;
-        TransitionMetadata transitionMetadata = stateMachineMetadata.getDeclaredTransition(transitionKey);
+        EventMetadata transitionMetadata = stateMachineMetadata.getDeclaredTransition(transitionKey);
         if ( null != transitionMetadata ) {
             return transitionMetadata;
         }

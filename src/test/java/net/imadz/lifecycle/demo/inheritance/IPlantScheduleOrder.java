@@ -36,16 +36,16 @@ package net.imadz.lifecycle.demo.inheritance;
 
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta;
 
 @LifecycleMeta(PlantScheduleOrderLifecycleMeta.class)
 public interface IPlantScheduleOrder {
 
-    @Transition(PlantScheduleOrderLifecycleMeta.Transitions.Start.class)
+    @Event(PlantScheduleOrderLifecycleMeta.Transitions.Start.class)
     void doStartPlantOrder();
 
-    @Transition(PlantScheduleOrderLifecycleMeta.Transitions.Finish.class)
+    @Event(PlantScheduleOrderLifecycleMeta.Transitions.Finish.class)
     void doFinishPlantOrder();
 
     IServiceOrder getServiceOrder();

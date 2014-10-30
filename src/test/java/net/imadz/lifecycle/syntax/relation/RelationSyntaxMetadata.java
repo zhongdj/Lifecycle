@@ -39,7 +39,7 @@ import net.imadz.lifecycle.annotations.CompositeState;
 import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.ErrorMessage;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.Parent;
@@ -68,7 +68,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface X {}
@@ -86,7 +86,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface RB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface RX {}
@@ -110,7 +110,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface PB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PX {}
@@ -138,7 +138,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NX {}
@@ -165,7 +165,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NX {}
@@ -192,7 +192,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NX {}
@@ -219,7 +219,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NX {}
@@ -255,7 +255,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface SB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface SX {}
@@ -279,7 +279,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @InboundWhile(relation = Super.Relations.SR.class, on = { RelatedSM.States.RB.class })
             static interface CC {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends Super.Transitions {
 
             static interface PCX {};
@@ -299,7 +299,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @InboundWhile(relation = PStandalone.Relations.PR.class, on = { InvalidRelationReferenceSM.States.B.class })
             static interface NCC {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends Super.Transitions {
 
             static interface NCX {};
@@ -319,7 +319,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @InboundWhile(relation = Super.Relations.SR.class, on = { InvalidRelationReferenceSM.States.B.class })
             static interface NC2C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends Super.Transitions {
 
             static interface NC2X {};
@@ -339,7 +339,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @ValidWhile(relation = PStandalone.Relations.PR.class, on = { InvalidRelationReferenceSM.States.B.class })
             static interface NC3C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends Super.Transitions {
 
             static interface NC3X {};
@@ -359,7 +359,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @ValidWhile(relation = Super.Relations.SR.class, on = { InvalidRelationReferenceSM.States.B.class })
             static interface NC4C {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions extends Super.Transitions {
 
             static interface NC4X {};
@@ -385,7 +385,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface N5B {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface N5X {}
@@ -415,7 +415,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface PPB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PPX {}
@@ -459,7 +459,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(OwningC.class)
                     static interface CompositeC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface CompositeX {}
@@ -475,7 +475,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface OwningC {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface OwningX {}
@@ -500,7 +500,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface PPB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PPX {}
@@ -543,7 +543,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface PPB {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface PPX {}
@@ -602,7 +602,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(NOwningC.class)
                     static interface NCompositeC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface NCompositeX {}
@@ -620,7 +620,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface NOwningC {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface NOwningX {}
@@ -665,7 +665,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     @ShortCut(N2OwningC.class)
                     static interface N2CompositeC {}
                 }
-                @TransitionSet
+                @EventSet
                 static interface CTransitions {
 
                     static interface N2CompositeX {}
@@ -682,7 +682,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface N2OwningC {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface N2OwningX {}
@@ -709,7 +709,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @End
             static interface Finished {}
         }
-        @TransitionSet
+        @EventSet
         static interface Transitions {
 
             static interface Action {}

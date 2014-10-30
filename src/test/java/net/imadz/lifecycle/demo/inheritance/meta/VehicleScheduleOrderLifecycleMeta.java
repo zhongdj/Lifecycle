@@ -39,7 +39,7 @@ import net.imadz.lifecycle.annotations.Function;
 import net.imadz.lifecycle.annotations.Functions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.TransitionSet;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.End;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
@@ -72,7 +72,7 @@ public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
                 @ShortCut(Finished.class)
                 public static class Exit {}
             }
-            @TransitionSet
+            @EventSet
             public static class SubTransitions extends OrderLifecycleMeta.Transitions {
 
                 public static class DoTransport {}

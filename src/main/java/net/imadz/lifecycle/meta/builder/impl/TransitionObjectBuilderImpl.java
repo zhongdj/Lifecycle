@@ -40,17 +40,17 @@ import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
 import net.imadz.lifecycle.meta.builder.TransitionObjectBuilder;
 import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.object.TransitionObject;
-import net.imadz.lifecycle.meta.type.TransitionMetadata;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class TransitionObjectBuilderImpl extends ObjectBuilderBase<TransitionObject, StateMachineObject<?>, TransitionMetadata> implements
+public class TransitionObjectBuilderImpl extends ObjectBuilderBase<TransitionObject, StateMachineObject<?>, EventMetadata> implements
         TransitionObjectBuilder {
 
     private Method transitionMethod;
 
-    public TransitionObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method transitionMethod, TransitionMetadata template) {
-        super(parent, "TransitionSet." + template.getDottedPath().getName() + "." + transitionMethod.getName());
+    public TransitionObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method transitionMethod, EventMetadata template) {
+        super(parent, "EventSet." + template.getDottedPath().getName() + "." + transitionMethod.getName());
         this.transitionMethod = transitionMethod;
         this.setMetaType(template);
     }

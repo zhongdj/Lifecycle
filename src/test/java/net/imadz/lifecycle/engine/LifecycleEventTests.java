@@ -40,16 +40,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.imadz.lifecycle.AbsStateMachineRegistry;
+import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
+import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.LifecycleEvent;
 import net.imadz.lifecycle.LifecycleEventHandler;
 import net.imadz.lifecycle.LifecycleException;
-import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
-import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.engine.LifecycleLockTestMetadata.CustomerObject;
 import net.imadz.lifecycle.engine.LifecycleLockTestMetadata.CustomerStateMachine;
 import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.verification.VerificationException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class LifecycleEventTests extends EngineTestBase {
@@ -64,6 +66,12 @@ public class LifecycleEventTests extends EngineTestBase {
         }
     }
 
+    @Before
+    @After
+    public void reset() {
+    	TestLifecycleEventHandler.eventList.clear();
+    }
+    
     @Test
     public void should_fire_lifecycle_event_if_event_method_invoked_after_lifecycleEventHandler_registered() throws VerificationException {
         @LifecycleRegistry({ CustomerObject.class, TestLifecycleEventHandler.class })

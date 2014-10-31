@@ -54,7 +54,7 @@ import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.relation.Parent;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.ShortCut;
 import net.imadz.lifecycle.meta.builder.ConditionMetaBuilder;
@@ -303,7 +303,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
         if ( isCompositeStateMachine(superMetadataClass) ) {
             return false;
         }
-        if ( null != superMetadataClass.getAnnotation(End.class) ) {
+        if ( null != superMetadataClass.getAnnotation(Final.class) ) {
             return true;
         } else if ( null != superMetadataClass.getAnnotation(Transition.class) ) {
             return true;
@@ -607,7 +607,7 @@ public class StateMachineMetaBuilderImpl extends InheritableAnnotationMetaBuilde
             } else if ( initialClasses.size() > 1 ) {
                 vs.add(newVerificationException(stateSetPath + ".Initial", SyntaxErrors.STATESET_MULTIPLE_INITAL_STATES, stateSetClass));
             }
-            List<Class<?>> endClasses = findComponentClass(stateSetClasses, End.class);
+            List<Class<?>> endClasses = findComponentClass(stateSetClasses, Final.class);
             if ( endClasses.size() == 0 ) {
                 vs.add(newVerificationException(stateSetPath + ".Final", SyntaxErrors.STATESET_WITHOUT_FINAL_STATE, stateSetClass));
             }

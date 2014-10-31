@@ -38,7 +38,7 @@ import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.basic.StateSetSyntaxMetadata.Positive.Events.T;
@@ -54,7 +54,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = T.class, value = B.class)
             static interface A {};
-            @End
+            @Final
             static interface B {};
         }
         @EventSet
@@ -73,7 +73,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = T.class, value = B.class)
             static interface A {};
-            @End
+            @Final
             static interface B {};
         }
         static interface Events {
@@ -126,7 +126,7 @@ public class StateSetSyntaxMetadata extends BaseMetaDataTest {
             static interface Start {}
             @Initial
             static interface Queued {}
-            @End
+            @Final
             static interface Ended {}
         }
         @EventSet

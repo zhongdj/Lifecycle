@@ -54,7 +54,7 @@ import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 
@@ -71,11 +71,11 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @Transitions({ @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class }),
                     @Transition(event = Events.S1_Event_Y.class, value = { S1_State_D.class }) })
             static interface S1_State_A {}
-            @End
+            @Final
             static interface S1_State_B {}
-            @End
+            @Final
             static interface S1_State_C {}
-            @End
+            @Final
             static interface S1_State_D {}
         }
         @EventSet
@@ -115,7 +115,7 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @Transition(event = S2.Events.Move.class, value = { S2_State_B.class })
             static interface S2_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S2.Relations.S1Relation.class)
-            @End
+            @Final
             static interface S2_State_B {}
         }
         @EventSet
@@ -283,9 +283,9 @@ public abstract class CallbackTestBase extends BaseMetaDataTest {
             @Transition(event = S3.Events.Move.class, value = { S3_State_B.class, S3_State_C.class })
             static interface S3_State_A {}
             @InboundWhile(on = { S1.States.S1_State_B.class }, relation = S3.Relations.S1Relation.class)
-            @End
+            @Final
             static interface S3_State_B {}
-            @End
+            @Final
             static interface S3_State_C {}
         }
         @EventSet

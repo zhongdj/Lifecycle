@@ -46,7 +46,7 @@ import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
 import net.imadz.lifecycle.annotations.relation.ValidWhiles;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 
 public class MultipleStateMachineTestMetadata extends EngineTestBase {
@@ -67,9 +67,9 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @Transitions({ @Transition(event = Events.Complete.class, value = Completed.class),
                     @Transition(event = Events.Abort.class, value = Aborted.class) })
             static interface Ongoing {}
-            @End
+            @Final
             static interface Completed {}
-            @End
+            @Final
             static interface Aborted {}
         }
         @EventSet
@@ -114,7 +114,7 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @Transition(event = Events.TransferToLogistics.class, value = Done.class)
             @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
             static interface Packaged {}
-            @End
+            @Final
             static interface Done {}
         }
         @EventSet
@@ -168,7 +168,7 @@ public class MultipleStateMachineTestMetadata extends EngineTestBase {
             @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
                     @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
             static interface Transporting {}
-            @End
+            @Final
             static interface Received {}
         }
         @EventSet

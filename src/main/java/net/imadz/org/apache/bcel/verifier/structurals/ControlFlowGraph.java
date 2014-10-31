@@ -392,7 +392,7 @@ public class ControlFlowGraph{
 			return single;
 		}
 
-	} // End Inner InstructionContextImpl Class.
+	} // Final Inner InstructionContextImpl Class.
 
 	///** The MethodGen object we're working on. */
 	//private final MethodGen method_gen;

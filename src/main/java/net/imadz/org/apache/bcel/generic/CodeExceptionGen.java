@@ -48,7 +48,7 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable, j
      * instruction where the actual handling is done.
      *
      * @param start_pc Start of handled region (inclusive)
-     * @param end_pc End of handled region (inclusive)
+     * @param end_pc Final of handled region (inclusive)
      * @param handler_pc Where handling is done
      * @param catch_type which exception is handled, null for ANY
      */
@@ -87,7 +87,7 @@ public final class CodeExceptionGen implements InstructionTargeter, Cloneable, j
 
 
     /* Set end of handler 
-     * @param end_pc End of handled region (inclusive)
+     * @param end_pc Final of handled region (inclusive)
      */
     public void setEndPC( InstructionHandle end_pc ) {
         BranchInstruction.notifyTarget(this.end_pc, end_pc, this);

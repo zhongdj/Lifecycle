@@ -46,7 +46,7 @@ import net.imadz.lifecycle.annotations.relation.Parent;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -65,7 +65,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = InvalidRelationReferenceSM.Events.X.class, value = B.class)
             static interface A {}
-            @End
+            @Final
             static interface B {}
         }
         @EventSet
@@ -83,7 +83,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = RelatedSM.Events.RX.class, value = RB.class)
             static interface RA {}
-            @End
+            @Final
             static interface RB {}
         }
         @EventSet
@@ -107,7 +107,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                     states = { RelatedSM.States.RA.class }) })
             static interface PA {}
-            @End
+            @Final
             static interface PB {}
         }
         @EventSet
@@ -135,7 +135,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @InboundWhile(on = { RelatedSM.States.RB.class }, relation = PStandalone.Relations.PR.class)
             @ValidWhile(on = { RelatedSM.States.RB.class }, relation = PStandalone.Relations.PR.class)
             static interface NA {}
-            @End
+            @Final
             static interface NB {}
         }
         @EventSet
@@ -162,7 +162,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Transition(event = NStandalone2.Events.NX.class, value = NStandalone2.States.NB.class)
             @InboundWhile(on = { InvalidRelationReferenceSM.States.B.class }, relation = NStandalone2.Relations.NR.class)
             static interface NA {}
-            @End
+            @Final
             static interface NB {}
         }
         @EventSet
@@ -189,7 +189,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Transition(event = NStandalone3.Events.NX.class, value = NStandalone3.States.NB.class)
             @InboundWhile(on = { InvalidRelationReferenceSM.States.B.class }, relation = NStandalone2.Relations.NR.class)
             static interface NA {}
-            @End
+            @Final
             static interface NB {}
         }
         @EventSet
@@ -216,7 +216,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Transition(event = NStandalone4.Events.NX.class, value = NStandalone4.States.NB.class)
             @InboundWhile(on = { InvalidRelationReferenceSM.States.B.class }, relation = NStandalone2.Relations.NR.class)
             static interface NA {}
-            @End
+            @Final
             static interface NB {}
         }
         @EventSet
@@ -252,7 +252,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                     states = { RelatedSM.States.RA.class }) })
             static interface SA {}
-            @End
+            @Final
             static interface SB {}
         }
         @EventSet
@@ -382,7 +382,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_VALIDWHILE_INVALID,
                     states = { InvalidRelationReferenceSM.States.A.class }) })
             static interface N5A {}
-            @End
+            @Final
             static interface N5B {}
         }
         @EventSet
@@ -412,7 +412,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_VALIDWHILE_INVALID,
                     states = { RelatedSM.States.RA.class }) })
             static interface PPA {}
-            @End
+            @Final
             static interface PPB {}
         }
         @EventSet
@@ -455,7 +455,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                             bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                             states = { RelatedSM.States.RA.class }) })
                     static interface CompositeB {}
-                    @End
+                    @Final
                     @ShortCut(OwningC.class)
                     static interface CompositeC {}
                 }
@@ -472,7 +472,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     static interface PCS1R {}
                 }
             }
-            @End
+            @Final
             static interface OwningC {}
         }
         @EventSet
@@ -497,7 +497,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                     states = { RelatedSM.States.RA.class }) })
             static interface PPA {}
-            @End
+            @Final
             static interface PPB {}
         }
         @EventSet
@@ -540,7 +540,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                     states = { RelatedSM.States.RA.class }) })
             static interface PPA {}
-            @End
+            @Final
             static interface PPB {}
         }
         @EventSet
@@ -598,7 +598,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                             bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                             states = { RelatedSM.States.RA.class }) })
                     static interface NCompositeB {}
-                    @End
+                    @Final
                     @ShortCut(NOwningC.class)
                     static interface NCompositeC {}
                 }
@@ -617,7 +617,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     static interface NCR {}
                 }
             }
-            @End
+            @Final
             static interface NOwningC {}
         }
         @EventSet
@@ -661,7 +661,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                             bundle = SyntaxErrors.SYNTAX_ERROR_BUNDLE, code = SyntaxErrors.RELATION_OTHERWISE_ATTRIBUTE_OF_INBOUNDWHILE_INVALID,
                             states = { RelatedSM.States.RA.class }) })
                     static interface N2CompositeB {}
-                    @End
+                    @Final
                     @ShortCut(N2OwningC.class)
                     static interface N2CompositeC {}
                 }
@@ -679,7 +679,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
                     static interface N2CR {}
                 }
             }
-            @End
+            @Final
             static interface N2OwningC {}
         }
         @EventSet
@@ -706,7 +706,7 @@ public class RelationSyntaxMetadata extends BaseMetaDataTest {
             @Transition(event = NoRelateTo.Events.Action.class, value = Finished.class)
             @ValidWhile(relation = NoRelateTo.Relations.Relative.class, on = RelatedSM.States.RA.class)
             static interface Created {}
-            @End
+            @Final
             static interface Finished {}
         }
         @EventSet

@@ -42,7 +42,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.ConcreteTruckResource;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.PlantResource;
@@ -71,9 +71,9 @@ public interface ServiceableLifecycleMeta {
         public static class Queued {}
         @Transitions({ @Transition(event = Finish.class, value = Finished.class), @Transition(event = Cancel.class, value = Cancelled.class) })
         public static class Ongoing {}
-        @End
+        @Final
         public static class Finished {}
-        @End
+        @Final
         public static class Cancelled {}
     }
     @EventSet

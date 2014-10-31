@@ -39,7 +39,7 @@ import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.OrderLifecycleMeta.Events.Cancel;
 import net.imadz.lifecycle.demo.inheritance.meta.OrderLifecycleMeta.Events.Finish;
@@ -59,9 +59,9 @@ public interface OrderLifecycleMeta {
         public static class Queued {}
         @Transitions({ @Transition(event = Finish.class, value = Finished.class), @Transition(event = Cancel.class, value = Cancelled.class) })
         public static class Ongoing {}
-        @End
+        @Final
         public static class Finished {}
-        @End
+        @Final
         public static class Cancelled {}
     }
     @EventSet

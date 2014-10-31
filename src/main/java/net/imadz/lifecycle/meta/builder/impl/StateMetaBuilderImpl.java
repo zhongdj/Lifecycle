@@ -53,7 +53,7 @@ import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
 import net.imadz.lifecycle.annotations.relation.ValidWhiles;
 import net.imadz.lifecycle.annotations.state.Corrupted;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.Running;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -311,14 +311,14 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
             for ( Annotation anno : clazz.getDeclaredAnnotations() ) {
                 if ( Initial.class == anno.annotationType() ) {
                     this.initial = true;
-                } else if ( End.class == anno.annotationType() ) {
+                } else if ( Final.class == anno.annotationType() ) {
                     this.end = true;
                 }
             }
         } else {
             if ( null != clazz.getAnnotation(Initial.class) ) {
                 this.initial = true;
-            } else if ( null != clazz.getAnnotation(End.class) ) {
+            } else if ( null != clazz.getAnnotation(Final.class) ) {
                 this.end = true;
             }
         }
@@ -538,7 +538,7 @@ public class StateMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<S
     }
 
     private boolean isFinalState(Class<?> stateClass) {
-        return null != stateClass.getAnnotation(End.class);
+        return null != stateClass.getAnnotation(Final.class);
     }
 
     @Override

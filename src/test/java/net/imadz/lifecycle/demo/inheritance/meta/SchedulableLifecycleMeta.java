@@ -48,7 +48,7 @@ import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Events
 public interface SchedulableLifecycleMeta {
 
     @StateSet
-    // abstract only indicate there is no final(@End) states definition
+    // abstract only indicate there is no final(@Final) states definition
     public static abstract class States {
 
         @Initial

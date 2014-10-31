@@ -57,7 +57,7 @@ import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.engine.EngineTestBase;
@@ -89,7 +89,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             static interface New {}
             @Transition(event = Events.Finish.class, value = { States.Finished.class })
             static interface Started {}
-            @End
+            @Final
             static interface Finished {}
         }
         @EventSet
@@ -181,7 +181,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @Transition(event = InvoiceStateMachineMeta.Events.Pay.class, value = { States.PartialPaid.class,
                     InvoiceStateMachineMeta.States.PaidOff.class })
             static interface PartialPaid {}
-            @End
+            @Final
             static interface PaidOff {}
         }
         @EventSet
@@ -227,7 +227,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             @Initial
             @Transition(event = InvoiceItemStateMachineMeta.Events.Pay.class, value = { InvoiceItemStateMachineMeta.States.Paid.class })
             static interface Unpaid {}
-            @End
+            @Final
             @InboundWhile(on = { InvoiceStateMachineMeta.States.Posted.class, InvoiceStateMachineMeta.States.PartialPaid.class },
                     relation = InvoiceItemStateMachineMeta.Relations.ParentInvoice.class)
             static interface Paid {}
@@ -462,7 +462,7 @@ public class CallbackTestMetadata extends EngineTestBase {
             public static interface New {}
             @Transition(event = Events.Deliver.class, value = { States.Delivered.class })
             public static interface Paid {}
-            @End
+            @Final
             public static interface Delivered {}
         }
         @EventSet
@@ -483,9 +483,9 @@ public class CallbackTestMetadata extends EngineTestBase {
             @LifecycleOverride
             @Transition(event = Events.Install.class, value = { States.Installed.class })
             public static interface Delivered extends OrderStateMachine.States.Delivered {}
-            @End
+            @Final
             public static interface Installed {}
-            @End
+            @Final
             public static interface Cancelled {}
         }
         @EventSet

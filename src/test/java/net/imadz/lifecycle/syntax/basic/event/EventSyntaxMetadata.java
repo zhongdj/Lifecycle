@@ -43,7 +43,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.basic.event.EventSyntaxMetadata.S1.Conditions.S1_Condition_A;
@@ -62,9 +62,9 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
-            @End
+            @Final
             static interface S1_State_B {}
-            @End
+            @Final
             static interface S1_State_C {}
         }
         @EventSet
@@ -105,7 +105,7 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
             public static interface New {}
             @Transition(event = NegativeOrder.Events.Deliver.class, value = { Delivered.class })
             public static interface Paid {}
-            @End
+            @Final
             public static interface Delivered {}
         }
         @EventSet
@@ -126,7 +126,7 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
             public static interface New {}
             @Transition(event = Order.Events.Deliver.class, value = { Delivered.class })
             public static interface Paid {}
-            @End
+            @Final
             public static interface Delivered {}
         }
         @EventSet
@@ -147,7 +147,7 @@ public class EventSyntaxMetadata extends BaseMetaDataTest {
             public static interface New {}
             @Transition(event = NegativeBigProductOrder.Events.Deliver.class, value = { States.Delivered.class })
             public static interface Paid {}
-            @End
+            @Final
             public static interface Delivered {}
         }
         @EventSet

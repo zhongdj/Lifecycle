@@ -43,7 +43,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.PS1.Events.S1_X;
@@ -65,7 +65,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = S1_X.class, value = { S1_B.class })
             static interface S1_A {}
-            @End
+            @Final
             static interface S1_B {}
         }
         @EventSet
@@ -95,7 +95,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface NS1_B {}
             @Transition(event = NS1_Z.class, value = { NS1_C.class })
             static interface NS1_C {}
-            @End
+            @Final
             static interface NS1_D {}
         }
         @EventSet
@@ -202,7 +202,7 @@ public class LMSyntaxMetadata extends BaseMetaDataTest {
             static interface S3_B {}
             @Transition(event = S3_Z.class, value = { S3_D.class })
             static interface S3_C {}
-            @End
+            @Final
             static interface S3_D {}
         }
         @EventSet

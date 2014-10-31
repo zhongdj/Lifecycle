@@ -458,7 +458,7 @@ public class MethodGen extends FieldGenOrMethodGen {
      * instruction where the actual handling is done.
      *
      * @param start_pc Start of region (inclusive)
-     * @param end_pc End of region (inclusive)
+     * @param end_pc Final of region (inclusive)
      * @param handler_pc Where handling is done
      * @param catch_type class type of handled exception or null if any
      * exception is handled

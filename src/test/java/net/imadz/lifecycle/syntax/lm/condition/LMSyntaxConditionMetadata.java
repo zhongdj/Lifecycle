@@ -46,7 +46,7 @@ import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.ShortCut;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
@@ -69,9 +69,9 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
             @Initial
             @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
             static interface S1_State_A {}
-            @End
+            @Final
             static interface S1_State_B {}
-            @End
+            @Final
             static interface S1_State_C {}
         }
         @EventSet
@@ -141,10 +141,10 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                     @Initial
                     @Transition(event = CEvents.CX2.class, value = { S2_State_B.class, S2_State_C.class })
                     static interface S2_State_A {}
-                    @End
+                    @Final
                     @ShortCut(S2_End_B.class)
                     static interface S2_State_B {}
-                    @End
+                    @Final
                     @ShortCut(S2_End_C.class)
                     static interface S2_State_C {}
                 }
@@ -174,9 +174,9 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
                     }
                 }
             }
-            @End
+            @Final
             static interface S2_End_B {}
-            @End
+            @Final
             static interface S2_End_C {}
         }
         @EventSet

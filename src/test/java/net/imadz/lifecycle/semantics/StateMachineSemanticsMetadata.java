@@ -40,7 +40,7 @@ import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -66,7 +66,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
             public static interface S1_B {}
             @Transition(event = S1_Z.class, value = { S1_D.class })
             public static interface S1_C {}
-            @End
+            @Final
             public static interface S1_D {}
         }
         @EventSet
@@ -97,7 +97,7 @@ public class StateMachineSemanticsMetadata extends ConsoleLoggingTestBase {
                     @Initial
                     @Transition(event = S2_B_Events_X.class, value = { S2_B_States_B.class })
                     public static interface S2_B_States_A {}
-                    @End
+                    @Final
                     @ShortCut(S1_C.class)
                     public static interface S2_B_States_B {}
                 }

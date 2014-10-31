@@ -42,7 +42,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.Ongoing;
@@ -66,7 +66,7 @@ public interface SummaryPlanLifecycleMeta {
         @Transitions({ @Transition(event = ConfirmFinish.class, value = Done.class),
                 @Transition(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
         public static class VolumeLeftEmpty {}
-        @End
+        @Final
         public static class Done {}
     }
     @EventSet

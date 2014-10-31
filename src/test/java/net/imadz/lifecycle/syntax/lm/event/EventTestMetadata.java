@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 
@@ -67,7 +67,7 @@ public class EventTestMetadata extends BaseMetaDataTest {
                     @Transition(event = Events.Restart.class, value = { Running.class }),
                     @Transition(event = Events.Stop.class, value = { Stopped.class }) })
             static interface InactiveRunning {}
-            @End
+            @Final
             static interface Stopped {}
         }
         @EventSet

@@ -43,7 +43,7 @@ import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.state.Converter;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
@@ -87,7 +87,7 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 			static interface S1_A {
 			}
 
-			@End
+			@Final
 			static interface S1_B {
 			}
 		}

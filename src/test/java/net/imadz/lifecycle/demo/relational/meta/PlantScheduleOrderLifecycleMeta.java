@@ -42,7 +42,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Events.Finish;
@@ -65,7 +65,7 @@ public interface PlantScheduleOrderLifecycleMeta {
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class, ServiceableLifecycleMeta.States.Ongoing.class })
         static class Working {}
-        @End
+        @Final
         @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class })
         @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class, ServiceableLifecycleMeta.States.Finished.class })
         // Default @Transitions({})

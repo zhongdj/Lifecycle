@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Conditions.CompareWithZero;
@@ -86,7 +86,7 @@ public class ConditionSetTest extends BaseMetaDataTest {
             static interface H {}
             @Transition(event = Z.class, value = { I.class, J.class })
             static interface I {}
-            @End
+            @Final
             static interface J {}
         }
         @EventSet

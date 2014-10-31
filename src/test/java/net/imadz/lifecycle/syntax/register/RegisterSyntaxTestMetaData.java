@@ -40,7 +40,7 @@ import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.EventSet;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.CorrectStateMachineInheritanceSuperSyntax.Events.EventTwo;
@@ -58,7 +58,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @Initial
             @Transition(event = EventOne.class, value = StateB.class)
             static interface StateA {}
-            @End
+            @Final
             static interface StateB {}
         }
         @EventSet
@@ -94,7 +94,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @Initial
             @Transition(event = EventTwo.class, value = StateD.class)
             static interface StateC {}
-            @End
+            @Final
             static interface StateD {}
         }
         @EventSet
@@ -113,7 +113,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @Initial
             @Transition(event = EventThree.class, value = StateF.class)
             static interface StateE {}
-            @End
+            @Final
             static interface StateF {}
         }
         @EventSet
@@ -145,7 +145,7 @@ public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
             @Initial
             @Transition(event = EventThree.class, value = StateF.class)
             static interface StateE {}
-            @End
+            @Final
             static interface StateF {}
         }
         @EventSet

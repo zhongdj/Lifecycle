@@ -45,7 +45,7 @@ import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
 import net.imadz.lifecycle.annotations.action.Timeout;
 import net.imadz.lifecycle.annotations.state.Corrupted;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.Running;
 import net.imadz.lifecycle.annotations.state.Stopped;
@@ -96,7 +96,7 @@ public interface IDownloadProcessLifecycleMeta {
         @Stopped
         @Transitions({ @Transition(event = Restart.class, value = New.class), @Transition(event = Remove.class, value = Removed.class), })
         static class Finished {}
-        @End
+        @Final
         static class Removed {}
     }
     @EventSet

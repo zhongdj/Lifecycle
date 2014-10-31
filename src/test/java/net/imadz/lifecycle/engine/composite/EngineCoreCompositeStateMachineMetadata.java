@@ -46,7 +46,7 @@ import net.imadz.lifecycle.annotations.relation.RelateTo;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
-import net.imadz.lifecycle.annotations.state.End;
+import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.annotations.state.ShortCut;
@@ -88,7 +88,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface Producing {}
                     @Transition(event = OrderLifecycle.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
                     static interface Delivering {}
-                    @End
+                    @Final
                     @ShortCut(OrderLifecycle.States.Finished.class)
                     static interface Done {}
                 }
@@ -100,9 +100,9 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface ConfirmComplete {}
                 }
             }
-            @End
+            @Final
             static interface Finished {}
-            @End
+            @Final
             static interface Canceled {}
         }
         @EventSet
@@ -151,9 +151,9 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
             @Transitions({ @Transition(event = ContractLifecycle.Events.Expire.class, value = Expired.class),
                     @Transition(event = ContractLifecycle.Events.Cancel.class, value = Canceled.class) })
             static interface Active {}
-            @End
+            @Final
             static interface Expired {}
-            @End
+            @Final
             static interface Canceled {}
         }
         @EventSet
@@ -216,7 +216,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @ValidWhile(on = { ContractLifecycle.States.Active.class },
                             relation = RelationalOrderLifecycleReferencingOuterRelation.Relations.Contract.class)
                     static interface Delivering {}
-                    @End
+                    @Final
                     @ShortCut(RelationalOrderLifecycleReferencingOuterRelation.States.Finished.class)
                     // Ignoring : @ValidWhile(on = {
                     // ContractLifecycle.States.Active.class }, relation =
@@ -231,9 +231,9 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface ConfirmComplete {}
                 }
             }
-            @End
+            @Final
             static interface Finished {}
-            @End
+            @Final
             static interface Canceled {}
         }
         @EventSet
@@ -307,7 +307,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface Producing {}
                     @Transition(event = RelationalOrderLifecycleSharingValidWhile.States.Started.SubEvents.ConfirmComplete.class, value = Done.class)
                     static interface Delivering {}
-                    @End
+                    @Final
                     @ShortCut(RelationalOrderLifecycleSharingValidWhile.States.Finished.class)
                     static interface Done {}
                 }
@@ -319,9 +319,9 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface ConfirmComplete {}
                 }
             }
-            @End
+            @Final
             static interface Finished {}
-            @End
+            @Final
             static interface Canceled {}
         }
         @EventSet
@@ -394,7 +394,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Transition(event = RelationalOrderLifecycleReferencingInnerValidWhile.States.Started.SubEvents.ConfirmComplete.class,
                             value = Done.class)
                     static interface Delivering {}
-                    @End
+                    @Final
                     @ShortCut(RelationalOrderLifecycleReferencingInnerValidWhile.States.Finished.class)
                     static interface Done {}
                 }
@@ -412,9 +412,9 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface Contract {}
                 }
             }
-            @End
+            @Final
             static interface Finished {}
-            @End
+            @Final
             static interface Canceled {}
         }
         @EventSet
@@ -483,7 +483,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Transition(event = SM2.States.S1.CEvents.T4.class, value = SM2.States.S1.CStates.CS1.class)
                     @ValidWhile(relation = SM2.States.S1.CRelations.R4.class, on = { ContractLifecycle.States.Expired.class })
                     static interface CS0 {}
-                    @End
+                    @Final
                     @ShortCut(SM2.States.S2.class)
                     static interface CS1 {}
                 }
@@ -509,7 +509,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Initial
                     @Transition(event = SM2.States.S2.CEvents.T5.class, value = SM2.States.S2.CStates.CS3.class)
                     static interface CS2 {}
-                    @End
+                    @Final
                     @ShortCut(SM2.States.S3.class)
                     static interface CS3 {}
                 }
@@ -525,7 +525,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface R5 {}
                 }
             }
-            @End
+            @Final
             static interface S3 {}
         }
         @EventSet
@@ -561,7 +561,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Initial
                     @Transition(event = SM1_No_Overrides.States.S1.CEvents.T1.class, value = SM1_No_Overrides.States.S1.CStates.CS1.class)
                     static interface CS0 extends SM2.States.S1.CStates.CS0 {}
-                    @End
+                    @Final
                     @ShortCut(SM1_No_Overrides.States.S2.class)
                     static interface CS1 {}
                 }
@@ -587,7 +587,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Initial
                     @Transition(event = SM1_No_Overrides.States.S2.CEvents.T3.class, value = SM1_No_Overrides.States.S2.CStates.CS3.class)
                     static interface CS2 extends SM2.States.S2.CStates.CS2 {}
-                    @End
+                    @Final
                     @ShortCut(SM1_No_Overrides.States.S3.class)
                     static interface CS3 extends SM2.States.S2.CStates.CS3 {}
                 }
@@ -603,7 +603,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface R3 {}
                 }
             }
-            @End
+            @Final
             static interface S3 extends SM2.States.S3 {}
         }
         @EventSet
@@ -641,7 +641,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Transition(event = SM1_Overrides.States.S1.CEvents.T1.class, value = SM1_Overrides.States.S1.CStates.CS1.class)
                     @ValidWhile(relation = SM1_Overrides.States.S1.CRelations.R1.class, on = { ContractLifecycle.States.Expired.class })
                     static interface CS0 {}
-                    @End
+                    @Final
                     @ShortCut(SM1_Overrides.States.S2.class)
                     static interface CS1 {}
                 }
@@ -668,7 +668,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     @Initial
                     @Transition(event = SM1_Overrides.States.S2.CEvents.T3.class, value = SM1_Overrides.States.S2.CStates.CS3.class)
                     static interface CS2 {}
-                    @End
+                    @Final
                     @ShortCut(SM1_Overrides.States.S3.class)
                     static interface CS3 {}
                 }
@@ -684,7 +684,7 @@ public class EngineCoreCompositeStateMachineMetadata extends EngineTestBase {
                     static interface R3 {}
                 }
             }
-            @End
+            @Final
             static interface S3 extends SM2.States.S3 {}
         }
         @EventSet

@@ -39,7 +39,7 @@ import net.imadz.common.DottedPath;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class DottedPathTest {
 
@@ -54,7 +54,7 @@ public class DottedPathTest {
     @Test
     public void should_know_the_parent_of_one_level_is_empty() {
         DottedPath path = DottedPath.parse("a");
-        assertThat(path.getParent().isPresent(), is(Boolean.FALSE));
+        assertNull(path.getParent());
     }
 
     @Test
@@ -71,6 +71,6 @@ public class DottedPathTest {
         assertThat(path.size(), is(4));
         assertThat(path.getName(), is("d"));
         assertThat(path.getAbsoluteName(), is("a.b.c.d"));
-        assertThat(path.getParent().get().getAbsoluteName(), is("a.b.c"));
+        assertThat(path.getParent().getAbsoluteName(), is("a.b.c"));
     }
 }

@@ -34,12 +34,9 @@
  */
 package net.imadz.common;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 
 import java.util.*;
 
-import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * Represents a hierarchical name in which each level is separated by a dot.
@@ -47,25 +44,29 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public class DottedPath implements Iterable<DottedPath> {
 
-    private final Optional<DottedPath> parent;
+    private final DottedPath parent;
     private final String name, absoluteName;
     private List<String> paths;
 
     /** Constructor */
     public DottedPath(String name) {
-        this(Optional.<DottedPath> absent(), name);
+        this(null, name);
     }
 
-    private DottedPath(Optional<DottedPath> parent, String name) {
+    private DottedPath(DottedPath parent, String name) {
         this.parent = parent;
         this.name = name;
-        this.absoluteName = this.parent.isPresent() ? this.parent.get().absoluteName + "." + this.name : this.name;
+        this.absoluteName = null != this.parent ? this.parent.absoluteName + "." + this.name : this.name;
         this.paths = makePaths();
     }
 
     private List<String> makePaths() {
-        if ( !this.parent.isPresent() ) return newArrayList(this.name);
-        List<String> paths = newArrayList(this.parent.get().paths);
+        if ( null == this.parent) {
+			final ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(this.name);
+			return arrayList;
+		}
+        List<String> paths = new ArrayList<String>(this.parent.paths);
         paths.add(this.name);
         return paths;
     }
@@ -82,7 +83,7 @@ public class DottedPath implements Iterable<DottedPath> {
     }
 
     public DottedPath append(String segment) {
-        return new DottedPath(Optional.of(this), segment);
+        return new DottedPath(this, segment);
     }
 
     public DottedPath append(List<String> segments) {
@@ -106,12 +107,16 @@ public class DottedPath implements Iterable<DottedPath> {
      * Number of elements from the head element to this element
      */
     public int size() {
-        return parent.isPresent() ? parent.get().size() + 1 : 1;
+        return null != parent ? parent.size() + 1 : 1;
     }
 
     private List<DottedPath> toList() {
-        if ( !this.parent.isPresent() ) return newArrayList(this);
-        ArrayList<DottedPath> dottedPaths = newArrayList(this.parent.get().toList());
+        if ( null == this.parent ) {
+        	final List<DottedPath> result= new ArrayList<DottedPath>();
+        	result.add(this);
+        	return result;
+        }
+        ArrayList<DottedPath> dottedPaths = new ArrayList<DottedPath>(this.parent.toList());
         dottedPaths.add(this);
         return dottedPaths;
     }
@@ -124,7 +129,7 @@ public class DottedPath implements Iterable<DottedPath> {
     /**
      * Parent element in path
      */
-    public Optional<DottedPath> getParent() {
+    public DottedPath getParent() {
         return this.parent;
     }
 
@@ -153,7 +158,13 @@ public class DottedPath implements Iterable<DottedPath> {
      * @return StringBuilder passed in or created
      */
     public StringBuilder toString(StringBuilder sb, final String separator) {
-        return sb.append(Joiner.on(separator).join(paths));
+    	for (int i = 0; i < paths.size(); i ++) {
+    		sb.append(paths.get(i));
+    		if (i + 1 < paths.size()) {
+    			sb.append(separator);
+    		}
+    	}
+    	return sb;
     }
 
     /**

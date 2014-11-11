@@ -73,7 +73,13 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
         if ( shouldIgnore(className) ) {
             return classfileBuffer;
         }
-        final String location = protectionDomain.getCodeSource().getLocation().getPath();
+        final String rawUrlPath = protectionDomain.getCodeSource().getLocation().getPath();
+		final String location;
+        if (rawUrlPath.contains("%20")) {
+        	location = rawUrlPath.replaceAll("%20", " ");
+        } else {
+        	location = rawUrlPath;
+        }
         ByteArrayInputStream bais = null; 
         try {
         	bais = new ByteArrayInputStream(classfileBuffer);

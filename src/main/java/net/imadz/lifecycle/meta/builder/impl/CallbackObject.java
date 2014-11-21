@@ -70,7 +70,15 @@ public class CallbackObject {
 			Object evaluateTarget = evaluateTarget(callbackContext.getTarget());
 			callbackMethod.invoke(evaluateTarget, callbackContext);
 		} catch (Throwable e) {
-			if (e instanceof IllegalAccessException
+			if(e instanceof InvocationTargetException) {
+				final Throwable target = ((InvocationTargetException) e).getTargetException();
+				final LifecycleException lifecycleException = new LifecycleException(getClass(),
+						LifecycleCommonErrors.BUNDLE,
+						LifecycleCommonErrors.CALLBACK_EXCEPTION_OCCOURRED,
+						callbackMethod, target);
+				lifecycleException.initCause(target);
+				throw lifecycleException;
+			} else if (e instanceof IllegalAccessException
 					| e instanceof IllegalArgumentException
 					| e instanceof InvocationTargetException)
 				throw new LifecycleException(getClass(),

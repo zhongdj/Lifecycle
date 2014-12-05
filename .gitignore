@@ -2,5 +2,4 @@
 .settings*
 .classpath
 .project
-target/classes*
-target/test-classes*
+target*

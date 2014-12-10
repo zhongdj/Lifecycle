@@ -14,7 +14,7 @@ public class PostStateChangeByPriorityPositiveTests extends PriorityTestMetadata
         o.start();
         assertEquals("1,2,3,4,", o.getCallbackInvokeCounter());
         o.finish();
-        assertEquals("1,2,3,4,1", o.getCallbackInvokeCounter());
+        assertEquals("1,2,3,4,1,", o.getCallbackInvokeCounter());
     }
 	
 	/**When priority same, use inheritance level from top to down to invoke callback methods **/
@@ -35,7 +35,7 @@ public class PostStateChangeByPriorityPositiveTests extends PriorityTestMetadata
 		o.start();
 		assertEquals("common,from,to,specific,", o.getCallbackInvokeCounter());
 		o.finish();
-		assertEquals("common,from,to,specific,common", o.getCallbackInvokeCounter());
+		assertEquals("common,from,to,specific,common,", o.getCallbackInvokeCounter());
 	}
     
 	

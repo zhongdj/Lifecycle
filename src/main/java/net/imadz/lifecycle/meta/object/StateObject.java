@@ -34,6 +34,8 @@
  */
 package net.imadz.lifecycle.meta.object;
 
+import java.util.List;
+
 import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.meta.MetaObject;
@@ -53,9 +55,9 @@ public interface StateObject<S> extends MetaObject<StateObject<S>, StateMetadata
 
     void invokeToPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
 
-    void invokeFromPostStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
+    void invokeFromPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
 
-    void invokeToPostStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
+    void invokeToPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
 
     void addPreToCallbackObject(Class<?> stateClass, CallbackObject callbackObject);
 
@@ -64,4 +66,8 @@ public interface StateObject<S> extends MetaObject<StateObject<S>, StateMetadata
     void addPostToCallbackObject(Class<?> to, CallbackObject item);
 
     void addPostFromCallbackObject(Class<?> from, CallbackObject item);
+
+	List<CallbackObject> getPostFromCallbackObjects(String stateName);
+	
+	List<CallbackObject> getPostToCallbackObjects(String stateName);
 }

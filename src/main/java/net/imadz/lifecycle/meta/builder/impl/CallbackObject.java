@@ -40,19 +40,31 @@ import java.lang.reflect.Method;
 import net.imadz.lifecycle.LifecycleCommonErrors;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.LifecycleException;
+import net.imadz.lifecycle.meta.builder.impl.helpers.MethodWrapper;
 
-public class CallbackObject {
+public class CallbackObject implements java.lang.Comparable<CallbackObject> {
+
+	public static final int COMMON = 0;
+	public static final int FROM = 1;
+	public static final int TO = 2;
+	public static final int SPECIFIC = 3;
 
 	private final String fromStateName;
 	private final String toStateName;
-	private final Method callbackMethod;
+	private int priority; // default 10
+	private int inheritanceLevel;// defult 0, minus 1 from bottom to super class
+	private int generalize; // set 0 for common, 1 for from/to, 2 for specific
+	private Method method;
 
 	public CallbackObject(String fromStateName, String toStateName,
-			Method callbackMethod) {
+			MethodWrapper wrappedCallbackMethod) {
 		super();
 		this.fromStateName = fromStateName;
 		this.toStateName = toStateName;
-		this.callbackMethod = callbackMethod;
+		this.method = wrappedCallbackMethod.getMethod();
+		this.priority = wrappedCallbackMethod.getPriority();
+		this.inheritanceLevel = wrappedCallbackMethod.getInheritanceLevel();
+		this.generalize = wrappedCallbackMethod.getGeneralize();
 	}
 
 	public boolean matches(final LifecycleContext<?, ?> callbackContext) {
@@ -68,14 +80,15 @@ public class CallbackObject {
 	public void doCallback(final LifecycleContext<?, ?> callbackContext) {
 		try {
 			Object evaluateTarget = evaluateTarget(callbackContext.getTarget());
-			callbackMethod.invoke(evaluateTarget, callbackContext);
+			method.invoke(evaluateTarget, callbackContext);
 		} catch (Throwable e) {
-			if(e instanceof InvocationTargetException) {
-				final Throwable target = ((InvocationTargetException) e).getTargetException();
-				final LifecycleException lifecycleException = new LifecycleException(getClass(),
-						LifecycleCommonErrors.BUNDLE,
+			if (e instanceof InvocationTargetException) {
+				final Throwable target = ((InvocationTargetException) e)
+						.getTargetException();
+				final LifecycleException lifecycleException = new LifecycleException(
+						getClass(), LifecycleCommonErrors.BUNDLE,
 						LifecycleCommonErrors.CALLBACK_EXCEPTION_OCCOURRED,
-						callbackMethod, target);
+						method, target);
 				lifecycleException.initCause(target);
 				throw lifecycleException;
 			} else if (e instanceof IllegalAccessException
@@ -84,12 +97,46 @@ public class CallbackObject {
 				throw new LifecycleException(getClass(),
 						LifecycleCommonErrors.BUNDLE,
 						LifecycleCommonErrors.CALLBACK_EXCEPTION_OCCOURRED,
-						callbackMethod, e);
-			else throw new RuntimeException(e);
+						method, e);
+			else
+				throw new RuntimeException(e);
 		}
 	}
 
 	protected Object evaluateTarget(Object target) {
 		return target;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public int getInheritanceLevel() {
+		return inheritanceLevel;
+	}
+
+	@Override
+	public int compareTo(CallbackObject other) {
+		final int comparePriority = getPriority() - other.getPriority();
+		if (comparePriority != 0) {
+			return comparePriority;
+		} else {
+			final int compareInheritanceLevel = getInheritanceLevel()
+					- other.getInheritanceLevel();
+			if (compareInheritanceLevel != 0) {
+				return compareInheritanceLevel;
+			} else {
+				final int compareGeneralize = getGeneralize()
+						- other.getGeneralize();
+				if (compareGeneralize != 0) {
+					return compareGeneralize;
+				} else
+					return 0;
+			}
+		}
+	}
+
+	public int getGeneralize() {
+		return this.generalize;
 	}
 }

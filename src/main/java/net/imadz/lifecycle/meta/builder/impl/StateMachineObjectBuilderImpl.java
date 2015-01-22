@@ -58,7 +58,7 @@ import net.imadz.lifecycle.LifecycleCommonErrors;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.LifecycleEventHandler;
 import net.imadz.lifecycle.LifecycleException;
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.StateConverter;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.LifecycleLock;
@@ -135,7 +135,7 @@ public class StateMachineObjectBuilderImpl<S>
 	private StateAccessible<String> stateAccessor;
 	@SuppressWarnings("unused")
 	private RelationObject parentRelationObject;
-	private LifecycleLockStrategry lifecycleLockStrategry;
+	private LifecycleLockStrategy lifecycleLockStrategry;
 	private StateConverter<S> stateConverter;
 
 	public StateMachineObjectBuilderImpl(StateMachineMetaBuilder template,
@@ -485,7 +485,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void doLock(LifecycleInterceptContext context) {
 		if (isLockEnabled()) {
-			final LifecycleLockStrategry lock = getLifecycleLockStrategy();
+			final LifecycleLockStrategy lock = getLifecycleLockStrategy();
 			lock.lockWrite(context.getTarget());
 		}
 		// Lock Related object is delegated to Validate both ValidWhiles and
@@ -653,7 +653,7 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	@Override
-	public LifecycleLockStrategry getLifecycleLockStrategy() {
+	public LifecycleLockStrategy getLifecycleLockStrategy() {
 		return this.lifecycleLockStrategry;
 	}
 
@@ -970,7 +970,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void unlockTargetReactiveObject(LifecycleInterceptContext context) {
 		if (isLockEnabled()) {
-			final LifecycleLockStrategry lockStrategry = getLifecycleLockStrategy();
+			final LifecycleLockStrategy lockStrategry = getLifecycleLockStrategy();
 			if (null != lockStrategry) {
 				lockStrategry.unlockWrite(context.getTarget());
 			}

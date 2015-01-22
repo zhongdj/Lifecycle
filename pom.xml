@@ -45,6 +45,11 @@
 			<name>Tracy Lu</name>
 			<email>hailinglu@gmail.com</email>
 		</developer>
+                <developer>
+                        <id>zjrstar</id>
+                        <name>Jerry Zhang</name>
+                        <email>zjrstar@gmail.com</email>
+                </developer>
 	</developers>
 	<dependencies>
 		<dependency>

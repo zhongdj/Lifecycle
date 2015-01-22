@@ -35,14 +35,14 @@
 package net.imadz.lifecycle.meta.object;
 
 import net.imadz.bcel.intercept.UnlockableStack;
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.builder.impl.CallbackObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 
 public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>, StateMachineMetadata>, LifecycleEngine<S> {
 
-    LifecycleLockStrategry getLifecycleLockStrategy();
+    LifecycleLockStrategy getLifecycleLockStrategy();
 
     String evaluateState(Object target);
 

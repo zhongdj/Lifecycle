@@ -39,11 +39,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LifecycleLock {
 
-    Class<? extends LifecycleLockStrategry> value();
+    Class<? extends LifecycleLockStrategy> value();
 }

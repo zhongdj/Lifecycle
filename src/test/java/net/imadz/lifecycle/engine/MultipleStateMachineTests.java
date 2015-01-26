@@ -35,9 +35,12 @@
 package net.imadz.lifecycle.engine;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import net.imadz.lifecycle.LifecycleContext;
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.relation.Relation;
 
 import org.junit.BeforeClass;
@@ -50,9 +53,14 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         registerMetaFromClass(MultipleStateMachineTests.class);
     }
 
+    public static interface Top {
+    	@PostStateChange
+        void increment(LifecycleContext<Top,String> context);
+    }
+    
     @LifecycleMeta(PCPurchaseOrderStateMachine.class)
-    public static interface PCPurchaseOrder {
-
+    public static interface PCPurchaseOrder extends Top {
+    	
         @StateIndicator
         String getPurchaseOrderState();
 
@@ -69,7 +77,7 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         void doAbort();
     }
     @LifecycleMeta(PCManufactoringOrderStateMachine.class)
-    public static interface ManufactoringOrder {
+    public static interface ManufactoringOrder extends Top {
 
         @StateIndicator
         String getManufactoringOrderState();
@@ -99,7 +107,7 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         void doTransferToLogistics();
     }
     @LifecycleMeta(PCLogisticOrderStateMachine.class)
-    public static interface LogisticOrder {
+    public static interface LogisticOrder extends Top {
 
         @StateIndicator
         String getLogisticOrderState();
@@ -131,7 +139,8 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
         private String logisticOrderState = PCLogisticOrderStateMachine.States.Draft.class.getSimpleName();
         private String manufactoringOrderState = PCManufactoringOrderStateMachine.States.Draft.class.getSimpleName();
         private String purchaseOrderState = PCPurchaseOrderStateMachine.States.Draft.class.getSimpleName();
-
+        private int count = 0;
+        
         @Override
         public String getLogisticOrderState() {
             return logisticOrderState;
@@ -142,6 +151,16 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
             this.logisticOrderState = state;
         }
 
+        @PostStateChange
+        @Override
+        public void increment(LifecycleContext<Top, String>  context) {
+        	count = count + 1;
+        }
+        
+        public int getCount() {
+        	return count;
+        }
+        
         @Override
         @Relation(PCLogisticOrderStateMachine.Relations.ManufactureOrder.class)
         public ManufactoringOrder getManufactoringOrder() {
@@ -255,78 +274,92 @@ public class MultipleStateMachineTests extends MultipleStateMachineTestMetadata 
             assertEquals(PCPurchaseOrderStateMachine.States.Draft.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Draft.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(0, order.getCount());
         }
         purchaseOrder.doConfirm();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Confirmed.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Draft.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(1, order.getCount());
         }
         manufactoringOrder.doConfirmBom();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.BOMConfirmed.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(3, order.getCount());//Since doConfirmBom triggered another state change.
         }
         manufactoringOrder.doPlan();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Planned.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(4, order.getCount());
         }
         manufactoringOrder.doMakeOSRomComplete();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.OSROMReady.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(5, order.getCount());
         }
         manufactoringOrder.doStartAssembling();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.AssemblingOnProductLine.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(6, order.getCount());
         }
         manufactoringOrder.doStartDebugging();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.DebuggingOnProductLine.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(7, order.getCount());
         }
         manufactoringOrder.doConfirmPacakgeComplete();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Packaged.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Draft.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(8, order.getCount());
         }
         logisticOrder.doConfirmLogisticOrder();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Packaged.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Confirmed.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(9, order.getCount());
         }
         logisticOrder.doSchedule();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Packaged.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Scheduled.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(10, order.getCount());
         }
         logisticOrder.doPickup();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Done.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Picked.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(12, order.getCount()); //since do pickup triggered another state change
         }
         logisticOrder.doStartTransport();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Ongoing.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Done.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Transporting.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(13, order.getCount());
         }
         logisticOrder.doCustomerConfirmReceive();
         {
             assertEquals(PCPurchaseOrderStateMachine.States.Completed.class.getSimpleName(), purchaseOrder.getPurchaseOrderState());
             assertEquals(PCManufactoringOrderStateMachine.States.Done.class.getSimpleName(), manufactoringOrder.getManufactoringOrderState());
             assertEquals(PCLogisticOrderStateMachine.States.Received.class.getSimpleName(), logisticOrder.getLogisticOrderState());
+            assertEquals(15, order.getCount()); //since do customer confirm receive triggered another state change
         }
+        
     }
 }

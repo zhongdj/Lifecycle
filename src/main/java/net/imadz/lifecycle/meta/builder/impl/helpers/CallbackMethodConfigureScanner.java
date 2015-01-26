@@ -43,6 +43,7 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 
 import net.imadz.lifecycle.SyntaxErrors;
+import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.callback.AnyState;
 import net.imadz.lifecycle.annotations.callback.CallbackConsts;
 import net.imadz.lifecycle.annotations.callback.Callbacks;
@@ -56,6 +57,8 @@ import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.FieldEvaluator;
+import net.imadz.util.MethodScanCallback;
+import net.imadz.util.MethodScanner;
 import net.imadz.util.PropertyEvaluator;
 import net.imadz.util.Readable;
 import net.imadz.util.StringUtil;
@@ -76,12 +79,29 @@ public final class CallbackMethodConfigureScanner {
 	}
 
 	public void scanMethod() throws VerificationException {
-		if (klass.isInterface())
+		if (klass.isInterface()
+				&& null == klass.getAnnotation(LifecycleMeta.class))
 			return;
-		for (Class<?> clazz = klass; clazz != null && clazz != Object.class; clazz = clazz
-				.getSuperclass()) {
-			for (Method method : clazz.getDeclaredMethods()) {
-				onMethodFound(method);
+		if (klass.isInterface()) {
+			MethodScanner.scanMethodsOnClasses(klass, new MethodScanCallback() {
+				
+				@Override
+				public boolean onMethodFound(Method method) {
+					
+					try {
+						return CallbackMethodConfigureScanner.this.onMethodFound(method);
+					} catch (VerificationException e) {
+					    return false;
+					}
+				}
+				
+			});
+		} else {
+			for (Class<?> clazz = klass; clazz != null && clazz != Object.class; clazz = clazz
+					.getSuperclass()) {
+				for (Method method : clazz.getDeclaredMethods()) {
+					onMethodFound(method);
+				}
 			}
 		}
 	}
@@ -405,15 +425,14 @@ public final class CallbackMethodConfigureScanner {
 	private void verifyPreToStatePostEvaluate(Method method,
 			Class<?> toStateClass, StateMachineMetadata stateMachineMetadata)
 			throws VerificationException {
-		for (final EventMetadata event : stateMachineMetadata
-				.getState(toStateClass).getPossibleReachingEvents()) {
+		for (final EventMetadata event : stateMachineMetadata.getState(
+				toStateClass).getPossibleReachingEvents()) {
 			if (event.isConditional() && event.postValidate()) {
 				throw this.stateMachineObjectBuilderImpl
 						.newVerificationException(
 								stateMachineMetadata.getDottedPath(),
 								SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID,
-								toStateClass, method,
-								event.getDottedPath());
+								toStateClass, method, event.getDottedPath());
 			}
 		}
 	}

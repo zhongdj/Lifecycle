@@ -40,13 +40,13 @@ import java.util.Collections;
 import java.util.List;
 
 import net.imadz.lifecycle.LifecycleContext;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;

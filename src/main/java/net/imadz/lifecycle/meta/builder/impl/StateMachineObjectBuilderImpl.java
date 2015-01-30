@@ -48,6 +48,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -137,6 +138,7 @@ public class StateMachineObjectBuilderImpl<S>
 	private RelationObject parentRelationObject;
 	private LifecycleLockStrategy lifecycleLockStrategry;
 	private StateConverter<S> stateConverter;
+	private Map<StateAccessible<String>, String> initialStates = new HashMap<StateAccessible<String>, String>();
 
 	public StateMachineObjectBuilderImpl(StateMachineMetaBuilder template,
 			String name) {
@@ -392,6 +394,9 @@ public class StateMachineObjectBuilderImpl<S>
 			stateObject.setRegistry(getRegistry());
 			stateObject.build(klass, this);
 			this.stateObjectList.add(stateObject.getMetaData());
+			if (stateMetadata.isInitial()) {
+				initialStates.put(this.stateAccessor, stateMetadata.getSimpleName());
+			}
 		}
 	}
 
@@ -1591,5 +1596,10 @@ public class StateMachineObjectBuilderImpl<S>
 					.getEvent(event.value());
 		}
 		return eventMetadata;
+	}
+
+	@Override
+	public Map<StateAccessible<String>, String> getInitialStates() {
+		return this.initialStates;
 	}
 }

@@ -34,11 +34,14 @@
  */
 package net.imadz.lifecycle.meta.object;
 
+import java.util.Map;
+
 import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.builder.impl.CallbackObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
+import net.imadz.util.StateAccessible;
 
 public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>, StateMachineMetadata>, LifecycleEngine<S> {
 
@@ -59,4 +62,9 @@ public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>,
     void addSpecificPostStateChangeCallbackObject(CallbackObject item);
 
     void addCommonPostStateChangeCallbackObject(CallbackObject item);
+    
+    /**
+     *  returns (state indicator name, initial state simple name)
+     */
+     Map<StateAccessible<String>, String>  getInitialStates();
 }

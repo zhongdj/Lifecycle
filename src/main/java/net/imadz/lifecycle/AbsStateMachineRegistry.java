@@ -53,7 +53,6 @@ import net.imadz.bcel.intercept.DefaultStateMachineRegistry;
 import net.imadz.common.Dumper;
 import net.imadz.lifecycle.annotations.CompositeState;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
-import net.imadz.lifecycle.annotations.ReactiveObject;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.meta.builder.StateMachineMetaBuilder;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineMetaBuilderImpl;
@@ -394,10 +393,11 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 	}
 
 	public void setInitialState(Object target) {
-		if (target == null) throw new IllegalArgumentException("target should not be null.");
+		if (target == null)
+			throw new IllegalArgumentException("target should not be null.");
 		final Class<?> cls = target.getClass();
 		final List<Class<?>> lifecycleMetaClasses = extractLifecycleMetaClasses(cls);
-		
+
 		if (lifecycleMetaClasses.size() <= 0)
 			throw new IllegalArgumentException(
 					"The class hierachy of target object "
@@ -407,18 +407,12 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 			try {
 				final StateMachineObject<?> smo = DefaultStateMachineRegistry
 						.getInstance().loadStateMachineObject(lifecycleMetaCls);
-				final Map<StateAccessible<String>, String> initialStates = smo
-						.getInitialStates();
-				final Iterator<Entry<StateAccessible<String>, String>> iterator = initialStates
-						.entrySet().iterator();
-				while (iterator.hasNext()) {
-					Entry<StateAccessible<String>, String> next = iterator
-							.next();
-					StateAccessible<String> stateAccessible = next.getKey();
-					String state = next.getValue();
-					if (stateAccessible.read(target) == null) {
-						stateAccessible.write(target, state);
-					}
+				final Entry<StateAccessible<String>, String> initialState = smo
+						.getInitialState();
+				StateAccessible<String> stateAccessible = initialState.getKey();
+				String state = initialState.getValue();
+				if (stateAccessible.read(target) == null) {
+					stateAccessible.write(target, state);
 				}
 			} catch (VerificationException e) {
 				// Ignore for the moment
@@ -426,8 +420,7 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 		}
 	}
 
-	public List<Class<?>> extractLifecycleMetaClasses(
-			Class<?> targetClass) {
+	public List<Class<?>> extractLifecycleMetaClasses(Class<?> targetClass) {
 		if (null == targetClass)
 			throw new IllegalArgumentException(
 					"targetClass should not be null.");
@@ -465,8 +458,7 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 		return result;
 	}
 
-	private void populateInterfaces(Class<?>[] itfs,
-			List<Class<?>> result) {
+	private void populateInterfaces(Class<?>[] itfs, List<Class<?>> result) {
 		for (Class<?> itf : itfs) {
 			Class<?>[] upperItfs = itf.getInterfaces();
 			for (Class<?> uitf : upperItfs) {

@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.util.Map;
+import java.util.Map.Entry;
 
 import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleLockStrategy;
@@ -66,5 +66,5 @@ public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>,
     /**
      *  returns (state indicator name, initial state simple name)
      */
-     Map<StateAccessible<String>, String>  getInitialStates();
+     Entry<StateAccessible<String>, String>  getInitialState();
 }

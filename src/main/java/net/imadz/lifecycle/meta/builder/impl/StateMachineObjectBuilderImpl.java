@@ -138,7 +138,7 @@ public class StateMachineObjectBuilderImpl<S>
 	private RelationObject parentRelationObject;
 	private LifecycleLockStrategy lifecycleLockStrategry;
 	private StateConverter<S> stateConverter;
-	private Map<StateAccessible<String>, String> initialStates = new HashMap<StateAccessible<String>, String>();
+	private final Map<StateAccessible<String>, String> initialStates = new HashMap<StateAccessible<String>, String>();
 
 	public StateMachineObjectBuilderImpl(StateMachineMetaBuilder template,
 			String name) {
@@ -1599,7 +1599,12 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	@Override
-	public Map<StateAccessible<String>, String> getInitialStates() {
-		return this.initialStates;
+	public Entry<StateAccessible<String>, String> getInitialState() {
+		Iterator<Entry<StateAccessible<String>, String>> iterator = this.initialStates.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<StateAccessible<String>, String> next = iterator.next();
+			return next;
+		}
+		throw new IllegalStateException("We should not be here! Check code");
 	}
 }

@@ -161,9 +161,15 @@ public class LifecycleInterceptContext implements UnlockableStack {
         }
     }
 
-    public void logStep8FireLifecycleEvents() {
+    public void logStep8Callback() {
         if ( logger.isLoggable(FINE) ) {
-            logger.fine("\tStep 8. Start fire state change event.");
+            logger.fine("\tStep 8. Start OnEvent Callback after state change on event : " + this.getEvent());
+        }
+    }
+
+    public void logStep9FireLifecycleEvents() {
+        if ( logger.isLoggable(FINE) ) {
+            logger.fine("\tStep 9. Start fire state change event.");
         }
     }
 

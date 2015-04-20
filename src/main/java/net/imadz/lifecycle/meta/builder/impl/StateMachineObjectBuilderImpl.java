@@ -133,6 +133,7 @@ public class StateMachineObjectBuilderImpl<S>
 	private final ArrayList<CallbackObject> specificPostStateChangeCallbackObjects = new ArrayList<CallbackObject>();
 	private final ArrayList<CallbackObject> commonPreStateChangeCallbackObjects = new ArrayList<CallbackObject>();
 	private final ArrayList<CallbackObject> commonPostStateChangeCallbackObjects = new ArrayList<CallbackObject>();
+	private final ArrayList<EventCallbackObject> commonEventCallbackObjects = new ArrayList<EventCallbackObject>();
 	private StateAccessible<String> stateAccessor;
 	@SuppressWarnings("unused")
 	private RelationObject parentRelationObject;
@@ -635,7 +636,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void fireLifecycleEvents(StateMachineObject<?> stateMachine,
 			LifecycleInterceptContext context) {
-		context.logStep8FireLifecycleEvents();
+		context.logStep9FireLifecycleEvents();
 		final LifecycleEventHandler eventHandler = AbsStateMachineRegistry
 				.getInstance().getLifecycleEventHandler();
 		if (null != eventHandler) {
@@ -902,6 +903,22 @@ public class StateMachineObjectBuilderImpl<S>
 			LifecycleInterceptContext context) {
 		context.logStep7Callback();
 		performPostStateChangeCallback(context);
+		context.logStep8Callback();
+		performOnEventCallback(context);
+	}
+
+	private void performOnEventCallback(LifecycleInterceptContext context) {
+		final S fromStateType = this.getStateRawTypeValue(context.getFromState());
+        S toStateType = null;
+        if ( null != context.getToState() ) {
+            toStateType = this.getStateRawTypeValue(context.getToState());
+        }
+        final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(context, fromStateType, toStateType);
+        final Object eventKey = context.getEventKey();
+        getEvent(eventKey).invokeEventCallbacks(callbackContext);
+        for (EventCallbackObject commonCallback : commonEventCallbackObjects) {
+        	commonCallback.doCallback(callbackContext);
+        }
 	}
 
 	private void performCallbacksBeforeStateChange(
@@ -1606,5 +1623,16 @@ public class StateMachineObjectBuilderImpl<S>
 			return next;
 		}
 		throw new IllegalStateException("We should not be here! Check code");
+	}
+
+	
+	@Override
+	public void addCommonOnEventCallbackObject(EventCallbackObject item) {
+        this.commonEventCallbackObjects.add(item);
+	}
+
+	@Override
+	public EventObject getEvent(Object eventKey) {
+		return eventObjectList.get(eventKey);
 	}
 }

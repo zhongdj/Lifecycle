@@ -363,4 +363,14 @@ public interface SyntaxErrors {
      * @param {2} Method class
      */
     public static final String PRE_STATE_CHANGE_OBSERVABLE_NAME_MISMATCH_OBSERVABLE_CLASS = "002-3712";
+	
+    public static final String ON_EVENT_MAPPEDBY_INVALID = "002-3713";
+    
+	public static final String ON_EVENT_EVENT_IS_INVALID = "002-3714";
+	
+	public static final String ON_EVENT_OBSERVABLE_CLASS_INVALID = "002-3715";
+	
+	public static final String ON_EVENT_RELATION_INVALID = "002-3716";
+	
+	public static final String ON_EVENT_OBSERVABLE_NAME_MISMATCH_OBSERVABLE_CLASS = "002-3717";
 }

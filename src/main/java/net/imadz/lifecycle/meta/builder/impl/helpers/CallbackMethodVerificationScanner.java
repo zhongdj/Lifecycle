@@ -37,9 +37,11 @@ package net.imadz.lifecycle.meta.builder.impl.helpers;
 import java.lang.reflect.Method;
 
 import net.imadz.lifecycle.SyntaxErrors;
+import net.imadz.lifecycle.annotations.callback.AnyEvent;
 import net.imadz.lifecycle.annotations.callback.AnyState;
 import net.imadz.lifecycle.annotations.callback.CallbackConsts;
 import net.imadz.lifecycle.annotations.callback.Callbacks;
+import net.imadz.lifecycle.annotations.callback.OnEvent;
 import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.callback.PreStateChange;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
@@ -64,6 +66,7 @@ public final class CallbackMethodVerificationScanner implements MethodScanCallba
     public boolean onMethodFound(Method method) {
         verifyPreStateChange(method, failureSet, method.getAnnotation(PreStateChange.class));
         verifyPostStateChange(method, failureSet, method.getAnnotation(PostStateChange.class));
+        verifyOnEvent(method, failureSet, method.getAnnotation(OnEvent.class));
         verifyCallbacks(method);
         return false;
     }
@@ -77,10 +80,35 @@ public final class CallbackMethodVerificationScanner implements MethodScanCallba
             for ( PostStateChange item : callbacks.postStateChange() ) {
                 verifyPostStateChange(method, failureSet, item);
             }
+            for ( OnEvent item : callbacks.onEvent() ) {
+            	verifyOnEvent(method, failureSet, item);
+            }
         }
     }
 
-    private void verifyPostStateChange(final Method method, final VerificationFailureSet failureSet, final PostStateChange postStateChange) {
+    private void verifyOnEvent(final Method method,
+			final VerificationFailureSet failureSet, final OnEvent onEvent) {
+		if ( null == onEvent ) return;
+		if ( isRelationalCallback(onEvent.observableName(), onEvent.observableClass()) ) return;
+		verifyEventWithoutRelation(method, failureSet, onEvent.value(), SyntaxErrors.ON_EVENT_EVENT_IS_INVALID);
+	}
+
+	private void verifyEventWithoutRelation(Method method,
+			VerificationFailureSet failureSet, Class<?> eventClass,
+			String errorCode) {
+		if ( AnyEvent.class != eventClass ) {
+			if ( eventMetadataNotFound(eventClass) ) {
+				failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(method.getDeclaringClass().getName() + "." + eventClass + "."
+                        + errorCode, errorCode, eventClass, method, this.stateMachineObjectBuilderImpl.getMetaType().getPrimaryKey()));
+			}
+		}
+	}
+
+	private boolean eventMetadataNotFound(Class<?> eventClass) {
+		return null == this.stateMachineObjectBuilderImpl.getMetaType().getEvent(eventClass);
+	}
+
+	private void verifyPostStateChange(final Method method, final VerificationFailureSet failureSet, final PostStateChange postStateChange) {
         if ( null == postStateChange ) return;
         if ( isRelationalCallback(postStateChange.observableName(), postStateChange.observableClass()) ) return;
         verifyStateWithoutRelation(method, failureSet, postStateChange.from(), SyntaxErrors.POST_STATE_CHANGE_FROM_STATE_IS_INVALID);

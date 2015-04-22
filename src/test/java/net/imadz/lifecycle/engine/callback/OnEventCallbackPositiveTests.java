@@ -17,4 +17,16 @@ public class OnEventCallbackPositiveTests extends OnEventCallbackTestMetadata {
 		o.payOff();
 		assertEquals(2,  o.getTotalCallbacks());
 	}
+	
+	@Test
+	public void it_should_invoke_relational_on_event_call_back() {
+		final Order o = new Order();
+		final ServiceOrder so = new ServiceOrder(o);
+		o.confirm();
+		o.payOff();
+		assertEquals(0, o.getRelatedCallback());
+		so.confirmWork();
+		so.complete();
+		assertEquals(2, o.getRelatedCallback());
+	}
 }

@@ -55,8 +55,8 @@ public class LifecycleInterceptContext implements UnlockableStack {
     private EventTypeEnum eventType;
     private String eventName;
     private String toState;
-    private long lifecycleEndTime;
-    private long lifecycleStartTime;
+    private long lifecycleEndTime = -1;
+    private long lifecycleStartTime = -1;
 
     public LifecycleInterceptContext(InterceptContext<?, ?> context) {
         this.innerContext = context;
@@ -135,6 +135,7 @@ public class LifecycleInterceptContext implements UnlockableStack {
         if ( logger.isLoggable(FINE) ) {
             logger.fine("\tStep 4. start callback before state change from : " + this.getFromState() + " => to : " + this.getToState());
         }
+        lifecycleStartTime = System.currentTimeMillis();
     }
 
     public void logStep5ValiatingInbound() {
@@ -143,13 +144,14 @@ public class LifecycleInterceptContext implements UnlockableStack {
         }
     }
 
-    public void logStep6_1SetupNextStateFinsihed() {
+    public void logStep6_2SetupNextStateFinsihed() {
         if ( logger.isLoggable(FINE) ) {
             logger.fine("\tStep 6. ReactiveObject is tranisited to state: [" + this.getToState() + "]");
         }
+        lifecycleEndTime = System.currentTimeMillis();
     }
 
-    public void logStep6_2SetupNextStateStart() {
+    public void logStep6_1SetupNextStateStart() {
         if ( logger.isLoggable(FINE) ) {
             logger.fine("\tStep 6. Set next state to reactiveObject.");
         }

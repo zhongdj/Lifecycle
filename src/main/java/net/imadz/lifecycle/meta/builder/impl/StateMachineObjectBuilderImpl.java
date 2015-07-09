@@ -504,9 +504,9 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private void doUpdateNextState(LifecycleInterceptContext context) {
-		context.logStep6_2SetupNextStateStart();
+		context.logStep6_1SetupNextStateStart();
 		transitToNextState(context.getTarget(), context.getEventKey());
-		context.logStep6_1SetupNextStateFinsihed();
+		context.logStep6_2SetupNextStateFinsihed();
 	}
 
 	private boolean evaluateConditionBeforeEvent(Object eventKey) {

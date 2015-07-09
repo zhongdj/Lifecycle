@@ -789,7 +789,8 @@ public final class CallbackMethodConfigureScanner {
 	private boolean isCallbackMethod(Method method) {
 		if (hasAnnotation(method, Callbacks.class)
 				|| hasAnnotation(method, PreStateChange.class)
-				|| hasAnnotation(method, PostStateChange.class)) {
+				|| hasAnnotation(method, PostStateChange.class)
+				|| hasAnnotation(method, OnEvent.class)) {
 			return true;
 		}
 		return false;

@@ -2,7 +2,7 @@ Finite State Machine (FSM)
 
 
 Try demos once you have following software installed:
-1. JDK7+
+1. JDK6+
 2. maven 3+
 3. github client
 

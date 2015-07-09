@@ -20,6 +20,14 @@ For further information, please refer demos projects:
 Using: Lifecycle-StaticWeaver-maven-plugin to process classes
 https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
 
+Release Notes
+
+0.9.8
+a. add priority property into @PostStateChange for specifying callback ordering
+b. add API to set reactive object's intial states, such as: DefaultStateMachineRegistry.getInstance().setInitialState(reactiveObject);
+c. add @OnEvent callback support
+d. support declare callback annotations on interfaces, such as @PostStateChange, @PreStateChange, @OnEvent
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                   Quick Look: Stand-alone Reactive Object
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////

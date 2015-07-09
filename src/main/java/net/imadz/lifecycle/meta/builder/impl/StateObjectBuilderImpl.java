@@ -218,20 +218,20 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
     }
 
     @Override
-    public void invokeFromPostStateChangeCallbacks(LifecycleContext<?, S> callbackContext) {
+    public void invokeFromPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext) {
         if ( postFromStateChangeCallbacksMap.containsKey(callbackContext.getFromStateName()) ) {
-            interatorInvokeCallback(callbackContext, postFromStateChangeCallbacksMap.get(callbackContext.getFromStateName()));
+        	cbo.doCallback(callbackContext);
         }
     }
 
     @Override
-    public void invokeToPostStateChangeCallbacks(LifecycleContext<?, S> callbackContext) {
+    public void invokeToPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext) {
         if ( postToStateChangeCallbacksMap.containsKey(callbackContext.getToStateName()) ) {
-            interatorInvokeCallback(callbackContext, postToStateChangeCallbacksMap.get(callbackContext.getToStateName()));
+            cbo.doCallback(callbackContext);
         }
     }
 
-    private void interatorInvokeCallback(final LifecycleContext<?, S> callbackContext, final List<CallbackObject> callbackObjects) {
+    private void interatorInvokeCallback(final LifecycleContext<?, S> callbackContext, List<CallbackObject> callbackObjects) {
         for ( CallbackObject callbackObject : callbackObjects ) {
             callbackObject.doCallback(callbackContext);
         }
@@ -284,4 +284,14 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
             this.postFromStateChangeCallbacksMap.put(fromStateClassName, callbackObjects);
         }
     }
+
+	@Override
+	public List<CallbackObject> getPostFromCallbackObjects(final String stateName) {
+		return this.postFromStateChangeCallbacksMap.get(stateName);
+	}
+
+	@Override
+	public List<CallbackObject> getPostToCallbackObjects(final String stateName) {
+		return this.postToStateChangeCallbacksMap.get(stateName);
+	}
 }

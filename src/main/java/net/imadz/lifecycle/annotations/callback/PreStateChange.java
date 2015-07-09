@@ -54,4 +54,6 @@ public @interface PreStateChange {
     Class<?> observableClass() default Null.class;
 
     String mappedBy() default CallbackConsts.NULL_STR;
+    
+    int priority() default 10;
 }

@@ -34,16 +34,15 @@
  */
 package net.imadz.lifecycle.meta.builder.impl;
 
-import java.lang.reflect.Method;
-
+import net.imadz.lifecycle.meta.builder.impl.helpers.MethodWrapper;
 import net.imadz.util.Readable;
 
 public class RelationalCallbackObject extends CallbackObject {
 
     private final Readable<?> readAccessor;
 
-    public RelationalCallbackObject(String fromStateName, String toStateName, Method callbackMethod, Readable<?> accessor) {
-        super(fromStateName, toStateName, callbackMethod);
+    public RelationalCallbackObject(String fromStateName, String toStateName, MethodWrapper wrappedCallbackMethod, Readable<?> accessor) {
+        super(fromStateName, toStateName, wrappedCallbackMethod);
         this.readAccessor = accessor;
     }
 

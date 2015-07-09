@@ -43,6 +43,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -81,6 +82,7 @@ import net.imadz.lifecycle.meta.builder.impl.helpers.CallbackMethodVerificationS
 import net.imadz.lifecycle.meta.builder.impl.helpers.ConditionProviderMethodScanner;
 import net.imadz.lifecycle.meta.builder.impl.helpers.CoverageVerifier;
 import net.imadz.lifecycle.meta.builder.impl.helpers.MethodSignatureScanner;
+import net.imadz.lifecycle.meta.builder.impl.helpers.MethodWrapper;
 import net.imadz.lifecycle.meta.builder.impl.helpers.RelationGetterConfigureScanner;
 import net.imadz.lifecycle.meta.builder.impl.helpers.RelationGetterScanner;
 import net.imadz.lifecycle.meta.builder.impl.helpers.RelationIndicatorPropertyMethodScanner;
@@ -407,8 +409,7 @@ public class StateMachineObjectBuilderImpl<S>
 		final EventObjectBuilderImpl eventObjectBuilder = new EventObjectBuilderImpl(
 				this, method, eventMetadata);
 		eventObjectBuilder.build(klass, this);
-		final EventObject eventObject = eventObjectBuilder
-				.getMetaData();
+		final EventObject eventObject = eventObjectBuilder.getMetaData();
 		eventObjectList.add(eventObject);
 		if (null == eventMetadataMap.get(eventMetadata)) {
 			final LinkedList<EventObject> eventObjects = new LinkedList<EventObject>();
@@ -424,8 +425,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 			@Override
 			public boolean onMethodFound(Method method) {
-				final Event eventAnno = method
-						.getAnnotation(Event.class);
+				final Event eventAnno = method.getAnnotation(Event.class);
 				if (null == eventAnno) {
 					return false;
 				}
@@ -435,8 +435,7 @@ public class StateMachineObjectBuilderImpl<S>
 							StringUtil.toUppercaseFirstCharacter(method
 									.getName()));
 				} else {
-					eventMetadata = getMetaType().getEvent(
-							eventAnno.value());
+					eventMetadata = getMetaType().getEvent(eventAnno.value());
 				}
 				try {
 					configureEventObject(klass, method, eventMetadata);
@@ -510,14 +509,13 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private boolean evaluateConditionBeforeEvent(Object eventKey) {
-		EventMetadata event = getMetaType().getEvent(
-				eventKey);
+		EventMetadata event = getMetaType().getEvent(eventKey);
 		return !event.postValidate();
 	}
 
 	private Object evaluateJudgeable(Object target,
-			final EventMetadata eventMetadata)
-			throws IllegalAccessException, InvocationTargetException {
+			final EventMetadata eventMetadata) throws IllegalAccessException,
+			InvocationTargetException {
 		final ConditionObject conditionObject = getConditionObject(eventMetadata
 				.getConditionClass());
 		return conditionObject.conditionGetter().invoke(target);
@@ -555,10 +553,10 @@ public class StateMachineObjectBuilderImpl<S>
 					| e instanceof InvocationTargetException)
 				throw new IllegalStateException(
 						"Cannot create judger instance of Class: "
-								+ functionMetadata.getEvent()
-										.getJudgerClass()
+								+ functionMetadata.getEvent().getJudgerClass()
 								+ ". Please provide no-arg constructor.");
-			else throw new RuntimeException(e);
+			else
+				throw new RuntimeException(e);
 		}
 	}
 
@@ -567,22 +565,25 @@ public class StateMachineObjectBuilderImpl<S>
 		return this.stateAccessor.read(target);
 	}
 
-	private HashMap<Class<?>, Object> evaluatorRelationsInMethodParameters(LifecycleInterceptContext context) {
-        final Object[] arguments = context.getArguments();
-        final Method method = context.getMethod();
-        final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        final HashMap<Class<?>, Object> relationObjectMap = new HashMap<Class<?>, Object>();
-        int parameterIndex = 0;
-        for ( Annotation[] annotations : parameterAnnotations ) {
-            for ( Annotation annotation : annotations ) {
-                if ( Relation.class == annotation.annotationType() ) {
-                    relationObjectMap.put(( (Relation) annotation ).value(), arguments[parameterIndex]);
-                }
-            }
-            parameterIndex++;
-        }
-        return relationObjectMap;
-    }
+	private HashMap<Class<?>, Object> evaluatorRelationsInMethodParameters(
+			LifecycleInterceptContext context) {
+		final Object[] arguments = context.getArguments();
+		final Method method = context.getMethod();
+		final Annotation[][] parameterAnnotations = method
+				.getParameterAnnotations();
+		final HashMap<Class<?>, Object> relationObjectMap = new HashMap<Class<?>, Object>();
+		int parameterIndex = 0;
+		for (Annotation[] annotations : parameterAnnotations) {
+			for (Annotation annotation : annotations) {
+				if (Relation.class == annotation.annotationType()) {
+					relationObjectMap.put(((Relation) annotation).value(),
+							arguments[parameterIndex]);
+				}
+			}
+			parameterIndex++;
+		}
+		return relationObjectMap;
+	}
 
 	private Method findCustomizedStateIndicatorGetter(Class<?> klass)
 			throws VerificationException {
@@ -804,26 +805,15 @@ public class StateMachineObjectBuilderImpl<S>
 		return false;
 	}
 
-	private void invokeCommonPostStateChangeCallbacks(
+	private void invokeCommonPostStateChangeCallbacks(CallbackObject cbo,
 			LifecycleContext<?, S> callbackContext) {
-		for (CallbackObject callbackObject : this.commonPostStateChangeCallbackObjects) {
-			callbackObject.doCallback(callbackContext);
-		}
+		cbo.doCallback(callbackContext);
 	}
 
 	private void invokeCommonPreStateChangeCallbacks(
 			LifecycleContext<?, S> callbackContext) {
 		for (CallbackObject callbackObject : this.commonPreStateChangeCallbackObjects) {
 			callbackObject.doCallback(callbackContext);
-		}
-	}
-
-	private void invokeSpecificPostStateChangeCallbacks(
-			LifecycleContext<?, S> callbackContext) {
-		for (CallbackObject callbackObject : this.specificPostStateChangeCallbackObjects) {
-			if (callbackObject.matches(callbackContext)) {
-				callbackObject.doCallback(callbackContext);
-			}
 		}
 	}
 
@@ -854,8 +844,7 @@ public class StateMachineObjectBuilderImpl<S>
 		return null != klass.getAnnotation(Parent.class);
 	}
 
-	private boolean isEventIn(StateMetadata state,
-			EventMetadata eventMetadata) {
+	private boolean isEventIn(StateMetadata state, EventMetadata eventMetadata) {
 		for (final StateMetadata stateMetadata : getMetaType().getAllStates()) {
 			for (FunctionMetadata item : stateMetadata
 					.getDeclaredFunctionMetadata()) {
@@ -872,21 +861,24 @@ public class StateMachineObjectBuilderImpl<S>
 		return false;
 	}
 
-	private HashMap<String, List<RelationConstraintMetadata>> mergeRelations(RelationConstraintMetadata[] relations) {
-        final HashMap<String, List<RelationConstraintMetadata>> mergedRelations = new HashMap<String, List<RelationConstraintMetadata>>();
-        for ( final RelationConstraintMetadata relationMetadata : relations ) {
-            final String relationKey = relationMetadata.getRelatedStateMachine().getDottedPath().getAbsoluteName();
-            if ( mergedRelations.containsKey(relationKey) ) {
-                final List<RelationConstraintMetadata> list = mergedRelations.get(relationKey);
-                list.add(relationMetadata);
-            } else {
-                final ArrayList<RelationConstraintMetadata> list = new ArrayList<RelationConstraintMetadata>();
-                list.add(relationMetadata);
-                mergedRelations.put(relationKey, list);
-            }
-        }
-        return mergedRelations;
-    }
+	private HashMap<String, List<RelationConstraintMetadata>> mergeRelations(
+			RelationConstraintMetadata[] relations) {
+		final HashMap<String, List<RelationConstraintMetadata>> mergedRelations = new HashMap<String, List<RelationConstraintMetadata>>();
+		for (final RelationConstraintMetadata relationMetadata : relations) {
+			final String relationKey = relationMetadata
+					.getRelatedStateMachine().getDottedPath().getAbsoluteName();
+			if (mergedRelations.containsKey(relationKey)) {
+				final List<RelationConstraintMetadata> list = mergedRelations
+						.get(relationKey);
+				list.add(relationMetadata);
+			} else {
+				final ArrayList<RelationConstraintMetadata> list = new ArrayList<RelationConstraintMetadata>();
+				list.add(relationMetadata);
+				mergedRelations.put(relationKey, list);
+			}
+		}
+		return mergedRelations;
+	}
 
 	private boolean nextStateCanBeEvaluatedBeforeTranstion(
 			StateMachineObject<?> stateMachine,
@@ -927,41 +919,88 @@ public class StateMachineObjectBuilderImpl<S>
 		performPreStateChangeCallback(context);
 	}
 
-	private void performPostStateChangeCallback(LifecycleInterceptContext context) {
-        final S fromStateType = this.getStateRawTypeValue(context.getFromState());
-        S toStateType = null;
-        if ( null != context.getToState() ) {
-            toStateType = this.getStateRawTypeValue(context.getToState());
-        }
-        final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(context, fromStateType, toStateType);
-        final String fromState = callbackContext.getFromStateName();
-        final String toState = callbackContext.getToStateName();
-        invokeSpecificPostStateChangeCallbacks(callbackContext);
-        getState(fromState).invokeFromPostStateChangeCallbacks(callbackContext);
-        getState(toState).invokeToPostStateChangeCallbacks(callbackContext);
-        invokeCommonPostStateChangeCallbacks(callbackContext);
-    }
+	private void performPostStateChangeCallback(
+			LifecycleInterceptContext context) {
+		final S fromStateType = this.getStateRawTypeValue(context
+				.getFromState());
+		S toStateType = null;
+		if (null != context.getToState()) {
+			toStateType = this.getStateRawTypeValue(context.getToState());
+		}
+		final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(
+				context, fromStateType, toStateType);
+		final String fromStateName = callbackContext.getFromStateName();
+		final String toStateName = callbackContext.getToStateName();
+		final LinkedList<CallbackObject> sortedCallbackObjects = getSortedCallbackObjects(
+				fromStateName, toStateName);
+		doCallbackObjects(callbackContext, sortedCallbackObjects, fromStateName, toStateName);
+	}
+
+	private void doCallbackObjects(
+			final LifecycleContext<?, S> callbackContext,
+			final LinkedList<CallbackObject> allCallbacks, final String fromStateName, final String toStateName) {
+		for (CallbackObject cbo : allCallbacks) {
+			if (cbo.getGeneralize() == CallbackObject.SPECIFIC) {
+				invokeSpecificPostStateChangeCallbacks(cbo, callbackContext);
+			} else if (cbo.getGeneralize() == CallbackObject.FROM) {
+				getState(fromStateName).invokeFromPostStateChangeCallbacks(cbo,
+						callbackContext);
+			} else if (cbo.getGeneralize() == CallbackObject.TO) {
+				getState(toStateName).invokeToPostStateChangeCallbacks(cbo,
+						callbackContext);
+			} else {
+				invokeCommonPostStateChangeCallbacks(cbo, callbackContext);
+			}
+		}
+	}
+
+	private LinkedList<CallbackObject> getSortedCallbackObjects(
+			final String fromState, final String toState) {
+		LinkedList<CallbackObject> allCallbacks = new LinkedList<CallbackObject>();
+		allCallbacks = addToList(allCallbacks, this.specificPostStateChangeCallbackObjects);
+		allCallbacks = addToList(allCallbacks, getState(fromState).getPostFromCallbackObjects(fromState));
+		allCallbacks = addToList(allCallbacks, getState(toState).getPostToCallbackObjects(toState));
+		allCallbacks = addToList(allCallbacks, this.commonPostStateChangeCallbackObjects);
+		Collections.sort(allCallbacks);
+		return allCallbacks;
+	}
+
+	private LinkedList<CallbackObject> addToList(final LinkedList<CallbackObject> result, List<CallbackObject> others) {
+		if (null == others) return result;
+		for (CallbackObject cbo: others) {
+			result.add(cbo);
+		}
+		return result;
+	}
+	private void invokeSpecificPostStateChangeCallbacks(CallbackObject cbo,
+			LifecycleContext<?, S> callbackContext) {
+		if (cbo.matches(callbackContext)) {
+			cbo.doCallback(callbackContext);
+		}
+	}
 
 	private void performPreStateChangeCallback(LifecycleInterceptContext context) {
-        final S fromStateType = this.getStateRawTypeValue(context.getFromState());
-        S toStateType = null;
-        if ( null != context.getToState() ) {
-            toStateType = this.getStateRawTypeValue(context.getToState());
-        }
-        final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(context, fromStateType, toStateType);
-        final String fromState = callbackContext.getFromStateName();
-        final String toState = callbackContext.getToStateName();
-        if ( null != toState ) {
-            invokeSpecificPreStateChangeCallbacks(callbackContext);
-        }
-        final StateObject<S> fromStateObject = getState(fromState);
-        fromStateObject.invokeFromPreStateChangeCallbacks(callbackContext);
-        if ( null != toState ) {
-            final StateObject<S> toStateObject = getState(toState);
-            toStateObject.invokeToPreStateChangeCallbacks(callbackContext);
-        }
-        invokeCommonPreStateChangeCallbacks(callbackContext);
-    }
+		final S fromStateType = this.getStateRawTypeValue(context
+				.getFromState());
+		S toStateType = null;
+		if (null != context.getToState()) {
+			toStateType = this.getStateRawTypeValue(context.getToState());
+		}
+		final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(
+				context, fromStateType, toStateType);
+		final String fromState = callbackContext.getFromStateName();
+		final String toState = callbackContext.getToStateName();
+		if (null != toState) {
+			invokeSpecificPreStateChangeCallbacks(callbackContext);
+		}
+		final StateObject<S> fromStateObject = getState(fromState);
+		fromStateObject.invokeFromPreStateChangeCallbacks(callbackContext);
+		if (null != toState) {
+			final StateObject<S> toStateObject = getState(toState);
+			toStateObject.invokeToPreStateChangeCallbacks(callbackContext);
+		}
+		invokeCommonPreStateChangeCallbacks(callbackContext);
+	}
 
 	private void requireFunctionNotNull(Object eventKey,
 			final StateObject<S> state, final FunctionMetadata functionMetadata) {
@@ -1072,9 +1111,8 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void validateEvent(LifecycleInterceptContext context) {
 		context.logStep2validateEvent();
-		final EventMetadata event = validateEvent(
-				context.getTarget(), context.getFromState(),
-				context.getEventKey());
+		final EventMetadata event = validateEvent(context.getTarget(),
+				context.getFromState(), context.getEventKey());
 		context.setEventType(event.getType());
 		context.setEventName(event.getDottedPath().getName());
 	}
@@ -1085,8 +1123,8 @@ public class StateMachineObjectBuilderImpl<S>
 				fromState);
 		if (!stateMetadata.isEventValid(eventKey)) {
 			throw new LifecycleException(getClass(), "lifecycle_common",
-					LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE,
-					eventKey, fromState, target);
+					LifecycleCommonErrors.ILLEGAL_EVENT_ON_STATE, eventKey,
+					fromState, target);
 		} else {
 			return stateMetadata.getEvent(eventKey);
 		}
@@ -1127,8 +1165,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void verifyAllEventsCoverage(Class<?> klass,
 			VerificationFailureSet failureSet) {
-		for (EventMetadata eventMetadata : getMetaType()
-				.getAllEvents()) {
+		for (EventMetadata eventMetadata : getMetaType().getAllEvents()) {
 			verifyEventBeCovered(klass, eventMetadata, failureSet);
 		}
 	}
@@ -1203,10 +1240,9 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private void verifyRelationBeCovered(Class<?> klass,
-			final RelationConstraintMetadata relation,
-			final EventMetadata event) throws VerificationException {
-		final EventMethodScanner scanner = new EventMethodScanner(
-				event);
+			final RelationConstraintMetadata relation, final EventMetadata event)
+			throws VerificationException {
+		final EventMethodScanner scanner = new EventMethodScanner(event);
 		MethodScanner.scanMethodsOnClasses(klass, scanner);
 		final Method[] eventMethods = scanner.getEventMethods();
 		NEXT_EVENT_METHOD: for (final Method method : eventMethods) {
@@ -1298,34 +1334,39 @@ public class StateMachineObjectBuilderImpl<S>
 		verifyRelationInstancesInMethodLevelUnique(klass);
 	}
 
-	private void verifyRelationInstancesInClassLevelUnique(Class<?> klass) throws VerificationException {
-        final Set<Class<?>> relations = new HashSet<Class<?>>();
-        for ( Field field : klass.getDeclaredFields() ) {
-            final Relation relation = field.getAnnotation(Relation.class);
-            checkRelationInstanceWhetherExists(klass, relations, relation);
-        }
-        for ( final Method method : klass.getDeclaredMethods() ) {
-            if ( Relation.Utils.isRelationMethod(method) ) {
-                checkRelationInstanceWhetherExists(klass, relations, method.getAnnotation(Relation.class));
-            }
-        }
-    }
+	private void verifyRelationInstancesInClassLevelUnique(Class<?> klass)
+			throws VerificationException {
+		final Set<Class<?>> relations = new HashSet<Class<?>>();
+		for (Field field : klass.getDeclaredFields()) {
+			final Relation relation = field.getAnnotation(Relation.class);
+			checkRelationInstanceWhetherExists(klass, relations, relation);
+		}
+		for (final Method method : klass.getDeclaredMethods()) {
+			if (Relation.Utils.isRelationMethod(method)) {
+				checkRelationInstanceWhetherExists(klass, relations,
+						method.getAnnotation(Relation.class));
+			}
+		}
+	}
 
-	private void verifyRelationInstancesInMethodLevelUnique(final Class<?> klass) throws VerificationException {
-        for ( final Method method : klass.getDeclaredMethods() ) {
-            if ( method.getParameterTypes().length <= 0 ) {
-                continue;
-            }
-            final Set<Class<?>> methodRelations = new HashSet<Class<?>>();
-            for ( final Annotation[] annotations : method.getParameterAnnotations() ) {
-                for ( final Annotation annotation : annotations ) {
-                    if ( annotation instanceof Relation ) {
-                        checkRelationInstanceWhetherExists(klass, methodRelations, (Relation) annotation);
-                    }
-                }
-            }
-        }
-    }
+	private void verifyRelationInstancesInMethodLevelUnique(final Class<?> klass)
+			throws VerificationException {
+		for (final Method method : klass.getDeclaredMethods()) {
+			if (method.getParameterTypes().length <= 0) {
+				continue;
+			}
+			final Set<Class<?>> methodRelations = new HashSet<Class<?>>();
+			for (final Annotation[] annotations : method
+					.getParameterAnnotations()) {
+				for (final Annotation annotation : annotations) {
+					if (annotation instanceof Relation) {
+						checkRelationInstanceWhetherExists(klass,
+								methodRelations, (Relation) annotation);
+					}
+				}
+			}
+		}
+	}
 
 	private void verifyRelations(Class<?> klass) throws VerificationException {
 		verifyRelationInstancesDefinedCorrectly(klass);
@@ -1336,8 +1377,7 @@ public class StateMachineObjectBuilderImpl<S>
 			throws VerificationException {
 		for (StateMetadata state : getMetaType().getAllStates()) {
 			for (RelationConstraintMetadata relation : state.getValidWhiles()) {
-				for (EventMetadata event : state
-						.getPossibleLeavingEvents()) {
+				for (EventMetadata event : state.getPossibleLeavingEvents()) {
 					verifyRelationBeCovered(klass, relation, event);
 				}
 			}
@@ -1527,14 +1567,14 @@ public class StateMachineObjectBuilderImpl<S>
 	private void verifyEventBeCovered(Class<?> klass,
 			final EventMetadata eventMetadata,
 			final VerificationFailureSet failureSet) {
-		CoverageVerifier coverage = new CoverageVerifier(this,
-				eventMetadata, failureSet);
+		CoverageVerifier coverage = new CoverageVerifier(this, eventMetadata,
+				failureSet);
 		MethodScanner.scanMethodsOnClasses(klass, coverage);
 		if (coverage.notCovered()) {
-			failureSet.add(newVerificationFailure(eventMetadata
-					.getDottedPath().getAbsoluteName(),
-					SyntaxErrors.LM_EVENT_NOT_CONCRETED_IN_LM,
-					eventMetadata.getDottedPath().getName(), getMetaType()
+			failureSet.add(newVerificationFailure(eventMetadata.getDottedPath()
+					.getAbsoluteName(),
+					SyntaxErrors.LM_EVENT_NOT_CONCRETED_IN_LM, eventMetadata
+							.getDottedPath().getName(), getMetaType()
 							.getDottedPath().getAbsoluteName(), klass
 							.getSimpleName()));
 		}
@@ -1548,20 +1588,19 @@ public class StateMachineObjectBuilderImpl<S>
 		}
 		EventMetadata eventMetadata = null;
 		if (Null.class == event.value()) {
-			eventMetadata = verifyEventMethodDefaultStyle(method,
-					failureSet, eventMetadata);
+			eventMetadata = verifyEventMethodDefaultStyle(method, failureSet,
+					eventMetadata);
 		} else {
-			eventMetadata = verifyEventMethodWithEventClassKey(
-					method, failureSet, event, eventMetadata);
+			eventMetadata = verifyEventMethodWithEventClassKey(method,
+					failureSet, event, eventMetadata);
 		}
 		if (null != eventMetadata) {
 			eventMetadata.verifyEventMethod(method, failureSet);
 		}
 	}
 
-	private EventMetadata verifyEventMethodDefaultStyle(
-			Method method, VerificationFailureSet failureSet,
-			EventMetadata eventMetadata) {
+	private EventMetadata verifyEventMethodDefaultStyle(Method method,
+			VerificationFailureSet failureSet, EventMetadata eventMetadata) {
 		if (!getMetaType().hasEvent(
 				StringUtil.toUppercaseFirstCharacter(method.getName()))) {
 			failureSet.add(newVerificationFailure(getMethodDottedPath(method),
@@ -1597,20 +1636,16 @@ public class StateMachineObjectBuilderImpl<S>
 		});
 	}
 
-	private EventMetadata verifyEventMethodWithEventClassKey(
-			Method method, VerificationFailureSet failureSet,
-			final Event event, EventMetadata eventMetadata) {
+	private EventMetadata verifyEventMethodWithEventClassKey(Method method,
+			VerificationFailureSet failureSet, final Event event,
+			EventMetadata eventMetadata) {
 		if (!getMetaType().hasEvent(event.value())) {
-			failureSet
-					.add(newVerificationFailure(
-							getMethodDottedPath(method),
-							SyntaxErrors.LM_EVENT_METHOD_WITH_INVALID_EVENT_REFERENCE,
-							event, method.getName(), method
-									.getDeclaringClass().getName(),
-							getMetaType().getDottedPath()));
+			failureSet.add(newVerificationFailure(getMethodDottedPath(method),
+					SyntaxErrors.LM_EVENT_METHOD_WITH_INVALID_EVENT_REFERENCE,
+					event, method.getName(), method.getDeclaringClass()
+							.getName(), getMetaType().getDottedPath()));
 		} else {
-			eventMetadata = getMetaType()
-					.getEvent(event.value());
+			eventMetadata = getMetaType().getEvent(event.value());
 		}
 		return eventMetadata;
 	}

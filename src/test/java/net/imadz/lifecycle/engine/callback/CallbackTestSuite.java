@@ -39,5 +39,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CallbackExtendedAndOverrideTests.class, PostStateChangePositiveTests.class, PreStateChangePositiveTests.class })
+@SuiteClasses({ CallbackExtendedAndOverrideTests.class, PostStateChangePositiveTests.class, PreStateChangePositiveTests.class, OnEventCallbackPositiveTests.class })
 public class CallbackTestSuite {}

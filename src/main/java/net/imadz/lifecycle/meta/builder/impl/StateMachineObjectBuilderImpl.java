@@ -49,6 +49,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -59,7 +60,7 @@ import net.imadz.lifecycle.LifecycleCommonErrors;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.LifecycleEventHandler;
 import net.imadz.lifecycle.LifecycleException;
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.StateConverter;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.LifecycleLock;
@@ -134,11 +135,13 @@ public class StateMachineObjectBuilderImpl<S>
 	private final ArrayList<CallbackObject> specificPostStateChangeCallbackObjects = new ArrayList<CallbackObject>();
 	private final ArrayList<CallbackObject> commonPreStateChangeCallbackObjects = new ArrayList<CallbackObject>();
 	private final ArrayList<CallbackObject> commonPostStateChangeCallbackObjects = new ArrayList<CallbackObject>();
+	private final ArrayList<EventCallbackObject> commonEventCallbackObjects = new ArrayList<EventCallbackObject>();
 	private StateAccessible<String> stateAccessor;
 	@SuppressWarnings("unused")
 	private RelationObject parentRelationObject;
-	private LifecycleLockStrategry lifecycleLockStrategry;
+	private LifecycleLockStrategy lifecycleLockStrategry;
 	private StateConverter<S> stateConverter;
+	private final Map<StateAccessible<String>, String> initialStates = new HashMap<StateAccessible<String>, String>();
 
 	public StateMachineObjectBuilderImpl(StateMachineMetaBuilder template,
 			String name) {
@@ -394,6 +397,9 @@ public class StateMachineObjectBuilderImpl<S>
 			stateObject.setRegistry(getRegistry());
 			stateObject.build(klass, this);
 			this.stateObjectList.add(stateObject.getMetaData());
+			if (stateMetadata.isInitial()) {
+				initialStates.put(this.stateAccessor, stateMetadata.getSimpleName());
+			}
 		}
 	}
 
@@ -484,7 +490,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void doLock(LifecycleInterceptContext context) {
 		if (isLockEnabled()) {
-			final LifecycleLockStrategry lock = getLifecycleLockStrategy();
+			final LifecycleLockStrategy lock = getLifecycleLockStrategy();
 			lock.lockWrite(context.getTarget());
 		}
 		// Lock Related object is delegated to Validate both ValidWhiles and
@@ -497,9 +503,9 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	private void doUpdateNextState(LifecycleInterceptContext context) {
-		context.logStep6_2SetupNextStateStart();
+		context.logStep6_1SetupNextStateStart();
 		transitToNextState(context.getTarget(), context.getEventKey());
-		context.logStep6_1SetupNextStateFinsihed();
+		context.logStep6_2SetupNextStateFinsihed();
 	}
 
 	private boolean evaluateConditionBeforeEvent(Object eventKey) {
@@ -631,7 +637,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void fireLifecycleEvents(StateMachineObject<?> stateMachine,
 			LifecycleInterceptContext context) {
-		context.logStep8FireLifecycleEvents();
+		context.logStep9FireLifecycleEvents();
 		final LifecycleEventHandler eventHandler = AbsStateMachineRegistry
 				.getInstance().getLifecycleEventHandler();
 		if (null != eventHandler) {
@@ -654,7 +660,7 @@ public class StateMachineObjectBuilderImpl<S>
 	}
 
 	@Override
-	public LifecycleLockStrategry getLifecycleLockStrategy() {
+	public LifecycleLockStrategy getLifecycleLockStrategy() {
 		return this.lifecycleLockStrategry;
 	}
 
@@ -889,6 +895,22 @@ public class StateMachineObjectBuilderImpl<S>
 			LifecycleInterceptContext context) {
 		context.logStep7Callback();
 		performPostStateChangeCallback(context);
+		context.logStep8Callback();
+		performOnEventCallback(context);
+	}
+
+	private void performOnEventCallback(LifecycleInterceptContext context) {
+		final S fromStateType = this.getStateRawTypeValue(context.getFromState());
+        S toStateType = null;
+        if ( null != context.getToState() ) {
+            toStateType = this.getStateRawTypeValue(context.getToState());
+        }
+        final LifecycleContext<?, S> callbackContext = new LifecycleContextImpl(context, fromStateType, toStateType);
+        final Object eventKey = context.getEventKey();
+        getEvent(eventKey).invokeEventCallbacks(callbackContext);
+        for (EventCallbackObject commonCallback : commonEventCallbackObjects) {
+        	commonCallback.doCallback(callbackContext);
+        }
 	}
 
 	private void performCallbacksBeforeStateChange(
@@ -1009,7 +1031,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private void unlockTargetReactiveObject(LifecycleInterceptContext context) {
 		if (isLockEnabled()) {
-			final LifecycleLockStrategry lockStrategry = getLifecycleLockStrategy();
+			final LifecycleLockStrategy lockStrategry = getLifecycleLockStrategy();
 			if (null != lockStrategry) {
 				lockStrategry.unlockWrite(context.getTarget());
 			}
@@ -1626,5 +1648,26 @@ public class StateMachineObjectBuilderImpl<S>
 			eventMetadata = getMetaType().getEvent(event.value());
 		}
 		return eventMetadata;
+	}
+
+	@Override
+	public Entry<StateAccessible<String>, String> getInitialState() {
+		Iterator<Entry<StateAccessible<String>, String>> iterator = this.initialStates.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<StateAccessible<String>, String> next = iterator.next();
+			return next;
+		}
+		throw new IllegalStateException("We should not be here! Check code");
+	}
+
+	
+	@Override
+	public void addCommonOnEventCallbackObject(EventCallbackObject item) {
+        this.commonEventCallbackObjects.add(item);
+	}
+
+	@Override
+	public EventObject getEvent(Object eventKey) {
+		return eventObjectList.get(eventKey);
 	}
 }

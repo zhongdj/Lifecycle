@@ -46,4 +46,6 @@ public @interface Callbacks {
     PreStateChange[] preStateChange() default {};
 
     PostStateChange[] postStateChange() default {};
+    
+    OnEvent[] onEvent() default {};
 }

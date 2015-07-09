@@ -63,9 +63,9 @@ public class LazySetterImpl<T> implements Setter<T> {
 	}
 
 	private void initSetter(Object reactiveObject) {
-		if (null == setterMethod) {
+		if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
 			synchronized (this) {
-				if (null == setterMethod) {
+				if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
 					setterMethod = findSetter(reactiveObject);
 				}
 			}

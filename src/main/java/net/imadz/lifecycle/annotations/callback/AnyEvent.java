@@ -32,21 +32,9 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-package net.imadz.lifecycle.meta.object;
+package net.imadz.lifecycle.annotations.callback;
 
-import java.lang.reflect.Method;
+public final class AnyEvent {
 
-import net.imadz.lifecycle.LifecycleContext;
-import net.imadz.lifecycle.meta.MetaObject;
-import net.imadz.lifecycle.meta.MultiKeyed;
-import net.imadz.lifecycle.meta.builder.impl.EventCallbackObject;
-import net.imadz.lifecycle.meta.type.EventMetadata;
-
-public interface EventObject extends MetaObject<EventObject, EventMetadata>, MultiKeyed {
-
-    Method getEventMethod();
-
-	void addSpecificOnEventCallbackObject(EventCallbackObject item);
-	
-	void invokeEventCallbacks(final LifecycleContext<?, ?> callbackContext);
+	private AnyEvent() {}
 }

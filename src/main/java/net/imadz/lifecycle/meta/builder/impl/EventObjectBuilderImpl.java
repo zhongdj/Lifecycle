@@ -35,11 +35,14 @@
 package net.imadz.lifecycle.meta.builder.impl;
 
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 
-import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
+import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.meta.builder.EventObjectBuilder;
-import net.imadz.lifecycle.meta.object.StateMachineObject;
+import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
 import net.imadz.lifecycle.meta.object.EventObject;
+import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
@@ -48,6 +51,7 @@ public class EventObjectBuilderImpl extends ObjectBuilderBase<EventObject, State
         EventObjectBuilder {
 
     private Method eventMethod;
+    private final List<EventCallbackObject> eventCallbacks = new LinkedList<EventCallbackObject>();
 
     public EventObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method eventMethod, EventMetadata template) {
         super(parent, "EventSet." + template.getDottedPath().getName() + "." + eventMethod.getName());
@@ -70,4 +74,16 @@ public class EventObjectBuilderImpl extends ObjectBuilderBase<EventObject, State
     public void verifyMetaData(VerificationFailureSet verificationSet) {
         // TODO Auto-generated method stub
     }
+
+	@Override
+	public void addSpecificOnEventCallbackObject(EventCallbackObject item) {
+		this.eventCallbacks.add(item);
+	}
+
+	@Override
+	public void invokeEventCallbacks(LifecycleContext<?, ?> callbackContext) {
+		for (final EventCallbackObject callback : eventCallbacks) {
+			callback.doCallback(callbackContext);
+		}
+	}
 }

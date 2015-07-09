@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Logger;
 
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.annotations.CompositeState;
 import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.Transitions;
@@ -138,7 +138,7 @@ public class LifecycleLockTestMetadata extends EngineTestBase {
             counter.incrementAndGet();
         }
     }
-    public static class SimpleLock implements LifecycleLockStrategry {
+    public static class SimpleLock implements LifecycleLockStrategy {
 
         private static Logger logger = Logger.getLogger("Lifecycle Framework");
         private static volatile int depth = 0;

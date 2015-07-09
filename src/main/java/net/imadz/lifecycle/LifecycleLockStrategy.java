@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle;
 
-public interface LifecycleLockStrategry {
+public interface LifecycleLockStrategy {
 
     void lockRead(Object reactiveObject);
 

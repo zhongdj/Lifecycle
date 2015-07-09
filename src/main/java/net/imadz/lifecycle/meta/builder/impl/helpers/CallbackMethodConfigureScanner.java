@@ -43,19 +43,26 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 
 import net.imadz.lifecycle.SyntaxErrors;
+import net.imadz.lifecycle.annotations.LifecycleMeta;
+import net.imadz.lifecycle.annotations.callback.AnyEvent;
 import net.imadz.lifecycle.annotations.callback.AnyState;
 import net.imadz.lifecycle.annotations.callback.CallbackConsts;
 import net.imadz.lifecycle.annotations.callback.Callbacks;
+import net.imadz.lifecycle.annotations.callback.OnEvent;
 import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.callback.PreStateChange;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.meta.builder.impl.CallbackObject;
+import net.imadz.lifecycle.meta.builder.impl.EventCallbackObject;
 import net.imadz.lifecycle.meta.builder.impl.RelationalCallbackObject;
+import net.imadz.lifecycle.meta.builder.impl.RelationalEventCallbackObject;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
 import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.FieldEvaluator;
+import net.imadz.util.MethodScanCallback;
+import net.imadz.util.MethodScanner;
 import net.imadz.util.PropertyEvaluator;
 import net.imadz.util.Readable;
 import net.imadz.util.StringUtil;
@@ -76,15 +83,33 @@ public final class CallbackMethodConfigureScanner {
 	}
 
 	public void scanMethod() throws VerificationException {
-		if (klass.isInterface())
+		if (klass.isInterface()
+				&& null == klass.getAnnotation(LifecycleMeta.class))
 			return;
-		int inheritanceLevel = 0; // set current level default to 0, minus 1 to
-									// super class
-		for (Class<?> clazz = klass; clazz != null && clazz != Object.class; clazz = clazz
-				.getSuperclass()) {
-			inheritanceLevel -= 1;
-			for (Method method : clazz.getDeclaredMethods()) {
-				onMethodFound(method, inheritanceLevel);
+		if (klass.isInterface()) {
+			MethodScanner.scanMethodsOnClasses(klass, new MethodScanCallback() {
+				
+				@Override
+				public boolean onMethodFound(Method method) {
+					
+					try {
+						//FIXME: Set inheritance level for methods in interfaces 
+						return CallbackMethodConfigureScanner.this.onMethodFound(method, 0); 
+					} catch (VerificationException e) {
+					    return false;
+					}
+				}
+				
+			});
+		} else {
+			int inheritanceLevel = 0; // set current level default to 0, minus 1 to
+			// super class
+			for (Class<?> clazz = klass; clazz != null && clazz != Object.class; clazz = clazz
+					.getSuperclass()) {
+				inheritanceLevel -= 1;
+				for (Method method : clazz.getDeclaredMethods()) {
+					onMethodFound(method, inheritanceLevel);
+				}
 			}
 		}
 	}
@@ -101,6 +126,8 @@ public final class CallbackMethodConfigureScanner {
 		configurePreStateChange(mw, method.getAnnotation(PreStateChange.class));
 		configurePostStateChange(mw,
 				method.getAnnotation(PostStateChange.class));
+		configureOnEvent(method,
+				method.getAnnotation(OnEvent.class));
 		if (stateMachineObjectBuilderImpl
 				.hasLifecycleOverrideAnnotation(method)) {
 			lifecycleOverridenCallbackDefinitionSet.add(method.getName());
@@ -117,6 +144,9 @@ public final class CallbackMethodConfigureScanner {
 		}
 		for (final PostStateChange item : callbacks.postStateChange()) {
 			configurePostStateChange(methodWrapper, item);
+		}
+		for (final OnEvent item : callbacks.onEvent()) {
+			configureOnEvent(methodWrapper.getMethod(), item);
 		}
 	}
 
@@ -244,6 +274,102 @@ public final class CallbackMethodConfigureScanner {
 			configurePostStateChangeNonRelationalCallbackObjects(methodWrapper,
 					from, to);
 		}
+	}
+
+
+	private void configureOnEvent(final Method method, final OnEvent onEvent)  throws VerificationException {
+		if (null == onEvent)
+			return;
+		final Class<?> eventClass = onEvent.value();
+		final String observableName = onEvent.observableName();
+		final String mappedBy = onEvent.mappedBy();
+		final Class<?> observableClass = onEvent.observableClass();
+		if (isRelationalCallback(observableName, observableClass)) {
+			final Class<?> actualObservableClass = evaluateActualObservableClassOfOnEvent(
+					method, observableName, observableClass);
+			validateMappedby(method, mappedBy, actualObservableClass,
+					SyntaxErrors.ON_EVENT_MAPPEDBY_INVALID);
+			final StateMachineObject<?> callBackEventSourceContainer = this.stateMachineObjectBuilderImpl
+					.getRegistry()
+					.loadStateMachineObject(actualObservableClass);
+			if (AnyEvent.class != eventClass) {
+				verifyEvent(method, eventClass,
+						callBackEventSourceContainer.getMetaType(),
+						SyntaxErrors.ON_EVENT_EVENT_IS_INVALID);
+			}
+			final Readable<?> accessor = evaluateAccessor(mappedBy,
+					actualObservableClass);
+			configureOnEventRelationalCallbackObjects(method, eventClass, callBackEventSourceContainer, accessor);
+		} else {
+			configureOnEventNonRelationalCallbackObjects(method, eventClass);
+		}
+	}
+
+	
+	private void configureOnEventNonRelationalCallbackObjects(Method method,
+			Class<?> eventClass) {
+		final EventCallbackObject item = new EventCallbackObject(eventClass, method);
+		if (AnyEvent.class != eventClass) {
+			this.stateMachineObjectBuilderImpl.getEvent(eventClass).addSpecificOnEventCallbackObject(item);
+		} else {
+			this.stateMachineObjectBuilderImpl.addCommonOnEventCallbackObject(item);
+		}
+	}
+
+	private void configureOnEventRelationalCallbackObjects(Method method,
+			Class<?> eventClass,
+			StateMachineObject<?> callBackEventSourceContainer,
+			Readable<?> accessor) {
+		final RelationalEventCallbackObject item = new RelationalEventCallbackObject(eventClass, accessor, method);
+		if (AnyEvent.class != eventClass) {
+			callBackEventSourceContainer.getEvent(eventClass).addSpecificOnEventCallbackObject(item);
+		} else {
+			callBackEventSourceContainer.addCommonOnEventCallbackObject(item);
+		}
+	}
+
+	private void verifyEvent(Method method, Class<?> eventClass,
+			StateMachineMetadata metaType, String onEventEventIsInvalid) throws VerificationException {
+		if (null == metaType.getEvent(eventClass)) {
+			throw this.stateMachineObjectBuilderImpl.newVerificationException(
+					metaType.getDottedPath(),
+					SyntaxErrors.ON_EVENT_EVENT_IS_INVALID, eventClass,
+					method, metaType.getPrimaryKey());
+		}
+	}
+
+	private Class<?> evaluateActualObservableClassOfOnEvent(Method method,
+			String observableName, Class<?> observableClass)  throws VerificationException {
+		Class<?> actualObservableClass = null;
+		if (!CallbackConsts.NULL_STR.equals(observableName)
+				&& Null.class != observableClass) {
+			verifyObservableClass(method, observableClass,
+					SyntaxErrors.ON_EVENT_OBSERVABLE_CLASS_INVALID);
+			final Class<?> observableClassViaObservaleName = verifyObservableName(
+					method, observableName,
+					SyntaxErrors.ON_EVENT_RELATION_INVALID);
+			if (!observableClass
+					.isAssignableFrom(observableClassViaObservaleName)) {
+				throw this.stateMachineObjectBuilderImpl
+						.newVerificationException(
+								this.stateMachineObjectBuilderImpl
+										.getDottedPath(),
+								SyntaxErrors.ON_EVENT_OBSERVABLE_NAME_MISMATCH_OBSERVABLE_CLASS,
+								observableName, observableClass, method);
+			}
+			actualObservableClass = observableClass;
+		} else if (CallbackConsts.NULL_STR.equals(observableName)
+				&& Null.class != observableClass) {
+			verifyObservableClass(method, observableClass,
+					SyntaxErrors.ON_EVENT_OBSERVABLE_CLASS_INVALID);
+			actualObservableClass = observableClass;
+		} else if (!CallbackConsts.NULL_STR.equals(observableName)
+				&& Null.class == observableClass) {
+			actualObservableClass = verifyObservableName(method,
+					observableName,
+					SyntaxErrors.ON_EVENT_RELATION_INVALID);
+		}
+		return actualObservableClass;
 	}
 
 	private void validateMappedby(final Method method, final String mappedBy,
@@ -691,7 +817,8 @@ public final class CallbackMethodConfigureScanner {
 	private boolean isCallbackMethod(Method method) {
 		if (hasAnnotation(method, Callbacks.class)
 				|| hasAnnotation(method, PreStateChange.class)
-				|| hasAnnotation(method, PostStateChange.class)) {
+				|| hasAnnotation(method, PostStateChange.class)
+				|| hasAnnotation(method, OnEvent.class)) {
 			return true;
 		}
 		return false;

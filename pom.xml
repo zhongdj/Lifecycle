@@ -10,7 +10,7 @@
 	<groupId>net.imadz</groupId>
 	<artifactId>Lifecycle</artifactId>
 	<packaging>jar</packaging>
-	<version>0.9.7-SNAPSHOT</version>
+	<version>0.9.8-SNAPSHOT</version>
 	<name>Lifecycle</name>
 
 	<description>
@@ -45,6 +45,11 @@
 			<name>Tracy Lu</name>
 			<email>hailinglu@gmail.com</email>
 		</developer>
+                <developer>
+                        <id>zjrstar</id>
+                        <name>Jerry Zhang</name>
+                        <email>zjrstar@gmail.com</email>
+                </developer>
 	</developers>
 	<dependencies>
 		<dependency>

@@ -363,4 +363,33 @@ public interface SyntaxErrors {
      * @param {2} Method class
      */
     public static final String PRE_STATE_CHANGE_OBSERVABLE_NAME_MISMATCH_OBSERVABLE_CLASS = "002-3712";
+    /**
+     * @param {0} mappedby
+     * @param {1} Method class
+     * @param {2} Observerable Class
+     */
+    public static final String ON_EVENT_MAPPEDBY_INVALID = "002-3713";
+    /**
+     * @param {0} Event class
+     * @param {1} Method
+     * @param {2} StateMachine PrimaryKey
+     */
+	public static final String ON_EVENT_EVENT_IS_INVALID = "002-3714";
+	/**
+     * @param {0} observable class
+     * @param {1} Method class
+     */
+	public static final String ON_EVENT_OBSERVABLE_CLASS_INVALID = "002-3715";
+	/**
+     * @param {0} relation
+     * @param {1} Method class
+     * @param {2} State Machine object class
+     */
+	public static final String ON_EVENT_RELATION_INVALID = "002-3716";
+	/**
+     * @param {0} observable name
+     * @param {1} observable class
+     * @param {2} Method class
+     */
+	public static final String ON_EVENT_OBSERVABLE_NAME_MISMATCH_OBSERVABLE_CLASS = "002-3717";
 }

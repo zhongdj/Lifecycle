@@ -34,15 +34,19 @@
  */
 package net.imadz.lifecycle.meta.object;
 
+import java.util.Map.Entry;
+
 import net.imadz.bcel.intercept.UnlockableStack;
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.builder.impl.CallbackObject;
+import net.imadz.lifecycle.meta.builder.impl.EventCallbackObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
+import net.imadz.util.StateAccessible;
 
 public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>, StateMachineMetadata>, LifecycleEngine<S> {
 
-    LifecycleLockStrategry getLifecycleLockStrategy();
+    LifecycleLockStrategy getLifecycleLockStrategy();
 
     String evaluateState(Object target);
 
@@ -51,6 +55,8 @@ public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>,
     boolean isLockEnabled();
 
     StateObject<S> getState(Object stateKey);
+    
+    EventObject getEvent(Object eventKey);
 
     void addSpecificPreStateChangeCallbackObject(CallbackObject item);
 
@@ -59,4 +65,11 @@ public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>,
     void addSpecificPostStateChangeCallbackObject(CallbackObject item);
 
     void addCommonPostStateChangeCallbackObject(CallbackObject item);
+    
+    /**
+     *  returns (state indicator name, initial state simple name)
+     */
+     Entry<StateAccessible<String>, String>  getInitialState();
+
+	void addCommonOnEventCallbackObject(EventCallbackObject item);
 }

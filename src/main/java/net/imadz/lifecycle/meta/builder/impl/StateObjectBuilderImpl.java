@@ -46,7 +46,7 @@ import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleCommonErrors;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.LifecycleException;
-import net.imadz.lifecycle.LifecycleLockStrategry;
+import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.ReactiveObject;
 import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
@@ -128,7 +128,7 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( !relatedStateMachineObject.isLockEnabled() ) {
             return;
         }
-        final LifecycleLockStrategry lifecycleLockStrategy = relatedStateMachineObject.getLifecycleLockStrategy();
+        final LifecycleLockStrategy lifecycleLockStrategy = relatedStateMachineObject.getLifecycleLockStrategy();
         lifecycleLockStrategy.lockRead(relatedTarget);
         stack.pushUnlockable(new Unlockable() {
 

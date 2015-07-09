@@ -2,4 +2,8 @@
 .settings*
 .classpath
 .project
-target*
+.idea
+target/
+.idea/
+.idea/uiDesigner.xml
+*.iml

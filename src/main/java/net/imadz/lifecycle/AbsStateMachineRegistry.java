@@ -411,9 +411,9 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 						.getInitialState();
 				StateAccessible<String> stateAccessible = initialState.getKey();
 				String state = initialState.getValue();
-				if (stateAccessible.read(target) == null) {
-					stateAccessible.write(target, state);
-				}
+				//if (stateAccessible.read(target) == null) {
+				stateAccessible.write(target, state);
+				//}
 			} catch (VerificationException e) {
 				// Ignore for the moment
 			}

@@ -425,7 +425,7 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 			throw new IllegalArgumentException(
 					"targetClass should not be null.");
 		List<Class<?>> result = new LinkedList<Class<?>>();
-
+        result.add(targetClass);
 		final Class<?>[] fatherInterfaces = targetClass.getInterfaces();
 		for (Class<?> fif : fatherInterfaces) {
 			result.add(fif);

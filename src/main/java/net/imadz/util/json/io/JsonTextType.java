@@ -37,7 +37,7 @@ package net.imadz.util.json.io;
 /**
  * JsonText definition, per grammar.
  * 
- * @see http://tools.ietf.org/html/rfc4627
+ * see http://tools.ietf.org/html/rfc4627
  */
 public enum JsonTextType {
     /** JSON array text */

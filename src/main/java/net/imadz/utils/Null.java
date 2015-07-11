@@ -35,10 +35,10 @@
 package net.imadz.utils;
 
 /**
- * Default Value for annotation value. <br/>
- * such as:<br/>
+ * Default Value for annotation value.
+ * such as:
  * public @interface CertainAnnotation {
- * Class<?> value() default Null.class
+ * Class value() default Null.class
  * }
  * 
  * @author Barry

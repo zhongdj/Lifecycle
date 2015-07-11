@@ -82,13 +82,13 @@ public class VerificationFailureSet implements Iterable<VerificationFailure>, Du
     /**
      * Add a verification failure to this set
      * 
-     * @param metaData
+     * argument metaData
      *            Schema, entity, field, or action with error
-     * @param errorKey
+     * argument errorKey
      *            error message key
-     * @param defaultErrorMessage
+     * argument defaultErrorMessage
      *            Message to display if message key is not found
-     * @param details
+     * argument details
      *            Message error parameters
      */
     public VerificationFailureSet add(Object source, String errorKey, String defaultErrorMessage, Object... details) {
@@ -99,13 +99,13 @@ public class VerificationFailureSet implements Iterable<VerificationFailure>, Du
     /**
      * Add a verification failure to this set
      * 
-     * @param metaData
+     * argument metaData
      *            Schema, entity, field, or action with error
-     * @param errorKey
+     * argument errorKey
      *            error message key
-     * @param defaultErrorMessage
+     * argument defaultErrorMessage
      *            Message to display if message key is not found
-     * @param details
+     * argument details
      *            Message error parameters
      */
     public VerificationFailureSet add(Throwable e, Object source, String errorKey, String defaultErrorMessage, Object... details) {
@@ -116,7 +116,7 @@ public class VerificationFailureSet implements Iterable<VerificationFailure>, Du
     /**
      * Add verification failure to this set
      * 
-     * @param failure
+     * argument failure
      *            VerificationFailure to add
      * @return this set
      */

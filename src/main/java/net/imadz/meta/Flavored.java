@@ -47,10 +47,10 @@ public interface Flavored {
      * types such as WebSerice support and Hibernate access.
      * </p>
      * 
-     * @param handlerInterface
+     * argument handlerInterface
      *            Java class or Interface that provides the functionality of the
      *            handler
-     * @param assertExists
+     * argument assertExists
      *            throws a FlavorNotSupportedException if the flavor does not
      *            exist
      * @return Handler if one of the specified type is registered, null
@@ -62,7 +62,7 @@ public interface Flavored {
     /**
      * Checks if the specified flavor is supported.
      * 
-     * @param flavorInterface
+     * argument flavorInterface
      *            Flavor to check for
      * @return true if it is supported, false otherwise
      */

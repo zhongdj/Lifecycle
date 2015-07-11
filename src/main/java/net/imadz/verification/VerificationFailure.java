@@ -74,14 +74,14 @@ public class VerificationFailure implements Dumpable, Cloneable {
     /**
      * Constructor
      * 
-     * @param metaData
+     * argument metaData
      *            Meta definition of item with an error
-     * @param errorKey
+     * argument errorKey
      *            Key for the error message, will have fully-qualified meta name
      *            prepended to it
-     * @param defaultErrorMessage
+     * argument defaultErrorMessage
      *            Error message to display if the error resource is not defined
-     * @param details
+     * argument details
      *            Error parameters
      */
     public VerificationFailure(Throwable cause, Object source, String errorKey, String defaultErrorMessage, Object... details) {
@@ -100,14 +100,14 @@ public class VerificationFailure implements Dumpable, Cloneable {
     /**
      * Constructor
      * 
-     * @param metaData
+     * argument metaData
      *            Meta definition of item with an error
-     * @param errorKey
+     * argument errorKey
      *            Key for the error message, will have fully-qualified meta name
      *            prepended to it
-     * @param defaultErrorMessage
+     * argument defaultErrorMessage
      *            Error message to display if the error resource is not defined
-     * @param details
+     * argument details
      *            Error parameters
      */
     public VerificationFailure(Object source, String errorKey, String defaultErrorMessage, Object... details) {

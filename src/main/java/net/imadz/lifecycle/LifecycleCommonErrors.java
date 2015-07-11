@@ -37,45 +37,45 @@ package net.imadz.lifecycle;
 public class LifecycleCommonErrors {
 
     /**
-     * @param {0} event simple name or eventKey Class,
+     * message argument {0} event simple name or eventKey Class,
      *        When @Event(value=T.class) then eventKeyClass will be
      *        the value other than simple Name
-     * @param {1} state name
-     * @param {2} target object
+     * message argument {1} state name
+     * message argument {2} target object
      */
     public static final String ILLEGAL_EVENT_ON_STATE = "002-9000";
     /**
-     * @param {0} target object
-     * @param {1} target object's state
-     * @param {2} relation object
-     * @param {3} relation state
-     * @param {4} relation definition
+     * message argument {0} target object
+     * message argument {1} target object's state
+     * message argument {2} relation object
+     * message argument {3} relation state
+     * message argument {4} relation definition
      */
     public static final String STATE_INVALID = "002-9001";
     /**
-     * @param {0} event
-     * @param {1} target object next state
-     * @param {2} target object
-     * @param {3} relation object
-     * @param {4} relation object's state
-     * @param {5} inbound constraint definition
+     * message argument {0} event
+     * message argument {1} target object next state
+     * message argument {2} target object
+     * message argument {3} relation object
+     * message argument {4} relation object's state
+     * message argument {5} inbound constraint definition
      */
     public static final String VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT = "002-9002";
     public static final String BUNDLE = "lifecycle_common";
     /**
-     * @param {0} Method object
+     * message argument {0} Method object
      */
     public static final String CALLBACK_EXCEPTION_OCCOURRED = "002-9003";
     /**
-     * @param {0} Relation class
-     * @param {1} @nullable value
-     * @param {2} State class
+     * message argument {0} Relation class
+     * message argument {1} @nullable value
+     * message argument {2} State class
      */
     public static final String VALID_WHILE_RELATION_TARGET_IS_NULL = "002-9004";
     /**
-     * @param {0} Relation class
-     * @param {1} @nullable value
-     * @param {2} State class
+     * message argument {0} Relation class
+     * message argument {1} @nullable value
+     * message argument {2} State class
      */
     public static final String INBOUND_WHILE_RELATION_TARGET_IS_NULL = "002-9005";
 

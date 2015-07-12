@@ -22,6 +22,10 @@ https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
 
 Release Notes
 
+0.9.10
+[ BUG FIX ] Cannot initialize single lifecycle reactive object
+[ BUG FIX ] NPE while initializing converter based multiple lifecycle reactive object
+
 0.9.8
 a. add priority property into @PostStateChange for specifying callback ordering
 b. add API to set reactive object's intial states, such as: DefaultStateMachineRegistry.getInstance().setInitialState(reactiveObject);

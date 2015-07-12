@@ -10,7 +10,7 @@
   <groupId>net.imadz</groupId>
   <artifactId>Lifecycle</artifactId>
   <name>Lifecycle</name>
-  <version>0.9.9-SNAPSHOT</version>
+  <version>0.9.10-SNAPSHOT</version>
   <description>Lifecycle AOP Framework. Enabling describe enhanced State Diagram with Java language,
         and processing relational Lifecycle constraints(including: state validations, transitions validations),
         concurrency, lifecycle callbacks, lifecycle events implicitely with Lifecycle Engine.

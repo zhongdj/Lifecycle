@@ -71,6 +71,7 @@ public class MethodScanner {
 
     private static boolean processDeclaredMethods(final MethodScanCallback scanner, Class<?> klass) {
         for ( Method method : klass.getDeclaredMethods() ) {
+            if (method.isBridge()) continue;
             if ( scanner.onMethodFound(method) ) {
                 return true;
             }

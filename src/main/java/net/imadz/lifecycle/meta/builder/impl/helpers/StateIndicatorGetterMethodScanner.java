@@ -60,6 +60,7 @@ public final class StateIndicatorGetterMethodScanner implements MethodScanCallba
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         if ( null == stateGetterMethod && null != method.getAnnotation(StateIndicator.class) ) {
             stateGetterMethod = method;
             overridingFound = null != method.getAnnotation(LifecycleOverride.class);

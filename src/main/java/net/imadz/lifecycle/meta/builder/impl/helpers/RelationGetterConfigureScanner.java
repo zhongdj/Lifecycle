@@ -70,6 +70,7 @@ public final class RelationGetterConfigureScanner implements MethodScanCallback 
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         if ( null == method.getAnnotation(Relation.class) ) {
             return false;
         }

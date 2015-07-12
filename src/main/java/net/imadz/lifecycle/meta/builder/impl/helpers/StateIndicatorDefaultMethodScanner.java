@@ -45,6 +45,7 @@ public final class StateIndicatorDefaultMethodScanner implements MethodScanCallb
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         if ( "getState".equals(method.getName()) ) {
             if ( String.class.equals(method.getReturnType()) && null == defaultStateGetterMethod ) {
                 defaultStateGetterMethod = method;

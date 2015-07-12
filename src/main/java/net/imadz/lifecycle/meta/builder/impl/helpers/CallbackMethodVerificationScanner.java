@@ -64,6 +64,7 @@ public final class CallbackMethodVerificationScanner implements MethodScanCallba
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         verifyPreStateChange(method, failureSet, method.getAnnotation(PreStateChange.class));
         verifyPostStateChange(method, failureSet, method.getAnnotation(PostStateChange.class));
         verifyOnEvent(method, failureSet, method.getAnnotation(OnEvent.class));

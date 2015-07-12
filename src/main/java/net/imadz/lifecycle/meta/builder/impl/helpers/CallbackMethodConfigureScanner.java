@@ -91,7 +91,7 @@ public final class CallbackMethodConfigureScanner {
 				
 				@Override
 				public boolean onMethodFound(Method method) {
-					
+					if (method.isBridge()) return false;
 					try {
 						//FIXME: Set inheritance level for methods in interfaces 
 						return CallbackMethodConfigureScanner.this.onMethodFound(method, 0); 

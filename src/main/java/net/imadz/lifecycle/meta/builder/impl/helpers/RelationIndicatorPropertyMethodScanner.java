@@ -55,6 +55,7 @@ public final class RelationIndicatorPropertyMethodScanner implements MethodScanC
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         Relation relation = method.getAnnotation(Relation.class);
         if ( null == relation ) {
             return false;

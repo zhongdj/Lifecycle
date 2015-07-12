@@ -67,6 +67,7 @@ public final class CoverageVerifier implements MethodScanCallback {
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         if ( !match(eventMetadata, method) ) {
             return false;
         }

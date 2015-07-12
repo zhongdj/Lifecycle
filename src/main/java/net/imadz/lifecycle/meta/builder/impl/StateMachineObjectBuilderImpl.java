@@ -228,6 +228,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 			@Override
 			public boolean onMethodFound(Method method) {
+				if (method.isBridge()) return false;
 				final Condition conditionMeta = method
 						.getAnnotation(Condition.class);
 				if (null == conditionMeta) {
@@ -425,6 +426,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 			@Override
 			public boolean onMethodFound(Method method) {
+				if (method.isBridge()) return false;
 				final Event eventAnno = method.getAnnotation(Event.class);
 				if (null == eventAnno) {
 					return false;
@@ -1630,6 +1632,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 			@Override
 			public boolean onMethodFound(Method method) {
+				if (method.isBridge()) return false;
 				verifyEventMethod(method, failureSet);
 				return false;
 			}

@@ -97,7 +97,7 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
     }
 
     @Test(expected = VerificationException.class)
-    @Ignore
+//    @Ignore
     public void should_throw_exception_002_2804_if_composite_state_extends_owning_stateMachine() throws VerificationException {
         @LifecycleRegistry(CompositeExtendsOwningStateMachine.class)
         @StateMachineBuilder
@@ -108,8 +108,8 @@ public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
         try {
             new Registry();
         } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.COMPOSITE_STATEMACHINE_CANNOT_EXTENDS_OWNING_STATEMACHINE,
-                    CompositeExtendsOwningStateMachine.States.PCS1_B.class);
+            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_SUPER_CLASS_IS_NOT_STATE_META_CLASS,
+                    CompositeExtendsOwningStateMachine.States.PCS1_B.class, CompositeExtendsOwningStateMachine.class);
             throw e;
         }
     }

@@ -51,7 +51,10 @@ public @interface Relation {
     public static class Utils {
 
         public static boolean isRelationMethod(Method method) {
-            return method.getName().startsWith("get") && method.getTypeParameters().length <= 0 && null != method.getAnnotation(Relation.class);
+            return method.getName().startsWith("get")
+                    && method.getTypeParameters().length <= 0
+                    && null != method.getAnnotation(Relation.class)
+                    && !method.isBridge();
         }
     }
 }

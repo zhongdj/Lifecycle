@@ -54,6 +54,7 @@ public final class EventMethodScanner implements MethodScanCallback {
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         final Event eventAnno = method.getAnnotation(Event.class);
         if ( null == eventAnno ) {
             return false;

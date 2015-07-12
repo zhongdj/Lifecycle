@@ -62,6 +62,7 @@ public final class ConditionProviderMethodScanner implements MethodScanCallback 
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         final Condition condition = method.getAnnotation(Condition.class);
         if ( null != condition ) {
             if ( template.hasCondition(condition.value()) ) {

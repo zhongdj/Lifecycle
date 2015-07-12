@@ -51,6 +51,7 @@ public final class ScannerForVerifyConditionCoverage implements MethodScanCallba
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         final Condition condition = method.getAnnotation(Condition.class);
         if ( null != condition ) {
             if ( conditionMetadata.getKeySet().contains(condition.value()) ) {

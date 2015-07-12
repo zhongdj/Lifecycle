@@ -52,6 +52,7 @@ public final class MethodSignatureScanner implements MethodScanCallback {
 
     @Override
     public boolean onMethodFound(Method method) {
+        if (method.isBridge()) return false;
         if ( null == targetMethod && targetMethodName.equals(method.getName()) && Arrays.equals(method.getParameterTypes(), parameterTypes) ) {
             targetMethod = method;
             return true;

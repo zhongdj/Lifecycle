@@ -25,6 +25,8 @@ Release Notes
 0.9.10
 [ BUG FIX ] Cannot initialize single lifecycle reactive object
 [ BUG FIX ] NPE while initializing converter based multiple lifecycle reactive object
+[ JDK8 ] Build Based on JDK8
+[ Dedicate BCEL ] Separate BCEl project as a dedicated artifact which is based on JDK7-
 
 0.9.8
 a. add priority property into @PostStateChange for specifying callback ordering

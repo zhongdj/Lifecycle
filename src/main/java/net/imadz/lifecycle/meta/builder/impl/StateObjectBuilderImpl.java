@@ -117,6 +117,9 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
         if ( null != relatedTarget.getClass().getAnnotation(ReactiveObject.class) ) {
             final RelationConstraintMetadata relationConstraintMetadata = relationMetadataArray[0];
             relatedKey = findRelationKey(relatedTarget, relationConstraintMetadata);
+        } else if (relatedTarget.getClass() == java.lang.reflect.Proxy.class) {
+            final RelationConstraintMetadata relationConstraintMetadata = relationMetadataArray[0];
+            relatedKey = findRelationClass((Class<?>)relationConstraintMetadata.getRelatedStateMachine().getPrimaryKey(), relatedTarget.getClass().getInterfaces());
         } else {
             relatedKey = relatedTarget.getClass();
         }

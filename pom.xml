@@ -77,8 +77,30 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -138,48 +160,6 @@
                     <includePom>true</includePom>
                 </configuration>
             </plugin>
-<!--
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8</version>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>package-jars</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                            <goal>test-jar</goal>
-                        </goals>
-                        <configuration>
-                            <includePom>true</includePom>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <debug>true</debug>
-                    <minmemory>128m</minmemory>
-                    <maxmemory>1024m</maxmemory>
-                    <quiet>true</quiet>
-                    <doctitle>${project.name} ${project.version}</doctitle>
-                    <windowtitle>${project.name} ${project.version}</windowtitle>
-                    <testDoctitle>${project.name} ${project.version} (TEST API)</testDoctitle>
-                    <testWindowtitle>${project.name} ${project.version} (TEST API)</testWindowtitle>
-                    <splitindex>true</splitindex>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <links>
-                        <link>http://java.sun.com/j2se/1.6.0/docs/api</link>
-                    </links>
-                    <linksource>true</linksource>
-                    <detectOfflineLinks>false</detectOfflineLinks>
-                </configuration>
-            </plugin>
-            -->
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.5.1</version> <executions> <execution> <id>copy-dependencies</id>
-                <phase>package</phase> <goals> <goal>copy-dependencies</goal> </goals> <configuration>
-                <includeScope>compile</includeScope> <outputDirectory> ${project.build.directory}/dependency-jars/
-                </outputDirectory> </configuration> </execution> </executions> </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -227,23 +207,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <!-- <pluginManagement> <plugins> Ignore/Execute plugin execution <plugin>
-            <groupId>org.eclipse.m2e</groupId> <artifactId>lifecycle-mapping</artifactId>
-            <version>1.0.0</version> <configuration> <lifecycleMappingMetadata> <pluginExecutions>
-            <pluginExecution> <pluginExecutionFilter> <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId> <versionRange>[1.0.0,)</versionRange>
-            <goals> <goal>copy-dependencies</goal> </goals> </pluginExecutionFilter>
-            <action> <ignore /> </action> </pluginExecution> </pluginExecutions> </lifecycleMappingMetadata>
-            </configuration> </plugin> </plugins> </pluginManagement> -->
     </build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+
 </project>

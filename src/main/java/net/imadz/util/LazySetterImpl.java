@@ -74,7 +74,7 @@ public class LazySetterImpl<T> implements Setter<T> {
 
 	private Method findSetter(Object reactiveObject) {
         final String setterName = "set" + getter.getName().substring(3);
-        for ( Class<?> rawClass = reactiveObject.getClass(); rawClass != Object.class; rawClass = rawClass.getSuperclass() ) {
+        for ( Class<?> rawClass = reactiveObject.getClass(); null != rawClass && rawClass != Object.class; rawClass = rawClass.getSuperclass() ) {
             try {
                 return rawClass.getDeclaredMethod(setterName, getter.getReturnType());
             } catch (NoSuchMethodException e) {

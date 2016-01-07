@@ -320,7 +320,7 @@ public class StateMachineObjectBuilderImpl<S>
 		if (null == klass || klass.isInterface() || Object.class == klass) {
 			return;
 		}
-		for (Class<?> clazz = klass; clazz != Object.class; clazz = clazz
+		for (Class<?> clazz = klass; null != clazz && clazz != Object.class; clazz = clazz
 				.getSuperclass()) {
 			for (Field field : clazz.getDeclaredFields()) {
 				if (null == field.getAnnotation(Relation.class)) {
@@ -611,7 +611,7 @@ public class StateMachineObjectBuilderImpl<S>
 			Class<? extends Annotation> aClass) throws VerificationException {
 		if (klass.isInterface())
 			return null;
-		for (Class<?> index = klass; index != Object.class; index = index
+		for (Class<?> index = klass; null != index && index != Object.class; index = index
 				.getSuperclass()) {
 			for (Field field : index.getDeclaredFields()) {
 				if (null != field.getAnnotation(aClass)) {
@@ -1016,7 +1016,7 @@ public class StateMachineObjectBuilderImpl<S>
 
 	private boolean scanFieldsRelation(Class<?> klass,
 			final RelationConstraintMetadata relation) {
-		for (Class<?> c = klass; Object.class != c; c = c.getSuperclass()) {
+		for (Class<?> c = klass; null != c && Object.class != c; c = c.getSuperclass()) {
 			for (Field field : c.getDeclaredFields()) {
 				if (hasRelationOnField(relation, field))
 					return true;

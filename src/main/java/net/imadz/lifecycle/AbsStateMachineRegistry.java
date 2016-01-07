@@ -435,7 +435,7 @@ public abstract class AbsStateMachineRegistry implements LifecycleMetaRegistry {
 			}
 			populateInterfaces(itfs, result);
 		}
-		for (Class<?> clz = targetClass.getSuperclass(); clz != Object.class; clz = clz
+		for (Class<?> clz = targetClass.getSuperclass(); null != clz && clz != Object.class; clz = clz
 				.getSuperclass()) {
 			result.add(clz);
 			Class<?>[] itfs = clz.getInterfaces();

@@ -104,7 +104,7 @@ public final class CallbackMethodConfigureScanner {
 		} else {
 			int inheritanceLevel = 0; // set current level default to 0, minus 1 to
 			// super class
-			for (Class<?> clazz = klass; clazz != null && clazz != Object.class; clazz = clazz
+			for (Class<?> clazz = klass; null != clazz && clazz != null && clazz != Object.class; clazz = clazz
 					.getSuperclass()) {
 				inheritanceLevel -= 1;
 				for (Method method : clazz.getDeclaredMethods()) {
@@ -481,7 +481,7 @@ public final class CallbackMethodConfigureScanner {
 
 	private Method evaluateObserverMethod(Class<?> klass, String mappedBy) {
 		Method observerMethod = null;
-		for (Class<?> clazz = klass; clazz != Object.class; clazz = clazz
+		for (Class<?> clazz = klass; null != clazz && clazz != Object.class; clazz = clazz
 				.getSuperclass()) {
 			try {
 				observerMethod = clazz.getDeclaredMethod("get"
@@ -513,7 +513,7 @@ public final class CallbackMethodConfigureScanner {
 
 	private Field evaluateObserverField(Class<?> klass, String mappedBy) {
 		Field observerField = null;
-		for (Class<?> clazz = klass; clazz != Object.class; clazz = clazz
+		for (Class<?> clazz = klass; clazz != Object.class && null != clazz; clazz = clazz
 				.getSuperclass()) {
 			try {
 				observerField = clazz.getDeclaredField(mappedBy);
@@ -581,7 +581,7 @@ public final class CallbackMethodConfigureScanner {
 	private Method findObserverProperty(String mappedBy,
 			Class<?> observableClass) {
 		Method getter = null;
-		for (Class<?> klass = observableClass; klass != Object.class; klass = klass
+		for (Class<?> klass = observableClass; null != klass && klass != Object.class; klass = klass
 				.getSuperclass()) {
 			try {
 				getter = klass.getDeclaredMethod("get"
@@ -598,7 +598,7 @@ public final class CallbackMethodConfigureScanner {
 
 	private Field findObserverField(String mappedBy, Class<?> observableClass) {
 		Field observerField = null;
-		for (Class<?> klass = observableClass; klass != Object.class; klass = klass
+		for (Class<?> klass = observableClass; null != klass && klass != Object.class; klass = klass
 				.getSuperclass()) {
 			try {
 				observerField = klass.getDeclaredField(mappedBy);
@@ -718,7 +718,7 @@ public final class CallbackMethodConfigureScanner {
 
 	private Method findObservableMethod(Class<?> klass, String observableName) {
 		Method relatedMethod = null;
-		for (Class<?> clazz = klass; clazz != Object.class; clazz = clazz
+		for (Class<?> clazz = klass; null != clazz && clazz != Object.class; clazz = clazz
 				.getSuperclass()) {
 			try {
 				relatedMethod = clazz.getDeclaredMethod("get"
@@ -735,7 +735,7 @@ public final class CallbackMethodConfigureScanner {
 
 	private Field findObservableField(Class<?> klass, String observableName) {
 		Field declaredField = null;
-		for (Class<?> clazz = klass; clazz != Object.class; clazz = clazz
+		for (Class<?> clazz = klass; null != clazz && clazz != Object.class; clazz = clazz
 				.getSuperclass()) {
 			try {
 				declaredField = clazz.getDeclaredField(observableName);

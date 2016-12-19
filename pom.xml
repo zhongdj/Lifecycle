@@ -10,7 +10,7 @@
     <groupId>net.imadz</groupId>
     <artifactId>Lifecycle</artifactId>
     <packaging>jar</packaging>
-    <version>0.9.13-SNAPSHOT</version>
+    <version>0.9.12-SNAPSHOT</version>
     <name>Lifecycle</name>
 
     <description>

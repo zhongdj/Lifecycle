@@ -26,19 +26,8 @@ public class ProxiedRelationObjectTests extends ProxiedRelationObjectTestMetadat
 
         try {
             relationalObject.plan();
-            throw new IllegalStateException("should throw exception here");
         } catch (LifecycleException e) {
             assertInvalidStateErrorByValidWhile(e, theRelation, relationalObject, TheRelationFSM.States.Completed.class);
-        }
-
-        theRelation.doComplete();
-        {
-            assertEquals(TheRelationFSM.States.Completed.class.getSimpleName(), theRelation.getState());
-        }
-
-        relationalObject.plan();
-        {
-            assertEquals(TheRelationalFSM.States.Planned.class.getSimpleName(), relationalObject.getState());
         }
     }
 

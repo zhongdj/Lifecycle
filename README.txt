@@ -21,6 +21,9 @@ Using: Lifecycle-StaticWeaver-maven-plugin to process classes
 https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
 
 Release Notes
+0.9.12
+[ Improvement ] Relation Object, which is created from Java Dynamic Proxy, is supported as well.
+
 0.9.11
 [ Improvement ] @LifecycleMeta is @Inherited, which supports Spring Bean Factory using Proxy class.
 [ BUG FIX ] NPE while cannot find Relation Field style accessor from interface or class, which might defined the accessor in a property style.

@@ -142,8 +142,8 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
     	annotationTypeName = annotationTypeName.substring(1).replaceAll("/", ".");
     	annotationTypeName = annotationTypeName.substring(0, annotationTypeName.length() - 1);
     	return null != Class.forName(annotationTypeName).getAnnotation(Interceptable.class);
-    	} catch (Exception ex) {
-    		log.log(Level.INFO, "Failed to find class " + entry.getAnnotationType());
+    	} catch (Exception ignored) {
+    		//log.log(Level.OFF, "Failed to find class " + entry.getAnnotationType());
     		return false;
     	}
         //return EVENT_ANNOTATION_TYPE.equals(entry.getAnnotationType());
@@ -165,13 +165,15 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
         boolean foundLifecycleMeta = false;
         for ( final AnnotationEntry annotationEntry : annotationEntries ) {
         	if (isTransformNeeded(annotationEntry)) {
-        		log.info("Transform Needed: " + annotationEntry.toString());
         		foundLifecycleMeta = true;
         	} else if ( LIFECYLEMETA_ANNOTATION_TYPE.equals(annotationEntry.getAnnotationType()) ) {
                 foundLifecycleMeta = true;
             } else if ( REACTIVE_ANNOTATION_TYPE.equals(annotationEntry.getAnnotationType()) ) {
                 foundLifecycleMeta = true;
             }
+        }
+        if (foundLifecycleMeta) {
+            log.info("Transform Needed: " + jclas.getClassName());
         }
         return foundLifecycleMeta;
     }

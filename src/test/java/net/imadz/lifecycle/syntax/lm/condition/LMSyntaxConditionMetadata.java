@@ -234,6 +234,14 @@ public class LMSyntaxConditionMetadata extends BaseMetaDataTest {
             this.state = state;
         }
     }
+
+    @LifecycleMeta(S3.class)
+    static class PLM_4 extends PLM_3 {
+        @Condition(S3.Conditions.S1_Condition_A.class)
+        public S1_Condition_A getConditionA() {
+            return null;
+        }
+    }
     // ////////////////////////////////////////////////////////////////
     // Negative Tests Meta Data
     // ////////////////////////////////////////////////////////////////

@@ -35,6 +35,7 @@
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import net.imadz.lifecycle.SyntaxErrors;
@@ -44,11 +45,13 @@ import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.verification.VerificationFailureSet;
 
+import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtils.overridesBy;
+
 public final class ConditionProviderMethodScanner implements MethodScanCallback {
 
     private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
     private final VerificationFailureSet failureSet;
-    private HashSet<Class<?>> conditions = new HashSet<Class<?>>();
+    private HashMap<Class<?>, Method> conditions = new HashMap<Class<?>, Method>();
     private StateMachineMetadata template;
     private Class<?> klass;
 
@@ -66,7 +69,8 @@ public final class ConditionProviderMethodScanner implements MethodScanCallback 
         final Condition condition = method.getAnnotation(Condition.class);
         if ( null != condition ) {
             if ( template.hasCondition(condition.value()) ) {
-                if ( conditions.contains(condition.value()) ) {
+                if ( conditions.containsKey(condition.value()) ) {
+                    if (!overridesBy(conditions.get(condition.value()), method))
                     failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
                             SyntaxErrors.LM_CONDITION_MULTIPLE_METHODS_REFERENCE_SAME_CONDITION, klass, condition.value()));
                 } else {
@@ -74,7 +78,7 @@ public final class ConditionProviderMethodScanner implements MethodScanCallback 
                         failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
                                 SyntaxErrors.LM_CONDITION_OBJECT_DOES_NOT_IMPLEMENT_CONDITION_INTERFACE, method, condition.value()));
                     }
-                    conditions.add(condition.value());
+                    conditions.put(condition.value(), method);
                 }
             } else {
                 failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(), SyntaxErrors.LM_CONDITION_REFERENCE_INVALID,

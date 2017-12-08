@@ -75,4 +75,16 @@ public class LMSyntaxConditionPositiveTests extends LMSyntaxConditionMetadata {
         }
         new Registry();
     }
+
+
+    @Test
+    public final void should_support_overriding_condition_in_super_class() throws VerificationException {
+        @LifecycleRegistry(PLM_4.class)
+        @StateMachineBuilder
+        class Registry extends AbsStateMachineRegistry {
+
+            public Registry() throws VerificationException {}
+        }
+        new Registry();
+    }
 }

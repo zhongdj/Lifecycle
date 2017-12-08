@@ -34,14 +34,16 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.verification.VerificationFailureSet;
+
+import java.lang.reflect.Method;
+
+import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtils.overridesBy;
 
 public final class StateIndicatorGetterMethodScanner implements MethodScanCallback {
 
@@ -67,8 +69,10 @@ public final class StateIndicatorGetterMethodScanner implements MethodScanCallba
             return false;
         } else if ( null != stateGetterMethod && null != method.getAnnotation(StateIndicator.class) ) {
             if ( !overridingFound ) {
-                failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(this.stateMachineObjectBuilderImpl.getDottedPath(),
+                if (!overridesBy(stateGetterMethod, method)) {
+                    failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(this.stateMachineObjectBuilderImpl.getDottedPath(),
                         SyntaxErrors.STATE_INDICATOR_MULTIPLE_STATE_INDICATOR_ERROR, klass));
+                }
                 return true;
             }
         }

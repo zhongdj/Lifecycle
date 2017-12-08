@@ -388,6 +388,15 @@ public class StateIndicatorMetadata extends BaseMetaDataTest {
 		String getStateY();
 	}
 
+
+
+	@LifecycleMeta(PS1.class)
+	static interface PositiveMultipleStateIndicatorChild2 extends
+			PositiveMultipleStateIndicatorSuper {
+
+		@StateIndicator
+		String getStateX();
+	}
 	public static void main(String[] args) throws Throwable {
 		System.out.println("Testing Main");
 		new PDefaultPrivateStateSetterClass().doX("Tracy", 4545, 3343);

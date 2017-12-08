@@ -43,14 +43,13 @@ import java.lang.annotation.Target;
 /**
  * Customizable State Type and Name
  * Design considerations:
- * 
+ *
  * @author Barry
- * 
  */
-@Target({ ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface StateIndicator {
 
-    String value() default "state";
+  String value() default "state";
 }

@@ -34,10 +34,10 @@
  */
 package net.imadz.lifecycle.syntax.basic;
 
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
@@ -45,94 +45,125 @@ import net.imadz.lifecycle.syntax.basic.StateSetSyntaxMetadata.Positive.Events.T
 
 public class StateSetSyntaxMetadata extends BaseMetaDataTest {
 
-    @StateMachine
-    protected static interface Positive {
+  @StateMachine
+  protected static interface Positive {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = T.class, value = B.class)
-            static interface A {};
-            @Final
-            static interface B {};
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = T.class, value = B.class)
+      static interface A {}
 
-            static interface T {};
-        }
+      ;
+
+      @Final
+      static interface B {}
+
+      ;
     }
-    @StateMachine
-    protected static interface Negative_No_InnerClasses {}
-    @StateMachine
-    protected static interface Negative_No_StateSet_and_EventSet {
 
-        static interface States {
+    @EventSet
+    static interface Events {
 
-            @Initial
-            @Transition(event = T.class, value = B.class)
-            static interface A {};
-            @Final
-            static interface B {};
-        }
-        static interface Events {
+      static interface T {}
 
-            static interface T {};
-        }
+      ;
     }
-    @StateMachine
-    protected static interface Negative_Multi_StateSet_Multi_EventSet {
+  }
 
-        @StateSet
-        static interface StatesA {}
-        @StateSet
-        static interface StatesB {}
-        @EventSet
-        static interface EventsA {}
-        @EventSet
-        static interface EventsB {}
+  @StateMachine
+  protected static interface Negative_No_InnerClasses {}
+
+  @StateMachine
+  protected static interface Negative_No_StateSet_and_EventSet {
+
+    static interface States {
+
+      @Initial
+      @Transition(event = T.class, value = B.class)
+      static interface A {}
+
+      ;
+
+      @Final
+      static interface B {}
+
+      ;
     }
-    @StateMachine
-    protected static interface Negative_No_State_No_Event {
 
-        @StateSet
-        static interface States {}
-        @EventSet
-        static interface Events {}
+    static interface Events {
+
+      static interface T {}
+
+      ;
     }
-    @StateMachine
-    protected static interface Negative_StateSet_Without_InitalState_And_EndState {
+  }
 
-        @StateSet
-        static interface States {
+  @StateMachine
+  protected static interface Negative_Multi_StateSet_Multi_EventSet {
 
-            static interface Start {}
-            static interface End {}
-        }
-        @EventSet
-        static interface Events {
+    @StateSet
+    static interface StatesA {}
 
-            static interface Queue {}
-        }
+    @StateSet
+    static interface StatesB {}
+
+    @EventSet
+    static interface EventsA {}
+
+    @EventSet
+    static interface EventsB {}
+  }
+
+  @StateMachine
+  protected static interface Negative_No_State_No_Event {
+
+    @StateSet
+    static interface States {}
+
+    @EventSet
+    static interface Events {}
+  }
+
+  @StateMachine
+  protected static interface Negative_StateSet_Without_InitalState_And_EndState {
+
+    @StateSet
+    static interface States {
+
+      static interface Start {}
+
+      static interface End {}
     }
-    @StateMachine
-    protected static interface Negative_StateSet_With_Multi_InitalState {
 
-        @StateSet
-        static interface States {
+    @EventSet
+    static interface Events {
 
-            @Initial
-            static interface Start {}
-            @Initial
-            static interface Queued {}
-            @Final
-            static interface Ended {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Queue {}
-        }
+      static interface Queue {}
     }
+  }
+
+  @StateMachine
+  protected static interface Negative_StateSet_With_Multi_InitalState {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      static interface Start {}
+
+      @Initial
+      static interface Queued {}
+
+      @Final
+      static interface Ended {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Queue {}
+    }
+  }
 }

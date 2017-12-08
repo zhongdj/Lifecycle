@@ -40,5 +40,5 @@ import net.imadz.verification.VerificationException;
 
 public interface AnnotationMetaBuilder<SELF extends MetaData, PARENT extends MetaData> extends MetaDataBuilder<SELF, PARENT> {
 
-    AnnotationMetaBuilder<SELF, PARENT> build(Class<?> klass, PARENT parent) throws VerificationException;
+  AnnotationMetaBuilder<SELF, PARENT> build(Class<?> klass, PARENT parent) throws VerificationException;
 }

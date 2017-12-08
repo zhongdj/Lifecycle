@@ -34,75 +34,75 @@
  */
 package net.imadz.lifecycle.impl;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
 import net.imadz.bcel.intercept.LifecycleInterceptContext;
 import net.imadz.lifecycle.LifecycleContext;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 public class LifecycleContextImpl<T, S> implements LifecycleContext<T, S> {
 
-    private final T target;
-    private final S fromState;
-    private final String fromStateName;
-    private final S toState;
-    private final String toStateName;
-    private final Method eventMethod;
-    private final Object[] arguments;
+  private final T target;
+  private final S fromState;
+  private final String fromStateName;
+  private final S toState;
+  private final String toStateName;
+  private final Method eventMethod;
+  private final Object[] arguments;
 
-    @SuppressWarnings("unchecked")
-    public LifecycleContextImpl(LifecycleInterceptContext context, S fromState, S toState) {
-        this.target = (T) context.getTarget();
-        this.fromStateName = context.getFromState();
-        this.fromState = fromState;
-        if ( null == context.getToState() ) {
-            this.toState = null;
-        } else {
-            this.toState = toState;
-        }
-        this.toStateName = context.getToState();
-        this.eventMethod = context.getMethod();
-        this.arguments = context.getArguments();
+  @SuppressWarnings("unchecked")
+  public LifecycleContextImpl(LifecycleInterceptContext context, S fromState, S toState) {
+    this.target = (T) context.getTarget();
+    this.fromStateName = context.getFromState();
+    this.fromState = fromState;
+    if (null == context.getToState()) {
+      this.toState = null;
+    } else {
+      this.toState = toState;
     }
+    this.toStateName = context.getToState();
+    this.eventMethod = context.getMethod();
+    this.arguments = context.getArguments();
+  }
 
-    @Override
-    public T getTarget() {
-        return target;
-    }
+  @Override
+  public T getTarget() {
+    return target;
+  }
 
-    @Override
-    public S getFromState() {
-        return fromState;
-    }
+  @Override
+  public S getFromState() {
+    return fromState;
+  }
 
-    @Override
-    public S getToState() {
-        return toState;
-    }
+  @Override
+  public S getToState() {
+    return toState;
+  }
 
-    @Override
-    public Method getEventMethod() {
-        return eventMethod;
-    }
+  @Override
+  public Method getEventMethod() {
+    return eventMethod;
+  }
 
-    @Override
-    public Object[] getArguments() {
-        return arguments;
-    }
+  @Override
+  public Object[] getArguments() {
+    return arguments;
+  }
 
-    @Override
-    public String toString() {
-        return "LifecycleContextImpl [target=" + target + ", fromState=" + fromState + ", toState=" + toState + ", eventMethod=" + eventMethod
-                + ", arguments=" + Arrays.toString(arguments) + "]";
-    }
+  @Override
+  public String toString() {
+    return "LifecycleContextImpl [target=" + target + ", fromState=" + fromState + ", toState=" + toState + ", eventMethod=" + eventMethod
+        + ", arguments=" + Arrays.toString(arguments) + "]";
+  }
 
-    @Override
-    public String getFromStateName() {
-        return this.fromStateName;
-    }
+  @Override
+  public String getFromStateName() {
+    return this.fromStateName;
+  }
 
-    @Override
-    public String getToStateName() {
-        return this.toStateName;
-    }
+  @Override
+  public String getToStateName() {
+    return this.toStateName;
+  }
 }

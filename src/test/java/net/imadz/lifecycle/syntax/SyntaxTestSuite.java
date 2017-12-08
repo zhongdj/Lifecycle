@@ -39,11 +39,11 @@ import net.imadz.lifecycle.syntax.lm.LMSyntaxTestSuite;
 import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestSuite;
 import net.imadz.lifecycle.syntax.relation.RelationSyntaxTestSuite;
 import net.imadz.lifecycle.syntax.state.StateSyntaxTestSuite;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ BasicTestSuite.class, LMSyntaxTestSuite.class, RegisterSyntaxTestSuite.class, RelationSyntaxTestSuite.class, StateSyntaxTestSuite.class, })
+@SuiteClasses({BasicTestSuite.class, LMSyntaxTestSuite.class, RegisterSyntaxTestSuite.class, RelationSyntaxTestSuite.class, StateSyntaxTestSuite
+    .class,})
 public class SyntaxTestSuite {}

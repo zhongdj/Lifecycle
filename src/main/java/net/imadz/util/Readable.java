@@ -36,5 +36,5 @@ package net.imadz.util;
 
 public interface Readable<T> {
 
-    T read(Object reactiveObject);
+  T read(Object reactiveObject);
 }

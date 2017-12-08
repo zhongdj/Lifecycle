@@ -36,5 +36,6 @@ package net.imadz.lifecycle.annotations.callback;
 
 public final class AnyState {
 
-    private AnyState() {}
+  private AnyState() {
+  }
 }

@@ -34,15 +34,13 @@
  */
 package net.imadz.lifecycle.engine;
 
-import java.util.Date;
-
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
@@ -58,8 +56,8 @@ import net.imadz.lifecycle.annotations.state.LifecycleOverride;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.CustomerLifecycleMeta.States.Draft;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.InternetTVServiceLifecycle.Relations.TVProvider;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.KeyBoardLifecycleMetadataPreValidateCondition.Conditions.TimesLeft;
-import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.KeyBoardLifecycleMetadataPreValidateCondition.Relations.PowerRelation;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey;
+import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.KeyBoardLifecycleMetadataPreValidateCondition.Relations.PowerRelation;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata.Conditions.PowerLeftCondition;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata.Events.ReducePower;
 import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.PowerLifecycleMetadata.Events.ShutDown;
@@ -68,8 +66,9 @@ import net.imadz.org.apache.bcel.Repository;
 import net.imadz.org.apache.bcel.classfile.JavaClass;
 import net.imadz.org.apache.bcel.util.BCELifier;
 import net.imadz.verification.VerificationException;
-
 import org.junit.BeforeClass;
+
+import java.util.Date;
 
 /**
  * <ol>
@@ -182,925 +181,1016 @@ import org.junit.BeforeClass;
  * Event</li>
  * </ol>
  * </ol> </ol> <li>Versions</li> </ol>
- * 
+ *
  * @author Barry
- * 
  */
 public class CoreFuntionTestMetadata extends EngineTestBase {
 
-    @BeforeClass
-    public static void setup() throws VerificationException {
-        registerMetaFromClass(CoreFuntionTestMetadata.class);
+  @BeforeClass
+  public static void setup() throws VerificationException {
+    registerMetaFromClass(CoreFuntionTestMetadata.class);
+  }
+
+  @StateMachine
+  protected static interface CustomerLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = CustomerLifecycleMeta.Events.Activate.class, value = {Active.class})
+      static interface Draft {}
+
+      @Transitions({@Transition(event = CustomerLifecycleMeta.Events.Suspend.class, value = Suspended.class),
+          @Transition(event = CustomerLifecycleMeta.Events.Cancel.class, value = Canceled.class)})
+      static interface Active {}
+
+      @Transition(event = CustomerLifecycleMeta.Events.Resume.class, value = Active.class)
+      static interface Suspended {}
+
+      @Final
+      static interface Canceled {}
     }
 
-    @StateMachine
-    protected static interface CustomerLifecycleMeta {
+    @EventSet
+    static interface Events {
 
-        @StateSet
-        static interface States {
+      static interface Activate {}
 
-            @Initial
-            @Transition(event = CustomerLifecycleMeta.Events.Activate.class, value = { Active.class })
-            static interface Draft {}
-            @Transitions({ @Transition(event = CustomerLifecycleMeta.Events.Suspend.class, value = Suspended.class),
-                    @Transition(event = CustomerLifecycleMeta.Events.Cancel.class, value = Canceled.class) })
-            static interface Active {}
-            @Transition(event = CustomerLifecycleMeta.Events.Resume.class, value = Active.class)
-            static interface Suspended {}
-            @Final
-            static interface Canceled {}
-        }
-        @EventSet
-        static interface Events {
+      static interface Suspend {}
 
-            static interface Activate {}
-            static interface Suspend {}
-            static interface Resume {}
-            static interface Cancel {}
-        }
+      static interface Resume {}
+
+      static interface Cancel {}
     }
-    @LifecycleMeta(CustomerLifecycleMeta.class)
-    public static class Customer extends ReactiveObject {
+  }
 
-        protected Customer() {
-            initialState(Draft.class.getSimpleName());
-        }
+  @LifecycleMeta(CustomerLifecycleMeta.class)
+  public static class Customer extends ReactiveObject {
 
-        // @Event
-        // public int activate() {
-        // InterceptorController<Customer, Integer> a = new
-        // InterceptorController<>();
-        // InterceptContext<Customer, Integer> c = new
-        // InterceptContext<>(Customer.class, this, "activate", new Class[0],
-        // new Object[0]);
-        // return a.exec(c, new Callable<Integer>() {
-        //
-        // @Override
-        // public Integer call() throws Exception {
-        // return activate$Impl();
-        // }
-        // }).intValue();
-        // }
-        //
-        // public int activate$Impl() {
-        // return 5;
-        // }
-        @Event
-        public Customer activate() {
-            return new Customer();
-        }
-
-        @Event
-        public void suspend() {}
-
-        @Event
-        public void resume() {}
-
-        @Event
-        public void cancel() {}
+    protected Customer() {
+      initialState(Draft.class.getSimpleName());
     }
 
-    public static void main(String[] args) throws Throwable {
-        final JavaClass outerClass = Repository.lookupClass(Customer.class);
-        BCELifier fier = new BCELifier(outerClass, System.out);
-        fier.start();
+    // @Event
+    // public int activate() {
+    // InterceptorController<Customer, Integer> a = new
+    // InterceptorController<>();
+    // InterceptContext<Customer, Integer> c = new
+    // InterceptContext<>(Customer.class, this, "activate", new Class[0],
+    // new Object[0]);
+    // return a.exec(c, new Callable<Integer>() {
+    //
+    // @Override
+    // public Integer call() throws Exception {
+    // return activate$Impl();
+    // }
+    // }).intValue();
+    // }
+    //
+    // public int activate$Impl() {
+    // return 5;
+    // }
+    @Event
+    public Customer activate() {
+      return new Customer();
     }
 
-    @StateMachine
-    protected static interface InternetServiceLifecycleMeta {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = InternetServiceLifecycleMeta.Events.Start.class, value = { InternetServiceLifecycleMeta.States.InService.class })
-            @ValidWhile(on = { CustomerLifecycleMeta.States.Active.class }, relation = InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
-            static interface New {}
-            @Transition(event = InternetServiceLifecycleMeta.Events.End.class, value = { InternetServiceLifecycleMeta.States.Ended.class })
-            // @InboundWhile(on = { CustomerLifecycleMeta.States.Active.class },
-            // relation =
-            // InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
-            static interface InService {}
-            @Final
-            static interface Ended {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Start {}
-            static interface End {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(value = CustomerLifecycleMeta.class)
-            static interface CustomerRelation {}
-        }
-    }
-    @StateMachine
-    protected static interface ServiceProviderLifecycle {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Shutdown.class, value = Closed.class)
-            static interface ServiceAvailable {}
-            @Final
-            static interface Closed {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Shutdown {}
-        }
-    }
-    @StateMachine
-    protected static interface InternetTVServiceLifecycle extends InternetServiceLifecycleMeta {
-
-        @StateSet
-        static interface States extends InternetServiceLifecycleMeta.States {
-
-            @ValidWhile(relation = TVProvider.class, on = ServiceAvailable.class)
-            static interface New extends InternetServiceLifecycleMeta.States.New {}
-        }
-        @RelationSet
-        static interface Relations extends InternetServiceLifecycleMeta.Relations {
-
-            @RelateTo(InternetTVProviderLifecycle.class)
-            static interface TVProvider {}
-        }
-    }
-    @StateMachine
-    protected static interface InternetTVProviderLifecycle extends ServiceProviderLifecycle {}
-    @LifecycleMeta(InternetTVServiceLifecycle.class)
-    public static class InternetTVService extends BaseService<InternetTVServiceProvider> {
-
-        public InternetTVService(Customer customer) {
-            super(customer);
-        }
-
-        @Relation(InternetTVServiceLifecycle.Relations.TVProvider.class)
-        public InternetTVServiceProvider getProvider() {
-            return super.getProvider();
-        }
-    }
-    @LifecycleMeta(InternetTVProviderLifecycle.class)
-    public static class InternetTVServiceProvider extends BaseServiceProvider {}
-    @StateMachine
-    protected static interface VOIPServiceLifecycleMeta extends InternetServiceLifecycleMeta {
-
-        @StateSet
-        static interface States extends InternetServiceLifecycleMeta.States {
-
-            @Initial
-            @LifecycleOverride
-            @ValidWhile(relation = VOIPServiceLifecycleMeta.Relations.VoipProvider.class, on = VOIPProviderLifecycleMeta.States.ServiceAvailable.class)
-            @Transition(event = VOIPServiceLifecycleMeta.Events.Start.class, value = { VOIPServiceLifecycleMeta.States.InService.class })
-            static interface New extends InternetServiceLifecycleMeta.States.New {}
-        }
-        @RelationSet
-        static interface Relations extends InternetServiceLifecycleMeta.Relations {
-
-            @RelateTo(VOIPProviderLifecycleMeta.class)
-            static interface VoipProvider {}
-        }
-    }
-    @StateMachine
-    protected static interface VOIPProviderLifecycleMeta extends ServiceProviderLifecycle {}
-    @LifecycleMeta(VOIPServiceLifecycleMeta.class)
-    public static class VOIPService extends BaseService<VOIPProvider> {
-
-        public VOIPService(Customer customer) {
-            super(customer);
-        }
-
-        @Relation(VOIPServiceLifecycleMeta.Relations.VoipProvider.class)
-        public VOIPProvider getProvider() {
-            return super.getProvider();
-        }
-    }
-    @LifecycleMeta(VOIPProviderLifecycleMeta.class)
-    public static class VOIPProvider extends BaseServiceProvider {}
-    @LifecycleMeta(InternetServiceLifecycleMeta.class)
-    public class InternetServiceOrder extends ReactiveObject {
-
-        private Date startDate;
-        private Date endDate;
-        @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
-        private Customer customer;
-        private String type;
-
-        public InternetServiceOrder() {
-            initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
-        }
-
-        public InternetServiceOrder(Date startDate, Date endDate, Customer customer, String type) {
-            super();
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.customer = customer;
-            this.type = type;
-            initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
-        }
-
-        @Event
-        public void start() {}
-
-        @Event
-        public void end() {}
-
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
-
-        public void setCustomer(Customer customer) {
-            this.customer = customer;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public Customer getCustomer() {
-            return customer;
-        }
-
-        public String getType() {
-            return type;
-        }
+    @Event
+    public void suspend() {
     }
 
-    public CoreFuntionTestMetadata() {
-        super();
+    @Event
+    public void resume() {
     }
 
-    @StateMachine
-    protected static interface InternetServiceLifecycleMetaWithInboundWhile {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = InternetServiceLifecycleMetaWithInboundWhile.Events.Start.class,
-                    value = { InternetServiceLifecycleMetaWithInboundWhile.States.InService.class })
-            static interface New {}
-            @Transition(event = InternetServiceLifecycleMetaWithInboundWhile.Events.End.class,
-                    value = { InternetServiceLifecycleMetaWithInboundWhile.States.Ended.class })
-            @InboundWhile(on = { CustomerLifecycleMeta.States.Active.class },
-                    relation = InternetServiceLifecycleMetaWithInboundWhile.Relations.CustomerRelation.class)
-            static interface InService {}
-            @Final
-            static interface Ended {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Start {}
-            static interface End {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(value = CustomerLifecycleMeta.class)
-            static interface CustomerRelation {}
-        }
+    @Event
+    public void cancel() {
     }
-    @LifecycleMeta(InternetServiceLifecycleMetaWithInboundWhile.class)
-    public class InternetServiceOrderWithInboundWhile extends ReactiveObject {
+  }
 
-        private Date startDate;
-        private Date endDate;
-        @Relation(InternetServiceLifecycleMetaWithInboundWhile.Relations.CustomerRelation.class)
-        private Customer customer;
-        private String type;
+  public static void main(String[] args) throws Throwable {
+    final JavaClass outerClass = Repository.lookupClass(Customer.class);
+    BCELifier fier = new BCELifier(outerClass, System.out);
+    fier.start();
+  }
 
-        public InternetServiceOrderWithInboundWhile() {
-            initialState(InternetServiceLifecycleMetaWithInboundWhile.States.New.class.getSimpleName());
-        }
+  @StateMachine
+  protected static interface InternetServiceLifecycleMeta {
 
-        public InternetServiceOrderWithInboundWhile(Date startDate, Date endDate, Customer customer, String type) {
-            super();
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.customer = customer;
-            this.type = type;
-            initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
-        }
+    @StateSet
+    static interface States {
 
-        @Event
-        public void start() {}
+      @Initial
+      @Transition(event = InternetServiceLifecycleMeta.Events.Start.class, value = {InternetServiceLifecycleMeta.States.InService.class})
+      @ValidWhile(on = {CustomerLifecycleMeta.States.Active.class}, relation = InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
+      static interface New {}
 
-        @Event
-        public void end() {}
+      @Transition(event = InternetServiceLifecycleMeta.Events.End.class, value = {InternetServiceLifecycleMeta.States.Ended.class})
+      // @InboundWhile(on = { CustomerLifecycleMeta.States.Active.class },
+      // relation =
+      // InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
+      static interface InService {}
 
-        public void setStartDate(Date startDate) {
-            this.startDate = startDate;
-        }
-
-        public void setEndDate(Date endDate) {
-            this.endDate = endDate;
-        }
-
-        public void setCustomer(Customer customer) {
-            this.customer = customer;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public Date getStartDate() {
-            return startDate;
-        }
-
-        public Date getEndDate() {
-            return endDate;
-        }
-
-        public Customer getCustomer() {
-            return customer;
-        }
-
-        public String getType() {
-            return type;
-        }
+      @Final
+      static interface Ended {}
     }
-    @StateMachine
-    static interface PowerLifecycleMetadata {
 
-        @StateSet
-        static interface States {
+    @EventSet
+    static interface Events {
 
-            @Initial
-            @Transitions(value = { @Transition(event = ShutDown.class, value = { PowerOff.class }),
-                    @Transition(event = ReducePower.class, value = { PowerOn.class, PowerOff.class }) })
-            static interface PowerOn {}
-            @Final
-            static interface PowerOff {}
-        }
-        @EventSet
-        static interface Events {
+      static interface Start {}
 
-            static interface ShutDown {}
-            @Conditional(condition = PowerLeftCondition.class, judger = PowerLeftConditionImpl.class)
-            static interface ReducePower {}
-        }
-        @ConditionSet
-        static interface Conditions {
-
-            static interface PowerLeftCondition {
-
-                boolean powerLeft();
-
-                boolean isShutDown();
-            }
-        }
-        static class PowerLeftConditionImpl implements ConditionalEvent<PowerLeftCondition> {
-
-            @Override
-            public Class<?> doConditionJudge(PowerLeftCondition t) {
-                if ( t.isShutDown() ) {
-                    return PowerLifecycleMetadata.States.PowerOff.class;
-                }
-                if ( t.powerLeft() ) {
-                    return PowerLifecycleMetadata.States.PowerOn.class;
-                } else {
-                    return PowerLifecycleMetadata.States.PowerOff.class;
-                }
-            }
-        }
+      static interface End {}
     }
-    @StateMachine
-    static interface KeyBoardLifecycleMetadataPreValidateCondition {
 
-        @StateSet
-        static interface States {
+    @RelationSet
+    static interface Relations {
 
-            @Initial
-            @Transition(event = PressAnyKey.class, value = { ReadingInput.class, Broken.class /*
+      @RelateTo(value = CustomerLifecycleMeta.class)
+      static interface CustomerRelation {}
+    }
+  }
+
+  @StateMachine
+  protected static interface ServiceProviderLifecycle {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Shutdown.class, value = Closed.class)
+      static interface ServiceAvailable {}
+
+      @Final
+      static interface Closed {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Shutdown {}
+    }
+  }
+
+  @StateMachine
+  protected static interface InternetTVServiceLifecycle extends InternetServiceLifecycleMeta {
+
+    @StateSet
+    static interface States extends InternetServiceLifecycleMeta.States {
+
+      @ValidWhile(relation = TVProvider.class, on = ServiceAvailable.class)
+      static interface New extends InternetServiceLifecycleMeta.States.New {}
+    }
+
+    @RelationSet
+    static interface Relations extends InternetServiceLifecycleMeta.Relations {
+
+      @RelateTo(InternetTVProviderLifecycle.class)
+      static interface TVProvider {}
+    }
+  }
+
+  @StateMachine
+  protected static interface InternetTVProviderLifecycle extends ServiceProviderLifecycle {}
+
+  @LifecycleMeta(InternetTVServiceLifecycle.class)
+  public static class InternetTVService extends BaseService<InternetTVServiceProvider> {
+
+    public InternetTVService(Customer customer) {
+      super(customer);
+    }
+
+    @Relation(InternetTVServiceLifecycle.Relations.TVProvider.class)
+    public InternetTVServiceProvider getProvider() {
+      return super.getProvider();
+    }
+  }
+
+  @LifecycleMeta(InternetTVProviderLifecycle.class)
+  public static class InternetTVServiceProvider extends BaseServiceProvider {}
+
+  @StateMachine
+  protected static interface VOIPServiceLifecycleMeta extends InternetServiceLifecycleMeta {
+
+    @StateSet
+    static interface States extends InternetServiceLifecycleMeta.States {
+
+      @Initial
+      @LifecycleOverride
+      @ValidWhile(relation = VOIPServiceLifecycleMeta.Relations.VoipProvider.class, on = VOIPProviderLifecycleMeta.States.ServiceAvailable.class)
+      @Transition(event = VOIPServiceLifecycleMeta.Events.Start.class, value = {VOIPServiceLifecycleMeta.States.InService.class})
+      static interface New extends InternetServiceLifecycleMeta.States.New {}
+    }
+
+    @RelationSet
+    static interface Relations extends InternetServiceLifecycleMeta.Relations {
+
+      @RelateTo(VOIPProviderLifecycleMeta.class)
+      static interface VoipProvider {}
+    }
+  }
+
+  @StateMachine
+  protected static interface VOIPProviderLifecycleMeta extends ServiceProviderLifecycle {}
+
+  @LifecycleMeta(VOIPServiceLifecycleMeta.class)
+  public static class VOIPService extends BaseService<VOIPProvider> {
+
+    public VOIPService(Customer customer) {
+      super(customer);
+    }
+
+    @Relation(VOIPServiceLifecycleMeta.Relations.VoipProvider.class)
+    public VOIPProvider getProvider() {
+      return super.getProvider();
+    }
+  }
+
+  @LifecycleMeta(VOIPProviderLifecycleMeta.class)
+  public static class VOIPProvider extends BaseServiceProvider {}
+
+  @LifecycleMeta(InternetServiceLifecycleMeta.class)
+  public class InternetServiceOrder extends ReactiveObject {
+
+    private Date startDate;
+    private Date endDate;
+    @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
+    private Customer customer;
+    private String type;
+
+    public InternetServiceOrder() {
+      initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
+    }
+
+    public InternetServiceOrder(Date startDate, Date endDate, Customer customer, String type) {
+      super();
+      this.startDate = startDate;
+      this.endDate = endDate;
+      this.customer = customer;
+      this.type = type;
+      initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
+    }
+
+    @Event
+    public void start() {
+    }
+
+    @Event
+    public void end() {
+    }
+
+    public void setStartDate(Date startDate) {
+      this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+      this.endDate = endDate;
+    }
+
+    public void setCustomer(Customer customer) {
+      this.customer = customer;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public Date getStartDate() {
+      return startDate;
+    }
+
+    public Date getEndDate() {
+      return endDate;
+    }
+
+    public Customer getCustomer() {
+      return customer;
+    }
+
+    public String getType() {
+      return type;
+    }
+  }
+
+  public CoreFuntionTestMetadata() {
+    super();
+  }
+
+  @StateMachine
+  protected static interface InternetServiceLifecycleMetaWithInboundWhile {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = InternetServiceLifecycleMetaWithInboundWhile.Events.Start.class,
+          value = {InternetServiceLifecycleMetaWithInboundWhile.States.InService.class})
+      static interface New {}
+
+      @Transition(event = InternetServiceLifecycleMetaWithInboundWhile.Events.End.class,
+          value = {InternetServiceLifecycleMetaWithInboundWhile.States.Ended.class})
+      @InboundWhile(on = {CustomerLifecycleMeta.States.Active.class},
+          relation = InternetServiceLifecycleMetaWithInboundWhile.Relations.CustomerRelation.class)
+      static interface InService {}
+
+      @Final
+      static interface Ended {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Start {}
+
+      static interface End {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @RelateTo(value = CustomerLifecycleMeta.class)
+      static interface CustomerRelation {}
+    }
+  }
+
+  @LifecycleMeta(InternetServiceLifecycleMetaWithInboundWhile.class)
+  public class InternetServiceOrderWithInboundWhile extends ReactiveObject {
+
+    private Date startDate;
+    private Date endDate;
+    @Relation(InternetServiceLifecycleMetaWithInboundWhile.Relations.CustomerRelation.class)
+    private Customer customer;
+    private String type;
+
+    public InternetServiceOrderWithInboundWhile() {
+      initialState(InternetServiceLifecycleMetaWithInboundWhile.States.New.class.getSimpleName());
+    }
+
+    public InternetServiceOrderWithInboundWhile(Date startDate, Date endDate, Customer customer, String type) {
+      super();
+      this.startDate = startDate;
+      this.endDate = endDate;
+      this.customer = customer;
+      this.type = type;
+      initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
+    }
+
+    @Event
+    public void start() {
+    }
+
+    @Event
+    public void end() {
+    }
+
+    public void setStartDate(Date startDate) {
+      this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+      this.endDate = endDate;
+    }
+
+    public void setCustomer(Customer customer) {
+      this.customer = customer;
+    }
+
+    public void setType(String type) {
+      this.type = type;
+    }
+
+    public Date getStartDate() {
+      return startDate;
+    }
+
+    public Date getEndDate() {
+      return endDate;
+    }
+
+    public Customer getCustomer() {
+      return customer;
+    }
+
+    public String getType() {
+      return type;
+    }
+  }
+
+  @StateMachine
+  static interface PowerLifecycleMetadata {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transitions(value = {@Transition(event = ShutDown.class, value = {PowerOff.class}),
+          @Transition(event = ReducePower.class, value = {PowerOn.class, PowerOff.class})})
+      static interface PowerOn {}
+
+      @Final
+      static interface PowerOff {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface ShutDown {}
+
+      @Conditional(condition = PowerLeftCondition.class, judger = PowerLeftConditionImpl.class)
+      static interface ReducePower {}
+    }
+
+    @ConditionSet
+    static interface Conditions {
+
+      static interface PowerLeftCondition {
+
+        boolean powerLeft();
+
+        boolean isShutDown();
+      }
+    }
+
+    static class PowerLeftConditionImpl implements ConditionalEvent<PowerLeftCondition> {
+
+      @Override
+      public Class<?> doConditionJudge(PowerLeftCondition t) {
+        if (t.isShutDown()) {
+          return PowerLifecycleMetadata.States.PowerOff.class;
+        }
+        if (t.powerLeft()) {
+          return PowerLifecycleMetadata.States.PowerOn.class;
+        } else {
+          return PowerLifecycleMetadata.States.PowerOff.class;
+        }
+      }
+    }
+  }
+
+  @StateMachine
+  static interface KeyBoardLifecycleMetadataPreValidateCondition {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = PressAnyKey.class, value = {ReadingInput.class, Broken.class /*
                                                                                                   * ,
                                                                                                   * NotReading
                                                                                                   * .
                                                                                                   * class
                                                                                                   */})
-            @InboundWhile(on = { PowerLifecycleMetadata.States.PowerOn.class }, relation = PowerRelation.class)
-            static interface ReadingInput {}
-            // @Transition(event = PressAnyKey.class, value = {
-            // ReadingInput.class })
-            // @ValidWhile(on = { PowerLifecycleMetadata.States.PowerOn.class },
-            // relation = PowerRelation.class)
-            // @InboundWhile(on = { PowerLifecycleMetadata.States.PowerOff.class
-            // }, relation = PowerRelation.class)
-            // static interface NotReading {}
-            @InboundWhile(on = { PowerLifecycleMetadata.States.PowerOn.class }, relation = PowerRelation.class)
-            @Final
-            static interface Broken {}
-        }
-        @EventSet
-        static interface Events {
+      @InboundWhile(on = {PowerLifecycleMetadata.States.PowerOn.class}, relation = PowerRelation.class)
+      static interface ReadingInput {}
 
-            @Conditional(condition = TimesLeft.class, judger = ConditionJudgerImpl.class, postEval = false)
-            static interface PressAnyKey {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(PowerLifecycleMetadata.class)
-            static interface PowerRelation {}
-        }
-        @ConditionSet
-        static interface Conditions {
-
-            static interface TimesLeft {
-
-                boolean timesLeft();
-
-                boolean isPowerOff();
-            }
-        }
-        public static class ConditionJudgerImpl implements ConditionalEvent<TimesLeft> {
-
-            @Override
-            public Class<?> doConditionJudge(TimesLeft t) {
-                // if ( t.isPowerOff() ) {
-                // return
-                // KeyBoardLifecycleMetadataPreValidateCondition.States.NotReading.class;
-                // } else
-                if ( t.timesLeft() ) {
-                    return KeyBoardLifecycleMetadataPreValidateCondition.States.ReadingInput.class;
-                } else {
-                    return KeyBoardLifecycleMetadataPreValidateCondition.States.Broken.class;
-                }
-            }
-        }
+      // @Transition(event = PressAnyKey.class, value = {
+      // ReadingInput.class })
+      // @ValidWhile(on = { PowerLifecycleMetadata.States.PowerOn.class },
+      // relation = PowerRelation.class)
+      // @InboundWhile(on = { PowerLifecycleMetadata.States.PowerOff.class
+      // }, relation = PowerRelation.class)
+      // static interface NotReading {}
+      @InboundWhile(on = {PowerLifecycleMetadata.States.PowerOn.class}, relation = PowerRelation.class)
+      @Final
+      static interface Broken {}
     }
-    @StateMachine
-    static interface KeyBoardLifecycleMetadataPostValidateCondition extends KeyBoardLifecycleMetadataPreValidateCondition {
 
-        @EventSet
-        static interface Events extends KeyBoardLifecycleMetadataPreValidateCondition.Events {
+    @EventSet
+    static interface Events {
 
-            @LifecycleOverride
-            @Conditional(condition = KeyBoardLifecycleMetadataPreValidateCondition.Conditions.TimesLeft.class, judger = ConditionJudgerImpl.class,
-                    postEval = true)
-            static interface PressAnyKey extends KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey {}
-        }
+      @Conditional(condition = TimesLeft.class, judger = ConditionJudgerImpl.class, postEval = false)
+      static interface PressAnyKey {}
     }
-    @LifecycleMeta(PowerLifecycleMetadata.class)
-    public static class PowerObject extends ReactiveObject implements PowerLeftCondition {
 
-        private int powerLeft = 2;
-        private boolean shutdown = false;
+    @RelationSet
+    static interface Relations {
 
-        @Event
-        public void shutDown() {
-            shutdown = true;
-        }
-
-        @Event
-        public void reducePower() {
-            powerLeft--;
-        }
-
-        public PowerObject() {
-            initialState(PowerLifecycleMetadata.States.PowerOn.class.getSimpleName());
-        }
-
-        @Condition(PowerLifecycleMetadata.Conditions.PowerLeftCondition.class)
-        public PowerLeftCondition getPowerLeftCondition() {
-            return this;
-        }
-
-        @Override
-        public boolean powerLeft() {
-            return powerLeft > 0;
-        }
-
-        @Override
-        public boolean isShutDown() {
-            return shutdown;
-        }
+      @RelateTo(PowerLifecycleMetadata.class)
+      static interface PowerRelation {}
     }
-    @LifecycleMeta(PowerLifecycleMetadata.class)
-    public static class NonGetterConditionPowerObject extends ReactiveObject implements PowerLeftCondition {
 
-        private int powerLeft = 2;
-        private boolean shutdown = false;
+    @ConditionSet
+    static interface Conditions {
 
-        @Event
-        public void shutDown() {
-            shutdown = true;
-        }
+      static interface TimesLeft {
 
-        @Event
-        public void reducePower() {
-            powerLeft--;
-        }
+        boolean timesLeft();
 
-        public NonGetterConditionPowerObject() {
-            initialState(PowerLifecycleMetadata.States.PowerOn.class.getSimpleName());
-        }
-
-        @Condition(PowerLifecycleMetadata.Conditions.PowerLeftCondition.class)
-        public PowerLeftCondition powerLeftCondition() {
-            return this;
-        }
-
-        @Override
-        public boolean powerLeft() {
-            return powerLeft > 0;
-        }
-
-        @Override
-        public boolean isShutDown() {
-            return shutdown;
-        }
+        boolean isPowerOff();
+      }
     }
-    @LifecycleMeta(KeyBoardLifecycleMetadataPostValidateCondition.class)
-    public static class NonGetterConditionKeyBoardObjectPostValidateCondition extends ReactiveObject implements TimesLeft {
 
-        private int times = 2;
-        private NonGetterConditionPowerObject powerObject;
+    public static class ConditionJudgerImpl implements ConditionalEvent<TimesLeft> {
 
-        public NonGetterConditionKeyBoardObjectPostValidateCondition(NonGetterConditionPowerObject powerObject) {
-            super();
-            this.powerObject = powerObject;
-            initialState(KeyBoardLifecycleMetadataPostValidateCondition.States.ReadingInput.class.getSimpleName());
+      @Override
+      public Class<?> doConditionJudge(TimesLeft t) {
+        // if ( t.isPowerOff() ) {
+        // return
+        // KeyBoardLifecycleMetadataPreValidateCondition.States.NotReading.class;
+        // } else
+        if (t.timesLeft()) {
+          return KeyBoardLifecycleMetadataPreValidateCondition.States.ReadingInput.class;
+        } else {
+          return KeyBoardLifecycleMetadataPreValidateCondition.States.Broken.class;
         }
-
-        @Condition(KeyBoardLifecycleMetadataPostValidateCondition.Conditions.TimesLeft.class)
-        public TimesLeft timeLeft() {
-            return this;
-        }
-
-        @Relation(PowerRelation.class)
-        public NonGetterConditionPowerObject getPowerRelation() {
-            return this.powerObject;
-        }
-
-        @Event
-        public void pressAnyKey() {
-            times = times - 1;
-            powerObject.reducePower();
-        }
-
-        @Override
-        public boolean timesLeft() {
-            return times > 0;
-        }
-
-        @Override
-        public boolean isPowerOff() {
-            return !powerObject.powerLeft();
-        }
+      }
     }
-    @LifecycleMeta(KeyBoardLifecycleMetadataPreValidateCondition.class)
-    public static class KeyBoardObjectPreValidateCondition extends ReactiveObject implements TimesLeft {
+  }
 
-        private int times = 2;
-        @Relation(PowerRelation.class)
-        private PowerObject powerObject;
+  @StateMachine
+  static interface KeyBoardLifecycleMetadataPostValidateCondition extends KeyBoardLifecycleMetadataPreValidateCondition {
 
-        public KeyBoardObjectPreValidateCondition(PowerObject powerObject) {
-            this.powerObject = powerObject;
-            initialState(KeyBoardLifecycleMetadataPreValidateCondition.States.ReadingInput.class.getSimpleName());
-        }
+    @EventSet
+    static interface Events extends KeyBoardLifecycleMetadataPreValidateCondition.Events {
 
-        @Condition(KeyBoardLifecycleMetadataPreValidateCondition.Conditions.TimesLeft.class)
-        public TimesLeft getTimeLeft() {
-            return this;
-        }
-
-        @Event
-        public void pressAnyKey() {
-            times = times - 1;
-        }
-
-        @Override
-        public boolean timesLeft() {
-            return times > 0;
-        }
-
-        @Override
-        public boolean isPowerOff() {
-            return !powerObject.powerLeft() || powerObject.shutdown;
-        }
+      @LifecycleOverride
+      @Conditional(condition = KeyBoardLifecycleMetadataPreValidateCondition.Conditions.TimesLeft.class, judger = ConditionJudgerImpl.class,
+          postEval = true)
+      static interface PressAnyKey extends KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey {}
     }
-    @LifecycleMeta(KeyBoardLifecycleMetadataPostValidateCondition.class)
-    public static class KeyBoardObjectPostValidateCondition extends ReactiveObject implements TimesLeft {
+  }
 
-        private int times = 2;
-        @Relation(PowerRelation.class)
-        private PowerObject powerObject;
+  @LifecycleMeta(PowerLifecycleMetadata.class)
+  public static class PowerObject extends ReactiveObject implements PowerLeftCondition {
 
-        public KeyBoardObjectPostValidateCondition(PowerObject powerObject) {
-            super();
-            this.powerObject = powerObject;
-            initialState(KeyBoardLifecycleMetadataPostValidateCondition.States.ReadingInput.class.getSimpleName());
-        }
+    private int powerLeft = 2;
+    private boolean shutdown = false;
 
-        @Condition(KeyBoardLifecycleMetadataPostValidateCondition.Conditions.TimesLeft.class)
-        public TimesLeft getTimeLeft() {
-            return this;
-        }
-
-        @Event
-        public void pressAnyKey() {
-            times = times - 1;
-            powerObject.reducePower();
-        }
-
-        @Override
-        public boolean timesLeft() {
-            return times > 0;
-        }
-
-        @Override
-        public boolean isPowerOff() {
-            return !powerObject.powerLeft();
-        }
+    @Event
+    public void shutDown() {
+      shutdown = true;
     }
-    @LifecycleMeta(InternetServiceLifecycleMeta.class)
-    public static class BaseServiceWithRelationOnFields<T extends BaseServiceProvider> extends ReactiveObject {
 
-        @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
-        private Customer customer;
-
-        public BaseServiceWithRelationOnFields(Customer customer) {
-            initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
-            this.customer = customer;
-        }
-
-        private T provider;
-
-        public T getProvider() {
-            return provider;
-        }
-
-        public void setProvider(T provider) {
-            this.provider = provider;
-        }
-
-        public Customer getCustomer() {
-            return customer;
-        }
-
-        public void setCustomer(Customer customer) {
-            this.customer = customer;
-        }
-
-        @Event
-        void start() {}
-
-        @Event
-        void end() {}
+    @Event
+    public void reducePower() {
+      powerLeft--;
     }
-    @LifecycleMeta(InternetTVServiceLifecycle.class)
-    public static class InternetTVServiceWithRelationOnFields extends BaseServiceWithRelationOnFields<InternetTVServiceProvider> {
 
-        public InternetTVServiceWithRelationOnFields(Customer customer, InternetTVServiceProvider provider) {
-            super(customer);
-            this.provider = provider;
-        }
-
-        @Relation(InternetTVServiceLifecycle.Relations.TVProvider.class)
-        public InternetTVServiceProvider provider;
+    public PowerObject() {
+      initialState(PowerLifecycleMetadata.States.PowerOn.class.getSimpleName());
     }
-    @StateMachine
-    static interface MemberShipLifecycleMeta {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Activate.class, value = { Active.class })
-            static interface Draft {}
-            @Transition(event = Events.Expire.class, value = { Expired.class })
-            static interface Active {}
-            @Final
-            static interface Expired {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Activate {}
-            static interface Expire {}
-        }
+    @Condition(PowerLifecycleMetadata.Conditions.PowerLeftCondition.class)
+    public PowerLeftCondition getPowerLeftCondition() {
+      return this;
     }
-    @StateMachine
-    static interface OrderValidWhileNullableLifecycleMeta {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Pay.class, value = { Paid.class })
-            @ValidWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = true)
-            static interface Draft {}
-            @Final
-            static interface Paid {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Pay {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(MemberShipLifecycleMeta.class)
-            static interface MemberShipRelation {}
-        }
+    @Override
+    public boolean powerLeft() {
+      return powerLeft > 0;
     }
-    @StateMachine
-    static interface OrderValidWhileNotNullableLifecycleMeta {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Pay.class, value = { Paid.class })
-            @ValidWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = false)
-            static interface Draft {}
-            @Final
-            static interface Paid {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Pay {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(MemberShipLifecycleMeta.class)
-            static interface MemberShipRelation {}
-        }
+    @Override
+    public boolean isShutDown() {
+      return shutdown;
     }
-    @LifecycleMeta(MemberShipLifecycleMeta.class)
-    public static class MemberShip extends ReactiveObject {
+  }
 
-        private int point;
-        private Date activatedOn;
-        private Date expiredOn;
+  @LifecycleMeta(PowerLifecycleMetadata.class)
+  public static class NonGetterConditionPowerObject extends ReactiveObject implements PowerLeftCondition {
 
-        public MemberShip() {
-            this.initialState(MemberShipLifecycleMeta.States.Draft.class.getSimpleName());
-        }
+    private int powerLeft = 2;
+    private boolean shutdown = false;
 
-        @Event(MemberShipLifecycleMeta.Events.Activate.class)
-        public void active() {
-            this.activatedOn = new Date();
-            point = 0;
-        }
-
-        @Event
-        public void expire() {
-            this.expiredOn = new Date();
-            point = 0;
-        }
-
-        public void setPoint(int point) {
-            this.point = point;
-        }
-
-        public int getPoint() {
-            return point;
-        }
-
-        public Date getActivatedOn() {
-            return activatedOn;
-        }
-
-        public Date getExpiredOn() {
-            return expiredOn;
-        }
+    @Event
+    public void shutDown() {
+      shutdown = true;
     }
-    @LifecycleMeta(OrderValidWhileNullableLifecycleMeta.class)
-    public static class OrderValidWhileNullable extends ReactiveObject {
 
-        private double totalAmount = 400d;
-        @Relation(OrderValidWhileNullableLifecycleMeta.Relations.MemberShipRelation.class)
-        private MemberShip memberShip;
-
-        public OrderValidWhileNullable(MemberShip memberShip) {
-            this.memberShip = memberShip;
-            this.initialState(OrderValidWhileNullableLifecycleMeta.States.Draft.class.getSimpleName());
-        }
-
-        @Event
-        public void pay() {
-            if ( null != memberShip ) memberShip.setPoint((int) totalAmount);
-        }
+    @Event
+    public void reducePower() {
+      powerLeft--;
     }
-    @LifecycleMeta(OrderValidWhileNotNullableLifecycleMeta.class)
-    public static class OrderValidWhileNotNullable extends ReactiveObject {
 
-        private double totalAmount = 400d;
-        @Relation(OrderValidWhileNotNullableLifecycleMeta.Relations.MemberShipRelation.class)
-        private MemberShip memberShip;
-
-        public OrderValidWhileNotNullable(MemberShip memberShip) {
-            this.memberShip = memberShip;
-            this.initialState(OrderValidWhileNotNullableLifecycleMeta.States.Draft.class.getSimpleName());
-        }
-
-        @Event
-        public void pay() {
-            if ( null != memberShip ) {
-                memberShip.setPoint((int) totalAmount);
-            }
-        }
+    public NonGetterConditionPowerObject() {
+      initialState(PowerLifecycleMetadata.States.PowerOn.class.getSimpleName());
     }
-    @StateMachine
-    static interface OrderInboundWhileNullableLifecycleMeta {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Pay.class, value = { Paid.class })
-            static interface Draft {}
-            @Final
-            @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = true)
-            static interface Paid {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Pay {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(MemberShipLifecycleMeta.class)
-            static interface MemberShipRelation {}
-        }
+    @Condition(PowerLifecycleMetadata.Conditions.PowerLeftCondition.class)
+    public PowerLeftCondition powerLeftCondition() {
+      return this;
     }
-    @StateMachine
-    static interface OrderInboundWhileNotNullableLifecycleMeta {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Pay.class, value = { Paid.class })
-            static interface Draft {}
-            @Final
-            @InboundWhile(on = { MemberShipLifecycleMeta.States.Active.class }, relation = Relations.MemberShipRelation.class, nullable = false)
-            static interface Paid {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Pay {}
-        }
-        @RelationSet
-        static interface Relations {
-
-            @RelateTo(MemberShipLifecycleMeta.class)
-            static interface MemberShipRelation {}
-        }
+    @Override
+    public boolean powerLeft() {
+      return powerLeft > 0;
     }
-    @LifecycleMeta(OrderInboundWhileNullableLifecycleMeta.class)
-    public static class OrderInboundWhileNullable extends ReactiveObject {
 
-        @Relation(OrderInboundWhileNullableLifecycleMeta.Relations.MemberShipRelation.class)
-        private MemberShip memberShip;
-
-        @Event
-        public void pay() {}
-
-        public OrderInboundWhileNullable(MemberShip memberShip) {
-            this.memberShip = memberShip;
-            this.initialState(OrderInboundWhileNullableLifecycleMeta.States.Draft.class.getSimpleName());
-        }
+    @Override
+    public boolean isShutDown() {
+      return shutdown;
     }
-    @LifecycleMeta(OrderInboundWhileNotNullableLifecycleMeta.class)
-    public static class OrderInboundWhileNotNullable extends ReactiveObject {
+  }
 
-        @Relation(OrderInboundWhileNotNullableLifecycleMeta.Relations.MemberShipRelation.class)
-        private MemberShip memberShip;
+  @LifecycleMeta(KeyBoardLifecycleMetadataPostValidateCondition.class)
+  public static class NonGetterConditionKeyBoardObjectPostValidateCondition extends ReactiveObject implements TimesLeft {
 
-        @Event
-        public void pay() {}
+    private int times = 2;
+    private NonGetterConditionPowerObject powerObject;
 
-        public OrderInboundWhileNotNullable(MemberShip memberShip) {
-            this.memberShip = memberShip;
-            this.initialState(OrderInboundWhileNotNullableLifecycleMeta.States.Draft.class.getSimpleName());
-        }
+    public NonGetterConditionKeyBoardObjectPostValidateCondition(NonGetterConditionPowerObject powerObject) {
+      super();
+      this.powerObject = powerObject;
+      initialState(KeyBoardLifecycleMetadataPostValidateCondition.States.ReadingInput.class.getSimpleName());
     }
+
+    @Condition(KeyBoardLifecycleMetadataPostValidateCondition.Conditions.TimesLeft.class)
+    public TimesLeft timeLeft() {
+      return this;
+    }
+
+    @Relation(PowerRelation.class)
+    public NonGetterConditionPowerObject getPowerRelation() {
+      return this.powerObject;
+    }
+
+    @Event
+    public void pressAnyKey() {
+      times = times - 1;
+      powerObject.reducePower();
+    }
+
+    @Override
+    public boolean timesLeft() {
+      return times > 0;
+    }
+
+    @Override
+    public boolean isPowerOff() {
+      return !powerObject.powerLeft();
+    }
+  }
+
+  @LifecycleMeta(KeyBoardLifecycleMetadataPreValidateCondition.class)
+  public static class KeyBoardObjectPreValidateCondition extends ReactiveObject implements TimesLeft {
+
+    private int times = 2;
+    @Relation(PowerRelation.class)
+    private PowerObject powerObject;
+
+    public KeyBoardObjectPreValidateCondition(PowerObject powerObject) {
+      this.powerObject = powerObject;
+      initialState(KeyBoardLifecycleMetadataPreValidateCondition.States.ReadingInput.class.getSimpleName());
+    }
+
+    @Condition(KeyBoardLifecycleMetadataPreValidateCondition.Conditions.TimesLeft.class)
+    public TimesLeft getTimeLeft() {
+      return this;
+    }
+
+    @Event
+    public void pressAnyKey() {
+      times = times - 1;
+    }
+
+    @Override
+    public boolean timesLeft() {
+      return times > 0;
+    }
+
+    @Override
+    public boolean isPowerOff() {
+      return !powerObject.powerLeft() || powerObject.shutdown;
+    }
+  }
+
+  @LifecycleMeta(KeyBoardLifecycleMetadataPostValidateCondition.class)
+  public static class KeyBoardObjectPostValidateCondition extends ReactiveObject implements TimesLeft {
+
+    private int times = 2;
+    @Relation(PowerRelation.class)
+    private PowerObject powerObject;
+
+    public KeyBoardObjectPostValidateCondition(PowerObject powerObject) {
+      super();
+      this.powerObject = powerObject;
+      initialState(KeyBoardLifecycleMetadataPostValidateCondition.States.ReadingInput.class.getSimpleName());
+    }
+
+    @Condition(KeyBoardLifecycleMetadataPostValidateCondition.Conditions.TimesLeft.class)
+    public TimesLeft getTimeLeft() {
+      return this;
+    }
+
+    @Event
+    public void pressAnyKey() {
+      times = times - 1;
+      powerObject.reducePower();
+    }
+
+    @Override
+    public boolean timesLeft() {
+      return times > 0;
+    }
+
+    @Override
+    public boolean isPowerOff() {
+      return !powerObject.powerLeft();
+    }
+  }
+
+  @LifecycleMeta(InternetServiceLifecycleMeta.class)
+  public static class BaseServiceWithRelationOnFields<T extends BaseServiceProvider> extends ReactiveObject {
+
+    @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
+    private Customer customer;
+
+    public BaseServiceWithRelationOnFields(Customer customer) {
+      initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
+      this.customer = customer;
+    }
+
+    private T provider;
+
+    public T getProvider() {
+      return provider;
+    }
+
+    public void setProvider(T provider) {
+      this.provider = provider;
+    }
+
+    public Customer getCustomer() {
+      return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+      this.customer = customer;
+    }
+
+    @Event
+    void start() {
+    }
+
+    @Event
+    void end() {
+    }
+  }
+
+  @LifecycleMeta(InternetTVServiceLifecycle.class)
+  public static class InternetTVServiceWithRelationOnFields extends BaseServiceWithRelationOnFields<InternetTVServiceProvider> {
+
+    public InternetTVServiceWithRelationOnFields(Customer customer, InternetTVServiceProvider provider) {
+      super(customer);
+      this.provider = provider;
+    }
+
+    @Relation(InternetTVServiceLifecycle.Relations.TVProvider.class)
+    public InternetTVServiceProvider provider;
+  }
+
+  @StateMachine
+  static interface MemberShipLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Activate.class, value = {Active.class})
+      static interface Draft {}
+
+      @Transition(event = Events.Expire.class, value = {Expired.class})
+      static interface Active {}
+
+      @Final
+      static interface Expired {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Activate {}
+
+      static interface Expire {}
+    }
+  }
+
+  @StateMachine
+  static interface OrderValidWhileNullableLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Pay.class, value = {Paid.class})
+      @ValidWhile(on = {MemberShipLifecycleMeta.States.Active.class}, relation = Relations.MemberShipRelation.class, nullable = true)
+      static interface Draft {}
+
+      @Final
+      static interface Paid {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Pay {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @RelateTo(MemberShipLifecycleMeta.class)
+      static interface MemberShipRelation {}
+    }
+  }
+
+  @StateMachine
+  static interface OrderValidWhileNotNullableLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Pay.class, value = {Paid.class})
+      @ValidWhile(on = {MemberShipLifecycleMeta.States.Active.class}, relation = Relations.MemberShipRelation.class, nullable = false)
+      static interface Draft {}
+
+      @Final
+      static interface Paid {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Pay {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @RelateTo(MemberShipLifecycleMeta.class)
+      static interface MemberShipRelation {}
+    }
+  }
+
+  @LifecycleMeta(MemberShipLifecycleMeta.class)
+  public static class MemberShip extends ReactiveObject {
+
+    private int point;
+    private Date activatedOn;
+    private Date expiredOn;
+
+    public MemberShip() {
+      this.initialState(MemberShipLifecycleMeta.States.Draft.class.getSimpleName());
+    }
+
+    @Event(MemberShipLifecycleMeta.Events.Activate.class)
+    public void active() {
+      this.activatedOn = new Date();
+      point = 0;
+    }
+
+    @Event
+    public void expire() {
+      this.expiredOn = new Date();
+      point = 0;
+    }
+
+    public void setPoint(int point) {
+      this.point = point;
+    }
+
+    public int getPoint() {
+      return point;
+    }
+
+    public Date getActivatedOn() {
+      return activatedOn;
+    }
+
+    public Date getExpiredOn() {
+      return expiredOn;
+    }
+  }
+
+  @LifecycleMeta(OrderValidWhileNullableLifecycleMeta.class)
+  public static class OrderValidWhileNullable extends ReactiveObject {
+
+    private double totalAmount = 400d;
+    @Relation(OrderValidWhileNullableLifecycleMeta.Relations.MemberShipRelation.class)
+    private MemberShip memberShip;
+
+    public OrderValidWhileNullable(MemberShip memberShip) {
+      this.memberShip = memberShip;
+      this.initialState(OrderValidWhileNullableLifecycleMeta.States.Draft.class.getSimpleName());
+    }
+
+    @Event
+    public void pay() {
+      if (null != memberShip) {
+        memberShip.setPoint((int) totalAmount);
+      }
+    }
+  }
+
+  @LifecycleMeta(OrderValidWhileNotNullableLifecycleMeta.class)
+  public static class OrderValidWhileNotNullable extends ReactiveObject {
+
+    private double totalAmount = 400d;
+    @Relation(OrderValidWhileNotNullableLifecycleMeta.Relations.MemberShipRelation.class)
+    private MemberShip memberShip;
+
+    public OrderValidWhileNotNullable(MemberShip memberShip) {
+      this.memberShip = memberShip;
+      this.initialState(OrderValidWhileNotNullableLifecycleMeta.States.Draft.class.getSimpleName());
+    }
+
+    @Event
+    public void pay() {
+      if (null != memberShip) {
+        memberShip.setPoint((int) totalAmount);
+      }
+    }
+  }
+
+  @StateMachine
+  static interface OrderInboundWhileNullableLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Pay.class, value = {Paid.class})
+      static interface Draft {}
+
+      @Final
+      @InboundWhile(on = {MemberShipLifecycleMeta.States.Active.class}, relation = Relations.MemberShipRelation.class, nullable = true)
+      static interface Paid {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Pay {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @RelateTo(MemberShipLifecycleMeta.class)
+      static interface MemberShipRelation {}
+    }
+  }
+
+  @StateMachine
+  static interface OrderInboundWhileNotNullableLifecycleMeta {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Pay.class, value = {Paid.class})
+      static interface Draft {}
+
+      @Final
+      @InboundWhile(on = {MemberShipLifecycleMeta.States.Active.class}, relation = Relations.MemberShipRelation.class, nullable = false)
+      static interface Paid {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Pay {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @RelateTo(MemberShipLifecycleMeta.class)
+      static interface MemberShipRelation {}
+    }
+  }
+
+  @LifecycleMeta(OrderInboundWhileNullableLifecycleMeta.class)
+  public static class OrderInboundWhileNullable extends ReactiveObject {
+
+    @Relation(OrderInboundWhileNullableLifecycleMeta.Relations.MemberShipRelation.class)
+    private MemberShip memberShip;
+
+    @Event
+    public void pay() {
+    }
+
+    public OrderInboundWhileNullable(MemberShip memberShip) {
+      this.memberShip = memberShip;
+      this.initialState(OrderInboundWhileNullableLifecycleMeta.States.Draft.class.getSimpleName());
+    }
+  }
+
+  @LifecycleMeta(OrderInboundWhileNotNullableLifecycleMeta.class)
+  public static class OrderInboundWhileNotNullable extends ReactiveObject {
+
+    @Relation(OrderInboundWhileNotNullableLifecycleMeta.Relations.MemberShipRelation.class)
+    private MemberShip memberShip;
+
+    @Event
+    public void pay() {
+    }
+
+    public OrderInboundWhileNotNullable(MemberShip memberShip) {
+      this.memberShip = memberShip;
+      this.initialState(OrderInboundWhileNotNullableLifecycleMeta.States.Draft.class.getSimpleName());
+    }
+  }
 }

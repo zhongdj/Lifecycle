@@ -34,26 +34,26 @@
  */
 package net.imadz.lifecycle.demo.inheritance;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta;
 
 @LifecycleMeta(PlantResourceLifecycleMeta.class)
 public interface IPlantResource {
 
-    @Event(PlantResourceLifecycleMeta.Events.Assign.class)
-    void assign();
+  @Event(PlantResourceLifecycleMeta.Events.Assign.class)
+  void assign();
 
-    @Event(PlantResourceLifecycleMeta.Events.Release.class)
-    void release();
+  @Event(PlantResourceLifecycleMeta.Events.Release.class)
+  void release();
 
-    @Event(PlantResourceLifecycleMeta.Events.Maintain.class)
-    void doMaintain();
+  @Event(PlantResourceLifecycleMeta.Events.Maintain.class)
+  void doMaintain();
 
-    @Event(PlantResourceLifecycleMeta.Events.ConfirmMaintainOver.class)
-    void confirmMaintainOver();
+  @Event(PlantResourceLifecycleMeta.Events.ConfirmMaintainOver.class)
+  void confirmMaintainOver();
 
-    @StateIndicator
-    String getState();
+  @StateIndicator
+  String getState();
 }

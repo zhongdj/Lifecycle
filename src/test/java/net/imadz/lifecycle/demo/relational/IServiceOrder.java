@@ -34,28 +34,28 @@
  */
 package net.imadz.lifecycle.demo.relational;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta;
+import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Events.Schedule;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.ConcreteTruckResource;
 import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Relations.PlantResource;
-import net.imadz.lifecycle.demo.relational.meta.ServiceableLifecycleMeta.Events.Schedule;
 
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
-    @Event(Schedule.class)
-    void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
-            @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
+  @Event(Schedule.class)
+  void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
+      @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
 
-    @Event(ServiceableLifecycleMeta.Events.Start.class)
-    void confirmStart();
+  @Event(ServiceableLifecycleMeta.Events.Start.class)
+  void confirmStart();
 
-    @Event(ServiceableLifecycleMeta.Events.Finish.class)
-    void confirmFinish();
+  @Event(ServiceableLifecycleMeta.Events.Finish.class)
+  void confirmFinish();
 
-    @StateIndicator
-    String getServiceOrderState();
+  @StateIndicator
+  String getServiceOrderState();
 }

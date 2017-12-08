@@ -40,6 +40,6 @@ import net.imadz.verification.VerificationException;
 
 public interface RelationMetaBuilder extends AnnotationMetaBuilder<RelationMetadata, StateMachineMetadata>, RelationMetadata {
 
-    @Override
-    RelationMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
+  @Override
+  RelationMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
 }

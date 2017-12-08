@@ -38,19 +38,19 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
 public class CallbackPositiveTests extends CallbackTestBase {
 
-    @Test
-    public final void test_callbacks_with_default_value() throws VerificationException {
-        @LifecycleRegistry(PLM_With_CallBacksWithDefaultValues.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public final void test_callbacks_with_default_value() throws VerificationException {
+    @LifecycleRegistry(PLM_With_CallBacksWithDefaultValues.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        new Registry();
+      protected Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 }

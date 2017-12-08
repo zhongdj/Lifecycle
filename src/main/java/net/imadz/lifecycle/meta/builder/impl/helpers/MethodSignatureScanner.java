@@ -34,33 +34,35 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
+import net.imadz.util.MethodScanCallback;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import net.imadz.util.MethodScanCallback;
-
 public final class MethodSignatureScanner implements MethodScanCallback {
 
-    private Method targetMethod = null;
-    private String targetMethodName = null;
-    private Class<?>[] parameterTypes = null;
+  private Method targetMethod = null;
+  private String targetMethodName = null;
+  private Class<?>[] parameterTypes = null;
 
-    public MethodSignatureScanner(String setterName, Class<?>[] classes) {
-        this.targetMethodName = setterName;
-        this.parameterTypes = classes;
-    }
+  public MethodSignatureScanner(String setterName, Class<?>[] classes) {
+    this.targetMethodName = setterName;
+    this.parameterTypes = classes;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        if ( null == targetMethod && targetMethodName.equals(method.getName()) && Arrays.equals(method.getParameterTypes(), parameterTypes) ) {
-            targetMethod = method;
-            return true;
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    if (null == targetMethod && targetMethodName.equals(method.getName()) && Arrays.equals(method.getParameterTypes(), parameterTypes)) {
+      targetMethod = method;
+      return true;
+    }
+    return false;
+  }
 
-    public Method getMethod() {
-        return targetMethod;
-    }
+  public Method getMethod() {
+    return targetMethod;
+  }
 }

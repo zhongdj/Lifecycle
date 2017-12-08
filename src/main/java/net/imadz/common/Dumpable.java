@@ -40,11 +40,11 @@ package net.imadz.common;
  */
 public interface Dumpable {
 
-    /**
-     * Dump out the contents using the given indentation. Any subelements should
-     * be additionally indented.
-     * 
-     * argument out
-     */
-    void dump(Dumper dumper);
+  /**
+   * Dump out the contents using the given indentation. Any subelements should
+   * be additionally indented.
+   * <p>
+   * argument out
+   */
+  void dump(Dumper dumper);
 }

@@ -34,12 +34,12 @@
  */
 package net.imadz.lifecycle.syntax.register;
 
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
@@ -49,109 +49,128 @@ import net.imadz.lifecycle.syntax.register.RegisterSyntaxTestMetaData.IncorrectS
 
 public class RegisterSyntaxTestMetaData extends BaseMetaDataTest {
 
-    @StateMachine
-    public static interface CorrectStateMachineSyntax {
+  @StateMachine
+  public static interface CorrectStateMachineSyntax {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = EventOne.class, value = StateB.class)
-            static interface StateA {}
-            @Final
-            static interface StateB {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = EventOne.class, value = StateB.class)
+      static interface StateA {}
 
-            static interface EventOne {}
-        }
-    }
-    @LifecycleMeta(CorrectStateMachineSyntax.class)
-    protected static class CorrectLifecycleMetaSyntax {
-
-        private String state;
-
-        @Event(EventOne.class)
-        public void foo() {}
-
-        public String getState() {
-            return state;
-        }
-
-        @SuppressWarnings("unused")
-        private void setState(String stateName) {
-            this.state = stateName;
-        }
-    }
-    protected static class WithoutMetadataAnnotationErrorSyntax {}
-    @StateMachine
-    public static interface CorrectStateMachineInheritanceSuperSyntax {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = EventTwo.class, value = StateD.class)
-            static interface StateC {}
-            @Final
-            static interface StateD {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface EventTwo {}
-        }
-    }
-    @StateMachine
-    public static interface CorrectStateMachineInheritanceChildSyntax extends CorrectStateMachineInheritanceSuperSyntax {}
-    public static interface IncorrectStateMachineInheritanceSuperSyntax {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = EventThree.class, value = StateF.class)
-            static interface StateE {}
-            @Final
-            static interface StateF {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface EventThree {}
-        }
-    }
-    @StateMachine
-    public static interface IncorrectStateMachineInheritanceChildSyntax extends IncorrectStateMachineInheritanceSuperSyntax {}
-    @StateMachine
-    public static interface IncorrectStateMachineInheritanceChildWithMultiSuperInterfacesSyntax extends CorrectStateMachineInheritanceSuperSyntax,
-            IncorrectStateMachineInheritanceSuperSyntax {}
-
-    public RegisterSyntaxTestMetaData() {
-        super();
+      @Final
+      static interface StateB {}
     }
 
-    protected static interface WrongStateMachineSyntaxWithoutAnnotation {}
-    @LifecycleMeta(WrongStateMachineSyntaxWithoutAnnotation.class)
-    protected static class WrongLifecycleMetaSyntaxWithStateMachineWithoutAnnotation {}
-    public static class NonStateMachineClass {}
-    @StateMachine
-    public static class IllegalExtendsNonStateMachineClass extends NonStateMachineClass {
+    @EventSet
+    static interface Events {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = EventThree.class, value = StateF.class)
-            static interface StateE {}
-            @Final
-            static interface StateF {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface EventThree {}
-        }
+      static interface EventOne {}
     }
+  }
+
+  @LifecycleMeta(CorrectStateMachineSyntax.class)
+  protected static class CorrectLifecycleMetaSyntax {
+
+    private String state;
+
+    @Event(EventOne.class)
+    public void foo() {
+    }
+
+    public String getState() {
+      return state;
+    }
+
+    @SuppressWarnings("unused")
+    private void setState(String stateName) {
+      this.state = stateName;
+    }
+  }
+
+  protected static class WithoutMetadataAnnotationErrorSyntax {}
+
+  @StateMachine
+  public static interface CorrectStateMachineInheritanceSuperSyntax {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = EventTwo.class, value = StateD.class)
+      static interface StateC {}
+
+      @Final
+      static interface StateD {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface EventTwo {}
+    }
+  }
+
+  @StateMachine
+  public static interface CorrectStateMachineInheritanceChildSyntax extends CorrectStateMachineInheritanceSuperSyntax {}
+
+  public static interface IncorrectStateMachineInheritanceSuperSyntax {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = EventThree.class, value = StateF.class)
+      static interface StateE {}
+
+      @Final
+      static interface StateF {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface EventThree {}
+    }
+  }
+
+  @StateMachine
+  public static interface IncorrectStateMachineInheritanceChildSyntax extends IncorrectStateMachineInheritanceSuperSyntax {}
+
+  @StateMachine
+  public static interface IncorrectStateMachineInheritanceChildWithMultiSuperInterfacesSyntax extends CorrectStateMachineInheritanceSuperSyntax,
+      IncorrectStateMachineInheritanceSuperSyntax {}
+
+  public RegisterSyntaxTestMetaData() {
+    super();
+  }
+
+  protected static interface WrongStateMachineSyntaxWithoutAnnotation {}
+
+  @LifecycleMeta(WrongStateMachineSyntaxWithoutAnnotation.class)
+  protected static class WrongLifecycleMetaSyntaxWithStateMachineWithoutAnnotation {}
+
+  public static class NonStateMachineClass {}
+
+  @StateMachine
+  public static class IllegalExtendsNonStateMachineClass extends NonStateMachineClass {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = EventThree.class, value = StateF.class)
+      static interface StateE {}
+
+      @Final
+      static interface StateF {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface EventThree {}
+    }
+  }
 }

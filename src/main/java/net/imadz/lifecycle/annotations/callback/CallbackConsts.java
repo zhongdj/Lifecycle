@@ -36,7 +36,8 @@ package net.imadz.lifecycle.annotations.callback;
 
 public final class CallbackConsts {
 
-    public static final String NULL_STR = "$null$";
+  public static final String NULL_STR = "$null$";
 
-    private CallbackConsts() {}
+  private CallbackConsts() {
+  }
 }

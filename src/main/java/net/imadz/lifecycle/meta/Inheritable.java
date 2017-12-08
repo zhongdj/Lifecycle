@@ -36,9 +36,9 @@ package net.imadz.lifecycle.meta;
 
 public interface Inheritable<T> {
 
-    T getSuper();
+  T getSuper();
 
-    boolean isOverriding();
+  boolean isOverriding();
 
-    boolean hasSuper();
+  boolean hasSuper();
 }

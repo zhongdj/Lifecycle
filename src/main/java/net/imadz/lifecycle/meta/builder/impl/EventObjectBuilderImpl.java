@@ -34,10 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl;
 
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
-
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.meta.builder.EventObjectBuilder;
 import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
@@ -47,43 +43,47 @@ import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
+
 public class EventObjectBuilderImpl extends ObjectBuilderBase<EventObject, StateMachineObject<?>, EventMetadata> implements
-        EventObjectBuilder {
+    EventObjectBuilder {
 
-    private Method eventMethod;
-    private final List<EventCallbackObject> eventCallbacks = new LinkedList<EventCallbackObject>();
+  private Method eventMethod;
+  private final List<EventCallbackObject> eventCallbacks = new LinkedList<EventCallbackObject>();
 
-    public EventObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method eventMethod, EventMetadata template) {
-        super(parent, "EventSet." + template.getDottedPath().getName() + "." + eventMethod.getName());
-        this.eventMethod = eventMethod;
-        this.setMetaType(template);
+  public EventObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method eventMethod, EventMetadata template) {
+    super(parent, "EventSet." + template.getDottedPath().getName() + "." + eventMethod.getName());
+    this.eventMethod = eventMethod;
+    this.setMetaType(template);
+  }
+
+  @Override
+  public EventObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
+    super.build(klass, parent);
+    return this;
+  }
+
+  @Override
+  public Method getEventMethod() {
+    return eventMethod;
+  }
+
+  @Override
+  public void verifyMetaData(VerificationFailureSet verificationSet) {
+    // TODO Auto-generated method stub
+  }
+
+  @Override
+  public void addSpecificOnEventCallbackObject(EventCallbackObject item) {
+    this.eventCallbacks.add(item);
+  }
+
+  @Override
+  public void invokeEventCallbacks(LifecycleContext<?, ?> callbackContext) {
+    for (final EventCallbackObject callback : eventCallbacks) {
+      callback.doCallback(callbackContext);
     }
-
-    @Override
-    public EventObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
-        super.build(klass, parent);
-        return this;
-    }
-
-    @Override
-    public Method getEventMethod() {
-        return eventMethod;
-    }
-
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {
-        // TODO Auto-generated method stub
-    }
-
-	@Override
-	public void addSpecificOnEventCallbackObject(EventCallbackObject item) {
-		this.eventCallbacks.add(item);
-	}
-
-	@Override
-	public void invokeEventCallbacks(LifecycleContext<?, ?> callbackContext) {
-		for (final EventCallbackObject callback : eventCallbacks) {
-			callback.doCallback(callbackContext);
-		}
-	}
+  }
 }

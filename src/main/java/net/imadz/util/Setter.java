@@ -36,5 +36,5 @@ package net.imadz.util;
 
 public interface Setter<T> {
 
-    void invoke(Object reactiveObject, T state);
+  void invoke(Object reactiveObject, T state);
 }

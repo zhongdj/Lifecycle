@@ -34,14 +34,14 @@
  */
 package net.imadz.lifecycle.annotations;
 
+import net.imadz.bcel.intercept.Interceptable;
+import net.imadz.utils.Null;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import net.imadz.bcel.intercept.Interceptable;
-import net.imadz.utils.Null;
 
 @Interceptable
 @Target(ElementType.METHOD)
@@ -49,5 +49,5 @@ import net.imadz.utils.Null;
 @Inherited
 public @interface Event {
 
-    Class<?> value() default Null.class;
+  Class<?> value() default Null.class;
 }

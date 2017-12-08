@@ -43,5 +43,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RelateTo {
 
-    Class<?> value();
+  Class<?> value();
 }

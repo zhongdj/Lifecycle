@@ -41,38 +41,38 @@ import net.imadz.meta.MetaData;
 import net.imadz.verification.VerificationException;
 
 public abstract class ObjectBuilderBase<SELF extends MetaObject<SELF, TYPE>, PARENT extends MetaData, TYPE extends MetaType<TYPE>> extends
-        InheritableAnnotationMetaBuilderBase<SELF, PARENT> implements MetaObject<SELF, TYPE> {
+    InheritableAnnotationMetaBuilderBase<SELF, PARENT> implements MetaObject<SELF, TYPE> {
 
-    private TYPE metaType;
+  private TYPE metaType;
 
-    public ObjectBuilderBase(PARENT parent, String name) {
-        super(parent, name);
-    }
+  public ObjectBuilderBase(PARENT parent, String name) {
+    super(parent, name);
+  }
 
-    @Override
-    public boolean hasSuper() {
-        return false;
-    }
+  @Override
+  public boolean hasSuper() {
+    return false;
+  }
 
-    @Override
-    protected SELF findSuper(Class<?> metaClass) throws VerificationException {
-        return null;
-    }
+  @Override
+  protected SELF findSuper(Class<?> metaClass) throws VerificationException {
+    return null;
+  }
 
-    @Override
-    public TYPE getMetaType() {
-        return metaType;
-    }
+  @Override
+  public TYPE getMetaType() {
+    return metaType;
+  }
 
-    protected void setMetaType(TYPE metaType) {
-        this.metaType = metaType;
-    }
+  protected void setMetaType(TYPE metaType) {
+    this.metaType = metaType;
+  }
 
-    @Override
-    public AnnotationMetaBuilder<SELF, PARENT> build(Class<?> klass, PARENT parent) throws VerificationException {
-        setPrimaryKey(getMetaType().getPrimaryKey());
-        addKey(getPrimaryKey());
-        addKeys(getMetaType().getKeySet());
-        return this;
-    }
+  @Override
+  public AnnotationMetaBuilder<SELF, PARENT> build(Class<?> klass, PARENT parent) throws VerificationException {
+    setPrimaryKey(getMetaType().getPrimaryKey());
+    addKey(getPrimaryKey());
+    addKeys(getMetaType().getKeySet());
+    return this;
+  }
 }

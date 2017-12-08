@@ -38,5 +38,5 @@ import net.imadz.meta.MetaData;
 
 public interface MetaObject<O extends MetaObject<O, T>, T extends MetaType<T>> extends MetaData {
 
-    T getMetaType();
+  T getMetaType();
 }

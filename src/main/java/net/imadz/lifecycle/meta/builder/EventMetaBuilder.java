@@ -34,12 +34,12 @@
  */
 package net.imadz.lifecycle.meta.builder;
 
-import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
+import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.verification.VerificationException;
 
 public interface EventMetaBuilder extends AnnotationMetaBuilder<EventMetadata, StateMachineMetadata>, EventMetadata {
 
-    @Override
-    EventMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
+  @Override
+  EventMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
 }

@@ -43,22 +43,23 @@ import net.imadz.verification.VerificationException;
 @StateMachineBuilder
 public class DefaultStateMachineRegistry extends AbsStateMachineRegistry {
 
-    private static volatile DefaultStateMachineRegistry INSTANCE;
+  private static volatile DefaultStateMachineRegistry INSTANCE;
 
-    public static AbsStateMachineRegistry getInstance() {
-        if ( null == INSTANCE ) {
-            synchronized (AbsStateMachineRegistry.class) {
-                if ( null == INSTANCE ) {
-                    try {
-                        INSTANCE = new DefaultStateMachineRegistry();
-                    } catch (VerificationException e) {
-                        throw new IllegalStateException(e);
-                    }
-                }
-            }
+  public static AbsStateMachineRegistry getInstance() {
+    if (null == INSTANCE) {
+      synchronized (AbsStateMachineRegistry.class) {
+        if (null == INSTANCE) {
+          try {
+            INSTANCE = new DefaultStateMachineRegistry();
+          } catch (VerificationException e) {
+            throw new IllegalStateException(e);
+          }
         }
-        return INSTANCE;
+      }
     }
+    return INSTANCE;
+  }
 
-    protected DefaultStateMachineRegistry() throws VerificationException {}
+  protected DefaultStateMachineRegistry() throws VerificationException {
+  }
 }

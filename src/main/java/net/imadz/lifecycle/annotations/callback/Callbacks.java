@@ -43,9 +43,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Callbacks {
 
-    PreStateChange[] preStateChange() default {};
+  PreStateChange[] preStateChange() default {};
 
-    PostStateChange[] postStateChange() default {};
-    
-    OnEvent[] onEvent() default {};
+  PostStateChange[] postStateChange() default {};
+
+  OnEvent[] onEvent() default {};
 }

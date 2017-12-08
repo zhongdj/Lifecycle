@@ -34,8 +34,6 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.util.Map.Entry;
-
 import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleLockStrategy;
 import net.imadz.lifecycle.meta.MetaObject;
@@ -44,32 +42,34 @@ import net.imadz.lifecycle.meta.builder.impl.EventCallbackObject;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.util.StateAccessible;
 
+import java.util.Map.Entry;
+
 public interface StateMachineObject<S> extends MetaObject<StateMachineObject<S>, StateMachineMetadata>, LifecycleEngine<S> {
 
-    LifecycleLockStrategy getLifecycleLockStrategy();
+  LifecycleLockStrategy getLifecycleLockStrategy();
 
-    String evaluateState(Object target);
+  String evaluateState(Object target);
 
-    void validateValidWhiles(Object target, UnlockableStack stack);
+  void validateValidWhiles(Object target, UnlockableStack stack);
 
-    boolean isLockEnabled();
+  boolean isLockEnabled();
 
-    StateObject<S> getState(Object stateKey);
-    
-    EventObject getEvent(Object eventKey);
+  StateObject<S> getState(Object stateKey);
 
-    void addSpecificPreStateChangeCallbackObject(CallbackObject item);
+  EventObject getEvent(Object eventKey);
 
-    void addCommonPreStateChangeCallbackObject(CallbackObject item);
+  void addSpecificPreStateChangeCallbackObject(CallbackObject item);
 
-    void addSpecificPostStateChangeCallbackObject(CallbackObject item);
+  void addCommonPreStateChangeCallbackObject(CallbackObject item);
 
-    void addCommonPostStateChangeCallbackObject(CallbackObject item);
-    
-    /**
-     *  returns (state indicator name, initial state simple name)
-     */
-     Entry<StateAccessible<String>, String>  getInitialState();
+  void addSpecificPostStateChangeCallbackObject(CallbackObject item);
 
-	void addCommonOnEventCallbackObject(EventCallbackObject item);
+  void addCommonPostStateChangeCallbackObject(CallbackObject item);
+
+  /**
+   * returns (state indicator name, initial state simple name)
+   */
+  Entry<StateAccessible<String>, String> getInitialState();
+
+  void addCommonOnEventCallbackObject(EventCallbackObject item);
 }

@@ -38,17 +38,17 @@ import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 
 public interface LifecycleEvent {
 
-    Object getReactiveObject();
+  Object getReactiveObject();
 
-    String fromState();
+  String fromState();
 
-    String toState();
+  String toState();
 
-    String event();
+  String event();
 
-    EventTypeEnum eventType();
+  EventTypeEnum eventType();
 
-    long startTime();
+  long startTime();
 
-    long endTime();
+  long endTime();
 }

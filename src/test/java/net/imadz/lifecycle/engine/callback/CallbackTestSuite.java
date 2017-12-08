@@ -35,11 +35,11 @@
 package net.imadz.lifecycle.engine.callback;
 
 import net.imadz.lifecycle.engine.callback.priority.PostStateChangeByPriorityPositiveTests;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CallbackExtendedAndOverrideTests.class, PostStateChangePositiveTests.class, PreStateChangePositiveTests.class, PostStateChangeByPriorityPositiveTests.class, OnEventCallbackPositiveTests.class })
+@SuiteClasses({CallbackExtendedAndOverrideTests.class, PostStateChangePositiveTests.class, PreStateChangePositiveTests.class,
+    PostStateChangeByPriorityPositiveTests.class, OnEventCallbackPositiveTests.class})
 public class CallbackTestSuite {}

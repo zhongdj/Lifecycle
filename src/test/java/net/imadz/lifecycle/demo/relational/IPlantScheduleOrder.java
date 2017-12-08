@@ -34,22 +34,22 @@
  */
 package net.imadz.lifecycle.demo.relational;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta;
 
 @LifecycleMeta(PlantScheduleOrderLifecycleMeta.class)
 public interface IPlantScheduleOrder {
 
-    @Event(PlantScheduleOrderLifecycleMeta.Events.Start.class)
-    void doStartPlantOrder();
+  @Event(PlantScheduleOrderLifecycleMeta.Events.Start.class)
+  void doStartPlantOrder();
 
-    @Event(PlantScheduleOrderLifecycleMeta.Events.Finish.class)
-    void doFinishPlantOrder();
+  @Event(PlantScheduleOrderLifecycleMeta.Events.Finish.class)
+  void doFinishPlantOrder();
 
-    IServiceOrder getServiceOrder();
+  IServiceOrder getServiceOrder();
 
-    @StateIndicator
-    String getPlantScheduleOrderState();
+  @StateIndicator
+  String getPlantScheduleOrderState();
 }

@@ -39,11 +39,11 @@ package net.imadz.verification;
  */
 public interface Verifiable {
 
-    /**
-     * Verify that all parameters of the action are valid.
-     * 
-     * @return VerificationFailureSet containing zero entries, or more if the
-     *         object has verification errors.
-     */
-    public VerificationFailureSet verify();
+  /**
+   * Verify that all parameters of the action are valid.
+   *
+   * @return VerificationFailureSet containing zero entries, or more if the
+   * object has verification errors.
+   */
+  public VerificationFailureSet verify();
 }

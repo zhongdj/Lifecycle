@@ -34,11 +34,11 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.ConcreteTruckResourceLifecycleMeta.Events.Assign;
@@ -48,22 +48,27 @@ import net.imadz.lifecycle.demo.relational.meta.ConcreteTruckResourceLifecycleMe
 @StateMachine
 public interface ConcreteTruckResourceLifecycleMeta {
 
-    @StateSet
-    public static class States {
+  @StateSet
+  public static class States {
 
-        @Initial
-        @Transitions({ @Transition(event = Assign.class, value = Busy.class), @Transition(event = Detach.class, value = Detached.class) })
-        public static class Idle {}
-        @Transition(event = Release.class, value = Idle.class)
-        public static class Busy {}
-        @Final
-        public static class Detached {}
-    }
-    @EventSet
-    public class Events {
+    @Initial
+    @Transitions({@Transition(event = Assign.class, value = Busy.class), @Transition(event = Detach.class, value = Detached.class)})
+    public static class Idle {}
 
-        public static class Assign {}
-        public static class Release {}
-        public static class Detach {}
-    }
+    @Transition(event = Release.class, value = Idle.class)
+    public static class Busy {}
+
+    @Final
+    public static class Detached {}
+  }
+
+  @EventSet
+  public class Events {
+
+    public static class Assign {}
+
+    public static class Release {}
+
+    public static class Detach {}
+  }
 }

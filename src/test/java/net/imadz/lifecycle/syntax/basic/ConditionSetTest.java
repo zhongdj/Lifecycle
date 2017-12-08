@@ -35,13 +35,13 @@
 package net.imadz.lifecycle.syntax.basic;
 
 import net.imadz.lifecycle.AbsStateMachineRegistry;
-import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.SyntaxErrors;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
@@ -49,81 +49,88 @@ import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Conditions.CompareWithZero;
+import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Events.Z;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.States.I;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.States.J;
-import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Events.Z;
 import net.imadz.lifecycle.syntax.basic.ConditionSetTest.InvalidStateMachineWithMultiConditionSet.Utils.ConcreteCondition;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
 public class ConditionSetTest extends BaseMetaDataTest {
 
-    @Test(expected = VerificationException.class)
-    public void should_throw_exception_002_3400_if_exists_multiple_condition_set() throws VerificationException {
-        @LifecycleRegistry(InvalidStateMachineWithMultiConditionSet.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test(expected = VerificationException.class)
+  public void should_throw_exception_002_3400_if_exists_multiple_condition_set() throws VerificationException {
+    @LifecycleRegistry(InvalidStateMachineWithMultiConditionSet.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        try {
-            new Registry();
-        } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.CONDITIONSET_MULTIPLE, InvalidStateMachineWithMultiConditionSet.class);
-            throw e;
-        }
+      protected Registry() throws VerificationException {
+      }
+    }
+    try {
+      new Registry();
+    } catch (VerificationException e) {
+      assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.CONDITIONSET_MULTIPLE, InvalidStateMachineWithMultiConditionSet
+          .class);
+      throw e;
+    }
+  }
+
+  @StateMachine
+  static interface InvalidStateMachineWithMultiConditionSet {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Z.class, value = {I.class, J.class})
+      static interface H {}
+
+      @Transition(event = Z.class, value = {I.class, J.class})
+      static interface I {}
+
+      @Final
+      static interface J {}
     }
 
-    @StateMachine
-    static interface InvalidStateMachineWithMultiConditionSet {
+    @EventSet
+    static interface Events {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Z.class, value = { I.class, J.class })
-            static interface H {}
-            @Transition(event = Z.class, value = { I.class, J.class })
-            static interface I {}
-            @Final
-            static interface J {}
-        }
-        @EventSet
-        static interface Events {
-
-            @Conditional(judger = ConcreteCondition.class, condition = CompareWithZero.class)
-            static interface Z {}
-        }
-        @ConditionSet
-        public static interface Conditions {
-
-            public static interface CompareWithZero {
-
-                int intValue();
-            }
-        }
-        @ConditionSet
-        public static interface Conditions2 {
-
-            public static interface CompareWithZero {
-
-                int intValue();
-            }
-        }
-        public static class Utils {
-
-            public static class ConcreteCondition implements ConditionalEvent<CompareWithZero> {
-
-                @Override
-                public Class<?> doConditionJudge(CompareWithZero t) {
-                    if ( t.intValue() > 0 ) {
-                        return I.class;
-                    } else {
-                        return J.class;
-                    }
-                }
-            }
-        }
+      @Conditional(judger = ConcreteCondition.class, condition = CompareWithZero.class)
+      static interface Z {}
     }
+
+    @ConditionSet
+    public static interface Conditions {
+
+      public static interface CompareWithZero {
+
+        int intValue();
+      }
+    }
+
+    @ConditionSet
+    public static interface Conditions2 {
+
+      public static interface CompareWithZero {
+
+        int intValue();
+      }
+    }
+
+    public static class Utils {
+
+      public static class ConcreteCondition implements ConditionalEvent<CompareWithZero> {
+
+        @Override
+        public Class<?> doConditionJudge(CompareWithZero t) {
+          if (t.intValue() > 0) {
+            return I.class;
+          } else {
+            return J.class;
+          }
+        }
+      }
+    }
+  }
 }

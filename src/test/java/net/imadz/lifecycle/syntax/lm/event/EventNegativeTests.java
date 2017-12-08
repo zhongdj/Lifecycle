@@ -34,50 +34,50 @@
  */
 package net.imadz.lifecycle.syntax.lm.event;
 
-import java.util.HashMap;
-import java.util.Iterator;
-
 import net.imadz.lifecycle.AbsStateMachineRegistry;
-import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
+import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 import net.imadz.lifecycle.syntax.lm.event.EventTestMetadata.SpecialTranstionStateMachine.Events.Activate;
 import net.imadz.lifecycle.syntax.lm.event.EventTestMetadata.SpecialTranstionStateMachine.Events.Inactivate;
 import net.imadz.lifecycle.syntax.lm.event.EventTestMetadata.SpecialTranstionStateMachine.Events.Restart;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailure;
-
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class EventNegativeTests extends EventTestMetadata {
 
-    @Test(expected = VerificationException.class)
-    public void should_throw_exception_if_event_method_of_special_event_type_has_parameter() throws VerificationException, Throwable {
-        @LifecycleRegistry(NegativeProcess.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test(expected = VerificationException.class)
+  public void should_throw_exception_if_event_method_of_special_event_type_has_parameter() throws VerificationException, Throwable {
+    @LifecycleRegistry(NegativeProcess.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        try {
-            new Registry();
-        } catch (VerificationException e) {
-            final Iterator<VerificationFailure> iterator = e.getVerificationFailureSet().iterator();
-            final HashMap<String, VerificationFailure> errors = new HashMap<String, VerificationFailure>();
-            VerificationFailure next = iterator.next();
-            errors.put(next.getErrorKey().getName(), next);
-            next = iterator.next();
-            errors.put(next.getErrorKey().getName(), next);
-            next = iterator.next();
-            errors.put(next.getErrorKey().getName(), next);
-            assertFailure(errors.get("Inactivate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("inactivate", Integer.TYPE), Inactivate.class.getSimpleName(), EventTypeEnum.Corrupt);
-            assertFailure(errors.get("Activate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("activate", Integer.TYPE), Activate.class.getSimpleName(), EventTypeEnum.Recover);
-            assertFailure(errors.get("Restart"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
-                    NegativeProcess.class.getDeclaredMethod("restart", Integer.TYPE), Restart.class.getSimpleName(), EventTypeEnum.Redo);
-            throw e;
-        }
+      protected Registry() throws VerificationException {
+      }
     }
+    try {
+      new Registry();
+    } catch (VerificationException e) {
+      final Iterator<VerificationFailure> iterator = e.getVerificationFailureSet().iterator();
+      final HashMap<String, VerificationFailure> errors = new HashMap<String, VerificationFailure>();
+      VerificationFailure next = iterator.next();
+      errors.put(next.getErrorKey().getName(), next);
+      next = iterator.next();
+      errors.put(next.getErrorKey().getName(), next);
+      next = iterator.next();
+      errors.put(next.getErrorKey().getName(), next);
+      assertFailure(errors.get("Inactivate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+          NegativeProcess.class.getDeclaredMethod("inactivate", Integer.TYPE), Inactivate.class.getSimpleName(), EventTypeEnum.Corrupt);
+      assertFailure(errors.get("Activate"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+          NegativeProcess.class.getDeclaredMethod("activate", Integer.TYPE), Activate.class.getSimpleName(), EventTypeEnum.Recover);
+      assertFailure(errors.get("Restart"), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER,
+          NegativeProcess.class.getDeclaredMethod("restart", Integer.TYPE), Restart.class.getSimpleName(), EventTypeEnum.Redo);
+      throw e;
+    }
+  }
 }

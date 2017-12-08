@@ -35,13 +35,13 @@
 package net.imadz.lifecycle.engine;
 
 import net.imadz.lifecycle.StateConverter;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.Converter;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
@@ -49,124 +49,137 @@ import net.imadz.lifecycle.engine.StateSetterTestMetadata.SetterTestStateMachine
 
 public class StateSetterTestMetadata extends EngineTestBase {
 
-    @StateMachine
-    static interface SetterTestStateMachine {
+  @StateMachine
+  static interface SetterTestStateMachine {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = Events.Do.class, value = Done.class)
-            static interface New {}
-            @Final
-            static interface Done {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = Events.Do.class, value = Done.class)
+      static interface New {}
 
-            static interface Do {}
-        }
+      @Final
+      static interface Done {}
     }
-    @LifecycleMeta(SetterTestStateMachine.class)
-    public static interface LazySetterBusinessInterface {
 
-        @StateIndicator
-        String getState();
+    @EventSet
+    static interface Events {
 
-        @Event(Do.class)
-        void doIt();
+      static interface Do {}
     }
-    @net.imadz.lifecycle.annotations.ReactiveObject
-    public static class LazySetterBusinessImpl implements LazySetterBusinessInterface {
+  }
 
-        private String state = SetterTestStateMachine.States.New.class.getSimpleName();
+  @LifecycleMeta(SetterTestStateMachine.class)
+  public static interface LazySetterBusinessInterface {
 
-        @Override
-        public String getState() {
-            return state;
-        }
+    @StateIndicator
+    String getState();
 
-        @SuppressWarnings("unused")
-        private void setState(String state) {
-            this.state = state;
-        }
+    @Event(Do.class)
+    void doIt();
+  }
 
-        @Override
-        @Event(Do.class)
-        public void doIt() {}
+  @net.imadz.lifecycle.annotations.ReactiveObject
+  public static class LazySetterBusinessImpl implements LazySetterBusinessInterface {
+
+    private String state = SetterTestStateMachine.States.New.class.getSimpleName();
+
+    @Override
+    public String getState() {
+      return state;
     }
-    @LifecycleMeta(SetterTestStateMachine.class)
-    public static class EagerSetterBusinessImpl {
 
-        private String state = SetterTestStateMachine.States.New.class.getSimpleName();
-
-        public String getState() {
-            return state;
-        }
-
-        @SuppressWarnings("unused")
-        private void setState(String state) {
-            this.state = state;
-        }
-
-        @Event(Do.class)
-        public void doIt() {}
+    @SuppressWarnings("unused")
+    private void setState(String state) {
+      this.state = state;
     }
-    @StateMachine
-    public static interface BooleanTypeStateMachine {
 
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = Events.Close.class, value = Closed.class)
-            static interface Opened {}
-            @Final
-            static interface Closed {}
-        }
-        @EventSet
-        static interface Events {
-
-            static interface Close {}
-        }
+    @Override
+    @Event(Do.class)
+    public void doIt() {
     }
-    @LifecycleMeta(BooleanTypeStateMachine.class)
-    public static class BooleanTypeObject {
+  }
 
-        private boolean closed;
+  @LifecycleMeta(SetterTestStateMachine.class)
+  public static class EagerSetterBusinessImpl {
 
-        @StateIndicator
-        @Converter(BooleanTypeConverter.class)
-        public boolean isClosed() {
-            return closed;
-        }
+    private String state = SetterTestStateMachine.States.New.class.getSimpleName();
 
-        @SuppressWarnings("unused")
-        private void setClosed(boolean closed) {
-            this.closed = closed;
-        }
-
-        @Event
-        public void close() {}
+    public String getState() {
+      return state;
     }
-    public static class BooleanTypeConverter implements StateConverter<Boolean> {
 
-        @Override
-        public String toState(Boolean t) {
-            if ( t ) {
-                return BooleanTypeStateMachine.States.Closed.class.getSimpleName();
-            } else {
-                return BooleanTypeStateMachine.States.Opened.class.getSimpleName();
-            }
-        }
-
-        @Override
-        public Boolean fromState(String state) {
-            if ( BooleanTypeStateMachine.States.Opened.class.getSimpleName().equals(state) ) {
-                return false;
-            } else {
-                return true;
-            }
-        }
+    @SuppressWarnings("unused")
+    private void setState(String state) {
+      this.state = state;
     }
+
+    @Event(Do.class)
+    public void doIt() {
+    }
+  }
+
+  @StateMachine
+  public static interface BooleanTypeStateMachine {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Close.class, value = Closed.class)
+      static interface Opened {}
+
+      @Final
+      static interface Closed {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Close {}
+    }
+  }
+
+  @LifecycleMeta(BooleanTypeStateMachine.class)
+  public static class BooleanTypeObject {
+
+    private boolean closed;
+
+    @StateIndicator
+    @Converter(BooleanTypeConverter.class)
+    public boolean isClosed() {
+      return closed;
+    }
+
+    @SuppressWarnings("unused")
+    private void setClosed(boolean closed) {
+      this.closed = closed;
+    }
+
+    @Event
+    public void close() {
+    }
+  }
+
+  public static class BooleanTypeConverter implements StateConverter<Boolean> {
+
+    @Override
+    public String toState(Boolean t) {
+      if (t) {
+        return BooleanTypeStateMachine.States.Closed.class.getSimpleName();
+      } else {
+        return BooleanTypeStateMachine.States.Opened.class.getSimpleName();
+      }
+    }
+
+    @Override
+    public Boolean fromState(String state) {
+      if (BooleanTypeStateMachine.States.Opened.class.getSimpleName().equals(state)) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 }

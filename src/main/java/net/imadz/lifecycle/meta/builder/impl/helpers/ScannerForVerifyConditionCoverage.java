@@ -34,35 +34,37 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.meta.type.ConditionMetadata;
 import net.imadz.util.MethodScanCallback;
 
+import java.lang.reflect.Method;
+
 public final class ScannerForVerifyConditionCoverage implements MethodScanCallback {
 
-    private final ConditionMetadata conditionMetadata;
-    private boolean covered = false;
+  private final ConditionMetadata conditionMetadata;
+  private boolean covered = false;
 
-    public ScannerForVerifyConditionCoverage(ConditionMetadata conditionMetadata) {
-        this.conditionMetadata = conditionMetadata;
-    }
+  public ScannerForVerifyConditionCoverage(ConditionMetadata conditionMetadata) {
+    this.conditionMetadata = conditionMetadata;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        final Condition condition = method.getAnnotation(Condition.class);
-        if ( null != condition ) {
-            if ( conditionMetadata.getKeySet().contains(condition.value()) ) {
-                covered = true;
-                return true;
-            }
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    final Condition condition = method.getAnnotation(Condition.class);
+    if (null != condition) {
+      if (conditionMetadata.getKeySet().contains(condition.value())) {
+        covered = true;
+        return true;
+      }
+    }
+    return false;
+  }
 
-    public boolean isCovered() {
-        return covered;
-    }
+  public boolean isCovered() {
+    return covered;
+  }
 }

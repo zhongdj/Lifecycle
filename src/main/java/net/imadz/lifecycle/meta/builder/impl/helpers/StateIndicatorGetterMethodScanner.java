@@ -47,39 +47,41 @@ import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtil
 
 public final class StateIndicatorGetterMethodScanner implements MethodScanCallback {
 
-    private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private Method stateGetterMethod = null;
-    private boolean overridingFound = false;
-    private final Class<?> klass;
-    private final VerificationFailureSet failureSet;
+  private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
+  private Method stateGetterMethod = null;
+  private boolean overridingFound = false;
+  private final Class<?> klass;
+  private final VerificationFailureSet failureSet;
 
-    public StateIndicatorGetterMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, Class<?> klass,
-            final VerificationFailureSet failureSet) {
-        this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.klass = klass;
-        this.failureSet = failureSet;
+  public StateIndicatorGetterMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, Class<?> klass,
+      final VerificationFailureSet failureSet) {
+    this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
+    this.klass = klass;
+    this.failureSet = failureSet;
+  }
+
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
-
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        if ( null == stateGetterMethod && null != method.getAnnotation(StateIndicator.class) ) {
-            stateGetterMethod = method;
-            overridingFound = null != method.getAnnotation(LifecycleOverride.class);
-            return false;
-        } else if ( null != stateGetterMethod && null != method.getAnnotation(StateIndicator.class) ) {
-            if ( !overridingFound ) {
-                if (!overridesBy(stateGetterMethod, method)) {
-                    failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(this.stateMachineObjectBuilderImpl.getDottedPath(),
-                        SyntaxErrors.STATE_INDICATOR_MULTIPLE_STATE_INDICATOR_ERROR, klass));
-                }
-                return true;
-            }
+    if (null == stateGetterMethod && null != method.getAnnotation(StateIndicator.class)) {
+      stateGetterMethod = method;
+      overridingFound = null != method.getAnnotation(LifecycleOverride.class);
+      return false;
+    } else if (null != stateGetterMethod && null != method.getAnnotation(StateIndicator.class)) {
+      if (!overridingFound) {
+        if (!overridesBy(stateGetterMethod, method)) {
+          failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(this.stateMachineObjectBuilderImpl.getDottedPath(),
+              SyntaxErrors.STATE_INDICATOR_MULTIPLE_STATE_INDICATOR_ERROR, klass));
         }
-        return false;
+        return true;
+      }
     }
+    return false;
+  }
 
-    public Method getStateGetterMethod() {
-        return stateGetterMethod;
-    }
+  public Method getStateGetterMethod() {
+    return stateGetterMethod;
+  }
 }

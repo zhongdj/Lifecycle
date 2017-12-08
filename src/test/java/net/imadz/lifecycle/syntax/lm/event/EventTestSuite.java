@@ -39,5 +39,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ EventNegativeTests.class, EventPositiveTests.class })
+@SuiteClasses({EventNegativeTests.class, EventPositiveTests.class})
 public class EventTestSuite {}

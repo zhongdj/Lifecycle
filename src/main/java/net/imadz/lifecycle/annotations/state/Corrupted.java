@@ -40,5 +40,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Corrupted {
 
-    int recoverPriority() default 0;
+  int recoverPriority() default 0;
 }

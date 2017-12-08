@@ -34,9 +34,9 @@
  */
 package net.imadz.lifecycle.demo.inheritance;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
@@ -44,18 +44,18 @@ import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Condit
 @LifecycleMeta(SummaryPlanLifecycleMeta.class)
 public interface ISummaryPlan {
 
-    @Event(SummaryPlanLifecycleMeta.Events.CreateServiceOrder.class)
-    IServiceOrder createServiceOrder(IPlantResource p, IConcreteTruckResource c, double volume);
+  @Event(SummaryPlanLifecycleMeta.Events.CreateServiceOrder.class)
+  IServiceOrder createServiceOrder(IPlantResource p, IConcreteTruckResource c, double volume);
 
-    @Event(SummaryPlanLifecycleMeta.Events.AdjustTotalVolume.class)
-    void adjustVolume(double volume);
+  @Event(SummaryPlanLifecycleMeta.Events.AdjustTotalVolume.class)
+  void adjustVolume(double volume);
 
-    @Event(SummaryPlanLifecycleMeta.Events.ConfirmFinish.class)
-    void confirmFinish();
+  @Event(SummaryPlanLifecycleMeta.Events.ConfirmFinish.class)
+  void confirmFinish();
 
-    @Condition(SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable.class)
-    VolumeMeasurable getVolumeMeasurable();
+  @Condition(SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable.class)
+  VolumeMeasurable getVolumeMeasurable();
 
-    @StateIndicator
-    String getState();
+  @StateIndicator
+  String getState();
 }

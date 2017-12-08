@@ -34,8 +34,6 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.util.List;
-
 import net.imadz.bcel.intercept.UnlockableStack;
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.meta.MetaObject;
@@ -44,30 +42,32 @@ import net.imadz.lifecycle.meta.builder.impl.CallbackObject;
 import net.imadz.lifecycle.meta.type.RelationConstraintMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
 
+import java.util.List;
+
 public interface StateObject<S> extends MetaObject<StateObject<S>, StateMetadata>, MultiKeyed {
 
-    void verifyValidWhile(Object target, RelationConstraintMetadata[] relation, Object relationInstance, UnlockableStack stack);
+  void verifyValidWhile(Object target, RelationConstraintMetadata[] relation, Object relationInstance, UnlockableStack stack);
 
-    void verifyInboundWhileAndLockRelatedObjects(Object eventKey, Object target, String nextState, RelationConstraintMetadata[] relation,
-            Object relationInstance, UnlockableStack stack);
+  void verifyInboundWhileAndLockRelatedObjects(Object eventKey, Object target, String nextState, RelationConstraintMetadata[] relation,
+      Object relationInstance, UnlockableStack stack);
 
-    void invokeFromPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
+  void invokeFromPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
 
-    void invokeToPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
+  void invokeToPreStateChangeCallbacks(LifecycleContext<?, S> callbackContext);
 
-    void invokeFromPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
+  void invokeFromPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
 
-    void invokeToPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
+  void invokeToPostStateChangeCallbacks(CallbackObject cbo, LifecycleContext<?, S> callbackContext);
 
-    void addPreToCallbackObject(Class<?> stateClass, CallbackObject callbackObject);
+  void addPreToCallbackObject(Class<?> stateClass, CallbackObject callbackObject);
 
-    void addPreFromCallbackObject(Class<?> from, CallbackObject callbackObject);
+  void addPreFromCallbackObject(Class<?> from, CallbackObject callbackObject);
 
-    void addPostToCallbackObject(Class<?> to, CallbackObject item);
+  void addPostToCallbackObject(Class<?> to, CallbackObject item);
 
-    void addPostFromCallbackObject(Class<?> from, CallbackObject item);
+  void addPostFromCallbackObject(Class<?> from, CallbackObject item);
 
-	List<CallbackObject> getPostFromCallbackObjects(String stateName);
-	
-	List<CallbackObject> getPostToCallbackObjects(String stateName);
+  List<CallbackObject> getPostFromCallbackObjects(String stateName);
+
+  List<CallbackObject> getPostToCallbackObjects(String stateName);
 }

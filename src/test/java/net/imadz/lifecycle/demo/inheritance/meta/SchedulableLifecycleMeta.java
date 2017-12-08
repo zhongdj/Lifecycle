@@ -35,11 +35,11 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Events.Assign;
 import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Events.Release;
@@ -47,20 +47,23 @@ import net.imadz.lifecycle.demo.inheritance.meta.SchedulableLifecycleMeta.Events
 @StateMachine
 public interface SchedulableLifecycleMeta {
 
-    @StateSet
-    // abstract only indicate there is no final(@Final) states definition
-    public static abstract class States {
+  @StateSet
+  // abstract only indicate there is no final(@Final) states definition
+  public static abstract class States {
 
-        @Initial
-        @Transitions({ @Transition(event = Assign.class, value = Busy.class) })
-        public static class Idle {}
-        @Transition(event = Release.class, value = Idle.class)
-        public static class Busy {}
-    }
-    @EventSet
-    public static class Events {
+    @Initial
+    @Transitions({@Transition(event = Assign.class, value = Busy.class)})
+    public static class Idle {}
 
-        public static class Assign {}
-        public static class Release {}
-    }
+    @Transition(event = Release.class, value = Idle.class)
+    public static class Busy {}
+  }
+
+  @EventSet
+  public static class Events {
+
+    public static class Assign {}
+
+    public static class Release {}
+  }
 }

@@ -39,50 +39,51 @@ import java.lang.reflect.Method;
 
 public class LazySetterImpl<T> implements Setter<T> {
 
-	private final Method getter;
-	private volatile Method setterMethod;
+  private final Method getter;
+  private volatile Method setterMethod;
 
-	public LazySetterImpl(Method getter) {
-		this.getter = getter;
-	}
+  public LazySetterImpl(Method getter) {
+    this.getter = getter;
+  }
 
-	@Override
-	public void invoke(Object reactiveObject, T state) {
-		initSetter(reactiveObject);
-		try {
-			setterMethod.setAccessible(true);
-			setterMethod.invoke(reactiveObject, state);
-		} catch (Exception e) {
-			if (e instanceof IllegalAccessException
-					| e instanceof IllegalArgumentException
-					| e instanceof InvocationTargetException)
-				throw new IllegalStateException(e);
-		} finally {
-			setterMethod.setAccessible(false);
-		}
-	}
-
-	private void initSetter(Object reactiveObject) {
-		if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
-			synchronized (this) {
-				if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
-					setterMethod = findSetter(reactiveObject);
-				}
-			}
-		}
-	}
-
-	private Method findSetter(Object reactiveObject) {
-        final String setterName = "set" + getter.getName().substring(3);
-        for ( Class<?> rawClass = reactiveObject.getClass(); null != rawClass && rawClass != Object.class; rawClass = rawClass.getSuperclass() ) {
-            try {
-                return rawClass.getDeclaredMethod(setterName, getter.getReturnType());
-            } catch (NoSuchMethodException e) {
-            	continue;
-            } catch (SecurityException e) {
-                continue;
-            }
-        }
-        throw new IllegalStateException("state setter method: " + setterName + " Cannot be found through class: " + reactiveObject.getClass());
+  @Override
+  public void invoke(Object reactiveObject, T state) {
+    initSetter(reactiveObject);
+    try {
+      setterMethod.setAccessible(true);
+      setterMethod.invoke(reactiveObject, state);
+    } catch (Exception e) {
+      if (e instanceof IllegalAccessException
+          | e instanceof IllegalArgumentException
+          | e instanceof InvocationTargetException) {
+        throw new IllegalStateException(e);
+      }
+    } finally {
+      setterMethod.setAccessible(false);
     }
+  }
+
+  private void initSetter(Object reactiveObject) {
+    if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
+      synchronized (this) {
+        if (null == setterMethod || (setterMethod.getDeclaringClass() != reactiveObject.getClass())) {
+          setterMethod = findSetter(reactiveObject);
+        }
+      }
+    }
+  }
+
+  private Method findSetter(Object reactiveObject) {
+    final String setterName = "set" + getter.getName().substring(3);
+    for (Class<?> rawClass = reactiveObject.getClass(); null != rawClass && rawClass != Object.class; rawClass = rawClass.getSuperclass()) {
+      try {
+        return rawClass.getDeclaredMethod(setterName, getter.getReturnType());
+      } catch (NoSuchMethodException e) {
+        continue;
+      } catch (SecurityException e) {
+        continue;
+      }
+    }
+    throw new IllegalStateException("state setter method: " + setterName + " Cannot be found through class: " + reactiveObject.getClass());
+  }
 }

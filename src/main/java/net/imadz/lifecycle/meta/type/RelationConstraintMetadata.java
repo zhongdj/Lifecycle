@@ -39,15 +39,15 @@ import net.imadz.lifecycle.meta.object.ErrorMessageObject;
 
 public interface RelationConstraintMetadata extends MetaType<RelationConstraintMetadata> {
 
-    StateMetadata getParent();
+  StateMetadata getParent();
 
-    StateMachineMetadata getRelatedStateMachine();
+  StateMachineMetadata getRelatedStateMachine();
 
-    StateMetadata[] getOnStates();
+  StateMetadata[] getOnStates();
 
-    ErrorMessageObject[] getErrorMessageObjects();
+  ErrorMessageObject[] getErrorMessageObjects();
 
-    boolean isNullable();
+  boolean isNullable();
 
-    RelationMetadata getRelationMetadata();
+  RelationMetadata getRelationMetadata();
 }

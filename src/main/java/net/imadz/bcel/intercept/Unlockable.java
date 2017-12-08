@@ -36,5 +36,5 @@ package net.imadz.bcel.intercept;
 
 public interface Unlockable {
 
-    void unlock();
+  void unlock();
 }

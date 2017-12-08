@@ -36,5 +36,5 @@ package net.imadz.lifecycle.annotations.action;
 
 public interface ConditionalEvent<T> {
 
-    Class<?> doConditionJudge(T t);
+  Class<?> doConditionJudge(T t);
 }

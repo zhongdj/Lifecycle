@@ -34,132 +34,138 @@
  */
 package net.imadz.lifecycle.engine;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Events.FinishThis;
 import net.imadz.lifecycle.engine.ReturnTypeTests.ReturnTypeStateMachine.Events.JustDoIt;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ReturnTypeTests extends EngineTestBase {
 
-    @StateMachine
-    static interface ReturnTypeStateMachine {
+  @StateMachine
+  static interface ReturnTypeStateMachine {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = JustDoIt.class, value = OnTheFly.class)
-            static interface New {}
-            @Transitions({ @Transition(event = JustDoIt.class, value = OnTheFly.class), @Transition(event = FinishThis.class, value = Done.class) })
-            static interface OnTheFly {}
-            @Final
-            static interface Done {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = JustDoIt.class, value = OnTheFly.class)
+      static interface New {}
 
-            static interface JustDoIt {}
-            static interface FinishThis {}
-        }
-    }
-    @LifecycleMeta(ReturnTypeStateMachine.class)
-    public static class ReturnTypes extends ReactiveObject {
+      @Transitions({@Transition(event = JustDoIt.class, value = OnTheFly.class), @Transition(event = FinishThis.class, value = Done.class)})
+      static interface OnTheFly {}
 
-        public ReturnTypes() {
-            initialState(ReturnTypeStateMachine.States.New.class.getSimpleName());
-        }
-
-        @Event(JustDoIt.class)
-        public boolean returnBoolean() {
-            return false;
-        }
-
-        @Event(JustDoIt.class)
-        public byte returnByte() {
-            return 1;
-        }
-
-        @Event(JustDoIt.class)
-        public short returnShort() {
-            return 1;
-        }
-
-        @Event(JustDoIt.class)
-        public int returnInt() {
-            return 1;
-        }
-
-        @Event(JustDoIt.class)
-        public long returnLong() {
-            return 1L;
-        }
-
-        @Event(JustDoIt.class)
-        public float returnFloat() {
-            return 1.0F;
-        }
-
-        @Event(JustDoIt.class)
-        public double returnDouble() {
-            return 1.0D;
-        }
-
-        @Event(JustDoIt.class)
-        public char returnChar() {
-            return 'a';
-        }
-
-        @Event(JustDoIt.class)
-        public Object returnObject() {
-            return new Object();
-        }
-
-        @Event(FinishThis.class)
-        public void doFinish() {}
-        // public Object doObject() {
-        // InterceptorController<ReturnTypes, Object> controller = new
-        // InterceptorController<>();
-        // InterceptContext<ReturnTypes, Object> context = new
-        // InterceptContext<ReturnTypeTests.ReturnTypes,
-        // Object>(ReturnTypes.class, this, "doObject",
-        // new Class[0], new Object[0]);
-        // return controller.exec(context, new Callable<Object>() {
-        //
-        // @Override
-        // public Object call() throws Exception {
-        // return doObject$Impl();
-        // }
-        // });
-        // }
-        //
-        // public Object doObject$Impl() {
-        // return new Object();
-        // }
+      @Final
+      static interface Done {}
     }
 
-    @Test
-    public void should_support_8_wrapper_classes_and_Object_as_return_type_with_bcel_bytecode_transform() {
-        final ReturnTypes type = new ReturnTypes();
-        assertFalse(type.returnBoolean());
-        assertEquals((byte) 1, type.returnByte());
-        assertEquals('a', type.returnChar());
-        assertEquals(1.0D, type.returnDouble(), 0D);
-        assertEquals(1.0F, type.returnFloat(), 0F);
-        assertEquals(1, type.returnInt());
-        assertEquals(1L, type.returnLong());
-        assertEquals((short) 1, type.returnShort());
-        type.returnObject();
-        type.doFinish();
+    @EventSet
+    static interface Events {
+
+      static interface JustDoIt {}
+
+      static interface FinishThis {}
     }
+  }
+
+  @LifecycleMeta(ReturnTypeStateMachine.class)
+  public static class ReturnTypes extends ReactiveObject {
+
+    public ReturnTypes() {
+      initialState(ReturnTypeStateMachine.States.New.class.getSimpleName());
+    }
+
+    @Event(JustDoIt.class)
+    public boolean returnBoolean() {
+      return false;
+    }
+
+    @Event(JustDoIt.class)
+    public byte returnByte() {
+      return 1;
+    }
+
+    @Event(JustDoIt.class)
+    public short returnShort() {
+      return 1;
+    }
+
+    @Event(JustDoIt.class)
+    public int returnInt() {
+      return 1;
+    }
+
+    @Event(JustDoIt.class)
+    public long returnLong() {
+      return 1L;
+    }
+
+    @Event(JustDoIt.class)
+    public float returnFloat() {
+      return 1.0F;
+    }
+
+    @Event(JustDoIt.class)
+    public double returnDouble() {
+      return 1.0D;
+    }
+
+    @Event(JustDoIt.class)
+    public char returnChar() {
+      return 'a';
+    }
+
+    @Event(JustDoIt.class)
+    public Object returnObject() {
+      return new Object();
+    }
+
+    @Event(FinishThis.class)
+    public void doFinish() {
+    }
+    // public Object doObject() {
+    // InterceptorController<ReturnTypes, Object> controller = new
+    // InterceptorController<>();
+    // InterceptContext<ReturnTypes, Object> context = new
+    // InterceptContext<ReturnTypeTests.ReturnTypes,
+    // Object>(ReturnTypes.class, this, "doObject",
+    // new Class[0], new Object[0]);
+    // return controller.exec(context, new Callable<Object>() {
+    //
+    // @Override
+    // public Object call() throws Exception {
+    // return doObject$Impl();
+    // }
+    // });
+    // }
+    //
+    // public Object doObject$Impl() {
+    // return new Object();
+    // }
+  }
+
+  @Test
+  public void should_support_8_wrapper_classes_and_Object_as_return_type_with_bcel_bytecode_transform() {
+    final ReturnTypes type = new ReturnTypes();
+    assertFalse(type.returnBoolean());
+    assertEquals((byte) 1, type.returnByte());
+    assertEquals('a', type.returnChar());
+    assertEquals(1.0D, type.returnDouble(), 0D);
+    assertEquals(1.0F, type.returnFloat(), 0F);
+    assertEquals(1, type.returnInt());
+    assertEquals(1L, type.returnLong());
+    assertEquals((short) 1, type.returnShort());
+    type.returnObject();
+    type.doFinish();
+  }
 }

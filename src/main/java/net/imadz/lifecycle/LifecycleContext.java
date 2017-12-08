@@ -38,17 +38,17 @@ import java.lang.reflect.Method;
 
 public interface LifecycleContext<T, S> {
 
-    T getTarget();
+  T getTarget();
 
-    S getFromState();
+  S getFromState();
 
-    String getFromStateName();
+  String getFromStateName();
 
-    S getToState();
+  S getToState();
 
-    String getToStateName();
+  String getToStateName();
 
-    Method getEventMethod();
+  Method getEventMethod();
 
-    Object[] getArguments();
+  Object[] getArguments();
 }

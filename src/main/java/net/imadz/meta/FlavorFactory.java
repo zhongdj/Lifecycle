@@ -36,10 +36,10 @@ package net.imadz.meta;
 
 public interface FlavorFactory {
 
-    /**
-     * Flavor factory.
-     * 
-     * @throws FlavorNotSupportedException
-     */
-    public <T> T getFlavor(Class<T> flavorInterface, Object container) throws FlavorNotSupportedException;
+  /**
+   * Flavor factory.
+   *
+   * @throws FlavorNotSupportedException
+   */
+  public <T> T getFlavor(Class<T> flavorInterface, Object container) throws FlavorNotSupportedException;
 }

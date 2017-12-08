@@ -43,9 +43,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ErrorMessage {
 
-    Class<?>[] states();
+  Class<?>[] states();
 
-    String code();
+  String code();
 
-    String bundle();
+  String bundle();
 }

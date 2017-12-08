@@ -38,5 +38,5 @@ import java.lang.reflect.Method;
 
 public interface MethodScanCallback {
 
-    boolean onMethodFound(Method method);
+  boolean onMethodFound(Method method);
 }

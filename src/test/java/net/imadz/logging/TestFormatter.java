@@ -39,18 +39,18 @@ import java.util.logging.LogRecord;
 
 public class TestFormatter extends Formatter {
 
-    private String sourceClassName;
+  private String sourceClassName;
 
-    @Override
-    public String format(LogRecord record) {
-        try {
-            if ( record.getSourceClassName().equals(sourceClassName) ) {
-                return String.format("\n[%s]: %s", record.getLevel(), record.getMessage());
-            } else {
-                return String.format("\n\n[%s]: %s", record.getLevel(), record.getMessage());
-            }
-        } finally {
-            sourceClassName = record.getSourceClassName();
-        }
+  @Override
+  public String format(LogRecord record) {
+    try {
+      if (record.getSourceClassName().equals(sourceClassName)) {
+        return String.format("\n[%s]: %s", record.getLevel(), record.getMessage());
+      } else {
+        return String.format("\n\n[%s]: %s", record.getLevel(), record.getMessage());
+      }
+    } finally {
+      sourceClassName = record.getSourceClassName();
     }
+  }
 }

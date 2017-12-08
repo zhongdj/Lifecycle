@@ -34,12 +34,12 @@
  */
 package net.imadz.lifecycle.syntax.lm;
 
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
@@ -56,195 +56,220 @@ import net.imadz.lifecycle.syntax.lm.LMSyntaxMetadata.S3.Events.S3_Z;
 
 public class LMSyntaxMetadata extends BaseMetaDataTest {
 
-    @StateMachine
-    static interface PS1 {
+  @StateMachine
+  static interface PS1 {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = S1_X.class, value = { S1_B.class })
-            static interface S1_A {}
-            @Final
-            static interface S1_B {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = S1_X.class, value = {S1_B.class})
+      static interface S1_A {}
 
-            static interface S1_X {}
-        }
+      @Final
+      static interface S1_B {}
     }
-    @LifecycleMeta(PS1.class)
-    static interface PLM_1 {
 
-        public String getState();
+    @EventSet
+    static interface Events {
 
-        @Event(S1_X.class)
-        void test();
+      static interface S1_X {}
     }
-    @StateMachine
-    static interface S2 {
+  }
 
-        @StateSet
-        static interface States {
+  @LifecycleMeta(PS1.class)
+  static interface PLM_1 {
 
-            @Initial
-            @Transition(event = NS1_X.class, value = { NS1_B.class })
-            static interface NS1_A {}
-            @Transition(event = NS1_Y.class, value = { NS1_C.class })
-            static interface NS1_B {}
-            @Transition(event = NS1_Z.class, value = { NS1_C.class })
-            static interface NS1_C {}
-            @Final
-            static interface NS1_D {}
-        }
-        @EventSet
-        static interface Events {
+    public String getState();
 
-            static interface NS1_X {}
-            static interface NS1_Y {}
-            static interface NS1_Z {}
-        }
+    @Event(S1_X.class)
+    void test();
+  }
+
+  @StateMachine
+  static interface S2 {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = NS1_X.class, value = {NS1_B.class})
+      static interface NS1_A {}
+
+      @Transition(event = NS1_Y.class, value = {NS1_C.class})
+      static interface NS1_B {}
+
+      @Transition(event = NS1_Z.class, value = {NS1_C.class})
+      static interface NS1_C {}
+
+      @Final
+      static interface NS1_D {}
     }
-    // Positive: all events are covered by methods
-    @LifecycleMeta(S2.class)
-    static interface PLM_2 {
 
-        @Event(NS1_X.class)
-        void m1();
+    @EventSet
+    static interface Events {
 
-        @Event(NS1_Y.class)
-        void m2();
+      static interface NS1_X {}
 
-        @Event(NS1_Z.class)
-        void m3();
+      static interface NS1_Y {}
 
-        public String getState();
+      static interface NS1_Z {}
     }
-    // Positive: all events are covered by methods, using default method
-    // name
-    @LifecycleMeta(S2.class)
-    static interface PLM_3 {
+  }
 
-        @Event
-        public void nS1_X();
+  // Positive: all events are covered by methods
+  @LifecycleMeta(S2.class)
+  static interface PLM_2 {
 
-        @Event
-        public void nS1_Y();
+    @Event(NS1_X.class)
+    void m1();
 
-        @Event
-        public void nS1_Z();
+    @Event(NS1_Y.class)
+    void m2();
 
-        public String getState();
+    @Event(NS1_Z.class)
+    void m3();
+
+    public String getState();
+  }
+
+  // Positive: all events are covered by methods, using default method
+  // name
+  @LifecycleMeta(S2.class)
+  static interface PLM_3 {
+
+    @Event
+    public void nS1_X();
+
+    @Event
+    public void nS1_Y();
+
+    @Event
+    public void nS1_Z();
+
+    public String getState();
+  }
+
+  // Event NS1_Z has no binding method in LM
+  @LifecycleMeta(S2.class)
+  static interface NLM_1 {
+
+    @Event(NS1_X.class)
+    public void m1();
+
+    @Event(NS1_Y.class)
+    public void m2();
+  }
+
+  // Event NS1_Z has no method in LM
+  @LifecycleMeta(S2.class)
+  static interface NLM_2 {
+
+    @Event(NS1_X.class)
+    public void m1();
+
+    @Event(NS1_X.class)
+    public void m2();
+
+    @Event(NS1_Y.class)
+    public void m3();
+  }
+
+  @LifecycleMeta(S2.class)
+  static interface NLM_3 {
+
+    @Event
+    public void nS1_Xyz(); // Method nS1_Xyz can not bind to any event
+    // in S2.
+
+    @Event
+    public void nS1_X();
+
+    @Event
+    public void nS1_Y();
+
+    @Event
+    public void nS1_Z();
+  }
+
+  @LifecycleMeta(S2.class)
+  static interface NLM_4 {
+
+    // Use other state machine's event
+    @Event(S1_X.class)
+    public void nS1_X();
+
+    @Event
+    public void nS1_Y();
+
+    @Event
+    public void nS1_Z();
+  }
+
+  @StateMachine
+  static interface S3 {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = S3_X.class, value = {S3_B.class})
+      static interface S3_A {}
+
+      @Transition(event = S3_Y.class, value = {S3_C.class})
+      static interface S3_B {}
+
+      @Transition(event = S3_Z.class, value = {S3_D.class})
+      static interface S3_C {}
+
+      @Final
+      static interface S3_D {}
     }
-    // Event NS1_Z has no binding method in LM
-    @LifecycleMeta(S2.class)
-    static interface NLM_1 {
 
-        @Event(NS1_X.class)
-        public void m1();
+    @EventSet
+    static interface Events {
 
-        @Event(NS1_Y.class)
-        public void m2();
+      @Corrupt
+      static interface S3_X {}
+
+      @Redo
+      static interface S3_Y {}
+
+      @Recover
+      static interface S3_Z {}
     }
-    // Event NS1_Z has no method in LM
-    @LifecycleMeta(S2.class)
-    static interface NLM_2 {
+  }
 
-        @Event(NS1_X.class)
-        public void m1();
+  // Positive LM: Corrupt, Redo, Recover event can bind to only 1 method.
+  @LifecycleMeta(S3.class)
+  static interface PLM_4 {
 
-        @Event(NS1_X.class)
-        public void m2();
+    public String getState();
 
-        @Event(NS1_Y.class)
-        public void m3();
-    }
-    @LifecycleMeta(S2.class)
-    static interface NLM_3 {
+    @Event
+    void s3_X();
 
-        @Event
-        public void nS1_Xyz(); // Method nS1_Xyz can not bind to any event
-                               // in S2.
+    @Event
+    void s3_Y();
 
-        @Event
-        public void nS1_X();
+    @Event
+    void s3_Z();
+  }
 
-        @Event
-        public void nS1_Y();
+  // Negative LM: Redo event binds to more than 1 method
+  @LifecycleMeta(S3.class)
+  static interface NLM_5 {
 
-        @Event
-        public void nS1_Z();
-    }
-    @LifecycleMeta(S2.class)
-    static interface NLM_4 {
+    @Event
+    void s3_X();
 
-        // Use other state machine's event
-        @Event(S1_X.class)
-        public void nS1_X();
+    @Event
+    void s3_Y();
 
-        @Event
-        public void nS1_Y();
+    @Event(S3_Y.class)
+    void s3_Y2();
 
-        @Event
-        public void nS1_Z();
-    }
-    @StateMachine
-    static interface S3 {
-
-        @StateSet
-        static interface States {
-
-            @Initial
-            @Transition(event = S3_X.class, value = { S3_B.class })
-            static interface S3_A {}
-            @Transition(event = S3_Y.class, value = { S3_C.class })
-            static interface S3_B {}
-            @Transition(event = S3_Z.class, value = { S3_D.class })
-            static interface S3_C {}
-            @Final
-            static interface S3_D {}
-        }
-        @EventSet
-        static interface Events {
-
-            @Corrupt
-            static interface S3_X {}
-            @Redo
-            static interface S3_Y {}
-            @Recover
-            static interface S3_Z {}
-        }
-    }
-    // Positive LM: Corrupt, Redo, Recover event can bind to only 1 method.
-    @LifecycleMeta(S3.class)
-    static interface PLM_4 {
-
-        public String getState();
-
-        @Event
-        void s3_X();
-
-        @Event
-        void s3_Y();
-
-        @Event
-        void s3_Z();
-    }
-    // Negative LM: Redo event binds to more than 1 method
-    @LifecycleMeta(S3.class)
-    static interface NLM_5 {
-
-        @Event
-        void s3_X();
-
-        @Event
-        void s3_Y();
-
-        @Event(S3_Y.class)
-        void s3_Y2();
-
-        @Event
-        void s3_Z();
-    }
+    @Event
+    void s3_Z();
+  }
 }

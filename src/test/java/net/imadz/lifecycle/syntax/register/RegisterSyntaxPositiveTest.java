@@ -39,34 +39,33 @@ import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineMetaBuilderImpl;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
 public class RegisterSyntaxPositiveTest extends RegisterSyntaxTestMetaData {
 
-    @Test
-    public void correct_metadata_without_syntax_error() throws VerificationException {
-        @LifecycleRegistry({ CorrectStateMachineSyntax.class, CorrectLifecycleMetaSyntax.class })
-        @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
-        class CorrectRegistry extends AbsStateMachineRegistry {
+  @Test
+  public void correct_metadata_without_syntax_error() throws VerificationException {
+    @LifecycleRegistry({CorrectStateMachineSyntax.class, CorrectLifecycleMetaSyntax.class})
+    @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
+    class CorrectRegistry extends AbsStateMachineRegistry {
 
-            protected CorrectRegistry() throws VerificationException {
-                super();
-            }
-        }
-        new CorrectRegistry();
+      protected CorrectRegistry() throws VerificationException {
+        super();
+      }
     }
+    new CorrectRegistry();
+  }
 
-    @Test
-    public void correct_inheritance_statemachine() throws VerificationException {
-        @LifecycleRegistry({ CorrectStateMachineInheritanceChildSyntax.class })
-        @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
-        class CorrectInheritanceRegistry extends AbsStateMachineRegistry {
+  @Test
+  public void correct_inheritance_statemachine() throws VerificationException {
+    @LifecycleRegistry({CorrectStateMachineInheritanceChildSyntax.class})
+    @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
+    class CorrectInheritanceRegistry extends AbsStateMachineRegistry {
 
-            protected CorrectInheritanceRegistry() throws VerificationException {
-                super();
-            }
-        }
-        new CorrectInheritanceRegistry();
+      protected CorrectInheritanceRegistry() throws VerificationException {
+        super();
+      }
     }
+    new CorrectInheritanceRegistry();
+  }
 }

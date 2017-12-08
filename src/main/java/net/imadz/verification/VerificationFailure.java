@@ -34,10 +34,6 @@
  */
 package net.imadz.verification;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.imadz.common.DottedPath;
 import net.imadz.common.Dumpable;
 import net.imadz.common.Dumper;
@@ -46,143 +42,149 @@ import net.imadz.util.MetaDataUtil;
 import net.imadz.util.StringPrintWriter;
 import net.imadz.util.json.io.JsonWriter;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class VerificationFailure implements Dumpable, Cloneable {
 
-    private final Object source;
-    private final DottedPath errorKey;
-    private final String defaultErrorMessage;
-    private final Object[] details;
-    private final Throwable cause;
-    private final StackTraceElement[] stack;
-    private String errorCode;
+  private final Object source;
+  private final DottedPath errorKey;
+  private final String defaultErrorMessage;
+  private final Object[] details;
+  private final Throwable cause;
+  private final StackTraceElement[] stack;
+  private String errorCode;
 
-    public void writeJson(JsonWriter writer) throws IOException {
-        writer.startObject("Error");
-        try {
-            writer.printString("code", errorKey.toString());
-            writer.printString("message", getErrorMessage(null));
-        } finally {
-            writer.endObject();
-        }
+  public void writeJson(JsonWriter writer) throws IOException {
+    writer.startObject("Error");
+    try {
+      writer.printString("code", errorKey.toString());
+      writer.printString("message", getErrorMessage(null));
+    } finally {
+      writer.endObject();
     }
+  }
 
-    public VerificationFailure(Throwable cause, Object source, String errorKey, String errorCode, String defaultErrorMessage, Object... details) {
-        this(cause, source, errorKey, defaultErrorMessage, details);
-        this.errorCode = errorCode;
-    }
+  public VerificationFailure(Throwable cause, Object source, String errorKey, String errorCode, String defaultErrorMessage, Object... details) {
+    this(cause, source, errorKey, defaultErrorMessage, details);
+    this.errorCode = errorCode;
+  }
 
-    /**
-     * Constructor
-     * 
-     * argument metaData
-     *            Meta definition of item with an error
-     * argument errorKey
-     *            Key for the error message, will have fully-qualified meta name
-     *            prepended to it
-     * argument defaultErrorMessage
-     *            Error message to display if the error resource is not defined
-     * argument details
-     *            Error parameters
-     */
-    public VerificationFailure(Throwable cause, Object source, String errorKey, String defaultErrorMessage, Object... details) {
-        this.cause = cause;
-        this.source = source;
-        List<String> segements = new ArrayList<String>();
-        for ( String segement : errorKey.split("\\.") ) {
-            segements.add(segement);
-        }
-        this.errorKey = source instanceof MetaData ? ( (MetaData) source ).getDottedPath().append(segements) : DottedPath.parse(errorKey);
-        this.defaultErrorMessage = defaultErrorMessage;
-        this.details = details;
-        this.stack = Thread.currentThread().getStackTrace();
+  /**
+   * Constructor
+   * <p>
+   * argument metaData
+   * Meta definition of item with an error
+   * argument errorKey
+   * Key for the error message, will have fully-qualified meta name
+   * prepended to it
+   * argument defaultErrorMessage
+   * Error message to display if the error resource is not defined
+   * argument details
+   * Error parameters
+   */
+  public VerificationFailure(Throwable cause, Object source, String errorKey, String defaultErrorMessage, Object... details) {
+    this.cause = cause;
+    this.source = source;
+    List<String> segements = new ArrayList<String>();
+    for (String segement : errorKey.split("\\.")) {
+      segements.add(segement);
     }
+    this.errorKey = source instanceof MetaData ? ((MetaData) source).getDottedPath().append(segements) : DottedPath.parse(errorKey);
+    this.defaultErrorMessage = defaultErrorMessage;
+    this.details = details;
+    this.stack = Thread.currentThread().getStackTrace();
+  }
 
-    /**
-     * Constructor
-     * 
-     * argument metaData
-     *            Meta definition of item with an error
-     * argument errorKey
-     *            Key for the error message, will have fully-qualified meta name
-     *            prepended to it
-     * argument defaultErrorMessage
-     *            Error message to display if the error resource is not defined
-     * argument details
-     *            Error parameters
-     */
-    public VerificationFailure(Object source, String errorKey, String defaultErrorMessage, Object... details) {
-        this(null, source, errorKey, defaultErrorMessage, details);
-    }
+  /**
+   * Constructor
+   * <p>
+   * argument metaData
+   * Meta definition of item with an error
+   * argument errorKey
+   * Key for the error message, will have fully-qualified meta name
+   * prepended to it
+   * argument defaultErrorMessage
+   * Error message to display if the error resource is not defined
+   * argument details
+   * Error parameters
+   */
+  public VerificationFailure(Object source, String errorKey, String defaultErrorMessage, Object... details) {
+    this(null, source, errorKey, defaultErrorMessage, details);
+  }
 
-    public VerificationFailure(Object source, String errorKey, String errorCode, String defaultErrorMessage, Object... details) {
-        this(null, source, errorKey, errorCode, defaultErrorMessage, details);
-    }
+  public VerificationFailure(Object source, String errorKey, String errorCode, String defaultErrorMessage, Object... details) {
+    this(null, source, errorKey, errorCode, defaultErrorMessage, details);
+  }
 
-    /** Clone constructor */
-    private VerificationFailure(VerificationFailure clone) {
-        this.cause = clone.cause;
-        this.source = clone.source;
-        this.errorKey = clone.errorKey;
-        this.defaultErrorMessage = clone.defaultErrorMessage;
-        this.details = clone.details;
-        this.stack = clone.stack;
-    }
+  /**
+   * Clone constructor
+   */
+  private VerificationFailure(VerificationFailure clone) {
+    this.cause = clone.cause;
+    this.source = clone.source;
+    this.errorKey = clone.errorKey;
+    this.defaultErrorMessage = clone.defaultErrorMessage;
+    this.details = clone.details;
+    this.stack = clone.stack;
+  }
 
-    @Override
-    public VerificationFailure clone() {
-        return new VerificationFailure(this);
-    }
+  @Override
+  public VerificationFailure clone() {
+    return new VerificationFailure(this);
+  }
 
-    /**
-     * Meta data of object/field that is in error
-     */
-    public Object getSource() {
-        return this.source;
-    }
+  /**
+   * Meta data of object/field that is in error
+   */
+  public Object getSource() {
+    return this.source;
+  }
 
-    /**
-     * Madz error key for verification failure
-     */
-    public DottedPath getErrorKey() {
-        return this.errorKey;
-    }
+  /**
+   * Madz error key for verification failure
+   */
+  public DottedPath getErrorKey() {
+    return this.errorKey;
+  }
 
-    public String getErrorCode() {
-        return this.errorCode;
-    }
+  public String getErrorCode() {
+    return this.errorCode;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        if ( obj instanceof VerificationFailure ) {
-            VerificationFailure comp = (VerificationFailure) obj;
-            return comp.source.equals(this.source) && comp.errorKey.equals(this.errorKey);
-        }
-        return false;
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof VerificationFailure) {
+      VerificationFailure comp = (VerificationFailure) obj;
+      return comp.source.equals(this.source) && comp.errorKey.equals(this.errorKey);
     }
+    return false;
+  }
 
-    @Override
-    public int hashCode() {
-        return ( source.hashCode() * 7 ) + errorKey.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return (source.hashCode() * 7) + errorKey.hashCode();
+  }
 
-    @Override
-    public String toString() {
-        return errorCode + "(" + String.format(defaultErrorMessage, details) + ")";
-    }
+  @Override
+  public String toString() {
+    return errorCode + "(" + String.format(defaultErrorMessage, details) + ")";
+  }
 
-    public String getErrorMessage(String overrideErrorMessage) {
-        return String.format(MetaDataUtil.coalesce(overrideErrorMessage, defaultErrorMessage), details);
-    }
+  public String getErrorMessage(String overrideErrorMessage) {
+    return String.format(MetaDataUtil.coalesce(overrideErrorMessage, defaultErrorMessage), details);
+  }
 
-    @Override
-    public void dump(Dumper dumper) {
-        dumper.print(errorCode).print(": ").println(String.format(defaultErrorMessage, details));
-        if ( null != cause ) {
-            StringPrintWriter str = new StringPrintWriter();
-            this.cause.printStackTrace(str);
-            dumper.indent().println(str);
-        } else {
-            dumper.indent().dump(stack);
-        }
+  @Override
+  public void dump(Dumper dumper) {
+    dumper.print(errorCode).print(": ").println(String.format(defaultErrorMessage, details));
+    if (null != cause) {
+      StringPrintWriter str = new StringPrintWriter();
+      this.cause.printStackTrace(str);
+      dumper.indent().println(str);
+    } else {
+      dumper.indent().dump(stack);
     }
+  }
 }

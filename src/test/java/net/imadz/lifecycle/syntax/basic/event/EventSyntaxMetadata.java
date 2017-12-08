@@ -34,12 +34,10 @@
  */
 package net.imadz.lifecycle.syntax.basic.event;
 
-import java.io.Serializable;
-
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
@@ -51,109 +49,131 @@ import net.imadz.lifecycle.syntax.basic.event.EventSyntaxMetadata.S1.Conditions.
 import net.imadz.lifecycle.syntax.basic.event.EventSyntaxMetadata.S1.States.S1_State_B;
 import net.imadz.lifecycle.syntax.basic.event.EventSyntaxMetadata.S1.States.S1_State_C;
 
+import java.io.Serializable;
+
 public class EventSyntaxMetadata extends BaseMetaDataTest {
 
-    @StateMachine
-    static interface S1 {
+  @StateMachine
+  static interface S1 {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = Events.S1_Event_X.class, value = { S1_State_B.class, S1_State_C.class })
-            static interface S1_State_A {}
-            @Final
-            static interface S1_State_B {}
-            @Final
-            static interface S1_State_C {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = Events.S1_Event_X.class, value = {S1_State_B.class, S1_State_C.class})
+      static interface S1_State_A {}
 
-            @Conditional(condition = S1_Condition_B.class, judger = VolumeMeasurableEvent.class)
-            static interface S1_Event_X {}
-        }
-        @ConditionSet
-        static interface Conditions {
+      @Final
+      static interface S1_State_B {}
 
-            static interface S1_Condition_A {
-
-                boolean isVolumeLeft();
-            }
-            static interface S1_Condition_B {}
-        }
-        public static class VolumeMeasurableEvent implements ConditionalEvent<S1_Condition_A> {
-
-            @Override
-            public Class<?> doConditionJudge(S1_Condition_A t) {
-                if ( t.isVolumeLeft() ) {
-                    return S1_State_B.class;
-                } else {
-                    return S1_State_C.class;
-                }
-            }
-        }
+      @Final
+      static interface S1_State_C {}
     }
-    @StateMachine
-    public static interface NegativeOrder {
 
-        @StateSet
-        public static interface States {
+    @EventSet
+    static interface Events {
 
-            @Initial
-            @Transition(event = NegativeOrder.Events.Pay.class, value = { Paid.class })
-            public static interface New {}
-            @Transition(event = NegativeOrder.Events.Deliver.class, value = { Delivered.class })
-            public static interface Paid {}
-            @Final
-            public static interface Delivered {}
-        }
-        @EventSet
-        public static interface Events {
-
-            public static interface Pay extends Serializable {}
-            public static interface Deliver {}
-        }
+      @Conditional(condition = S1_Condition_B.class, judger = VolumeMeasurableEvent.class)
+      static interface S1_Event_X {}
     }
-    @StateMachine
-    public static interface Order {
 
-        @StateSet
-        public static interface States {
+    @ConditionSet
+    static interface Conditions {
 
-            @Initial
-            @Transition(event = Order.Events.Pay.class, value = { Paid.class })
-            public static interface New {}
-            @Transition(event = Order.Events.Deliver.class, value = { Delivered.class })
-            public static interface Paid {}
-            @Final
-            public static interface Delivered {}
-        }
-        @EventSet
-        public static interface Events {
+      static interface S1_Condition_A {
 
-            public static interface Pay {}
-            public static interface Deliver {}
-        }
+        boolean isVolumeLeft();
+      }
+
+      static interface S1_Condition_B {}
     }
-    @StateMachine
-    public static interface NegativeBigProductOrder extends Order {
 
-        @StateSet
-        public static interface States extends Order.States {
+    public static class VolumeMeasurableEvent implements ConditionalEvent<S1_Condition_A> {
 
-            @Initial
-            @Transition(event = NegativeBigProductOrder.Events.Pay.class, value = { States.Paid.class })
-            public static interface New {}
-            @Transition(event = NegativeBigProductOrder.Events.Deliver.class, value = { States.Delivered.class })
-            public static interface Paid {}
-            @Final
-            public static interface Delivered {}
+      @Override
+      public Class<?> doConditionJudge(S1_Condition_A t) {
+        if (t.isVolumeLeft()) {
+          return S1_State_B.class;
+        } else {
+          return S1_State_C.class;
         }
-        @EventSet
-        public static interface Events extends Order.Events {
-
-            public static interface Pay extends NegativeOrder.Events.Pay {}
-        }
+      }
     }
+  }
+
+  @StateMachine
+  public static interface NegativeOrder {
+
+    @StateSet
+    public static interface States {
+
+      @Initial
+      @Transition(event = NegativeOrder.Events.Pay.class, value = {Paid.class})
+      public static interface New {}
+
+      @Transition(event = NegativeOrder.Events.Deliver.class, value = {Delivered.class})
+      public static interface Paid {}
+
+      @Final
+      public static interface Delivered {}
+    }
+
+    @EventSet
+    public static interface Events {
+
+      public static interface Pay extends Serializable {}
+
+      public static interface Deliver {}
+    }
+  }
+
+  @StateMachine
+  public static interface Order {
+
+    @StateSet
+    public static interface States {
+
+      @Initial
+      @Transition(event = Order.Events.Pay.class, value = {Paid.class})
+      public static interface New {}
+
+      @Transition(event = Order.Events.Deliver.class, value = {Delivered.class})
+      public static interface Paid {}
+
+      @Final
+      public static interface Delivered {}
+    }
+
+    @EventSet
+    public static interface Events {
+
+      public static interface Pay {}
+
+      public static interface Deliver {}
+    }
+  }
+
+  @StateMachine
+  public static interface NegativeBigProductOrder extends Order {
+
+    @StateSet
+    public static interface States extends Order.States {
+
+      @Initial
+      @Transition(event = NegativeBigProductOrder.Events.Pay.class, value = {States.Paid.class})
+      public static interface New {}
+
+      @Transition(event = NegativeBigProductOrder.Events.Deliver.class, value = {States.Delivered.class})
+      public static interface Paid {}
+
+      @Final
+      public static interface Delivered {}
+    }
+
+    @EventSet
+    public static interface Events extends Order.Events {
+
+      public static interface Pay extends NegativeOrder.Events.Pay {}
+    }
+  }
 }

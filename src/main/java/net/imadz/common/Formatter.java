@@ -36,5 +36,5 @@ package net.imadz.common;
 
 public interface Formatter<T> {
 
-    String format(T value);
+  String format(T value);
 }

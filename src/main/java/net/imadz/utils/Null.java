@@ -40,11 +40,13 @@ package net.imadz.utils;
  * public @interface CertainAnnotation {
  * Class value() default Null.class
  * }
- * 
+ *
  * @author Barry
- * 
  */
 public final class Null {
 
-    private Null() {};
+  private Null() {
+  }
+
+  ;
 }

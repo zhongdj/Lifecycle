@@ -38,7 +38,7 @@ import net.imadz.lifecycle.meta.MetaType;
 
 public interface RelationMetadata extends MetaType<RelationMetadata> {
 
-    StateMachineMetadata getRelateToStateMachine();
+  StateMachineMetadata getRelateToStateMachine();
 
-    boolean isParent();
+  boolean isParent();
 }

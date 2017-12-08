@@ -34,69 +34,76 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.action.ConditionSet;
 import net.imadz.lifecycle.annotations.action.Conditional;
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Conditions.VolumeMeasurable;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.Ongoing;
-import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.VolumeLeftEmpty;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.AdjustTotalVolume;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.ConfirmFinish;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Events.CreateServiceOrder;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.Ongoing;
+import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.States.VolumeLeftEmpty;
 import net.imadz.lifecycle.demo.inheritance.meta.SummaryPlanLifecycleMeta.Utils.VolumeMeasurableEvent;
 
 @StateMachine
 public interface SummaryPlanLifecycleMeta {
 
-    @StateSet
-    public static class States {
+  @StateSet
+  public static class States {
 
-        @Transitions({ @Transition(event = CreateServiceOrder.class, value = { Ongoing.class, VolumeLeftEmpty.class }),
-                @Transition(event = ConfirmFinish.class, value = Done.class),
-                @Transition(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
-        @Initial
-        public static class Ongoing {}
-        @Transitions({ @Transition(event = ConfirmFinish.class, value = Done.class),
-                @Transition(event = AdjustTotalVolume.class, value = { Ongoing.class, VolumeLeftEmpty.class }) })
-        public static class VolumeLeftEmpty {}
-        @Final
-        public static class Done {}
+    @Transitions({@Transition(event = CreateServiceOrder.class, value = {Ongoing.class, VolumeLeftEmpty.class}),
+        @Transition(event = ConfirmFinish.class, value = Done.class),
+        @Transition(event = AdjustTotalVolume.class, value = {Ongoing.class, VolumeLeftEmpty.class})})
+    @Initial
+    public static class Ongoing {}
+
+    @Transitions({@Transition(event = ConfirmFinish.class, value = Done.class),
+        @Transition(event = AdjustTotalVolume.class, value = {Ongoing.class, VolumeLeftEmpty.class})})
+    public static class VolumeLeftEmpty {}
+
+    @Final
+    public static class Done {}
+  }
+
+  @EventSet
+  public static class Events {
+
+    @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
+    public static class CreateServiceOrder {}
+
+    @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
+    public static class AdjustTotalVolume {}
+
+    public static class ConfirmFinish {}
+  }
+
+  @ConditionSet
+  public static class Conditions {
+
+    public static interface VolumeMeasurable {
+
+      boolean isVolumeLeft();
     }
-    @EventSet
-    public static class Events {
+  }
 
-        @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
-        public static class CreateServiceOrder {}
-        @Conditional(judger = VolumeMeasurableEvent.class, condition = VolumeMeasurable.class)
-        public static class AdjustTotalVolume {}
-        public static class ConfirmFinish {}
-    }
-    @ConditionSet
-    public static class Conditions {
+  static class Utils {
 
-        public static interface VolumeMeasurable {
+    public static class VolumeMeasurableEvent implements ConditionalEvent<VolumeMeasurable> {
 
-            boolean isVolumeLeft();
+      public Class<?> doConditionJudge(VolumeMeasurable measurable) {
+        if (!measurable.isVolumeLeft()) {
+          return VolumeLeftEmpty.class;
+        } else {
+          return Ongoing.class;
         }
+      }
     }
-    static class Utils {
-
-        public static class VolumeMeasurableEvent implements ConditionalEvent<VolumeMeasurable> {
-
-            public Class<?> doConditionJudge(VolumeMeasurable measurable) {
-                if ( !measurable.isVolumeLeft() ) {
-                    return VolumeLeftEmpty.class;
-                } else {
-                    return Ongoing.class;
-                }
-            }
-        }
-    }
+  }
 }

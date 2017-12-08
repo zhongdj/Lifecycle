@@ -38,53 +38,56 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
 public class LMSyntaxConditionPositiveTests extends LMSyntaxConditionMetadata {
 
-    @Test
-    public final void should_concrete_condition_in_standalone_state_machine() throws VerificationException {
-        @LifecycleRegistry(PLM_1.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public final void should_concrete_condition_in_standalone_state_machine() throws VerificationException {
+    @LifecycleRegistry(PLM_1.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            public Registry() throws VerificationException {}
-        }
-        new Registry();
+      public Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 
-    @Test
-    public final void should_concrete_condition_in_composite_state_machine() throws VerificationException {
-        @LifecycleRegistry(PLM_2.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public final void should_concrete_condition_in_composite_state_machine() throws VerificationException {
+    @LifecycleRegistry(PLM_2.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            public Registry() throws VerificationException {}
-        }
-        new Registry();
+      public Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 
-    @Test
-    public final void should_concrete_condition_in_super_state_machine() throws VerificationException {
-        @LifecycleRegistry(PLM_3.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public final void should_concrete_condition_in_super_state_machine() throws VerificationException {
+    @LifecycleRegistry(PLM_3.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            public Registry() throws VerificationException {}
-        }
-        new Registry();
+      public Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 
 
-    @Test
-    public final void should_support_overriding_condition_in_super_class() throws VerificationException {
-        @LifecycleRegistry(PLM_4.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public final void should_support_overriding_condition_in_super_class() throws VerificationException {
+    @LifecycleRegistry(PLM_4.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            public Registry() throws VerificationException {}
-        }
-        new Registry();
+      public Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 }

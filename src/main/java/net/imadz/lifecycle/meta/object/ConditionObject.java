@@ -34,13 +34,13 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.MultiKeyed;
 import net.imadz.lifecycle.meta.type.ConditionMetadata;
 
+import java.lang.reflect.Method;
+
 public interface ConditionObject extends MetaObject<ConditionObject, ConditionMetadata>, MultiKeyed {
 
-    Method conditionGetter();
+  Method conditionGetter();
 }

@@ -34,9 +34,9 @@
  */
 package net.imadz.lifecycle.demo.standalone;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Cancel;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Finish;
 import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Schedule;
@@ -50,32 +50,31 @@ import net.imadz.lifecycle.demo.standalone.ServiceableLifecycleMeta.Events.Start
  * setter will never open for application
  * 1.2 Or to put @StateIndicator on Type definition, and provide a state
  * indicator property name.
- * 
+ * <p>
  * 2. Specify actions corresponding to the events defined at life cycle
  * meta data with @Event
  * 2.1 Leave @Event with default value while the action method name equals
  * with the event class simple name
  * 2.2 Specify the event value with the defined event class when their
  * names are not equal
- * 
+ *
  * @author Barry
- * 
  */
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
-    @Event(Schedule.class)
-    void allocateResources(final long summaryPlanId, final long truckResourceId, final long plangResourceId);
+  @Event(Schedule.class)
+  void allocateResources(final long summaryPlanId, final long truckResourceId, final long plangResourceId);
 
-    @Event(Start.class)
-    void confirmStart();
+  @Event(Start.class)
+  void confirmStart();
 
-    @Event(Finish.class)
-    void confirmFinish();
+  @Event(Finish.class)
+  void confirmFinish();
 
-    @Event(Cancel.class)
-    void cancel();
+  @Event(Cancel.class)
+  void cancel();
 
-    @StateIndicator
-    String getServiceOrderState();
+  @StateIndicator
+  String getServiceOrderState();
 }

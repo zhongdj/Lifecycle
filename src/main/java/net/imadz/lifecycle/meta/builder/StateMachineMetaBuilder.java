@@ -40,15 +40,15 @@ import net.imadz.lifecycle.meta.type.StateMetadata;
 
 public interface StateMachineMetaBuilder extends AnnotationMetaBuilder<StateMachineMetadata, StateMachineMetadata>, StateMachineMetadata {
 
-    void setRegistry(LifecycleMetaRegistry registry);
+  void setRegistry(LifecycleMetaRegistry registry);
 
-    void setComposite(boolean b);
+  void setComposite(boolean b);
 
-    void setOwningState(StateMetadata stateMetaBuilderImpl);
+  void setOwningState(StateMetadata stateMetaBuilderImpl);
 
-    boolean hasEvent(Object obj);
+  boolean hasEvent(Object obj);
 
-    StateMachineMetaBuilder[] getCompositeStateMachines();
+  StateMachineMetaBuilder[] getCompositeStateMachines();
 
-    LifecycleMetaRegistry getRegistry();
+  LifecycleMetaRegistry getRegistry();
 }

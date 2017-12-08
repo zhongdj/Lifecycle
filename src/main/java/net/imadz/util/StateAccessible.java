@@ -36,5 +36,5 @@ package net.imadz.util;
 
 public interface StateAccessible<T> extends Readable<T> {
 
-    void write(Object reactiveObject, T state);
+  void write(Object reactiveObject, T state);
 }

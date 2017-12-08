@@ -34,52 +34,57 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
-import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Events.Finish;
 import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Events.Start;
+import net.imadz.lifecycle.demo.relational.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
 
 @StateMachine(parentOn = ServiceableLifecycleMeta.class)
 public interface PlantScheduleOrderLifecycleMeta {
 
-    @StateSet
-    static class States {
+  @StateSet
+  static class States {
 
-        @Initial
-        @Transitions({ @Transition(event = Start.class, value = Working.class) })
-        static class Created {}
-        /*
-         * on=Queued: ServiceOrder state change last, while Plant Operator
-         * Triggers or Truck Driver Triggers
-         */
-        @Transitions({ @Transition(event = Finish.class, value = Done.class) })
-        @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class })
-        @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Queued.class, ServiceableLifecycleMeta.States.Ongoing.class })
-        static class Working {}
-        @Final
-        @InboundWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class })
-        @ValidWhile(relation = ServiceOrder.class, on = { ServiceableLifecycleMeta.States.Ongoing.class, ServiceableLifecycleMeta.States.Finished.class })
-        // Default @Transitions({})
-        static class Done {}
-    }
-    @EventSet
-    public static class Events {
+    @Initial
+    @Transitions({@Transition(event = Start.class, value = Working.class)})
+    static class Created {}
 
-        public static class Start {}
-        public static class Finish {}
-    }
-    @RelationSet
-    public static class Relations {
+    /*
+     * on=Queued: ServiceOrder state change last, while Plant Operator
+     * Triggers or Truck Driver Triggers
+     */
+    @Transitions({@Transition(event = Finish.class, value = Done.class)})
+    @InboundWhile(relation = ServiceOrder.class, on = {ServiceableLifecycleMeta.States.Queued.class})
+    @ValidWhile(relation = ServiceOrder.class, on = {ServiceableLifecycleMeta.States.Queued.class, ServiceableLifecycleMeta.States.Ongoing.class})
+    static class Working {}
 
-        public static class ServiceOrder {}
-    }
+    @Final
+    @InboundWhile(relation = ServiceOrder.class, on = {ServiceableLifecycleMeta.States.Ongoing.class})
+    @ValidWhile(relation = ServiceOrder.class, on = {ServiceableLifecycleMeta.States.Ongoing.class, ServiceableLifecycleMeta.States.Finished.class})
+    // Default @Transitions({})
+    static class Done {}
+  }
+
+  @EventSet
+  public static class Events {
+
+    public static class Start {}
+
+    public static class Finish {}
+  }
+
+  @RelationSet
+  public static class Relations {
+
+    public static class ServiceOrder {}
+  }
 }

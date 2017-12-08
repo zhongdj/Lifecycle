@@ -34,9 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.meta.builder.RelationObjectBuilder;
 import net.imadz.lifecycle.meta.object.RelationObject;
 import net.imadz.lifecycle.meta.object.StateMachineObject;
@@ -47,41 +44,45 @@ import net.imadz.util.Readable;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class RelationObjectBuilderImpl extends ObjectBuilderBase<RelationObject, StateMachineObject<?>, RelationMetadata> implements RelationObjectBuilder {
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
-    private Readable<Object> evaluator = null;
+public class RelationObjectBuilderImpl extends ObjectBuilderBase<RelationObject, StateMachineObject<?>, RelationMetadata> implements
+    RelationObjectBuilder {
 
-    private RelationObjectBuilderImpl(final StateMachineObject<?> parent, final String name) {
-        super(parent, name);
-    }
+  private Readable<Object> evaluator = null;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RelationObjectBuilderImpl(final StateMachineObject parent, final Field field, RelationMetadata template) {
-        this(parent, "RelationSet." + template.getDottedPath().getName() + "." + field.getName());
-        evaluator = new FieldEvaluator(field);
-        setMetaType(template);
-    }
+  private RelationObjectBuilderImpl(final StateMachineObject<?> parent, final String name) {
+    super(parent, name);
+  }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public RelationObjectBuilderImpl(final StateMachineObject parent, Method method, RelationMetadata template) {
-        this(parent, "RelationSet." + template.getDottedPath().getName() + "." + method.getName());
-        evaluator = new PropertyEvaluator(method);
-        setMetaType(template);
-    }
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public RelationObjectBuilderImpl(final StateMachineObject parent, final Field field, RelationMetadata template) {
+    this(parent, "RelationSet." + template.getDottedPath().getName() + "." + field.getName());
+    evaluator = new FieldEvaluator(field);
+    setMetaType(template);
+  }
 
-    @Override
-    public RelationObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
-        super.build(klass, parent);
-        return this;
-    }
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public RelationObjectBuilderImpl(final StateMachineObject parent, Method method, RelationMetadata template) {
+    this(parent, "RelationSet." + template.getDottedPath().getName() + "." + method.getName());
+    evaluator = new PropertyEvaluator(method);
+    setMetaType(template);
+  }
 
-    @Override
-    public Readable<Object> getEvaluator() {
-        return this.evaluator;
-    }
+  @Override
+  public RelationObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
+    super.build(klass, parent);
+    return this;
+  }
 
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {
-        // TODO Auto-generated method stub
-    }
+  @Override
+  public Readable<Object> getEvaluator() {
+    return this.evaluator;
+  }
+
+  @Override
+  public void verifyMetaData(VerificationFailureSet verificationSet) {
+    // TODO Auto-generated method stub
+  }
 }

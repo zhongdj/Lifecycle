@@ -39,15 +39,15 @@ import net.imadz.verification.VerificationFailureSet;
 
 public interface MetaData {
 
-    DottedPath getDottedPath();
+  DottedPath getDottedPath();
 
-    MetaData getParent();
+  MetaData getParent();
 
-    // For Inheritance
-    KeySet getKeySet();
+  // For Inheritance
+  KeySet getKeySet();
 
-    Object getPrimaryKey();
+  Object getPrimaryKey();
 
-    // String getNamespace();
-    void verifyMetaData(VerificationFailureSet verificationSet);
+  // String getNamespace();
+  void verifyMetaData(VerificationFailureSet verificationSet);
 }

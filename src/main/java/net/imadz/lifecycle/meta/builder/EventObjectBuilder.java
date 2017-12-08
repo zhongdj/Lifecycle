@@ -34,7 +34,7 @@
  */
 package net.imadz.lifecycle.meta.builder;
 
-import net.imadz.lifecycle.meta.object.StateMachineObject;
 import net.imadz.lifecycle.meta.object.EventObject;
+import net.imadz.lifecycle.meta.object.StateMachineObject;
 
 public interface EventObjectBuilder extends AnnotationMetaBuilder<EventObject, StateMachineObject<?>>, EventObject {}

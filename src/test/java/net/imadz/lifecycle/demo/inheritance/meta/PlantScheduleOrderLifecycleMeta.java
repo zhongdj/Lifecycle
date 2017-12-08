@@ -34,49 +34,54 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.RelationSet;
 import net.imadz.lifecycle.annotations.relation.ValidWhile;
 import net.imadz.lifecycle.annotations.state.Final;
-import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Events.Finish;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Events.Start;
+import net.imadz.lifecycle.demo.inheritance.meta.PlantScheduleOrderLifecycleMeta.Relations.ServiceOrder;
 
 @StateMachine(parentOn = ServiceOrderLifecycleMeta.class)
 public interface PlantScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
 
-    @StateSet
-    static class States extends OrderLifecycleMeta.States {
+  @StateSet
+  static class States extends OrderLifecycleMeta.States {
 
-        @InboundWhile(relation = ServiceOrder.class, on = OrderLifecycleMeta.States.Queued.class)
-        // Default @ValidWhile(relation="serviceOrder", on =
-        // {ServiceOrderLifecycleMeta.States.Queued.class})
-        @Transitions({ @Transition(event = Start.class, value = Ongoing.class) })
-        static class Queued extends OrderLifecycleMeta.States.Queued {}
-        @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })
-        // Default @ValidWhile(IServiceOrder.States.Ongoing.class)
-        @Transitions({ @Transition(event = Finish.class, value = Finished.class) })
-        static class Ongoing extends OrderLifecycleMeta.States.Ongoing {}
-        @Final
-        @InboundWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class })
-        @ValidWhile(relation = ServiceOrder.class, on = { ServiceOrderLifecycleMeta.States.Ongoing.class, ServiceOrderLifecycleMeta.States.Finished.class })
-        // Default @Transitions({})
-        static class Finished extends OrderLifecycleMeta.States.Finished {}
-    }
-    @EventSet
-    public static class Events {
+    @InboundWhile(relation = ServiceOrder.class, on = OrderLifecycleMeta.States.Queued.class)
+    // Default @ValidWhile(relation="serviceOrder", on =
+    // {ServiceOrderLifecycleMeta.States.Queued.class})
+    @Transitions({@Transition(event = Start.class, value = Ongoing.class)})
+    static class Queued extends OrderLifecycleMeta.States.Queued {}
 
-        public static class Start {}
-        public static class Finish {}
-    }
-    @RelationSet
-    public static class Relations {
+    @InboundWhile(relation = ServiceOrder.class, on = {ServiceOrderLifecycleMeta.States.Ongoing.class})
+    // Default @ValidWhile(IServiceOrder.States.Ongoing.class)
+    @Transitions({@Transition(event = Finish.class, value = Finished.class)})
+    static class Ongoing extends OrderLifecycleMeta.States.Ongoing {}
 
-        public static class ServiceOrder {}
-    }
+    @Final
+    @InboundWhile(relation = ServiceOrder.class, on = {ServiceOrderLifecycleMeta.States.Ongoing.class})
+    @ValidWhile(relation = ServiceOrder.class, on = {ServiceOrderLifecycleMeta.States.Ongoing.class, ServiceOrderLifecycleMeta.States.Finished.class})
+    // Default @Transitions({})
+    static class Finished extends OrderLifecycleMeta.States.Finished {}
+  }
+
+  @EventSet
+  public static class Events {
+
+    public static class Start {}
+
+    public static class Finish {}
+  }
+
+  @RelationSet
+  public static class Relations {
+
+    public static class ServiceOrder {}
+  }
 }

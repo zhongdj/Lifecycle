@@ -34,10 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.action.Condition;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
@@ -45,46 +41,52 @@ import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
+
 import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtils.overridesBy;
 
 public final class ConditionProviderMethodScanner implements MethodScanCallback {
 
-    private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private final VerificationFailureSet failureSet;
-    private HashMap<Class<?>, Method> conditions = new HashMap<Class<?>, Method>();
-    private StateMachineMetadata template;
-    private Class<?> klass;
+  private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
+  private final VerificationFailureSet failureSet;
+  private HashMap<Class<?>, Method> conditions = new HashMap<Class<?>, Method>();
+  private StateMachineMetadata template;
+  private Class<?> klass;
 
-    public ConditionProviderMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, Class<?> klass, StateMachineMetadata template,
-            VerificationFailureSet failureSet) {
-        this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.template = template;
-        this.klass = klass;
-        this.failureSet = failureSet;
+  public ConditionProviderMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, Class<?> klass, StateMachineMetadata template,
+      VerificationFailureSet failureSet) {
+    this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
+    this.template = template;
+    this.klass = klass;
+    this.failureSet = failureSet;
+  }
+
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
-
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        final Condition condition = method.getAnnotation(Condition.class);
-        if ( null != condition ) {
-            if ( template.hasCondition(condition.value()) ) {
-                if ( conditions.containsKey(condition.value()) ) {
-                    if (!overridesBy(conditions.get(condition.value()), method))
-                    failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
-                            SyntaxErrors.LM_CONDITION_MULTIPLE_METHODS_REFERENCE_SAME_CONDITION, klass, condition.value()));
-                } else {
-                    if ( !condition.value().isAssignableFrom(method.getReturnType()) ) {
-                        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
-                                SyntaxErrors.LM_CONDITION_OBJECT_DOES_NOT_IMPLEMENT_CONDITION_INTERFACE, method, condition.value()));
-                    }
-                    conditions.put(condition.value(), method);
-                }
-            } else {
-                failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(), SyntaxErrors.LM_CONDITION_REFERENCE_INVALID,
-                        method, condition.value()));
-            }
+    final Condition condition = method.getAnnotation(Condition.class);
+    if (null != condition) {
+      if (template.hasCondition(condition.value())) {
+        if (conditions.containsKey(condition.value())) {
+          if (!overridesBy(conditions.get(condition.value()), method)) {
+            failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
+                SyntaxErrors.LM_CONDITION_MULTIPLE_METHODS_REFERENCE_SAME_CONDITION, klass, condition.value()));
+          }
+        } else {
+          if (!condition.value().isAssignableFrom(method.getReturnType())) {
+            failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(),
+                SyntaxErrors.LM_CONDITION_OBJECT_DOES_NOT_IMPLEMENT_CONDITION_INTERFACE, method, condition.value()));
+          }
+          conditions.put(condition.value(), method);
         }
-        return false;
+      } else {
+        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(klass.getName(), SyntaxErrors.LM_CONDITION_REFERENCE_INVALID,
+            method, condition.value()));
+      }
     }
+    return false;
+  }
 }

@@ -34,9 +34,9 @@
  */
 package net.imadz.lifecycle.demo.relational;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Cancel;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Finish;
@@ -46,24 +46,24 @@ import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMet
 @LifecycleMeta(VehicleScheduleOrderLifecycleMeta.class)
 public interface IVehicleScheduleOrder {
 
-    @Event(Schedule.class)
-    void doSchedule();
+  @Event(Schedule.class)
+  void doSchedule();
 
-    @Event(Start.class)
-    void doStart();
+  @Event(Start.class)
+  void doStart();
 
-    @Event(Finish.class)
-    void doFinish();
+  @Event(Finish.class)
+  void doFinish();
 
-    @Event(Cancel.class)
-    void doCancel();
+  @Event(Cancel.class)
+  void doCancel();
 
-    @Event
-    void doTransport();
+  @Event
+  void doTransport();
 
-    @Event
-    void doConstruct();
+  @Event
+  void doConstruct();
 
-    @StateIndicator
-    String getState();
+  @StateIndicator
+  String getState();
 }

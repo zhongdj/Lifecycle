@@ -42,27 +42,25 @@ import net.imadz.verification.VerificationRuntimeException;
  */
 public class FlavorNotSupportedException extends VerificationRuntimeException {
 
-    private final static long serialVersionUID = 1L;
+  private final static long serialVersionUID = 1L;
 
-    /**
-     * Constructor
-     * 
-     * @param flavorMetaData
-     *            Meta-data object of the flavor
-     * @param flavorKey
-     *            Flavor key (typically a name or class)
-     */
-    public FlavorNotSupportedException(Object flavorMetaData, Object flavorKey) {
-        super(flavorMetaData, "flavorNotSupported." + toString(flavorKey), "Flavor %s not supported by %s", flavorKey, flavorMetaData);
-    }
+  /**
+   * Constructor
+   *
+   * @param flavorMetaData Meta-data object of the flavor
+   * @param flavorKey      Flavor key (typically a name or class)
+   */
+  public FlavorNotSupportedException(Object flavorMetaData, Object flavorKey) {
+    super(flavorMetaData, "flavorNotSupported." + toString(flavorKey), "Flavor %s not supported by %s", flavorKey, flavorMetaData);
+  }
 
-    /**
-     * Convert a flavor key to a String
-     */
-    private final static String toString(Object flavorKey) {
-        if ( flavorKey instanceof Class ) {
-            return ( (Class<?>) flavorKey ).getSimpleName();
-        }
-        return flavorKey.toString();
+  /**
+   * Convert a flavor key to a String
+   */
+  private final static String toString(Object flavorKey) {
+    if (flavorKey instanceof Class) {
+      return ((Class<?>) flavorKey).getSimpleName();
     }
+    return flavorKey.toString();
+  }
 }

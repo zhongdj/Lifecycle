@@ -34,16 +34,16 @@
  */
 package net.imadz.lifecycle.annotations;
 
+import net.imadz.bcel.intercept.Interceptable;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.imadz.bcel.intercept.Interceptable;
-
 @Interceptable
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface ReactiveObject {

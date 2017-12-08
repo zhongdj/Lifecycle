@@ -36,48 +36,49 @@ package net.imadz.lifecycle;
 
 public class LifecycleCommonErrors {
 
-    /**
-     * message argument {0} event simple name or eventKey Class,
-     *        When @Event(value=T.class) then eventKeyClass will be
-     *        the value other than simple Name
-     * message argument {1} state name
-     * message argument {2} target object
-     */
-    public static final String ILLEGAL_EVENT_ON_STATE = "002-9000";
-    /**
-     * message argument {0} target object
-     * message argument {1} target object's state
-     * message argument {2} relation object
-     * message argument {3} relation state
-     * message argument {4} relation definition
-     */
-    public static final String STATE_INVALID = "002-9001";
-    /**
-     * message argument {0} event
-     * message argument {1} target object next state
-     * message argument {2} target object
-     * message argument {3} relation object
-     * message argument {4} relation object's state
-     * message argument {5} inbound constraint definition
-     */
-    public static final String VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT = "002-9002";
-    public static final String BUNDLE = "lifecycle_common";
-    /**
-     * message argument {0} Method object
-     */
-    public static final String CALLBACK_EXCEPTION_OCCOURRED = "002-9003";
-    /**
-     * message argument {0} Relation class
-     * message argument {1} @nullable value
-     * message argument {2} State class
-     */
-    public static final String VALID_WHILE_RELATION_TARGET_IS_NULL = "002-9004";
-    /**
-     * message argument {0} Relation class
-     * message argument {1} @nullable value
-     * message argument {2} State class
-     */
-    public static final String INBOUND_WHILE_RELATION_TARGET_IS_NULL = "002-9005";
+  /**
+   * message argument {0} event simple name or eventKey Class,
+   * When @Event(value=T.class) then eventKeyClass will be
+   * the value other than simple Name
+   * message argument {1} state name
+   * message argument {2} target object
+   */
+  public static final String ILLEGAL_EVENT_ON_STATE = "002-9000";
+  /**
+   * message argument {0} target object
+   * message argument {1} target object's state
+   * message argument {2} relation object
+   * message argument {3} relation state
+   * message argument {4} relation definition
+   */
+  public static final String STATE_INVALID = "002-9001";
+  /**
+   * message argument {0} event
+   * message argument {1} target object next state
+   * message argument {2} target object
+   * message argument {3} relation object
+   * message argument {4} relation object's state
+   * message argument {5} inbound constraint definition
+   */
+  public static final String VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT = "002-9002";
+  public static final String BUNDLE = "lifecycle_common";
+  /**
+   * message argument {0} Method object
+   */
+  public static final String CALLBACK_EXCEPTION_OCCOURRED = "002-9003";
+  /**
+   * message argument {0} Relation class
+   * message argument {1} @nullable value
+   * message argument {2} State class
+   */
+  public static final String VALID_WHILE_RELATION_TARGET_IS_NULL = "002-9004";
+  /**
+   * message argument {0} Relation class
+   * message argument {1} @nullable value
+   * message argument {2} State class
+   */
+  public static final String INBOUND_WHILE_RELATION_TARGET_IS_NULL = "002-9005";
 
-    private LifecycleCommonErrors() {}
+  private LifecycleCommonErrors() {
+  }
 }

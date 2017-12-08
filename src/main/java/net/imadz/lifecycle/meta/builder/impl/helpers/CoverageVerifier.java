@@ -34,9 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-import java.util.HashSet;
-
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
@@ -47,51 +44,58 @@ import net.imadz.util.StringUtil;
 import net.imadz.utils.Null;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+import java.util.HashSet;
+
 public final class CoverageVerifier implements MethodScanCallback {
 
-    private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private final EventMetadata eventMetadata;
-    HashSet<Class<?>> declaringClass = new HashSet<Class<?>>();
-    private final VerificationFailureSet failureSet;
+  private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
+  private final EventMetadata eventMetadata;
+  HashSet<Class<?>> declaringClass = new HashSet<Class<?>>();
+  private final VerificationFailureSet failureSet;
 
-    public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final EventMetadata eventMetadata,
-            final VerificationFailureSet failureSet) {
-        this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.eventMetadata = eventMetadata;
-        this.failureSet = failureSet;
-    }
+  public CoverageVerifier(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final EventMetadata eventMetadata,
+      final VerificationFailureSet failureSet) {
+    this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
+    this.eventMetadata = eventMetadata;
+    this.failureSet = failureSet;
+  }
 
-    public boolean notCovered() {
-        return declaringClass.size() == 0;
-    }
+  public boolean notCovered() {
+    return declaringClass.size() == 0;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        if ( !match(eventMetadata, method) ) {
-            return false;
-        }
-        if ( !declaringClass.contains(method.getDeclaringClass()) ) {
-            declaringClass.add(method.getDeclaringClass());
-            return false;
-        }
-        final EventTypeEnum type = eventMetadata.getType();
-        if ( type.isUniqueEvent() ) {
-            failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(eventMetadata.getDottedPath(),
-                    SyntaxErrors.LM_REDO_CORRUPT_RECOVER_EVENT_HAS_ONLY_ONE_METHOD, eventMetadata.getDottedPath().getName(), "@" + type.name(),
-                    this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath(), this.stateMachineObjectBuilderImpl.getDottedPath().getAbsoluteName()));
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    if (!match(eventMetadata, method)) {
+      return false;
+    }
+    if (!declaringClass.contains(method.getDeclaringClass())) {
+      declaringClass.add(method.getDeclaringClass());
+      return false;
+    }
+    final EventTypeEnum type = eventMetadata.getType();
+    if (type.isUniqueEvent()) {
+      failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(eventMetadata.getDottedPath(),
+          SyntaxErrors.LM_REDO_CORRUPT_RECOVER_EVENT_HAS_ONLY_ONE_METHOD, eventMetadata.getDottedPath().getName(), "@" + type.name(),
+          this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath(), this.stateMachineObjectBuilderImpl.getDottedPath().getAbsoluteName()));
+    }
+    return false;
+  }
 
-    private boolean match(EventMetadata eventMetadata, Method eventMethod) {
-        Event event = eventMethod.getAnnotation(Event.class);
-        if ( null == event ) return false;
-        final String eventName = eventMetadata.getDottedPath().getName();
-        if ( Null.class == event.value() ) {
-            return eventName.equals(StringUtil.toUppercaseFirstCharacter(eventMethod.getName()));
-        } else {
-            return eventName.equals(event.value().getSimpleName());
-        }
+  private boolean match(EventMetadata eventMetadata, Method eventMethod) {
+    Event event = eventMethod.getAnnotation(Event.class);
+    if (null == event) {
+      return false;
     }
+    final String eventName = eventMetadata.getDottedPath().getName();
+    if (Null.class == event.value()) {
+      return eventName.equals(StringUtil.toUppercaseFirstCharacter(eventMethod.getName()));
+    } else {
+      return eventName.equals(event.value().getSimpleName());
+    }
+  }
 }

@@ -35,7 +35,10 @@
 package net.imadz.common;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -44,134 +47,134 @@ import java.util.*;
  */
 public class DottedPath implements Iterable<DottedPath> {
 
-    private final DottedPath parent;
-    private final String name, absoluteName;
-    private List<String> paths;
+  private final DottedPath parent;
+  private final String name, absoluteName;
+  private List<String> paths;
 
-    /** Constructor */
-    public DottedPath(String name) {
-        this(null, name);
-    }
+  /**
+   * Constructor
+   */
+  public DottedPath(String name) {
+    this(null, name);
+  }
 
-    private DottedPath(DottedPath parent, String name) {
-        this.parent = parent;
-        this.name = name;
-        this.absoluteName = null != this.parent ? this.parent.absoluteName + "." + this.name : this.name;
-        this.paths = makePaths();
-    }
+  private DottedPath(DottedPath parent, String name) {
+    this.parent = parent;
+    this.name = name;
+    this.absoluteName = null != this.parent ? this.parent.absoluteName + "." + this.name : this.name;
+    this.paths = makePaths();
+  }
 
-    private List<String> makePaths() {
-        if ( null == this.parent) {
-			final ArrayList<String> arrayList = new ArrayList<String>();
-			arrayList.add(this.name);
-			return arrayList;
-		}
-        List<String> paths = new ArrayList<String>(this.parent.paths);
-        paths.add(this.name);
-        return paths;
+  private List<String> makePaths() {
+    if (null == this.parent) {
+      final ArrayList<String> arrayList = new ArrayList<String>();
+      arrayList.add(this.name);
+      return arrayList;
     }
+    List<String> paths = new ArrayList<String>(this.parent.paths);
+    paths.add(this.name);
+    return paths;
+  }
 
-    public static DottedPath parse(String path) {
-        List<String> segments = Arrays.asList(path.split("\\."));
-        DottedPath head = new DottedPath(segments.get(0));
-        List<String> tail = segments.subList(1, segments.size());
-        return head.append(tail);
-    }
+  public static DottedPath parse(String path) {
+    List<String> segments = Arrays.asList(path.split("\\."));
+    DottedPath head = new DottedPath(segments.get(0));
+    List<String> tail = segments.subList(1, segments.size());
+    return head.append(tail);
+  }
 
-    public static DottedPath append(DottedPath parent, String segment) {
-        return parent != null ? parent.append(segment) : new DottedPath(segment);
-    }
+  public static DottedPath append(DottedPath parent, String segment) {
+    return parent != null ? parent.append(segment) : new DottedPath(segment);
+  }
 
-    public DottedPath append(String segment) {
-        return new DottedPath(this, segment);
-    }
+  public DottedPath append(String segment) {
+    return new DottedPath(this, segment);
+  }
 
-    public DottedPath append(List<String> segments) {
-        if ( segments.isEmpty() ) {
-            return this;
-        }
-        return this.append(segments.get(0)).append(segments.subList(1, segments.size()));
+  public DottedPath append(List<String> segments) {
+    if (segments.isEmpty()) {
+      return this;
     }
+    return this.append(segments.get(0)).append(segments.subList(1, segments.size()));
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return ( obj instanceof DottedPath ) && ( (DottedPath) obj ).absoluteName.equals(this.absoluteName);
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return (obj instanceof DottedPath) && ((DottedPath) obj).absoluteName.equals(this.absoluteName);
+  }
 
-    @Override
-    public int hashCode() {
-        return this.absoluteName.hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return this.absoluteName.hashCode();
+  }
 
-    /**
-     * Number of elements from the head element to this element
-     */
-    public int size() {
-        return null != parent ? parent.size() + 1 : 1;
-    }
+  /**
+   * Number of elements from the head element to this element
+   */
+  public int size() {
+    return null != parent ? parent.size() + 1 : 1;
+  }
 
-    private List<DottedPath> toList() {
-        if ( null == this.parent ) {
-        	final List<DottedPath> result= new ArrayList<DottedPath>();
-        	result.add(this);
-        	return result;
-        }
-        ArrayList<DottedPath> dottedPaths = new ArrayList<DottedPath>(this.parent.toList());
-        dottedPaths.add(this);
-        return dottedPaths;
+  private List<DottedPath> toList() {
+    if (null == this.parent) {
+      final List<DottedPath> result = new ArrayList<DottedPath>();
+      result.add(this);
+      return result;
     }
+    ArrayList<DottedPath> dottedPaths = new ArrayList<DottedPath>(this.parent.toList());
+    dottedPaths.add(this);
+    return dottedPaths;
+  }
 
-    @Override
-    public Iterator<DottedPath> iterator() {
-        return toList().iterator();
-    }
+  @Override
+  public Iterator<DottedPath> iterator() {
+    return toList().iterator();
+  }
 
-    /**
-     * Parent element in path
-     */
-    public DottedPath getParent() {
-        return this.parent;
-    }
+  /**
+   * Parent element in path
+   */
+  public DottedPath getParent() {
+    return this.parent;
+  }
 
-    /**
-     * Fully qualified name of this element
-     * 
-     * @return getParent().getAbsoluteName() + "." + getName();
-     */
-    public String getAbsoluteName() {
-        return this.absoluteName;
-    }
+  /**
+   * Fully qualified name of this element
+   *
+   * @return getParent().getAbsoluteName() + "." + getName();
+   */
+  public String getAbsoluteName() {
+    return this.absoluteName;
+  }
 
-    /**
-     * Local name of this element
-     */
-    public String getName() {
-        return this.name;
-    }
+  /**
+   * Local name of this element
+   */
+  public String getName() {
+    return this.name;
+  }
 
-    /**
-     * Absolute name of this path using the specified separator.
-     * 
-     * 
-     * @param separator
-     *            String to append between each path level
-     * @return StringBuilder passed in or created
-     */
-    public StringBuilder toString(StringBuilder sb, final String separator) {
-    	for (int i = 0; i < paths.size(); i ++) {
-    		sb.append(paths.get(i));
-    		if (i + 1 < paths.size()) {
-    			sb.append(separator);
-    		}
-    	}
-    	return sb;
+  /**
+   * Absolute name of this path using the specified separator.
+   *
+   * @param separator String to append between each path level
+   * @return StringBuilder passed in or created
+   */
+  public StringBuilder toString(StringBuilder sb, final String separator) {
+    for (int i = 0; i < paths.size(); i++) {
+      sb.append(paths.get(i));
+      if (i + 1 < paths.size()) {
+        sb.append(separator);
+      }
     }
+    return sb;
+  }
 
-    /**
-     * @return absolute name
-     */
-    @Override
-    public String toString() {
-        return this.absoluteName;
-    }
+  /**
+   * @return absolute name
+   */
+  @Override
+  public String toString() {
+    return this.absoluteName;
+  }
 }

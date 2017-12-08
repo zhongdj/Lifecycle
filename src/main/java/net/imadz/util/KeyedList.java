@@ -34,36 +34,36 @@
  */
 package net.imadz.util;
 
+import net.imadz.lifecycle.meta.MultiKeyed;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.imadz.lifecycle.meta.MultiKeyed;
-
 public class KeyedList<T extends MultiKeyed> {
 
-    private final ArrayList<T> elements = new ArrayList<T>();
-    private final HashMap<Object, T> elementMap = new HashMap<Object, T>();
+  private final ArrayList<T> elements = new ArrayList<T>();
+  private final HashMap<Object, T> elementMap = new HashMap<Object, T>();
 
-    public void add(T element) {
-        this.elements.add(element);
-        final Iterator<Object> iterator = element.getKeySet().iterator();
-        while ( iterator.hasNext() ) {
-            this.elementMap.put(iterator.next(), element);
-        }
+  public void add(T element) {
+    this.elements.add(element);
+    final Iterator<Object> iterator = element.getKeySet().iterator();
+    while (iterator.hasNext()) {
+      this.elementMap.put(iterator.next(), element);
     }
+  }
 
-    public T get(Object key) {
-        return this.elementMap.get(key);
-    }
+  public T get(Object key) {
+    return this.elementMap.get(key);
+  }
 
-    @SuppressWarnings("unchecked")
-    public T[] toArray(Class<T> tClass) {
-        return this.elements.toArray((T[]) Array.newInstance(tClass, this.elements.size()));
-    }
+  @SuppressWarnings("unchecked")
+  public T[] toArray(Class<T> tClass) {
+    return this.elements.toArray((T[]) Array.newInstance(tClass, this.elements.size()));
+  }
 
-    public boolean containsKey(Object eventKey) {
-        return null != get(eventKey);
-    }
+  public boolean containsKey(Object eventKey) {
+    return null != get(eventKey);
+  }
 }

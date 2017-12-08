@@ -42,28 +42,30 @@ import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class ConditionMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<ConditionMetadata, StateMachineMetadata> implements ConditionMetaBuilder {
+public class ConditionMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<ConditionMetadata, StateMachineMetadata> implements
+    ConditionMetaBuilder {
 
-    protected ConditionMetaBuilderImpl(StateMachineMetaBuilder parent, String name) {
-        super(parent, "ConditionSet." + name);
-    }
+  protected ConditionMetaBuilderImpl(StateMachineMetaBuilder parent, String name) {
+    super(parent, "ConditionSet." + name);
+  }
 
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {}
+  @Override
+  public void verifyMetaData(VerificationFailureSet verificationSet) {
+  }
 
-    @Override
-    public ConditionMetaBuilder build(Class<?> klass, StateMachineMetadata builder) throws VerificationException {
-        super.build(klass, builder);
-        return this;
-    }
+  @Override
+  public ConditionMetaBuilder build(Class<?> klass, StateMachineMetadata builder) throws VerificationException {
+    super.build(klass, builder);
+    return this;
+  }
 
-    @Override
-    public void dump(Dumper dumper) {
-        // TODO Auto-generated method stub
-    }
+  @Override
+  public void dump(Dumper dumper) {
+    // TODO Auto-generated method stub
+  }
 
-    @Override
-    protected ConditionMetadata findSuper(Class<?> metaClass) throws VerificationException {
-        return parent.getSuper().getCondtion(metaClass);
-    }
+  @Override
+  protected ConditionMetadata findSuper(Class<?> metaClass) throws VerificationException {
+    return parent.getSuper().getCondtion(metaClass);
+  }
 }

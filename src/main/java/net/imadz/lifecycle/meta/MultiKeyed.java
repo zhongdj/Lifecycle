@@ -38,5 +38,5 @@ import net.imadz.meta.KeySet;
 
 public interface MultiKeyed {
 
-    KeySet getKeySet();
+  KeySet getKeySet();
 }

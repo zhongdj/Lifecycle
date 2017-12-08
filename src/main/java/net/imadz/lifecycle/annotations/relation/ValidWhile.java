@@ -43,11 +43,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidWhile {
 
-    Class<?> relation();
+  Class<?> relation();
 
-    Class<?>[] on();
+  Class<?>[] on();
 
-    boolean nullable() default false;
+  boolean nullable() default false;
 
-    ErrorMessage[] otherwise() default {};
+  ErrorMessage[] otherwise() default {};
 }

@@ -34,40 +34,40 @@
  */
 package net.imadz.lifecycle.meta.type;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.annotations.action.ConditionalEvent;
 import net.imadz.lifecycle.meta.MetaType;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+
 public interface EventMetadata extends MetaType<EventMetadata> {
 
-    StateMachineMetadata getStateMachine();
+  StateMachineMetadata getStateMachine();
 
-    public static enum EventTypeEnum {
-        Corrupt,
-        Recover,
-        Redo,
-        Fail,
-        Common,
-        Other;
+  public static enum EventTypeEnum {
+    Corrupt,
+    Recover,
+    Redo,
+    Fail,
+    Common,
+    Other;
 
-        public boolean isUniqueEvent() {
-            return this == EventTypeEnum.Corrupt || this == EventTypeEnum.Recover || this == EventTypeEnum.Redo;
-        }
+    public boolean isUniqueEvent() {
+      return this == EventTypeEnum.Corrupt || this == EventTypeEnum.Recover || this == EventTypeEnum.Redo;
     }
+  }
 
-    EventTypeEnum getType();
+  EventTypeEnum getType();
 
-    long getTimeout();
+  long getTimeout();
 
-    boolean isConditional();
+  boolean isConditional();
 
-    Class<?> getConditionClass();
+  Class<?> getConditionClass();
 
-    Class<? extends ConditionalEvent<?>> getJudgerClass();
+  Class<? extends ConditionalEvent<?>> getJudgerClass();
 
-    boolean postValidate();
+  boolean postValidate();
 
-    void verifyEventMethod(Method method, VerificationFailureSet failureSet);
+  void verifyEventMethod(Method method, VerificationFailureSet failureSet);
 }

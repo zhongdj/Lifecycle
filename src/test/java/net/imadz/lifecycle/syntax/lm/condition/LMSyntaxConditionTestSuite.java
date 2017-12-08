@@ -39,5 +39,5 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ LMSyntaxConditionPositiveTests.class, LMSyntaxConditionNegativeTest.class })
+@SuiteClasses({LMSyntaxConditionPositiveTests.class, LMSyntaxConditionNegativeTest.class})
 public class LMSyntaxConditionTestSuite {}

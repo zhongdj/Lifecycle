@@ -34,8 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.meta.builder.ConditionObjectBuilder;
 import net.imadz.lifecycle.meta.builder.StateMachineObjectBuilder;
 import net.imadz.lifecycle.meta.object.ConditionObject;
@@ -44,27 +42,31 @@ import net.imadz.lifecycle.meta.type.ConditionMetadata;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
-public class ConditionObjectBuilderImpl extends ObjectBuilderBase<ConditionObject, StateMachineObject<?>, ConditionMetadata> implements ConditionObjectBuilder {
+import java.lang.reflect.Method;
 
-    private Method conditionGetter;
+public class ConditionObjectBuilderImpl extends ObjectBuilderBase<ConditionObject, StateMachineObject<?>, ConditionMetadata> implements
+    ConditionObjectBuilder {
 
-    protected ConditionObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method method, ConditionMetadata template) {
-        super(parent, "ConditionSet." + template.getDottedPath().getName());
-        this.setMetaType(template);
-        this.conditionGetter = method;
-    }
+  private Method conditionGetter;
 
-    @Override
-    public Method conditionGetter() {
-        return conditionGetter;
-    }
+  protected ConditionObjectBuilderImpl(StateMachineObjectBuilder<?> parent, Method method, ConditionMetadata template) {
+    super(parent, "ConditionSet." + template.getDottedPath().getName());
+    this.setMetaType(template);
+    this.conditionGetter = method;
+  }
 
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {}
+  @Override
+  public Method conditionGetter() {
+    return conditionGetter;
+  }
 
-    @Override
-    public ConditionObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
-        super.build(klass, parent);
-        return this;
-    }
+  @Override
+  public void verifyMetaData(VerificationFailureSet verificationSet) {
+  }
+
+  @Override
+  public ConditionObjectBuilder build(Class<?> klass, StateMachineObject<?> parent) throws VerificationException {
+    super.build(klass, parent);
+    return this;
+  }
 }

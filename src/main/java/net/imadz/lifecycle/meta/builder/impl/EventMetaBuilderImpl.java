@@ -34,10 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 import net.imadz.common.Dumper;
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.action.Conditional;
@@ -48,161 +44,167 @@ import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
 import net.imadz.lifecycle.annotations.action.Timeout;
 import net.imadz.lifecycle.meta.builder.EventMetaBuilder;
-import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
+import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.util.StringUtil;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 public class EventMetaBuilderImpl extends InheritableAnnotationMetaBuilderBase<EventMetadata, StateMachineMetadata> implements EventMetaBuilder {
 
-    private EventTypeEnum type = EventTypeEnum.Common;
-    private boolean conditional;
-    private Class<?> conditionClass;
-    private Class<? extends ConditionalEvent<?>> judgerClass;
-    private boolean postValidate;
-    private long timeout;
+  private EventTypeEnum type = EventTypeEnum.Common;
+  private boolean conditional;
+  private Class<?> conditionClass;
+  private Class<? extends ConditionalEvent<?>> judgerClass;
+  private boolean postValidate;
+  private long timeout;
 
-    protected EventMetaBuilderImpl(StateMachineMetadata parent, String name) {
-        super(parent, "EventSet." + name);
+  protected EventMetaBuilderImpl(StateMachineMetadata parent, String name) {
+    super(parent, "EventSet." + name);
+  }
+
+  @Override
+  public void verifyMetaData(VerificationFailureSet verificationSet) {
+  }
+
+  @Override
+  public EventMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException {
+    super.build(clazz, parent);
+    configureSuper(clazz);
+    configureCondition(clazz);
+    configureType(clazz);
+    configureTimeout(clazz);
+    return this;
+  }
+
+  private void configureTimeout(Class<?> clazz) {
+    final Timeout timeout = clazz.getAnnotation(Timeout.class);
+    if (null != timeout) {
+      this.timeout = timeout.value();
     }
+  }
 
-    @Override
-    public void verifyMetaData(VerificationFailureSet verificationSet) {}
-
-    @Override
-    public EventMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException {
-        super.build(clazz, parent);
-        configureSuper(clazz);
-        configureCondition(clazz);
-        configureType(clazz);
-        configureTimeout(clazz);
-        return this;
+  private void configureType(Class<?> clazz) {
+    if (null != clazz.getAnnotation(Corrupt.class)) {
+      type = EventTypeEnum.Corrupt;
+    } else if (null != clazz.getAnnotation(Redo.class)) {
+      type = EventTypeEnum.Redo;
+    } else if (null != clazz.getAnnotation(Recover.class)) {
+      type = EventTypeEnum.Recover;
+    } else if (null != clazz.getAnnotation(Fail.class)) {
+      type = EventTypeEnum.Fail;
+    } else {
+      type = EventTypeEnum.Common;
     }
+  }
 
-    private void configureTimeout(Class<?> clazz) {
-        final Timeout timeout = clazz.getAnnotation(Timeout.class);
-        if ( null != timeout ) {
-            this.timeout = timeout.value();
-        }
+  private void configureCondition(Class<?> clazz) throws VerificationException {
+    Conditional conditionalAnno = clazz.getAnnotation(Conditional.class);
+    if (null != conditionalAnno) {
+      conditional = true;
+      conditionClass = conditionalAnno.condition();
+      judgerClass = conditionalAnno.judger();
+      postValidate = conditionalAnno.postEval();
+      verifyJudgerClass(clazz, judgerClass, conditionClass);
+    } else {
+      conditional = false;
     }
+  }
 
-    private void configureType(Class<?> clazz) {
-        if ( null != clazz.getAnnotation(Corrupt.class) ) {
-            type = EventTypeEnum.Corrupt;
-        } else if ( null != clazz.getAnnotation(Redo.class) ) {
-            type = EventTypeEnum.Redo;
-        } else if ( null != clazz.getAnnotation(Recover.class) ) {
-            type = EventTypeEnum.Recover;
-        } else if ( null != clazz.getAnnotation(Fail.class) ) {
-            type = EventTypeEnum.Fail;
-        } else {
-            type = EventTypeEnum.Common;
-        }
+  private void verifyJudgerClass(Class<?> clazz, Class<?> judgerClass, Class<?> conditionClass) throws VerificationException {
+    for (Type type : judgerClass.getGenericInterfaces()) {
+      if (!(type instanceof ParameterizedType)) {
+        continue;
+      }
+      final ParameterizedType pType = (ParameterizedType) type;
+      if (isConditionalEvent((Class<?>) pType.getRawType()) && !isConditionClassMatchingJudgerGenericType(conditionClass, pType)) {
+        throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER, clazz, conditionClass,
+            judgerClass);
+      }
     }
+  }
 
-    private void configureCondition(Class<?> clazz) throws VerificationException {
-        Conditional conditionalAnno = clazz.getAnnotation(Conditional.class);
-        if ( null != conditionalAnno ) {
-            conditional = true;
-            conditionClass = conditionalAnno.condition();
-            judgerClass = conditionalAnno.judger();
-            postValidate = conditionalAnno.postEval();
-            verifyJudgerClass(clazz, judgerClass, conditionClass);
-        } else {
-            conditional = false;
-        }
+  private boolean isConditionClassMatchingJudgerGenericType(Class<?> conditionClass, final ParameterizedType pType) {
+    return conditionClass.isAssignableFrom((Class<?>) pType.getActualTypeArguments()[0]);
+  }
+
+  private boolean isConditionalEvent(final Class<?> rawType) {
+    return ConditionalEvent.class.isAssignableFrom(rawType);
+  }
+
+  @Override
+  public StateMachineMetadata getStateMachine() {
+    return parent;
+  }
+
+  @Override
+  public EventTypeEnum getType() {
+    return type;
+  }
+
+  @Override
+  public long getTimeout() {
+    return this.timeout;
+  }
+
+  @Override
+  public void dump(Dumper dumper) {
+  }
+
+  @Override
+  public boolean isConditional() {
+    return conditional;
+  }
+
+  @Override
+  public Class<?> getConditionClass() {
+    return conditionClass;
+  }
+
+  @Override
+  public Class<? extends ConditionalEvent<?>> getJudgerClass() {
+    return judgerClass;
+  }
+
+  @Override
+  public boolean postValidate() {
+    return postValidate;
+  }
+
+  @Override
+  protected void verifySuper(Class<?> metaClass) throws VerificationException {
+    if (!parent.hasSuper()) {
+      throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_ILLEGAL_EXTENTION, metaClass, getSuperMetaClass(metaClass));
+    } else {
+      if (!parent.getSuper().hasEvent(getSuperMetaClass(metaClass))) {
+        throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE, metaClass,
+            getSuperMetaClass(metaClass), parent.getSuper().getPrimaryKey());
+      }
     }
+  }
 
-    private void verifyJudgerClass(Class<?> clazz, Class<?> judgerClass, Class<?> conditionClass) throws VerificationException {
-        for ( Type type : judgerClass.getGenericInterfaces() ) {
-            if ( !( type instanceof ParameterizedType ) ) {
-                continue;
-            }
-            final ParameterizedType pType = (ParameterizedType) type;
-            if ( isConditionalEvent((Class<?>) pType.getRawType()) && !isConditionClassMatchingJudgerGenericType(conditionClass, pType) ) {
-                throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_CONDITIONAL_CONDITION_NOT_MATCH_JUDGER, clazz, conditionClass,
-                        judgerClass);
-            }
-        }
+  @Override
+  protected EventMetadata findSuper(Class<?> metaClass) throws VerificationException {
+    return parent.getSuper().getEvent(metaClass);
+  }
+
+  @Override
+  protected boolean extendsSuperKeySet() {
+    return true;
+  }
+
+  @Override
+  public void verifyEventMethod(Method method, VerificationFailureSet failureSet) {
+    if (method.getParameterTypes().length <= 0) {
+      return;
     }
-
-    private boolean isConditionClassMatchingJudgerGenericType(Class<?> conditionClass, final ParameterizedType pType) {
-        return conditionClass.isAssignableFrom((Class<?>) pType.getActualTypeArguments()[0]);
+    if (EventTypeEnum.Corrupt == getType() || EventTypeEnum.Recover == getType() || EventTypeEnum.Redo == getType()) {
+      failureSet.add(newVerificationFailure(getDottedPath(), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER, method,
+          StringUtil.toUppercaseFirstCharacter(method.getName()), getType()));
     }
-
-    private boolean isConditionalEvent(final Class<?> rawType) {
-        return ConditionalEvent.class.isAssignableFrom(rawType);
-    }
-
-    @Override
-    public StateMachineMetadata getStateMachine() {
-        return parent;
-    }
-
-    @Override
-    public EventTypeEnum getType() {
-        return type;
-    }
-
-    @Override
-    public long getTimeout() {
-        return this.timeout;
-    }
-
-    @Override
-    public void dump(Dumper dumper) {}
-
-    @Override
-    public boolean isConditional() {
-        return conditional;
-    }
-
-    @Override
-    public Class<?> getConditionClass() {
-        return conditionClass;
-    }
-
-    @Override
-    public Class<? extends ConditionalEvent<?>> getJudgerClass() {
-        return judgerClass;
-    }
-
-    @Override
-    public boolean postValidate() {
-        return postValidate;
-    }
-
-    @Override
-    protected void verifySuper(Class<?> metaClass) throws VerificationException {
-        if ( !parent.hasSuper() ) {
-            throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_ILLEGAL_EXTENTION, metaClass, getSuperMetaClass(metaClass));
-        } else {
-            if ( !parent.getSuper().hasEvent(getSuperMetaClass(metaClass)) ) {
-                throw newVerificationException(getDottedPath(), SyntaxErrors.EVENT_EXTENED_EVENT_CAN_NOT_FOUND_IN_SUPER_STATEMACHINE, metaClass,
-                        getSuperMetaClass(metaClass), parent.getSuper().getPrimaryKey());
-            }
-        }
-    }
-
-    @Override
-    protected EventMetadata findSuper(Class<?> metaClass) throws VerificationException {
-        return parent.getSuper().getEvent(metaClass);
-    }
-
-    @Override
-    protected boolean extendsSuperKeySet() {
-        return true;
-    }
-
-    @Override
-    public void verifyEventMethod(Method method, VerificationFailureSet failureSet) {
-        if ( method.getParameterTypes().length <= 0 ) {
-            return;
-        }
-        if ( EventTypeEnum.Corrupt == getType() || EventTypeEnum.Recover == getType() || EventTypeEnum.Redo == getType() ) {
-            failureSet.add(newVerificationFailure(getDottedPath(), SyntaxErrors.EVENT_TYPE_CORRUPT_RECOVER_REDO_REQUIRES_ZERO_PARAMETER, method,
-                    StringUtil.toUppercaseFirstCharacter(method.getName()), getType()));
-        }
-    }
+  }
 }

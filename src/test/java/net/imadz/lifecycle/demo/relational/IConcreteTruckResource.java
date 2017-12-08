@@ -34,25 +34,25 @@
  */
 package net.imadz.lifecycle.demo.relational;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.demo.relational.meta.ConcreteTruckResourceLifecycleMeta;
 
 @LifecycleMeta(ConcreteTruckResourceLifecycleMeta.class)
 public interface IConcreteTruckResource {
 
-    @Event
+  @Event
     // default to @Event(Assign.class) use assign -> Assign
-    void assign();
+  void assign();
 
-    @Event(ConcreteTruckResourceLifecycleMeta.Events.Release.class)
-    void doRelease();
+  @Event(ConcreteTruckResourceLifecycleMeta.Events.Release.class)
+  void doRelease();
 
-    @Event
+  @Event
     // default to @Event(Detach.class) use detach -> Detach
-    void detach();
+  void detach();
 
-    @StateIndicator
-    String getState();
+  @StateIndicator
+  String getState();
 }

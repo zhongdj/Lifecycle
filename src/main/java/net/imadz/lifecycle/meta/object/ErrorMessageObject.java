@@ -38,32 +38,32 @@ import net.imadz.lifecycle.meta.type.StateMetadata;
 
 public class ErrorMessageObject {
 
-    private String bundle;
-    private Class<?> classLoaderClass;
-    private String errorCode;
-    private StateMetadata[] errorStates;
+  private String bundle;
+  private Class<?> classLoaderClass;
+  private String errorCode;
+  private StateMetadata[] errorStates;
 
-    public ErrorMessageObject(String bundle, Class<?> classLoaderClass, String errorCode, StateMetadata[] errorStates) {
-        super();
-        this.bundle = bundle;
-        this.classLoaderClass = classLoaderClass;
-        this.errorCode = errorCode;
-        this.errorStates = errorStates;
-    }
+  public ErrorMessageObject(String bundle, Class<?> classLoaderClass, String errorCode, StateMetadata[] errorStates) {
+    super();
+    this.bundle = bundle;
+    this.classLoaderClass = classLoaderClass;
+    this.errorCode = errorCode;
+    this.errorStates = errorStates;
+  }
 
-    public String getBundle() {
-        return bundle;
-    }
+  public String getBundle() {
+    return bundle;
+  }
 
-    public Class<?> getClassLoaderClass() {
-        return classLoaderClass;
-    }
+  public Class<?> getClassLoaderClass() {
+    return classLoaderClass;
+  }
 
-    public String getErrorCode() {
-        return errorCode;
-    }
+  public String getErrorCode() {
+    return errorCode;
+  }
 
-    public StateMetadata[] getErrorStates() {
-        return errorStates;
-    }
+  public StateMetadata[] getErrorStates() {
+    return errorStates;
+  }
 }

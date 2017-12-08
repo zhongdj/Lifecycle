@@ -38,19 +38,19 @@ import net.imadz.lifecycle.AbsStateMachineRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
 public class EventPositiveTests extends EventTestMetadata {
 
-    @Test
-    public void special_event_types_redo_recover_corrupt() throws VerificationException {
-        @LifecycleRegistry(PositiveProcess.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public void special_event_types_redo_recover_corrupt() throws VerificationException {
+    @LifecycleRegistry(PositiveProcess.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        new Registry();
+      protected Registry() throws VerificationException {
+      }
     }
+    new Registry();
+  }
 }

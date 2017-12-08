@@ -40,11 +40,11 @@ import net.imadz.verification.VerificationException;
 
 public interface LifecycleMetaRegistry {
 
-    StateMachineMetadata loadStateMachineMetadata(Class<?> metaClass) throws VerificationException;
+  StateMachineMetadata loadStateMachineMetadata(Class<?> metaClass) throws VerificationException;
 
-    StateMachineMetadata loadStateMachineMetadata(Class<?> stateClass, StateMachineMetadata parent) throws VerificationException;
+  StateMachineMetadata loadStateMachineMetadata(Class<?> stateClass, StateMachineMetadata parent) throws VerificationException;
 
-    StateMachineObject<?> loadStateMachineObject(Class<?> returnType) throws VerificationException;
+  StateMachineObject<?> loadStateMachineObject(Class<?> returnType) throws VerificationException;
 
-    LifecycleEventHandler getLifecycleEventHandler();
+  LifecycleEventHandler getLifecycleEventHandler();
 }

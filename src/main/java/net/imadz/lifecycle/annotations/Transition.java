@@ -43,7 +43,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Transition {
 
-    Class<?>[] value();
+  Class<?>[] value();
 
-    Class<?> event();
+  Class<?> event();
 }

@@ -39,25 +39,25 @@ import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineMetaBuilderImpl;
 import net.imadz.verification.VerificationException;
-
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class StateSetSyntaxPositiveTest extends StateSetSyntaxMetadata {
 
-    @Test
-    public void test_positive_state_set_syntax() {
-        @LifecycleRegistry(Positive.class)
-        @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
-        class Registry extends AbsStateMachineRegistry {
+  @Test
+  public void test_positive_state_set_syntax() {
+    @LifecycleRegistry(Positive.class)
+    @StateMachineBuilder(StateMachineMetaBuilderImpl.class)
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        try {
-            new Registry();
-        } catch (VerificationException e) {
-            fail("No Verificiation Exception expected.");
-        }
+      protected Registry() throws VerificationException {
+      }
     }
+    try {
+      new Registry();
+    } catch (VerificationException e) {
+      fail("No Verificiation Exception expected.");
+    }
+  }
 }

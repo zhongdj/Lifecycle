@@ -34,14 +34,14 @@
  */
 package net.imadz.lifecycle.syntax.lm.event;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.action.Corrupt;
 import net.imadz.lifecycle.annotations.action.Recover;
 import net.imadz.lifecycle.annotations.action.Redo;
@@ -51,78 +51,88 @@ import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 
 public class EventTestMetadata extends BaseMetaDataTest {
 
-    @StateMachine
-    static interface SpecialTranstionStateMachine {
+  @StateMachine
+  static interface SpecialTranstionStateMachine {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transition(event = Events.Start.class, value = { Running.class })
-            static interface Queued {}
-            @Transitions({ @Transition(event = Events.Inactivate.class, value = { InactiveRunning.class }),
-                    @Transition(event = Events.Stop.class, value = { Stopped.class }) })
-            static interface Running {}
-            @Transitions({ @Transition(event = Events.Activate.class, value = { Running.class }),
-                    @Transition(event = Events.Restart.class, value = { Running.class }),
-                    @Transition(event = Events.Stop.class, value = { Stopped.class }) })
-            static interface InactiveRunning {}
-            @Final
-            static interface Stopped {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transition(event = Events.Start.class, value = {Running.class})
+      static interface Queued {}
 
-            static interface Start {}
-            @Corrupt
-            static interface Inactivate {}
-            @Recover
-            static interface Activate {}
-            @Redo
-            static interface Restart {}
-            static interface Stop {}
-        }
+      @Transitions({@Transition(event = Events.Inactivate.class, value = {InactiveRunning.class}),
+          @Transition(event = Events.Stop.class, value = {Stopped.class})})
+      static interface Running {}
+
+      @Transitions({@Transition(event = Events.Activate.class, value = {Running.class}),
+          @Transition(event = Events.Restart.class, value = {Running.class}),
+          @Transition(event = Events.Stop.class, value = {Stopped.class})})
+      static interface InactiveRunning {}
+
+      @Final
+      static interface Stopped {}
     }
-    @LifecycleMeta(SpecialTranstionStateMachine.class)
-    static interface PositiveProcess {
 
-        @Event
-        void start();
+    @EventSet
+    static interface Events {
 
-        @Event
-        void inactivate();
+      static interface Start {}
 
-        @Event
-        void activate();
+      @Corrupt
+      static interface Inactivate {}
 
-        @Event
-        void stop();
+      @Recover
+      static interface Activate {}
 
-        @Event
-        void restart();
+      @Redo
+      static interface Restart {}
 
-        @StateIndicator
-        String getState();
+      static interface Stop {}
     }
-    @LifecycleMeta(SpecialTranstionStateMachine.class)
-    static interface NegativeProcess {
+  }
 
-        @Event
-        void start(int i);
+  @LifecycleMeta(SpecialTranstionStateMachine.class)
+  static interface PositiveProcess {
 
-        @Event
-        void inactivate(int i);
+    @Event
+    void start();
 
-        @Event
-        void activate(int i);
+    @Event
+    void inactivate();
 
-        @Event
-        void stop(int i);
+    @Event
+    void activate();
 
-        @Event
-        void restart(int i);
+    @Event
+    void stop();
 
-        @StateIndicator
-        String getState();
-    }
+    @Event
+    void restart();
+
+    @StateIndicator
+    String getState();
+  }
+
+  @LifecycleMeta(SpecialTranstionStateMachine.class)
+  static interface NegativeProcess {
+
+    @Event
+    void start(int i);
+
+    @Event
+    void inactivate(int i);
+
+    @Event
+    void activate(int i);
+
+    @Event
+    void stop(int i);
+
+    @Event
+    void restart(int i);
+
+    @StateIndicator
+    String getState();
+  }
 }

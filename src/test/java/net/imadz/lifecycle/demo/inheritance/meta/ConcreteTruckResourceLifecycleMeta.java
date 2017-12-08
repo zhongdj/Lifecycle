@@ -34,27 +34,29 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.demo.inheritance.meta.ConcreteTruckResourceLifecycleMeta.Events.Detach;
 
 @StateMachine
 public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycleMeta {
 
-    @StateSet
-    public static class States extends SchedulableLifecycleMeta.States {
+  @StateSet
+  public static class States extends SchedulableLifecycleMeta.States {
 
-        @Transition(event = Detach.class, value = Detached.class)
-        public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
-        @Final
-        public static class Detached {}
-    }
-    @EventSet
-    public class Events extends SchedulableLifecycleMeta.Events {
+    @Transition(event = Detach.class, value = Detached.class)
+    public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
 
-        public static class Detach {}
-    }
+    @Final
+    public static class Detached {}
+  }
+
+  @EventSet
+  public class Events extends SchedulableLifecycleMeta.Events {
+
+    public static class Detach {}
+  }
 }

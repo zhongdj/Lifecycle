@@ -34,53 +34,55 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.util.StringUtil;
 import net.imadz.utils.Null;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 public final class EventMethodScanner implements MethodScanCallback {
 
-    private final ArrayList<Method> eventMethodList = new ArrayList<Method>();
-    private final EventMetadata event;
+  private final ArrayList<Method> eventMethodList = new ArrayList<Method>();
+  private final EventMetadata event;
 
-    public EventMethodScanner(final EventMetadata event) {
-        this.event = event;
-    }
+  public EventMethodScanner(final EventMetadata event) {
+    this.event = event;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        final Event eventAnno = method.getAnnotation(Event.class);
-        if ( null == eventAnno ) {
-            return false;
-        }
-        final Class<?> eventKey = eventAnno.value();
-        if ( matchedEventPrimaryKey(eventKey, event.getPrimaryKey()) ) {
-            eventMethodList.add(method);
-        } else if ( matchedEventName(eventKey, method.getName(), event.getDottedPath().getName()) ) {
-            eventMethodList.add(method);
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    final Event eventAnno = method.getAnnotation(Event.class);
+    if (null == eventAnno) {
+      return false;
+    }
+    final Class<?> eventKey = eventAnno.value();
+    if (matchedEventPrimaryKey(eventKey, event.getPrimaryKey())) {
+      eventMethodList.add(method);
+    } else if (matchedEventName(eventKey, method.getName(), event.getDottedPath().getName())) {
+      eventMethodList.add(method);
+    }
+    return false;
+  }
 
-    private boolean matchedEventName(final Class<?> eventKey, String methodName, final String eventName) {
-        return isDefaultStyle(eventKey) && StringUtil.toUppercaseFirstCharacter(methodName).equals(eventName);
-    }
+  private boolean matchedEventName(final Class<?> eventKey, String methodName, final String eventName) {
+    return isDefaultStyle(eventKey) && StringUtil.toUppercaseFirstCharacter(methodName).equals(eventName);
+  }
 
-    private boolean matchedEventPrimaryKey(final Class<?> eventKey, Object primaryKey) {
-        return !isDefaultStyle(eventKey) && eventKey.equals(primaryKey);
-    }
+  private boolean matchedEventPrimaryKey(final Class<?> eventKey, Object primaryKey) {
+    return !isDefaultStyle(eventKey) && eventKey.equals(primaryKey);
+  }
 
-    public Method[] getEventMethods() {
-        return eventMethodList.toArray(new Method[0]);
-    }
+  public Method[] getEventMethods() {
+    return eventMethodList.toArray(new Method[0]);
+  }
 
-    private boolean isDefaultStyle(final Class<?> eventKey) {
-        return Null.class == eventKey;
-    }
+  private boolean isDefaultStyle(final Class<?> eventKey) {
+    return Null.class == eventKey;
+  }
 }

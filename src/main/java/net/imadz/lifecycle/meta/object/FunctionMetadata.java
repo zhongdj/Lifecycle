@@ -34,33 +34,33 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.util.LinkedList;
-
 import net.imadz.lifecycle.meta.builder.impl.StateMetaBuilderImpl;
-import net.imadz.lifecycle.meta.type.StateMetadata;
 import net.imadz.lifecycle.meta.type.EventMetadata;
+import net.imadz.lifecycle.meta.type.StateMetadata;
+
+import java.util.LinkedList;
 
 public class FunctionMetadata {
 
-    private final StateMetadata parent;
-    private final EventMetadata event;
-    private final LinkedList<StateMetadata> nextStates;
+  private final StateMetadata parent;
+  private final EventMetadata event;
+  private final LinkedList<StateMetadata> nextStates;
 
-    public FunctionMetadata(StateMetaBuilderImpl parent, EventMetadata event, LinkedList<StateMetadata> nextStates) {
-        this.parent = parent;
-        this.event = event;
-        this.nextStates = nextStates;
-    }
+  public FunctionMetadata(StateMetaBuilderImpl parent, EventMetadata event, LinkedList<StateMetadata> nextStates) {
+    this.parent = parent;
+    this.event = event;
+    this.nextStates = nextStates;
+  }
 
-    public StateMetadata getParent() {
-        return parent;
-    }
+  public StateMetadata getParent() {
+    return parent;
+  }
 
-    public EventMetadata getEvent() {
-        return event;
-    }
+  public EventMetadata getEvent() {
+    return event;
+  }
 
-    public LinkedList<StateMetadata> getNextStates() {
-        return nextStates;
-    }
+  public LinkedList<StateMetadata> getNextStates() {
+    return nextStates;
+  }
 }

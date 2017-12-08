@@ -40,6 +40,6 @@ import net.imadz.verification.VerificationException;
 
 public interface ConditionMetaBuilder extends AnnotationMetaBuilder<ConditionMetadata, StateMachineMetadata>, ConditionMetadata {
 
-    @Override
-    ConditionMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
+  @Override
+  ConditionMetaBuilder build(Class<?> klass, StateMachineMetadata parent) throws VerificationException;
 }

@@ -34,9 +34,9 @@
  */
 package net.imadz.lifecycle.demo.inheritance;
 
+import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.LifecycleMeta;
 import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.demo.inheritance.meta.OrderLifecycleMeta;
 import net.imadz.lifecycle.demo.inheritance.meta.OrderLifecycleMeta.Events.Schedule;
@@ -46,16 +46,16 @@ import net.imadz.lifecycle.demo.inheritance.meta.ServiceOrderLifecycleMeta.Relat
 @LifecycleMeta(OrderLifecycleMeta.class)
 public interface IServiceOrder {
 
-    @Event(Schedule.class)
-    void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
-            @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
+  @Event(Schedule.class)
+  void allocateResources(@Relation(PlantResource.class) IPlantResource plantResource,
+      @Relation(ConcreteTruckResource.class) IConcreteTruckResource truckResource);
 
-    @Event(OrderLifecycleMeta.Events.Start.class)
-    void confirmStart();
+  @Event(OrderLifecycleMeta.Events.Start.class)
+  void confirmStart();
 
-    @Event(OrderLifecycleMeta.Events.Finish.class)
-    void confirmFinish();
+  @Event(OrderLifecycleMeta.Events.Finish.class)
+  void confirmFinish();
 
-    @StateIndicator
-    String getServiceOrderState();
+  @StateIndicator
+  String getServiceOrderState();
 }

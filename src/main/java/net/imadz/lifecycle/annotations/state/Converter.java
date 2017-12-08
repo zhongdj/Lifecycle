@@ -34,16 +34,16 @@
  */
 package net.imadz.lifecycle.annotations.state;
 
+import net.imadz.lifecycle.StateConverter;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.imadz.lifecycle.StateConverter;
-
-@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Converter {
 
-    Class<? extends StateConverter<?>> value();
+  Class<? extends StateConverter<?>> value();
 }

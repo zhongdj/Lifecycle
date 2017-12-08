@@ -36,5 +36,5 @@ package net.imadz.lifecycle;
 
 public interface LifecycleEventHandler {
 
-    public void onEvent(LifecycleEvent event);
+  public void onEvent(LifecycleEvent event);
 }

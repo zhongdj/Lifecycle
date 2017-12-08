@@ -41,5 +41,5 @@ import net.imadz.util.Readable;
 
 public interface RelationObject extends MetaObject<RelationObject, RelationMetadata>, MultiKeyed {
 
-    Readable<?> getEvaluator();
+  Readable<?> getEvaluator();
 }

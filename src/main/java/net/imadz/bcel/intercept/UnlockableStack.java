@@ -36,9 +36,9 @@ package net.imadz.bcel.intercept;
 
 public interface UnlockableStack {
 
-    Unlockable popUnlockable();
+  Unlockable popUnlockable();
 
-    void pushUnlockable(Unlockable unlockable);
+  void pushUnlockable(Unlockable unlockable);
 
-    boolean isEmpty();
+  boolean isEmpty();
 }

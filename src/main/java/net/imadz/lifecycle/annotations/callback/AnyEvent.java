@@ -36,5 +36,6 @@ package net.imadz.lifecycle.annotations.callback;
 
 public final class AnyEvent {
 
-	private AnyEvent() {}
+  private AnyEvent() {
+  }
 }

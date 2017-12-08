@@ -34,9 +34,13 @@
  */
 package net.imadz.lifecycle.annotations;
 
-import java.lang.annotation.*;
-
 import net.imadz.bcel.intercept.Interceptable;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 @Interceptable
 @Inherited
@@ -44,5 +48,5 @@ import net.imadz.bcel.intercept.Interceptable;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LifecycleMeta {
 
-    Class<?> value();
+  Class<?> value();
 }

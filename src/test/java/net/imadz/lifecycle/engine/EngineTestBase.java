@@ -34,7 +34,21 @@
  */
 package net.imadz.lifecycle.engine;
 
-import static org.junit.Assert.assertEquals;
+import net.imadz.bcel.intercept.DefaultStateMachineRegistry;
+import net.imadz.bcel.intercept.LifecycleInterceptor;
+import net.imadz.common.ConsoleLoggingTestBase;
+import net.imadz.lifecycle.LifecycleCommonErrors;
+import net.imadz.lifecycle.LifecycleException;
+import net.imadz.lifecycle.annotations.Event;
+import net.imadz.lifecycle.annotations.LifecycleMeta;
+import net.imadz.lifecycle.annotations.StateIndicator;
+import net.imadz.lifecycle.annotations.relation.Relation;
+import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.Customer;
+import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.InternetServiceLifecycleMeta;
+import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.ServiceProviderLifecycle;
+import net.imadz.utils.BundleUtils;
+import net.imadz.verification.VerificationException;
+import org.junit.BeforeClass;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,166 +58,157 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.LogManager;
 
-import org.junit.BeforeClass;
-
-import net.imadz.bcel.intercept.DefaultStateMachineRegistry;
-import net.imadz.bcel.intercept.LifecycleInterceptor;
-import net.imadz.common.ConsoleLoggingTestBase;
-import net.imadz.lifecycle.LifecycleCommonErrors;
-import net.imadz.lifecycle.LifecycleException;
-import net.imadz.lifecycle.annotations.LifecycleMeta;
-import net.imadz.lifecycle.annotations.StateIndicator;
-import net.imadz.lifecycle.annotations.Event;
-import net.imadz.lifecycle.annotations.relation.Relation;
-import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.Customer;
-import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.InternetServiceLifecycleMeta;
-import net.imadz.lifecycle.engine.CoreFuntionTestMetadata.ServiceProviderLifecycle;
-import net.imadz.utils.BundleUtils;
-import net.imadz.verification.VerificationException;
+import static org.junit.Assert.assertEquals;
 
 public class EngineTestBase extends ConsoleLoggingTestBase {
 
-    @BeforeClass
-    public static void setLogLevel() throws SecurityException, FileNotFoundException, IOException {
-        LogManager.getLogManager().readConfiguration(new FileInputStream("target/test-classes/lifecycle_logging.properties"));
+  @BeforeClass
+  public static void setLogLevel() throws SecurityException, FileNotFoundException, IOException {
+    LogManager.getLogManager().readConfiguration(new FileInputStream("target/test-classes/lifecycle_logging.properties"));
+  }
+
+  public abstract static class ReactiveObject {
+
+    @StateIndicator
+    private String state = null;
+
+    protected void initialState(String stateName) {
+      if (null == state) {
+        this.state = stateName;
+      } else {
+        throw new IllegalStateException("Cannot call initialState method after state had been intialized.");
+      }
     }
 
-    public abstract static class ReactiveObject {
-
-        @StateIndicator
-        private String state = null;
-
-        protected void initialState(String stateName) {
-            if ( null == state ) {
-                this.state = stateName;
-            } else {
-                throw new IllegalStateException("Cannot call initialState method after state had been intialized.");
-            }
-        }
-
-        public String getState() {
-            return state;
-        }
+    public String getState() {
+      return state;
     }
-    @LifecycleMeta(InternetServiceLifecycleMeta.class)
-    public static class BaseService<T extends BaseServiceProvider> extends ReactiveObject {
+  }
 
-        private Customer customer;
+  @LifecycleMeta(InternetServiceLifecycleMeta.class)
+  public static class BaseService<T extends BaseServiceProvider> extends ReactiveObject {
 
-        public BaseService(Customer customer) {
-            initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
-            this.customer = customer;
-        }
+    private Customer customer;
 
-        private T provider;
-
-        public T getProvider() {
-            return provider;
-        }
-
-        public void setProvider(T provider) {
-            this.provider = provider;
-        }
-
-        @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
-        public Customer getCustomer() {
-            return customer;
-        }
-
-        public void setCustomer(Customer customer) {
-            this.customer = customer;
-        }
-
-        @Event
-        void start() {}
-
-        @Event
-        void end() {}
-    }
-    @LifecycleMeta(ServiceProviderLifecycle.class)
-    public static class BaseServiceProvider extends ReactiveObject {
-
-        public BaseServiceProvider() {
-            initialState(ServiceProviderLifecycle.States.ServiceAvailable.class.getSimpleName());
-        }
-
-        @Event
-        void shutdown() {}
+    public BaseService(Customer customer) {
+      initialState(InternetServiceLifecycleMeta.States.New.class.getSimpleName());
+      this.customer = customer;
     }
 
-    protected static void registerMetaFromClass(final Class<?> metadataClas) throws VerificationException {
-        for ( Class<?> cursorClass = metadataClas; null != cursorClass; cursorClass = cursorClass.getSuperclass() ) {
-            for ( final Class<?> c : cursorClass.getDeclaredClasses() ) {
-                for ( final Annotation a : c.getDeclaredAnnotations() ) {
-                    if ( LifecycleMeta.class == a.annotationType() ) {
-                        System.out.println("Registering Lifecycle class:  " + c);
-                        DefaultStateMachineRegistry.getInstance().registerLifecycleMeta(c);
-                        break;
-                    }
-                }
-            }
-        }
+    private T provider;
+
+    public T getProvider() {
+      return provider;
     }
 
-    protected static void assertLifecycleError(LifecycleException e, final String expectedErrorCode, final Object... messageVars) {
-        System.out.println();
-        System.out.println("expected error code: " + expectedErrorCode);
-        System.out.println("  actual error code: " + e.getErrorCode());
-        assertEquals(expectedErrorCode, e.getErrorCode());
-        final String expectedMessage = BundleUtils.getBundledMessage(LifecycleInterceptor.class, LifecycleCommonErrors.BUNDLE, expectedErrorCode, messageVars);
-        System.out.println("expected error message: " + expectedMessage);
-        System.out.println("  actual error message: " + e.getMessage());
-        assertEquals(expectedMessage, e.getMessage());
-        throw e;
+    public void setProvider(T provider) {
+      this.provider = provider;
     }
 
-    public EngineTestBase() {
-        super();
+    @Relation(InternetServiceLifecycleMeta.Relations.CustomerRelation.class)
+    public Customer getCustomer() {
+      return customer;
     }
 
-    protected void assertState(final Class<?> stateClass, final ReactiveObject product) {
-        assertEquals(stateClass.getSimpleName(), product.getState());
+    public void setCustomer(Customer customer) {
+      this.customer = customer;
     }
 
-    protected void assertInvalidStateErrorByValidWhile(final LifecycleException e, final ReactiveObject relationObject, final ReactiveObject itself,
-            final Class<?>... validStates) {
-        final ArrayList<String> validNames = new ArrayList<String>();
-        for ( Class<?> validstate : validStates ) {
-            validNames.add(validstate.getSimpleName());
-        }
-        try {
-            assertLifecycleError(e, LifecycleCommonErrors.STATE_INVALID, itself, itself.getState(), relationObject, relationObject.getState(),
-                    Arrays.toString(validNames.toArray()));
-        } catch (LifecycleException ex) {
-            throw ex;
-        }
+    @Event
+    void start() {
     }
 
-    /**
-     * e,
-     * LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT,
-     * KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey.
-     * class,
-     * KeyBoardLifecycleMetadataPreValidateCondition.States.Broken.class.
-     * getSimpleName(),
-     * keyboard,
-     * power,
-     * power.getState(),
-     * inboundWhileDottedPath(KeyBoardLifecycleMetadataPreValidateCondition.
-     * States.Broken.class,
-     * PowerRelation.class));
-     */
-    protected void assertViolateInboundWhileRelationConstraint(final LifecycleException e, final Class<?> eventKey, final Class<?> nextState,
-            final ReactiveObject itself, final ReactiveObject relationObject, final Class<?>... validStates) {
-        final ArrayList<String> validNames = new ArrayList<String>();
-        for ( Class<?> validstate : validStates ) {
-            validNames.add(validstate.getSimpleName());
-        }
-        try {
-            assertLifecycleError(e, LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT, eventKey.getSimpleName(), nextState.getSimpleName(),
-                    itself, relationObject, relationObject.getState(), Arrays.toString(validNames.toArray()));
-        } catch (LifecycleException ex) {
-            throw ex;
-        }
+    @Event
+    void end() {
     }
+  }
+
+  @LifecycleMeta(ServiceProviderLifecycle.class)
+  public static class BaseServiceProvider extends ReactiveObject {
+
+    public BaseServiceProvider() {
+      initialState(ServiceProviderLifecycle.States.ServiceAvailable.class.getSimpleName());
+    }
+
+    @Event
+    void shutdown() {
+    }
+  }
+
+  protected static void registerMetaFromClass(final Class<?> metadataClas) throws VerificationException {
+    for (Class<?> cursorClass = metadataClas; null != cursorClass; cursorClass = cursorClass.getSuperclass()) {
+      for (final Class<?> c : cursorClass.getDeclaredClasses()) {
+        for (final Annotation a : c.getDeclaredAnnotations()) {
+          if (LifecycleMeta.class == a.annotationType()) {
+            System.out.println("Registering Lifecycle class:  " + c);
+            DefaultStateMachineRegistry.getInstance().registerLifecycleMeta(c);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  protected static void assertLifecycleError(LifecycleException e, final String expectedErrorCode, final Object... messageVars) {
+    System.out.println();
+    System.out.println("expected error code: " + expectedErrorCode);
+    System.out.println("  actual error code: " + e.getErrorCode());
+    assertEquals(expectedErrorCode, e.getErrorCode());
+    final String expectedMessage = BundleUtils.getBundledMessage(LifecycleInterceptor.class, LifecycleCommonErrors.BUNDLE, expectedErrorCode,
+        messageVars);
+    System.out.println("expected error message: " + expectedMessage);
+    System.out.println("  actual error message: " + e.getMessage());
+    assertEquals(expectedMessage, e.getMessage());
+    throw e;
+  }
+
+  public EngineTestBase() {
+    super();
+  }
+
+  protected void assertState(final Class<?> stateClass, final ReactiveObject product) {
+    assertEquals(stateClass.getSimpleName(), product.getState());
+  }
+
+  protected void assertInvalidStateErrorByValidWhile(final LifecycleException e, final ReactiveObject relationObject, final ReactiveObject itself,
+      final Class<?>... validStates) {
+    final ArrayList<String> validNames = new ArrayList<String>();
+    for (Class<?> validstate : validStates) {
+      validNames.add(validstate.getSimpleName());
+    }
+    try {
+      assertLifecycleError(e, LifecycleCommonErrors.STATE_INVALID, itself, itself.getState(), relationObject, relationObject.getState(),
+          Arrays.toString(validNames.toArray()));
+    } catch (LifecycleException ex) {
+      throw ex;
+    }
+  }
+
+  /**
+   * e,
+   * LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT,
+   * KeyBoardLifecycleMetadataPreValidateCondition.Events.PressAnyKey.
+   * class,
+   * KeyBoardLifecycleMetadataPreValidateCondition.States.Broken.class.
+   * getSimpleName(),
+   * keyboard,
+   * power,
+   * power.getState(),
+   * inboundWhileDottedPath(KeyBoardLifecycleMetadataPreValidateCondition.
+   * States.Broken.class,
+   * PowerRelation.class));
+   */
+  protected void assertViolateInboundWhileRelationConstraint(final LifecycleException e, final Class<?> eventKey, final Class<?> nextState,
+      final ReactiveObject itself, final ReactiveObject relationObject, final Class<?>... validStates) {
+    final ArrayList<String> validNames = new ArrayList<String>();
+    for (Class<?> validstate : validStates) {
+      validNames.add(validstate.getSimpleName());
+    }
+    try {
+      assertLifecycleError(e, LifecycleCommonErrors.VIOLATE_INBOUND_WHILE_RELATION_CONSTRAINT, eventKey.getSimpleName(), nextState.getSimpleName(),
+          itself, relationObject, relationObject.getState(), Arrays.toString(validNames.toArray()));
+    } catch (LifecycleException ex) {
+      throw ex;
+    }
+  }
 }

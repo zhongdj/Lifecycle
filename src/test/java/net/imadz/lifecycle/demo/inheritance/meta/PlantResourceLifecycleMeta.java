@@ -34,28 +34,31 @@
  */
 package net.imadz.lifecycle.demo.inheritance.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Events.ConfirmMaintainOver;
 import net.imadz.lifecycle.demo.inheritance.meta.PlantResourceLifecycleMeta.Events.Maintain;
 
 @StateMachine
 public interface PlantResourceLifecycleMeta extends SchedulableLifecycleMeta {
 
-    @StateSet
-    public static class States extends SchedulableLifecycleMeta.States {
+  @StateSet
+  public static class States extends SchedulableLifecycleMeta.States {
 
-        @Transition(event = Maintain.class, value = Maintaining.class)
-        public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
-        @Transition(event = ConfirmMaintainOver.class, value = Idle.class)
-        public static class Maintaining {}
-    }
-    @EventSet
-    public static class Events extends SchedulableLifecycleMeta.Events {
+    @Transition(event = Maintain.class, value = Maintaining.class)
+    public static class Idle extends SchedulableLifecycleMeta.States.Idle {}
 
-        public static class Maintain {}
-        public static class ConfirmMaintainOver {}
-    }
+    @Transition(event = ConfirmMaintainOver.class, value = Idle.class)
+    public static class Maintaining {}
+  }
+
+  @EventSet
+  public static class Events extends SchedulableLifecycleMeta.Events {
+
+    public static class Maintain {}
+
+    public static class ConfirmMaintainOver {}
+  }
 }

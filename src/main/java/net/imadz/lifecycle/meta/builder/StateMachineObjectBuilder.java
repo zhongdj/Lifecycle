@@ -41,8 +41,8 @@ import net.imadz.verification.VerificationException;
 
 public interface StateMachineObjectBuilder<S> extends AnnotationMetaBuilder<StateMachineObject<S>, StateMachineObject<S>>, StateMachineObject<S> {
 
-    void setRegistry(LifecycleMetaRegistry registry);
+  void setRegistry(LifecycleMetaRegistry registry);
 
-    @Override
-    StateMachineObjectBuilder<S> build(Class<?> klass, StateMachineObject<S> parent) throws VerificationException;
+  @Override
+  StateMachineObjectBuilder<S> build(Class<?> klass, StateMachineObject<S> parent) throws VerificationException;
 }

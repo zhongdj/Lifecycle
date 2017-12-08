@@ -36,11 +36,11 @@ package net.imadz.lifecycle;
 
 public interface LifecycleLockStrategy {
 
-    void lockRead(Object reactiveObject);
+  void lockRead(Object reactiveObject);
 
-    void unlockRead(Object targetReactiveObject);
+  void unlockRead(Object targetReactiveObject);
 
-    void lockWrite(Object reactiveObject);
+  void lockWrite(Object reactiveObject);
 
-    void unlockWrite(Object targetReactiveObject);
+  void unlockWrite(Object targetReactiveObject);
 }

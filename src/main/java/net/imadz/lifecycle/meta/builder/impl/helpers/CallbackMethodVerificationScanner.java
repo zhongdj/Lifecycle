@@ -34,8 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.callback.AnyEvent;
 import net.imadz.lifecycle.annotations.callback.AnyState;
@@ -45,112 +43,133 @@ import net.imadz.lifecycle.annotations.callback.OnEvent;
 import net.imadz.lifecycle.annotations.callback.PostStateChange;
 import net.imadz.lifecycle.annotations.callback.PreStateChange;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.util.MethodScanCallback;
 import net.imadz.utils.Null;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+
 public final class CallbackMethodVerificationScanner implements MethodScanCallback {
 
-    private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private VerificationFailureSet failureSet;
+  private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
+  private VerificationFailureSet failureSet;
 
-    public CallbackMethodVerificationScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final VerificationFailureSet failureSet) {
-        this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.failureSet = failureSet;
+  public CallbackMethodVerificationScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, final VerificationFailureSet failureSet) {
+    this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
+    this.failureSet = failureSet;
+  }
+
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    verifyPreStateChange(method, failureSet, method.getAnnotation(PreStateChange.class));
+    verifyPostStateChange(method, failureSet, method.getAnnotation(PostStateChange.class));
+    verifyOnEvent(method, failureSet, method.getAnnotation(OnEvent.class));
+    verifyCallbacks(method);
+    return false;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        verifyPreStateChange(method, failureSet, method.getAnnotation(PreStateChange.class));
-        verifyPostStateChange(method, failureSet, method.getAnnotation(PostStateChange.class));
-        verifyOnEvent(method, failureSet, method.getAnnotation(OnEvent.class));
-        verifyCallbacks(method);
-        return false;
+  private void verifyCallbacks(Method method) {
+    final Callbacks callbacks = method.getAnnotation(Callbacks.class);
+    if (null != callbacks) {
+      for (PreStateChange item : callbacks.preStateChange()) {
+        verifyPreStateChange(method, failureSet, item);
+      }
+      for (PostStateChange item : callbacks.postStateChange()) {
+        verifyPostStateChange(method, failureSet, item);
+      }
+      for (OnEvent item : callbacks.onEvent()) {
+        verifyOnEvent(method, failureSet, item);
+      }
     }
+  }
 
-    private void verifyCallbacks(Method method) {
-        final Callbacks callbacks = method.getAnnotation(Callbacks.class);
-        if ( null != callbacks ) {
-            for ( PreStateChange item : callbacks.preStateChange() ) {
-                verifyPreStateChange(method, failureSet, item);
-            }
-            for ( PostStateChange item : callbacks.postStateChange() ) {
-                verifyPostStateChange(method, failureSet, item);
-            }
-            for ( OnEvent item : callbacks.onEvent() ) {
-            	verifyOnEvent(method, failureSet, item);
-            }
-        }
+  private void verifyOnEvent(final Method method,
+      final VerificationFailureSet failureSet, final OnEvent onEvent) {
+    if (null == onEvent) {
+      return;
     }
-
-    private void verifyOnEvent(final Method method,
-			final VerificationFailureSet failureSet, final OnEvent onEvent) {
-		if ( null == onEvent ) return;
-		if ( isRelationalCallback(onEvent.observableName(), onEvent.observableClass()) ) return;
-		verifyEventWithoutRelation(method, failureSet, onEvent.value(), SyntaxErrors.ON_EVENT_EVENT_IS_INVALID);
-	}
-
-	private void verifyEventWithoutRelation(Method method,
-			VerificationFailureSet failureSet, Class<?> eventClass,
-			String errorCode) {
-		if ( AnyEvent.class != eventClass ) {
-			if ( eventMetadataNotFound(eventClass) ) {
-				failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(method.getDeclaringClass().getName() + "." + eventClass + "."
-                        + errorCode, errorCode, eventClass, method, this.stateMachineObjectBuilderImpl.getMetaType().getPrimaryKey()));
-			}
-		}
-	}
-
-	private boolean eventMetadataNotFound(Class<?> eventClass) {
-		return null == this.stateMachineObjectBuilderImpl.getMetaType().getEvent(eventClass);
-	}
-
-	private void verifyPostStateChange(final Method method, final VerificationFailureSet failureSet, final PostStateChange postStateChange) {
-        if ( null == postStateChange ) return;
-        if ( isRelationalCallback(postStateChange.observableName(), postStateChange.observableClass()) ) return;
-        verifyStateWithoutRelation(method, failureSet, postStateChange.from(), SyntaxErrors.POST_STATE_CHANGE_FROM_STATE_IS_INVALID);
-        verifyStateWithoutRelation(method, failureSet, postStateChange.to(), SyntaxErrors.POST_STATE_CHANGE_TO_STATE_IS_INVALID);
+    if (isRelationalCallback(onEvent.observableName(), onEvent.observableClass())) {
+      return;
     }
+    verifyEventWithoutRelation(method, failureSet, onEvent.value(), SyntaxErrors.ON_EVENT_EVENT_IS_INVALID);
+  }
 
-    private void verifyPreStateChange(final Method method, final VerificationFailureSet failureSet, final PreStateChange preStateChange) {
-        if ( null == preStateChange ) return;
-        if ( isRelationalCallback(preStateChange.observableName(), preStateChange.observableClass()) ) return;
-        verifyStateWithoutRelation(method, failureSet, preStateChange.from(), SyntaxErrors.PRE_STATE_CHANGE_FROM_STATE_IS_INVALID);
-        verifyStateWithoutRelation(method, failureSet, preStateChange.to(), SyntaxErrors.PRE_STATE_CHANGE_TO_STATE_IS_INVALID);
-        if ( AnyState.class == preStateChange.to() ) return;
-        verifyPreToStatePostEvaluate(method, failureSet, preStateChange.to(), (StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType());
+  private void verifyEventWithoutRelation(Method method,
+      VerificationFailureSet failureSet, Class<?> eventClass,
+      String errorCode) {
+    if (AnyEvent.class != eventClass) {
+      if (eventMetadataNotFound(eventClass)) {
+        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(method.getDeclaringClass().getName() + "." + eventClass + "."
+            + errorCode, errorCode, eventClass, method, this.stateMachineObjectBuilderImpl.getMetaType().getPrimaryKey()));
+      }
     }
+  }
 
-    private boolean isRelationalCallback(String relation, Class<?> observableClass) {
-        return !CallbackConsts.NULL_STR.equals(relation) || Null.class != observableClass;
-    }
+  private boolean eventMetadataNotFound(Class<?> eventClass) {
+    return null == this.stateMachineObjectBuilderImpl.getMetaType().getEvent(eventClass);
+  }
 
-    private void verifyPreToStatePostEvaluate(final Method method, final VerificationFailureSet failureSet, final Class<?> toStateClass,
-            final StateMachineMetadata stateMachineMetadata) {
-        final StateMetadata toState = ( (StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType() ).getState(toStateClass);
-        if ( null == toState ) return;
-        for ( final EventMetadata event : stateMachineMetadata.getState(toStateClass).getPossibleReachingEvents() ) {
-            if ( event.isConditional() && event.postValidate() ) {
-                failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(this.stateMachineObjectBuilderImpl.getDottedPath(),
-                        SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID, toStateClass, method, event.getDottedPath()));
-            }
-        }
+  private void verifyPostStateChange(final Method method, final VerificationFailureSet failureSet, final PostStateChange postStateChange) {
+    if (null == postStateChange) {
+      return;
     }
+    if (isRelationalCallback(postStateChange.observableName(), postStateChange.observableClass())) {
+      return;
+    }
+    verifyStateWithoutRelation(method, failureSet, postStateChange.from(), SyntaxErrors.POST_STATE_CHANGE_FROM_STATE_IS_INVALID);
+    verifyStateWithoutRelation(method, failureSet, postStateChange.to(), SyntaxErrors.POST_STATE_CHANGE_TO_STATE_IS_INVALID);
+  }
 
-    private void verifyStateWithoutRelation(final Method method, final VerificationFailureSet failureSet, final Class<?> stateClass, final String errorCode) {
-        if ( AnyState.class != stateClass ) {
-            if ( stateMetadataNotFound(stateClass) ) {
-                failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(method.getDeclaringClass().getName() + "." + stateClass + "."
-                        + errorCode, errorCode, stateClass, method, this.stateMachineObjectBuilderImpl.getMetaType().getPrimaryKey()));
-            }
-        }
+  private void verifyPreStateChange(final Method method, final VerificationFailureSet failureSet, final PreStateChange preStateChange) {
+    if (null == preStateChange) {
+      return;
     }
+    if (isRelationalCallback(preStateChange.observableName(), preStateChange.observableClass())) {
+      return;
+    }
+    verifyStateWithoutRelation(method, failureSet, preStateChange.from(), SyntaxErrors.PRE_STATE_CHANGE_FROM_STATE_IS_INVALID);
+    verifyStateWithoutRelation(method, failureSet, preStateChange.to(), SyntaxErrors.PRE_STATE_CHANGE_TO_STATE_IS_INVALID);
+    if (AnyState.class == preStateChange.to()) {
+      return;
+    }
+    verifyPreToStatePostEvaluate(method, failureSet, preStateChange.to(), (StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType());
+  }
 
-    private boolean stateMetadataNotFound(final Class<?> stateClass) {
-        return null == this.stateMachineObjectBuilderImpl.getMetaType().getState(stateClass);
+  private boolean isRelationalCallback(String relation, Class<?> observableClass) {
+    return !CallbackConsts.NULL_STR.equals(relation) || Null.class != observableClass;
+  }
+
+  private void verifyPreToStatePostEvaluate(final Method method, final VerificationFailureSet failureSet, final Class<?> toStateClass,
+      final StateMachineMetadata stateMachineMetadata) {
+    final StateMetadata toState = ((StateMachineMetadata) this.stateMachineObjectBuilderImpl.getMetaType()).getState(toStateClass);
+    if (null == toState) {
+      return;
     }
+    for (final EventMetadata event : stateMachineMetadata.getState(toStateClass).getPossibleReachingEvents()) {
+      if (event.isConditional() && event.postValidate()) {
+        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(this.stateMachineObjectBuilderImpl.getDottedPath(),
+            SyntaxErrors.PRE_STATE_CHANGE_TO_POST_EVALUATE_STATE_IS_INVALID, toStateClass, method, event.getDottedPath()));
+      }
+    }
+  }
+
+  private void verifyStateWithoutRelation(final Method method, final VerificationFailureSet failureSet, final Class<?> stateClass, final String
+      errorCode) {
+    if (AnyState.class != stateClass) {
+      if (stateMetadataNotFound(stateClass)) {
+        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationException(method.getDeclaringClass().getName() + "." + stateClass + "."
+            + errorCode, errorCode, stateClass, method, this.stateMachineObjectBuilderImpl.getMetaType().getPrimaryKey()));
+      }
+    }
+  }
+
+  private boolean stateMetadataNotFound(final Class<?> stateClass) {
+    return null == this.stateMachineObjectBuilderImpl.getMetaType().getState(stateClass);
+  }
 }

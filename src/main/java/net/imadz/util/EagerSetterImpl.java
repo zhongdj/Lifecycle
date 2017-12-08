@@ -39,22 +39,23 @@ import java.lang.reflect.Method;
 
 public class EagerSetterImpl<T> implements Setter<T> {
 
-    private final Method setter;
+  private final Method setter;
 
-    public EagerSetterImpl(Method setter) {
-        this.setter = setter;
-    }
+  public EagerSetterImpl(Method setter) {
+    this.setter = setter;
+  }
 
-    @Override
-    public void invoke(Object reactiveObject, T state) {
-        try {
-            setter.setAccessible(true);
-            setter.invoke(reactiveObject, state);
-        } catch (Exception e) {
-        	if (e instanceof IllegalAccessException | e instanceof IllegalArgumentException | e instanceof InvocationTargetException)
-            throw new IllegalStateException(e);
-        } finally {
-            setter.setAccessible(false);
-        }
+  @Override
+  public void invoke(Object reactiveObject, T state) {
+    try {
+      setter.setAccessible(true);
+      setter.invoke(reactiveObject, state);
+    } catch (Exception e) {
+      if (e instanceof IllegalAccessException | e instanceof IllegalArgumentException | e instanceof InvocationTargetException) {
+        throw new IllegalStateException(e);
+      }
+    } finally {
+      setter.setAccessible(false);
     }
+  }
 }

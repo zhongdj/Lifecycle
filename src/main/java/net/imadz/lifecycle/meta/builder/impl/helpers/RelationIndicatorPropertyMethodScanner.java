@@ -34,8 +34,6 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.relation.Relation;
 import net.imadz.lifecycle.meta.builder.impl.StateMachineObjectBuilderImpl;
@@ -43,29 +41,34 @@ import net.imadz.util.MethodScanCallback;
 import net.imadz.utils.Null;
 import net.imadz.verification.VerificationFailureSet;
 
+import java.lang.reflect.Method;
+
 public final class RelationIndicatorPropertyMethodScanner implements MethodScanCallback {
 
-    private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
-    private final VerificationFailureSet failureSet;
+  private final StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl;
+  private final VerificationFailureSet failureSet;
 
-    public RelationIndicatorPropertyMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, VerificationFailureSet failureSet) {
-        this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
-        this.failureSet = failureSet;
-    }
+  public RelationIndicatorPropertyMethodScanner(StateMachineObjectBuilderImpl<?> stateMachineObjectBuilderImpl, VerificationFailureSet failureSet) {
+    this.stateMachineObjectBuilderImpl = stateMachineObjectBuilderImpl;
+    this.failureSet = failureSet;
+  }
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        Relation relation = method.getAnnotation(Relation.class);
-        if ( null == relation ) {
-            return false;
-        } else {
-            if ( Null.class == relation.value() ) {} else if ( !this.stateMachineObjectBuilderImpl.getMetaType().hasRelation(relation.value()) ) {
-                failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(method.getDeclaringClass().getName(),
-                        SyntaxErrors.LM_REFERENCE_INVALID_RELATION_INSTANCE, method.getDeclaringClass().getName(), relation.value().getName(),
-                        this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath().getAbsoluteName()));
-            }
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    Relation relation = method.getAnnotation(Relation.class);
+    if (null == relation) {
+      return false;
+    } else {
+      if (Null.class == relation.value()) {
+      } else if (!this.stateMachineObjectBuilderImpl.getMetaType().hasRelation(relation.value())) {
+        failureSet.add(this.stateMachineObjectBuilderImpl.newVerificationFailure(method.getDeclaringClass().getName(),
+            SyntaxErrors.LM_REFERENCE_INVALID_RELATION_INSTANCE, method.getDeclaringClass().getName(), relation.value().getName(),
+            this.stateMachineObjectBuilderImpl.getMetaType().getDottedPath().getAbsoluteName()));
+      }
+    }
+    return false;
+  }
 }

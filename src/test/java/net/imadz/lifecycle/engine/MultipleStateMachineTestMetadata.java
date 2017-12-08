@@ -34,11 +34,11 @@
  */
 package net.imadz.lifecycle.engine;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.relation.InboundWhile;
 import net.imadz.lifecycle.annotations.relation.InboundWhiles;
 import net.imadz.lifecycle.annotations.relation.Parent;
@@ -51,143 +51,180 @@ import net.imadz.lifecycle.annotations.state.Initial;
 
 public class MultipleStateMachineTestMetadata extends EngineTestBase {
 
-    @StateMachine
-    public static interface PCPurchaseOrderStateMachine {
+  @StateMachine
+  public static interface PCPurchaseOrderStateMachine {
 
-        @StateSet
-        static interface States {
+    @StateSet
+    static interface States {
 
-            @Initial
-            @Transitions({ @Transition(event = Events.Confirm.class, value = Confirmed.class),
-                    @Transition(event = Events.Abort.class, value = Aborted.class) })
-            static interface Draft {}
-            @Transitions({ @Transition(event = Events.Start.class, value = Ongoing.class),
-                    @Transition(event = Events.Abort.class, value = Aborted.class) })
-            static interface Confirmed {}
-            @Transitions({ @Transition(event = Events.Complete.class, value = Completed.class),
-                    @Transition(event = Events.Abort.class, value = Aborted.class) })
-            static interface Ongoing {}
-            @Final
-            static interface Completed {}
-            @Final
-            static interface Aborted {}
-        }
-        @EventSet
-        static interface Events {
+      @Initial
+      @Transitions({@Transition(event = Events.Confirm.class, value = Confirmed.class),
+          @Transition(event = Events.Abort.class, value = Aborted.class)})
+      static interface Draft {}
 
-            static interface Confirm {}
-            static interface Start {}
-            static interface Complete {}
-            static interface Abort {}
-        }
+      @Transitions({@Transition(event = Events.Start.class, value = Ongoing.class),
+          @Transition(event = Events.Abort.class, value = Aborted.class)})
+      static interface Confirmed {}
+
+      @Transitions({@Transition(event = Events.Complete.class, value = Completed.class),
+          @Transition(event = Events.Abort.class, value = Aborted.class)})
+      static interface Ongoing {}
+
+      @Final
+      static interface Completed {}
+
+      @Final
+      static interface Aborted {}
     }
-    @StateMachine
-    public static interface PCManufactoringOrderStateMachine {
 
-        @StateSet
-        static interface States {
+    @EventSet
+    static interface Events {
 
-            @Initial
-            @Transition(event = Events.ConfirmBOM.class, value = BOMConfirmed.class)
-            static interface Draft {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Confirmed.class)
-            @Transition(event = Events.Plan.class, value = Planned.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface BOMConfirmed {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Transition(event = Events.MakeOSROMComplete.class, value = OSROMReady.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface Planned {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Transition(event = Events.StartAssembling.class, value = AssemblingOnProductLine.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface OSROMReady {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Transition(event = Events.StartDebugging.class, value = DebuggingOnProductLine.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface AssemblingOnProductLine {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Transition(event = Events.PackageComplete.class, value = Packaged.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface DebuggingOnProductLine {}
-            @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            @Transition(event = Events.TransferToLogistics.class, value = Done.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface Packaged {}
-            @Final
-            static interface Done {}
-        }
-        @EventSet
-        static interface Events {
+      static interface Confirm {}
 
-            static interface TransferToLogistics {}
-            static interface PackageComplete {}
-            static interface StartDebugging {}
-            static interface StartAssembling {}
-            static interface MakeOSROMComplete {}
-            static interface Plan {}
-            static interface ConfirmBOM {}
-        }
-        @RelationSet
-        static interface Relations {
+      static interface Start {}
 
-            @Parent
-            @RelateTo(PCPurchaseOrderStateMachine.class)
-            public static interface PurchaseOrder {}
-        }
+      static interface Complete {}
+
+      static interface Abort {}
     }
-    @StateMachine
-    public static interface PCLogisticOrderStateMachine {
+  }
 
-        @StateSet
-        static interface States {
+  @StateMachine
+  public static interface PCManufactoringOrderStateMachine {
 
-            @Initial
-            @Transition(event = Events.Confirm.class, value = Confirmed.class)
-            static interface Draft {}
-            @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Transition(event = Events.Schedule.class, value = Scheduled.class)
-            @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
-            static interface Confirmed {}
-            @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Transition(event = Events.DoPickup.class, value = Picked.class)
-            @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            static interface Scheduled {}
-            @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class) })
-            @Transition(event = Events.StartTransport.class, value = Transporting.class)
-            @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
-            static interface Picked {}
-            @InboundWhiles({ @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
-            @Transition(event = Events.CustomerConfirmReceive.class, value = Received.class)
-            @ValidWhiles({ @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
-                    @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class) })
-            static interface Transporting {}
-            @Final
-            static interface Received {}
-        }
-        @EventSet
-        static interface Events {
+    @StateSet
+    static interface States {
 
-            static interface Schedule {}
-            static interface CustomerConfirmReceive {}
-            static interface StartTransport {}
-            static interface DoPickup {}
-            static interface Confirm {}
-        }
-        @RelationSet
-        static interface Relations {
+      @Initial
+      @Transition(event = Events.ConfirmBOM.class, value = BOMConfirmed.class)
+      static interface Draft {}
 
-            @Parent
-            @RelateTo(PCPurchaseOrderStateMachine.class)
-            public static interface PurchaseOrder {}
-            @RelateTo(PCManufactoringOrderStateMachine.class)
-            static interface ManufactureOrder {}
-        }
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Confirmed.class)
+      @Transition(event = Events.Plan.class, value = Planned.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface BOMConfirmed {}
+
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      @Transition(event = Events.MakeOSROMComplete.class, value = OSROMReady.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface Planned {}
+
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      @Transition(event = Events.StartAssembling.class, value = AssemblingOnProductLine.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface OSROMReady {}
+
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      @Transition(event = Events.StartDebugging.class, value = DebuggingOnProductLine.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface AssemblingOnProductLine {}
+
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      @Transition(event = Events.PackageComplete.class, value = Packaged.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface DebuggingOnProductLine {}
+
+      @InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      @Transition(event = Events.TransferToLogistics.class, value = Done.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface Packaged {}
+
+      @Final
+      static interface Done {}
     }
+
+    @EventSet
+    static interface Events {
+
+      static interface TransferToLogistics {}
+
+      static interface PackageComplete {}
+
+      static interface StartDebugging {}
+
+      static interface StartAssembling {}
+
+      static interface MakeOSROMComplete {}
+
+      static interface Plan {}
+
+      static interface ConfirmBOM {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @Parent
+      @RelateTo(PCPurchaseOrderStateMachine.class)
+      public static interface PurchaseOrder {}
+    }
+  }
+
+  @StateMachine
+  public static interface PCLogisticOrderStateMachine {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = Events.Confirm.class, value = Confirmed.class)
+      static interface Draft {}
+
+      @InboundWhiles({@InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class)})
+      @Transition(event = Events.Schedule.class, value = Scheduled.class)
+      @ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class)
+      static interface Confirmed {}
+
+      @InboundWhiles({@InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class)})
+      @Transition(event = Events.DoPickup.class, value = Picked.class)
+      @ValidWhiles({@ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class)})
+      static interface Scheduled {}
+
+      @InboundWhiles({@InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Packaged.class)})
+      @Transition(event = Events.StartTransport.class, value = Transporting.class)
+      @ValidWhiles({@ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class)})
+      static interface Picked {}
+
+      @InboundWhiles({@InboundWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @InboundWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class)})
+      @Transition(event = Events.CustomerConfirmReceive.class, value = Received.class)
+      @ValidWhiles({@ValidWhile(relation = Relations.PurchaseOrder.class, on = PCPurchaseOrderStateMachine.States.Ongoing.class),
+          @ValidWhile(relation = Relations.ManufactureOrder.class, on = PCManufactoringOrderStateMachine.States.Done.class)})
+      static interface Transporting {}
+
+      @Final
+      static interface Received {}
+    }
+
+    @EventSet
+    static interface Events {
+
+      static interface Schedule {}
+
+      static interface CustomerConfirmReceive {}
+
+      static interface StartTransport {}
+
+      static interface DoPickup {}
+
+      static interface Confirm {}
+    }
+
+    @RelationSet
+    static interface Relations {
+
+      @Parent
+      @RelateTo(PCPurchaseOrderStateMachine.class)
+      public static interface PurchaseOrder {}
+
+      @RelateTo(PCManufactoringOrderStateMachine.class)
+      static interface ManufactureOrder {}
+    }
+  }
 }

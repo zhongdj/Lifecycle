@@ -36,5 +36,5 @@ package net.imadz.meta;
 
 public interface Keyed<K> {
 
-    public K getKey();
+  public K getKey();
 }

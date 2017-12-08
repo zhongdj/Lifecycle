@@ -34,19 +34,19 @@
  */
 package net.imadz.lifecycle.meta.object;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.meta.MetaObject;
 import net.imadz.lifecycle.meta.MultiKeyed;
 import net.imadz.lifecycle.meta.builder.impl.EventCallbackObject;
 import net.imadz.lifecycle.meta.type.EventMetadata;
 
+import java.lang.reflect.Method;
+
 public interface EventObject extends MetaObject<EventObject, EventMetadata>, MultiKeyed {
 
-    Method getEventMethod();
+  Method getEventMethod();
 
-	void addSpecificOnEventCallbackObject(EventCallbackObject item);
-	
-	void invokeEventCallbacks(final LifecycleContext<?, ?> callbackContext);
+  void addSpecificOnEventCallbackObject(EventCallbackObject item);
+
+  void invokeEventCallbacks(final LifecycleContext<?, ?> callbackContext);
 }

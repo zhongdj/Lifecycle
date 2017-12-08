@@ -40,56 +40,56 @@ import net.imadz.lifecycle.meta.type.EventMetadata.EventTypeEnum;
 
 public class LifecycleEventImpl implements LifecycleEvent {
 
-    private final Object reactiveObject;
-    private final String fromState;
-    private final String toState;
-    private final String event;
-    private final EventTypeEnum eventType;
-    private final long startTime;
-    private final long endTime;
+  private final Object reactiveObject;
+  private final String fromState;
+  private final String toState;
+  private final String event;
+  private final EventTypeEnum eventType;
+  private final long startTime;
+  private final long endTime;
 
-    public LifecycleEventImpl(LifecycleInterceptContext context) {
-        this.reactiveObject = context.getTarget();
-        this.fromState = context.getFromState();
-        this.toState = context.getToState();
-        this.event = context.getEvent();
-        this.eventType = context.getEventType();
-        this.startTime = context.getStartTime();
-        this.endTime = context.getEndTime();
-    }
+  public LifecycleEventImpl(LifecycleInterceptContext context) {
+    this.reactiveObject = context.getTarget();
+    this.fromState = context.getFromState();
+    this.toState = context.getToState();
+    this.event = context.getEvent();
+    this.eventType = context.getEventType();
+    this.startTime = context.getStartTime();
+    this.endTime = context.getEndTime();
+  }
 
-    @Override
-    public Object getReactiveObject() {
-        return reactiveObject;
-    }
+  @Override
+  public Object getReactiveObject() {
+    return reactiveObject;
+  }
 
-    @Override
-    public String fromState() {
-        return fromState;
-    }
+  @Override
+  public String fromState() {
+    return fromState;
+  }
 
-    @Override
-    public String toState() {
-        return toState;
-    }
+  @Override
+  public String toState() {
+    return toState;
+  }
 
-    @Override
-    public String event() {
-        return event;
-    }
+  @Override
+  public String event() {
+    return event;
+  }
 
-    @Override
-    public EventTypeEnum eventType() {
-        return eventType;
-    }
+  @Override
+  public EventTypeEnum eventType() {
+    return eventType;
+  }
 
-    @Override
-    public long startTime() {
-        return startTime;
-    }
+  @Override
+  public long startTime() {
+    return startTime;
+  }
 
-    @Override
-    public long endTime() {
-        return endTime;
-    }
+  @Override
+  public long endTime() {
+    return endTime;
+  }
 }

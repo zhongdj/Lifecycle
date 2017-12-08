@@ -39,15 +39,15 @@ import net.imadz.util.Readable;
 
 public class RelationalCallbackObject extends CallbackObject {
 
-    private final Readable<?> readAccessor;
+  private final Readable<?> readAccessor;
 
-    public RelationalCallbackObject(String fromStateName, String toStateName, MethodWrapper wrappedCallbackMethod, Readable<?> accessor) {
-        super(fromStateName, toStateName, wrappedCallbackMethod);
-        this.readAccessor = accessor;
-    }
+  public RelationalCallbackObject(String fromStateName, String toStateName, MethodWrapper wrappedCallbackMethod, Readable<?> accessor) {
+    super(fromStateName, toStateName, wrappedCallbackMethod);
+    this.readAccessor = accessor;
+  }
 
-    @Override
-    protected Object evaluateTarget(Object target) {
-        return this.readAccessor.read(target);
-    }
+  @Override
+  protected Object evaluateTarget(Object target) {
+    return this.readAccessor.read(target);
+  }
 }

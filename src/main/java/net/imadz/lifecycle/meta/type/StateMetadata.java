@@ -40,88 +40,87 @@ import net.imadz.lifecycle.meta.object.FunctionMetadata;
 
 public interface StateMetadata extends Recoverable, MetaType<StateMetadata> {
 
-    public static enum StateTypeEnum {
-        Running,
-        Waiting,
-        Stopped,
-        Corrupted,
-        Common
-    }
+  public static enum StateTypeEnum {
+    Running,
+    Waiting,
+    Stopped,
+    Corrupted,
+    Common
+  }
 
-    StateTypeEnum getType();
+  StateTypeEnum getType();
 
-    /* ////////////////////////////////////////////////////////////////// */
+  /* ////////////////////////////////////////////////////////////////// */
     /* //////////////////////////Basic Properties /////////////////////// */
     /* ////////////////////////////////////////////////////////////////// */
-    StateMachineMetadata getStateMachine();
+  StateMachineMetadata getStateMachine();
 
-    String getSimpleName();
+  String getSimpleName();
 
-    boolean isInitial();
+  boolean isInitial();
 
-    boolean isFinal();
+  boolean isFinal();
 
-    /* ////////////////////////////////////////////////////////////////// */
+  /* ////////////////////////////////////////////////////////////////// */
     /* ////////////////////////Event Related /////////////////////// */
     /* ////////////////////////////////////////////////////////////////// */
-    EventMetadata[] getPossibleLeavingEvents();
+  EventMetadata[] getPossibleLeavingEvents();
 
-    EventMetadata[] getPossibleReachingEvents();
+  EventMetadata[] getPossibleReachingEvents();
 
-    EventMetadata getEvent(Object eventKey);
+  EventMetadata getEvent(Object eventKey);
 
-    boolean isEventValid(Object eventKey);
+  boolean isEventValid(Object eventKey);
 
-    /* ////////////////////////////////////////////////////////////////// */
+  /* ////////////////////////////////////////////////////////////////// */
     /* //////////////////////////Dependency Part //////////////////////// */
     /* ////////////////////////////////////////////////////////////////// */
-    boolean hasInboundWhiles();
+  boolean hasInboundWhiles();
 
-    /**
-     * @return related state dependencies, expected to be used post-state-change
-     *         validation
-     */
-    RelationConstraintMetadata[] getDeclaredInboundWhiles();
+  /**
+   * @return related state dependencies, expected to be used post-state-change
+   * validation
+   */
+  RelationConstraintMetadata[] getDeclaredInboundWhiles();
 
-    boolean hasValidWhiles();
+  boolean hasValidWhiles();
 
-    /**
-     * @return related state dependencies, expected to be used pre-state-change
-     *         validation, which will validate the validity of the state. Once
-     *         the state is not valid, events will fail until the state
-     *         has been fixed by synchronizationEvent.
-     * 
-     *         And if parent object life cycle exists, then this state should be
-     *         valid ONLY in a subset of parent life cycle states, so does the
-     *         parent object, the validation will go up along the parent's
-     *         parent recursively.
-     * 
-     */
-    RelationConstraintMetadata[] getValidWhiles();
+  /**
+   * @return related state dependencies, expected to be used pre-state-change
+   * validation, which will validate the validity of the state. Once
+   * the state is not valid, events will fail until the state
+   * has been fixed by synchronizationEvent.
+   * <p>
+   * And if parent object life cycle exists, then this state should be
+   * valid ONLY in a subset of parent life cycle states, so does the
+   * parent object, the validation will go up along the parent's
+   * parent recursively.
+   */
+  RelationConstraintMetadata[] getValidWhiles();
 
-    /* ////////////////////////////////////////////////////////////////// */
+  /* ////////////////////////////////////////////////////////////////// */
     /* //////////////////////////Composite State///////////////////////// */
     /* ////////////////////////////////////////////////////////////////// */
-    boolean isCompositeState();
+  boolean isCompositeState();
 
-    StateMetadata getOwningState();
+  StateMetadata getOwningState();
 
-    StateMachineMetadata getCompositeStateMachine();
+  StateMachineMetadata getCompositeStateMachine();
 
-    /* For Shortcut State inside a composite state */
-    StateMetadata getLinkTo();
+  /* For Shortcut State inside a composite state */
+  StateMetadata getLinkTo();
 
-    FunctionMetadata[] getDeclaredFunctionMetadata();
+  FunctionMetadata[] getDeclaredFunctionMetadata();
 
-    FunctionMetadata getDeclaredFunctionMetadata(Object functionKey);
+  FunctionMetadata getDeclaredFunctionMetadata(Object functionKey);
 
-    boolean hasMultipleStateCandidatesOn(Object transtionKey);
+  boolean hasMultipleStateCandidatesOn(Object transtionKey);
 
-    FunctionMetadata getFunctionMetadata(Object functionKey);
+  FunctionMetadata getFunctionMetadata(Object functionKey);
 
-    RelationConstraintMetadata[] getDeclaredValidWhiles();
+  RelationConstraintMetadata[] getDeclaredValidWhiles();
 
-    RelationConstraintMetadata[] getInboundWhiles();
+  RelationConstraintMetadata[] getInboundWhiles();
 
-    void setType(StateTypeEnum type);
+  void setType(StateTypeEnum type);
 }

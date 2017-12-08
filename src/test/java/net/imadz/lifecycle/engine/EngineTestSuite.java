@@ -36,13 +36,14 @@ package net.imadz.lifecycle.engine;
 
 import net.imadz.lifecycle.engine.callback.CallbackTestSuite;
 import net.imadz.lifecycle.engine.composite.CompositeStateMachineTestSuite;
-
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ EngineCoreFunctionPositiveTests.class, EngineCoreFunctionNegativeTests.class, CompositeStateMachineTestSuite.class, CallbackTestSuite.class,
-        LifecycleLockTests.class, LifecycleEventTests.class, ReturnTypeTests.class, StateSetterTests.class, MultipleStateMachineTests.class, SetInitialStatesTests.class,
-        ProxiedRelationObjectTests.class})
+@SuiteClasses({EngineCoreFunctionPositiveTests.class, EngineCoreFunctionNegativeTests.class, CompositeStateMachineTestSuite.class,
+    CallbackTestSuite.class,
+    LifecycleLockTests.class, LifecycleEventTests.class, ReturnTypeTests.class, StateSetterTests.class, MultipleStateMachineTests.class,
+    SetInitialStatesTests.class,
+    ProxiedRelationObjectTests.class})
 public class EngineTestSuite {}

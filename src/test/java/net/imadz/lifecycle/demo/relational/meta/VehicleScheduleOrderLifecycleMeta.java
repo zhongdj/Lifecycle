@@ -34,11 +34,11 @@
  */
 package net.imadz.lifecycle.demo.relational.meta;
 
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMeta.Events.Cancel;
@@ -49,29 +49,39 @@ import net.imadz.lifecycle.demo.relational.meta.VehicleScheduleOrderLifecycleMet
 @StateMachine
 public interface VehicleScheduleOrderLifecycleMeta {
 
-    @StateSet
-    public static class States {
+  @StateSet
+  public static class States {
 
-        @Initial
-        @Transition(event = Schedule.class, value = Queued.class)
-        public static class Created {}
-        @Transitions({ @Transition(event = Start.class, value = Ongoing.class), @Transition(event = Cancel.class, value = Cancelled.class) })
-        public static class Queued {}
-        @Transitions({ @Transition(event = Finish.class, value = Finished.class), @Transition(event = Cancel.class, value = Cancelled.class) })
-        public static class Ongoing {}
-        @Final
-        public static class Finished {}
-        @Final
-        public static class Cancelled {}
-    }
-    @EventSet
-    public static class Events {
+    @Initial
+    @Transition(event = Schedule.class, value = Queued.class)
+    public static class Created {}
 
-        public static class Schedule {}
-        public static class Start {}
-        public static class Finish {}
-        public static class Cancel {}
-        public static class DoTransport {}
-        public static class DoConstruct {}
-    }
+    @Transitions({@Transition(event = Start.class, value = Ongoing.class), @Transition(event = Cancel.class, value = Cancelled.class)})
+    public static class Queued {}
+
+    @Transitions({@Transition(event = Finish.class, value = Finished.class), @Transition(event = Cancel.class, value = Cancelled.class)})
+    public static class Ongoing {}
+
+    @Final
+    public static class Finished {}
+
+    @Final
+    public static class Cancelled {}
+  }
+
+  @EventSet
+  public static class Events {
+
+    public static class Schedule {}
+
+    public static class Start {}
+
+    public static class Finish {}
+
+    public static class Cancel {}
+
+    public static class DoTransport {}
+
+    public static class DoConstruct {}
+  }
 }

@@ -35,82 +35,88 @@
 package net.imadz.lifecycle.syntax.basic;
 
 import net.imadz.lifecycle.AbsStateMachineRegistry;
-import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.AbsStateMachineRegistry.LifecycleRegistry;
 import net.imadz.lifecycle.AbsStateMachineRegistry.StateMachineBuilder;
+import net.imadz.lifecycle.SyntaxErrors;
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.ShortCut;
 import net.imadz.lifecycle.syntax.BaseMetaDataTest;
 import net.imadz.verification.VerificationException;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CompositeStateMachineNegativeTests extends BaseMetaDataTest {
 
-    @StateMachine
-    static interface CompositeExtendsOwningStateMachine {
+  @StateMachine
+  static interface CompositeExtendsOwningStateMachine {
+
+    @StateSet
+    static interface States {
+
+      @Initial
+      @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
+      static interface PCS1_A {}
+
+      @CompositeState
+      @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
+      static interface PCS1_B extends CompositeExtendsOwningStateMachine {
 
         @StateSet
-        static interface States {
+        static interface CStates {
 
-            @Initial
-            @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_X.class, value = PCS1_B.class)
-            static interface PCS1_A {}
-            @CompositeState
-            @Transition(event = CompositeExtendsOwningStateMachine.Events.PCS1_Y.class, value = PCS1_C.class)
-            static interface PCS1_B extends CompositeExtendsOwningStateMachine {
+          @Initial
+          @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
+          static interface PCS1_CA {}
 
-                @StateSet
-                static interface CStates {
+          @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
+          static interface PCS1_CB {}
 
-                    @Initial
-                    @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CB.class)
-                    static interface PCS1_CA {}
-                    @Transition(event = CompositeExtendsOwningStateMachine.States.PCS1_B.CEvents.PCS1_CX.class, value = PCS1_CC.class)
-                    static interface PCS1_CB {}
-                    @Final
-                    @ShortCut(PCS1_C.class)
-                    static interface PCS1_CC {}
-                }
-                @EventSet
-                static interface CEvents {
-
-                    static interface PCS1_CX {}
-                }
-            }
-            @Final
-            static interface PCS1_C {}
+          @Final
+          @ShortCut(PCS1_C.class)
+          static interface PCS1_CC {}
         }
+
         @EventSet
-        static interface Events {
+        static interface CEvents {
 
-            static interface PCS1_X {}
-            static interface PCS1_Y {}
+          static interface PCS1_CX {}
         }
+      }
+
+      @Final
+      static interface PCS1_C {}
     }
 
-    @Test(expected = VerificationException.class)
+    @EventSet
+    static interface Events {
+
+      static interface PCS1_X {}
+
+      static interface PCS1_Y {}
+    }
+  }
+
+  @Test(expected = VerificationException.class)
 //    @Ignore
-    public void should_throw_exception_002_2804_if_composite_state_extends_owning_stateMachine() throws VerificationException {
-        @LifecycleRegistry(CompositeExtendsOwningStateMachine.class)
-        @StateMachineBuilder
-        class Registry extends AbsStateMachineRegistry {
+  public void should_throw_exception_002_2804_if_composite_state_extends_owning_stateMachine() throws VerificationException {
+    @LifecycleRegistry(CompositeExtendsOwningStateMachine.class)
+    @StateMachineBuilder
+    class Registry extends AbsStateMachineRegistry {
 
-            protected Registry() throws VerificationException {}
-        }
-        try {
-            new Registry();
-        } catch (VerificationException e) {
-            assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_SUPER_CLASS_IS_NOT_STATE_META_CLASS,
-                    CompositeExtendsOwningStateMachine.States.PCS1_B.class, CompositeExtendsOwningStateMachine.class);
-            throw e;
-        }
+      protected Registry() throws VerificationException {
+      }
     }
+    try {
+      new Registry();
+    } catch (VerificationException e) {
+      assertFailure(e.getVerificationFailureSet().iterator().next(), SyntaxErrors.STATE_SUPER_CLASS_IS_NOT_STATE_META_CLASS,
+          CompositeExtendsOwningStateMachine.States.PCS1_B.class, CompositeExtendsOwningStateMachine.class);
+      throw e;
+    }
+  }
 }

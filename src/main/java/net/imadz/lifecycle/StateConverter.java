@@ -36,7 +36,7 @@ package net.imadz.lifecycle;
 
 public interface StateConverter<T> {
 
-    String toState(T t);
+  String toState(T t);
 
-    T fromState(String state);
+  T fromState(String state);
 }

@@ -34,31 +34,33 @@
  */
 package net.imadz.lifecycle.meta.builder.impl.helpers;
 
-import java.lang.reflect.Method;
-
 import net.imadz.lifecycle.annotations.state.Converter;
 import net.imadz.util.MethodScanCallback;
 
+import java.lang.reflect.Method;
+
 public final class StateIndicatorDefaultMethodScanner implements MethodScanCallback {
 
-    private Method defaultStateGetterMethod = null;
+  private Method defaultStateGetterMethod = null;
 
-    @Override
-    public boolean onMethodFound(Method method) {
-        if (method.isBridge()) return false;
-        if ( "getState".equals(method.getName()) ) {
-            if ( String.class.equals(method.getReturnType()) && null == defaultStateGetterMethod ) {
-                defaultStateGetterMethod = method;
-                return true;
-            } else if ( null != method.getAnnotation(Converter.class) && null == defaultStateGetterMethod ) {
-                defaultStateGetterMethod = method;
-                return true;
-            }
-        }
-        return false;
+  @Override
+  public boolean onMethodFound(Method method) {
+    if (method.isBridge()) {
+      return false;
     }
+    if ("getState".equals(method.getName())) {
+      if (String.class.equals(method.getReturnType()) && null == defaultStateGetterMethod) {
+        defaultStateGetterMethod = method;
+        return true;
+      } else if (null != method.getAnnotation(Converter.class) && null == defaultStateGetterMethod) {
+        defaultStateGetterMethod = method;
+        return true;
+      }
+    }
+    return false;
+  }
 
-    public Method getDefaultMethod() {
-        return defaultStateGetterMethod;
-    }
+  public Method getDefaultMethod() {
+    return defaultStateGetterMethod;
+  }
 }

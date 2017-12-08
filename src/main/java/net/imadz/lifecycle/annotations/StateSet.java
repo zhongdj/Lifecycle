@@ -34,16 +34,16 @@
  */
 package net.imadz.lifecycle.annotations;
 
+import net.imadz.utils.Null;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.imadz.utils.Null;
-
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface StateSet {
 
-    Class<?> value() default Null.class;
+  Class<?> value() default Null.class;
 }

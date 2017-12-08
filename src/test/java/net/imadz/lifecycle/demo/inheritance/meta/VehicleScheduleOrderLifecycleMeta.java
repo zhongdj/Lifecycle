@@ -35,11 +35,11 @@
 package net.imadz.lifecycle.demo.inheritance.meta;
 
 import net.imadz.lifecycle.annotations.CompositeState;
-import net.imadz.lifecycle.annotations.Transition;
-import net.imadz.lifecycle.annotations.Transitions;
+import net.imadz.lifecycle.annotations.EventSet;
 import net.imadz.lifecycle.annotations.StateMachine;
 import net.imadz.lifecycle.annotations.StateSet;
-import net.imadz.lifecycle.annotations.EventSet;
+import net.imadz.lifecycle.annotations.Transition;
+import net.imadz.lifecycle.annotations.Transitions;
 import net.imadz.lifecycle.annotations.state.Final;
 import net.imadz.lifecycle.annotations.state.Initial;
 import net.imadz.lifecycle.annotations.state.LifecycleOverride;
@@ -51,33 +51,38 @@ import net.imadz.lifecycle.demo.inheritance.meta.VehicleScheduleOrderLifecycleMe
 @StateMachine
 public interface VehicleScheduleOrderLifecycleMeta extends OrderLifecycleMeta {
 
-    @StateSet
-    public static class States extends OrderLifecycleMeta.States {
+  @StateSet
+  public static class States extends OrderLifecycleMeta.States {
 
-        @LifecycleOverride
-        @CompositeState
-        public static class Ongoing extends OrderLifecycleMeta.States.Ongoing {
+    @LifecycleOverride
+    @CompositeState
+    public static class Ongoing extends OrderLifecycleMeta.States.Ongoing {
 
-            @StateSet
-            public static class SubStates {
+      @StateSet
+      public static class SubStates {
 
-                @Initial
-                @Transition(event = DoTransport.class, value = OnPassage.class)
-                public static class Loading {}
-                @Transitions({ @Transition(event = DoConstruct.class, value = Constructing.class) })
-                public static class OnPassage {}
-                @Transition(event = Finish.class, value = Exit.class)
-                public static class Constructing {}
-                @Final
-                @ShortCut(Finished.class)
-                public static class Exit {}
-            }
-            @EventSet
-            public static class SubEvents extends OrderLifecycleMeta.Events {
+        @Initial
+        @Transition(event = DoTransport.class, value = OnPassage.class)
+        public static class Loading {}
 
-                public static class DoTransport {}
-                public static class DoConstruct {}
-            }
-        }
+        @Transitions({@Transition(event = DoConstruct.class, value = Constructing.class)})
+        public static class OnPassage {}
+
+        @Transition(event = Finish.class, value = Exit.class)
+        public static class Constructing {}
+
+        @Final
+        @ShortCut(Finished.class)
+        public static class Exit {}
+      }
+
+      @EventSet
+      public static class SubEvents extends OrderLifecycleMeta.Events {
+
+        public static class DoTransport {}
+
+        public static class DoConstruct {}
+      }
     }
+  }
 }

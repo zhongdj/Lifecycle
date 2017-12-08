@@ -34,24 +34,24 @@
  */
 package net.imadz.lifecycle.meta.builder;
 
+import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.lifecycle.meta.type.StateMachineMetadata;
 import net.imadz.lifecycle.meta.type.StateMetadata;
-import net.imadz.lifecycle.meta.type.EventMetadata;
 import net.imadz.verification.VerificationException;
 
 public interface StateMetaBuilder extends AnnotationMetaBuilder<StateMetadata, StateMachineMetadata>, StateMetadata {
 
-    @Override
-    StateMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException;
+  @Override
+  StateMetaBuilder build(Class<?> clazz, StateMachineMetadata parent) throws VerificationException;
 
-    @Override
-    StateMachineMetadata getStateMachine();
+  @Override
+  StateMachineMetadata getStateMachine();
 
-    void configureFunctions(Class<?> stateClass) throws VerificationException;
+  void configureFunctions(Class<?> stateClass) throws VerificationException;
 
-    void configureCompositeStateMachine(Class<?> stateClass) throws VerificationException;
+  void configureCompositeStateMachine(Class<?> stateClass) throws VerificationException;
 
-    void configureRelationConstrants(Class<?> clazz) throws VerificationException;
+  void configureRelationConstrants(Class<?> clazz) throws VerificationException;
 
-    void addPossibleReachingEvent(EventMetadata event);
+  void addPossibleReachingEvent(EventMetadata event);
 }

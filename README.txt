@@ -21,6 +21,11 @@ Using: Lifecycle-StaticWeaver-maven-plugin to process classes
 https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
 
 Release Notes
+0.9.13
+[ Improvement ] Support Mockito's mock/spy method on FSM object by skipping overriden method
+[ Improvement ] Provide more friendly logs
+[ Improvement ] Avoid transform methods twice.
+
 0.9.12
 [ Improvement ] Relation Object, which is created from Java Dynamic Proxy, is supported as well.
 

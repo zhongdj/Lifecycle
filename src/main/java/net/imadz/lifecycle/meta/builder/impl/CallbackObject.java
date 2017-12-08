@@ -42,6 +42,8 @@ import net.imadz.lifecycle.LifecycleContext;
 import net.imadz.lifecycle.LifecycleException;
 import net.imadz.lifecycle.meta.builder.impl.helpers.MethodWrapper;
 
+import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtils.overridesBy;
+
 public class CallbackObject implements java.lang.Comparable<CallbackObject> {
 
 	public static final int COMMON = 0;
@@ -65,6 +67,10 @@ public class CallbackObject implements java.lang.Comparable<CallbackObject> {
 		this.priority = wrappedCallbackMethod.getPriority();
 		this.inheritanceLevel = wrappedCallbackMethod.getInheritanceLevel();
 		this.generalize = wrappedCallbackMethod.getGeneralize();
+	}
+
+	public boolean overrides(CallbackObject theOther) {
+		return overridesBy(method, theOther.method) || overridesBy(theOther.method, method);
 	}
 
 	public boolean matches(final LifecycleContext<?, ?> callbackContext) {

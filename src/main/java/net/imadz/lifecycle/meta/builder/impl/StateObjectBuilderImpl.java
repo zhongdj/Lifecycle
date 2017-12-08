@@ -244,7 +244,11 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
     public void addPreToCallbackObject(Class<?> to, final CallbackObject callbackObject) {
         final String toStateClassName = to.getSimpleName();
         if ( this.preToStateChangeCallbacksMap.containsKey(toStateClassName) ) {
-            this.preToStateChangeCallbacksMap.get(toStateClassName).add(callbackObject);
+            final List<CallbackObject> callbackObjects = this.preToStateChangeCallbacksMap.get(toStateClassName);
+            for (CallbackObject registeredCallback : callbackObjects) {
+                if (registeredCallback.overrides(callbackObject)) return;
+            }
+            callbackObjects.add(callbackObject);
         } else {
             final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(callbackObject);
@@ -256,7 +260,11 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
     public void addPreFromCallbackObject(Class<?> from, final CallbackObject callbackObject) {
         final String fromStateClassName = from.getSimpleName();
         if ( this.preFromStateChangeCallbacksMap.containsKey(fromStateClassName) ) {
-            this.preFromStateChangeCallbacksMap.get(fromStateClassName).add(callbackObject);
+            final List<CallbackObject> callbackObjects = this.preFromStateChangeCallbacksMap.get(fromStateClassName);
+            for (CallbackObject registeredCallback : callbackObjects) {
+                if (registeredCallback.overrides(callbackObject)) return;
+            }
+            callbackObjects.add(callbackObject);
         } else {
             final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
             callbackObjects.add(callbackObject);
@@ -265,25 +273,33 @@ public class StateObjectBuilderImpl<S> extends ObjectBuilderBase<StateObject<S>,
     }
 
     @Override
-    public void addPostToCallbackObject(Class<?> to, final CallbackObject item) {
+    public void addPostToCallbackObject(Class<?> to, final CallbackObject callbackObject) {
         final String toStateClassName = to.getSimpleName();
         if ( this.postToStateChangeCallbacksMap.containsKey(toStateClassName) ) {
-            this.postToStateChangeCallbacksMap.get(toStateClassName).add(item);
+            final List<CallbackObject> callbackObjects = this.postToStateChangeCallbacksMap.get(toStateClassName);
+            for (CallbackObject registeredCallback : callbackObjects) {
+                if (registeredCallback.overrides(callbackObject)) return;
+            }
+            callbackObjects.add(callbackObject);
         } else {
             final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
-            callbackObjects.add(item);
+            callbackObjects.add(callbackObject);
             this.postToStateChangeCallbacksMap.put(toStateClassName, callbackObjects);
         }
     }
 
     @Override
-    public void addPostFromCallbackObject(Class<?> from, final CallbackObject item) {
+    public void addPostFromCallbackObject(Class<?> from, final CallbackObject callbackObject) {
         final String fromStateClassName = from.getSimpleName();
         if ( this.postFromStateChangeCallbacksMap.containsKey(fromStateClassName) ) {
-            this.postFromStateChangeCallbacksMap.get(fromStateClassName).add(item);
+            final List<CallbackObject> callbackObjects = this.postFromStateChangeCallbacksMap.get(fromStateClassName);
+            for (CallbackObject registeredCallback : callbackObjects) {
+                if (registeredCallback.overrides(callbackObject)) return;
+            }
+            callbackObjects.add(callbackObject);
         } else {
             final List<CallbackObject> callbackObjects = new ArrayList<CallbackObject>();
-            callbackObjects.add(item);
+            callbackObjects.add(callbackObject);
             this.postFromStateChangeCallbacksMap.put(fromStateClassName, callbackObjects);
         }
     }

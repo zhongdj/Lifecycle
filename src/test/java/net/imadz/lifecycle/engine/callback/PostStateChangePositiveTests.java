@@ -120,4 +120,15 @@ public class PostStateChangePositiveTests extends CallbackTestMetadata {
         bigOrder.cancel();
         assertEquals(2, bigOrder.getCount());
     }
+
+    @Test
+    public void should_not_increase_counter_twice_if_subclass_overrides_super_post_call_back() {
+        final PostCallbackFromStartToAnySubClass o = new PostCallbackFromStartToAnySubClass();
+        assertEquals(0, o.getCallbackInvokeCounter());
+        o.start();
+        assertEquals(0, o.getCallbackInvokeCounter());
+        o.finish();
+        assertEquals(1, o.getCallbackInvokeCounter());
+    }
+
 }

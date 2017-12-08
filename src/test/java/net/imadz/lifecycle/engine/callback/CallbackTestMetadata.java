@@ -166,6 +166,17 @@ public class CallbackTestMetadata extends EngineTestBase {
             this.callbackInvokeCounter++;
         }
     }
+
+    @LifecycleMeta(CallbackStateMachine.class)
+    public static class PostCallbackFromStartToAnySubClass extends PostCallbackFromStartToAny {
+
+        @PostStateChange(from = CallbackStateMachine.States.Started.class)
+        @Override
+        public void interceptPostStateChange(LifecycleContext<PostCallbackFromStartToAny, String> context) {
+            this.callbackInvokeCounter++;
+        }
+    }
+
     @StateMachine
     public static interface InvoiceStateMachineMeta {
 

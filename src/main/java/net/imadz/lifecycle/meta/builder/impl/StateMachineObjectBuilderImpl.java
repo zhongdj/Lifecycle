@@ -120,6 +120,8 @@ import net.imadz.utils.Null;
 import net.imadz.verification.VerificationException;
 import net.imadz.verification.VerificationFailureSet;
 
+import static net.imadz.lifecycle.meta.builder.impl.helpers.MethodOverridingUtils.overridesBy;
+
 public class StateMachineObjectBuilderImpl<S>
 		extends
 		ObjectBuilderBase<StateMachineObject<S>, StateMachineObject<S>, StateMachineMetadata>
@@ -151,11 +153,17 @@ public class StateMachineObjectBuilderImpl<S>
 
 	@Override
 	public void addCommonPostStateChangeCallbackObject(CallbackObject item) {
+		for (CallbackObject callbackObject : commonPostStateChangeCallbackObjects) {
+			if (callbackObject.overrides(item)) return;
+		}
 		this.commonPostStateChangeCallbackObjects.add(item);
 	}
 
 	@Override
 	public void addCommonPreStateChangeCallbackObject(CallbackObject item) {
+		for (CallbackObject callbackObject : commonPreStateChangeCallbackObjects) {
+			if (callbackObject.overrides(item)) return;
+		}
 		this.commonPreStateChangeCallbackObjects.add(item);
 	}
 
@@ -170,11 +178,17 @@ public class StateMachineObjectBuilderImpl<S>
 
 	@Override
 	public void addSpecificPostStateChangeCallbackObject(CallbackObject item) {
+		for (CallbackObject callbackObject : specificPostStateChangeCallbackObjects) {
+			if (callbackObject.overrides(item)) return;
+		}
 		this.specificPostStateChangeCallbackObjects.add(item);
 	}
 
 	@Override
 	public void addSpecificPreStateChangeCallbackObject(CallbackObject item) {
+		for (CallbackObject callbackObject : specificPreStateChangeCallbackObjects) {
+			if (callbackObject.overrides(item)) return;
+		}
 		this.specificPreStateChangeCallbackObjects.add(item);
 	}
 

@@ -59,6 +59,8 @@ import net.imadz.org.apache.bcel.generic.ClassGen;
 import net.imadz.org.apache.bcel.generic.ObjectType;
 import net.imadz.org.apache.bcel.generic.Type;
 
+import static net.imadz.bcel.MethodInterceptor.POST_FIX;
+
 public class BCELClassFileTransformer implements ClassFileTransformer {
 
     private static final Logger log = Logger.getLogger("Lifecycle Framework Byte Code Transformer");
@@ -93,8 +95,9 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
                 if ( null == method.getAnnotationEntries() ) {
                     continue;
                 }
+
                 for ( final AnnotationEntry entry : method.getAnnotationEntries() ) {
-                    if ( isTransformNeeded(entry) ) {
+                    if ( isTransformNeeded(entry) && notTransformYet(method, jclas.getMethods())) {
                         doTransform(classGen, innerClassSeq++, method, location);
                         break;
                     }
@@ -113,6 +116,17 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
         }
     }
 
+    private boolean notTransformYet(Method method, Method[] methods) {
+        final String methodName = method.getName();
+        final String finalMethodName = methodName + POST_FIX;
+        for (final Method m : methods) {
+            if (m.getName().equals(finalMethodName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean shouldIgnore(String className) {
         for ( int i = 0; i < ignoredPackages.length; i++ ) {
             if ( className.startsWith(ignoredPackages[i]) ) {
@@ -129,7 +143,7 @@ public class BCELClassFileTransformer implements ClassFileTransformer {
     	annotationTypeName = annotationTypeName.substring(0, annotationTypeName.length() - 1);
     	return null != Class.forName(annotationTypeName).getAnnotation(Interceptable.class);
     	} catch (Exception ex) {
-    		log.log(Level.SEVERE, "Failed to find class " + entry.getAnnotationType(),  ex);
+    		log.log(Level.INFO, "Failed to find class " + entry.getAnnotationType());
     		return false;
     	}
         //return EVENT_ANNOTATION_TYPE.equals(entry.getAnnotationType());

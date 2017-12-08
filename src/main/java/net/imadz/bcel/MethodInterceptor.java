@@ -67,7 +67,7 @@ import net.imadz.org.apache.bcel.generic.Type;
 
 public class MethodInterceptor {
 
-    private static final String POST_FIX = "$Impl";
+    static final String POST_FIX = "$Impl";
 
     public static void addWrapper(ClassGen classGen, Method method, int anonymousInnerClassSeq) {
         renameOriginalMethod(classGen, method, classGen.getConstantPool(), classGen.getClassName());

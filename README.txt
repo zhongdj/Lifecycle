@@ -1,4 +1,4 @@
-Finite State Machine (FSM)
+# Finite State Machine (FSM)
 
 
 Try demos once you have following software installed:
@@ -7,11 +7,11 @@ Try demos once you have following software installed:
 3. github client
 
 And then execute the following commands:
-
+```
 git clone https://github.com/zhongdj/LifecycleStaticWeaverDemos
 cd LifecycleStaticWeaverDemos
 mvn test
-
+```
 For further information, please refer demos projects:
 
 1. (Suggest) https://github.com/zhongdj/LifecycleStaticWeaverDemos
@@ -20,34 +20,34 @@ For further information, please refer demos projects:
 Using: Lifecycle-StaticWeaver-maven-plugin to process classes
 https://github.com/zhongdj/Lifecycle-StaticWeaver-maven-plugin
 
-Release Notes
-0.9.13
+# Release Notes
+## 0.9.13
 [ Improvement ] Support Mockito's mock/spy method on FSM object by skipping overriden method
 [ Improvement ] Provide more friendly logs
 [ Improvement ] Avoid transform methods twice.
 
-0.9.12
+## 0.9.12
 [ Improvement ] Relation Object, which is created from Java Dynamic Proxy, is supported as well.
 
-0.9.11
+## 0.9.11
 [ Improvement ] @LifecycleMeta is @Inherited, which supports Spring Bean Factory using Proxy class.
 [ BUG FIX ] NPE while cannot find Relation Field style accessor from interface or class, which might defined the accessor in a property style.
 
-0.9.10
+## 0.9.10
 [ BUG FIX ] Cannot initialize single lifecycle reactive object
 [ BUG FIX ] NPE while initializing converter based multiple lifecycle reactive object
 [ JDK8 ] Build Based on JDK8
 [ Dedicate BCEL ] Separate BCEl project as a dedicated artifact which is based on JDK7-
 
-0.9.8
+## 0.9.8
 a. add priority property into @PostStateChange for specifying callback ordering
 b. add API to set reactive object's intial states, such as: DefaultStateMachineRegistry.getInstance().setInitialState(reactiveObject);
 c. add @OnEvent callback support
 d. support declare callback annotations on interfaces, such as @PostStateChange, @PreStateChange, @OnEvent
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                  Quick Look: Stand-alone Reactive Object
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+## Quick Look: Stand-alone Reactive Object
+
+```
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
@@ -63,8 +63,9 @@ public interface IServiceOrder {
     @StateIndicator
     String getServiceOrderState();
 }
+```
 
-----------------------------------------------------------------------------------------------------------
+```
 
 @StateMachine
 public interface ServiceableLifecycleMeta {
@@ -103,10 +104,9 @@ public interface ServiceableLifecycleMeta {
         static class Cancel {}
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                 Quick Look: Dependent Reactive Object
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+```
+## Quick Look: Dependent Reactive Object
+```
 @LifecycleMeta(ServiceableLifecycleMeta.class)
 public interface IServiceOrder {
 
@@ -124,8 +124,8 @@ public interface IServiceOrder {
     String getServiceOrderState();
 }
 
-----------------------------------------------------------------------------------------------------------
-
+```
+```
 @StateMachine
 public interface ServiceableLifecycleMeta {
 
@@ -179,12 +179,11 @@ public interface ServiceableLifecycleMeta {
         public static class ConcreteTruckResource {}
     }
 }
+```
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                 Quick Look: Lifecycle Inheritance
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+## Quick Look: Lifecycle Inheritance
+```
 @LifecycleMeta(ConcreteTruckResourceLifecycleMeta.class)
 @StateIndicator
 //Default with getState
@@ -201,8 +200,9 @@ public interface IConcreteTruckResource {
     // default to @Transition(Detach.class) use detach -> Detach
     void detach();
 }
+```
 
-----------------------------------------------------------------------------------------------------------
+```
 @StateMachine
 public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycleMeta {
 
@@ -223,7 +223,9 @@ public interface ConcreteTruckResourceLifecycleMeta extends SchedulableLifecycle
         public static class Detach {}
     }
 }
-----------------------------------------------------------------------------------------------------------
+
+```
+```
 @StateMachine
 public interface SchedulableLifecycleMeta {
 
@@ -245,14 +247,10 @@ public interface SchedulableLifecycleMeta {
         public static class Release {}
     }
 }
+```
+## Quick Look: Long Process Reactive Live Object
 
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                 Quick Look: Long Process Reactive Live Object
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+```
 @StateMachine
 public interface IDownloadProcess {
 
@@ -345,6 +343,7 @@ public interface IDownloadProcess {
         static class Remove {}
     }
 }
+```
 
 Lifecycle exists since information variations happening always. A subset of information varies together, and others do not. To simplify describing system states(data) 
 manipulation by instructions, a block of data and a few blocks of instructions were introduced to make the expression more concisely and clearly, 
